@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculus Animator</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+    <script src="https://unpkg.com/mathlive@0.101.0/dist/mathlive.min.js"></script>
+</head>
+<body>
+<div class="screen-switcher">
+    <button class="screen-btn active" data-screen="solver">Problem Solver</button>
+    <button class="screen-btn" data-screen="learning">Learning</button>
+</div>
+
+<div id="solverScreen" class="app-screen active">
+    <div class="app-container" id="solverAppContainer">
+        <!-- ─── sidebar ─── -->
+        <aside class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">∫</span>
+                <span class="logo-text">Calculus Animator</span>
+                <button class="btn btn-small btn-secondary sidebar-toggle-btn" id="toggleSolverSidebarBtn">Hide Sidebar</button>
+            </div>
+            <nav class="formula-library">
+                <h3>Formula Library</h3>
+                <div class="category-list" id="categoryList"></div>
+                <div class="formula-list" id="formulaList"></div>
+            </nav>
+        </aside>
+
+        <!-- ─── workspace ─── -->
+        <main class="workspace">
+            <section class="input-section">
+                <div class="input-header">
+                    <h2>Expression Input</h2>
+                    <div class="type-selector">
+                        <label>Type:</label>
+                        <select id="calcTypeSelect">
+                            <option value="">Auto-detect</option>
+                            <option value="derivative">Derivative</option>
+                            <option value="integral">Integral (Indefinite)</option>
+                            <option value="definite_integral">Integral (Definite)</option>
+                            <option value="limit">Limit</option>
+                            <option value="taylor">Taylor / Series</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="demo-picker">
+                    <label for="demoSelect">Demo Problems</label>
+                    <select id="demoSelect">
+                        <option value="">Select a demo problem…</option>
+                    </select>
+                    <button class="btn btn-secondary" id="runDemoBtn">Load &amp; Run Demo</button>
+                </div>
+
+                <div class="math-input-container">
+                    <textarea id="mathInput" spellcheck="false">x^2</textarea>
+                    <div class="input-copy-tools">
+                        <button class="btn btn-small btn-secondary" id="selectInputBtn">Select All</button>
+                        <button class="btn btn-small btn-secondary" id="copyInputBtn">Copy</button>
+                        <button class="btn btn-small btn-secondary" id="deleteInputBtn">Delete</button>
+                    </div>
+                </div>
+
+                <div class="params-section" id="paramsSection">
+                    <div class="param-group" id="variableParam">
+                        <label>Variable:</label>
+                        <input type="text" id="varInput" value="x" maxlength="1">
+                    </div>
+                    <div class="param-group hidden" id="boundsParam">
+                        <label>Lower:</label><input type="text" id="lowerBound" value="0" style="width:60px">
+                        <label>Upper:</label><input type="text" id="upperBound" value="1" style="width:60px">
+                    </div>
+                    <div class="param-group hidden" id="limitParam">
+                        <label>Approaches:</label><input type="text" id="limitPoint" value="0" style="width:60px">
+                        <label>Direction:</label>
+                        <select id="limitDir"><option value="+-">Both</option><option value="+">Right</option><option value="-">Left</option></select>
+                    </div>
+                    <div class="param-group hidden" id="orderParam">
+                        <label>Order:</label><input type="number" id="seriesOrder" value="6" min="1" max="20" style="width:60px">
+                    </div>
+                </div>
+
+                <div class="input-actions-row">
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" id="solveBtn"><span class="btn-icon">▶</span> Solve &amp; Animate</button>
+                        <button class="btn btn-secondary" id="clearBtn">Clear</button>
+                    </div>
+                    <div class="quick-symbols" id="quickSymbols">
+                        <div class="quick-symbols-head">Quick Symbols</div>
+                        <div class="quick-symbol-tabs" id="quickSymbolTabs"></div>
+                        <div class="quick-symbol-grid" id="quickSymbolGrid"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="output-section">
+                <div class="tabs">
+                    <button class="tab active" data-tab="steps">Steps</button>
+                    <button class="tab" data-tab="graph">Graph</button>
+                    <button class="tab" data-tab="animation">Animation</button>
+                </div>
+
+                <!-- Steps tab -->
+                <div class="tab-content active" id="stepsTab">
+                    <div class="result-display" id="resultDisplay"><p class="placeholder">Enter an expression and click <strong>Solve &amp; Animate</strong></p></div>
+                    <div class="related-learning-panel" id="relatedLearningPanel"></div>
+                    <div class="steps-container" id="stepsContainer"></div>
+                </div>
+
+                <!-- Graph tab -->
+                <div class="tab-content" id="graphTab">
+                    <canvas id="graphCanvas" width="886" height="557"></canvas>
+                    <div class="graph-controls">
+                        <button class="btn btn-small" id="zoomIn">＋ Zoom In</button>
+                        <button class="btn btn-small" id="zoomOut">－ Zoom Out</button>
+                        <button class="btn btn-small" id="resetView">Reset</button>
+                    </div>
+                </div>
+
+                <!-- Animation tab -->
+                <div class="tab-content" id="animationTab">
+                    <div id="animVisualWrap">
+                        <div class="anim-stage" id="animStage">
+                            <div class="anim-math-display" id="animMathDisplay"></div>
+                            <div class="anim-rule-badge" id="animRuleBadge"></div>
+                            <div class="anim-description" id="animDescription"></div>
+                        </div>
+                        <canvas id="animCanvas" width="700" height="280"></canvas>
+                    </div>
+                    <div class="animation-menu">
+                    <div class="animation-controls">
+                            <label>Mode:</label>
+                        <select id="animModeSelect">
+                            <option value="default" selected>Default (Step-by-step)</option>
+                            <option value="auto">Auto Play</option>
+                        </select>
+                        <button class="btn btn-small btn-secondary" id="copyAnimStepBtn">Copy Step Text</button>
+                        <button class="btn btn-small" id="prevStepBtn">← Prev</button>
+                        <button class="btn btn-small" id="nextStepBtn">Next →</button>
+                        <button class="btn btn-small" id="pauseBtn">⏸ Pause</button>
+                        <button class="btn btn-small" id="animateAllBtn">▶ Animate All Steps</button>
+                        <label>Speed:</label>
+                        <input type="range" id="speedSlider" min="0.25" max="3" step="0.25" value="1">
+                        <span id="speedLabel">1×</span>
+                    </div>
+                    <div class="anim-related">
+                        <button class="btn btn-small btn-secondary" id="animLearnToggleBtn">See Why This Works</button>
+                        <div class="anim-related-menu hidden" id="animRelatedMenu"></div>
+                    </div>
+                    <div class="step-indicator" id="stepIndicator">Step 0 / 0</div>
+                    <div class="anim-steps-panel" id="animStepsPanel"></div>
+                </div>
+            </div>
+            </section>
+        </main>
+    </div>
+</div>
+
+<div id="learningScreen" class="app-screen">
+    <div class="learning-screen-wrap">
+        <div class="learning-screen-head">
+            <h2>Learning Library</h2>
+            <p>Browse concepts, formulas, and symbols separately. Pick any item to see narrative guidance, examples, and related topics.</p>
+        </div>
+        <div class="learning-mode-tabs" id="learningModeTabs">
+            <button class="learning-mode-btn active" data-learning-mode="home">Home</button>
+            <button class="learning-mode-btn" data-learning-mode="library">Library</button>
+            <button class="learning-mode-btn" data-learning-mode="pathways">Pathways</button>
+            <button class="learning-mode-btn" data-learning-mode="glossary">Glossary</button>
+            <button class="learning-mode-btn" data-learning-mode="capacity">Capacity Test</button>
+        </div>
+
+        <div class="learning-mode active" id="learningHomeMode">
+            <section class="learning-home">
+                <div class="learning-home-hero">
+                    <h3>Learn Calculus Step by Step</h3>
+                    <p>Start with guided pathways, browse the concept library, or open the glossary for quick definitions.</p>
+                </div>
+                <div class="learning-home-grid">
+                    <button class="learning-home-card" data-home-mode="pathways">
+                        <div class="learning-home-kicker">Recommended</div>
+                        <h4>Guided Pathways</h4>
+                        <p>Structured course flow with chapters, slides, notes, quizzes, and chapter tests.</p>
+                        <span>Open Pathways →</span>
+                    </button>
+                    <button class="learning-home-card" data-home-mode="library">
+                        <div class="learning-home-kicker">Reference</div>
+                        <h4>Concept Library</h4>
+                        <p>Browse concepts, symbols, formulas, examples, and related topics at your own pace.</p>
+                        <span>Open Library →</span>
+                    </button>
+                    <button class="learning-home-card" data-home-mode="glossary">
+                        <div class="learning-home-kicker">Quick Access</div>
+                        <h4>Glossary</h4>
+                        <p>Jump to definitions and linked terms from anywhere in the app.</p>
+                        <span>Open Glossary →</span>
+                    </button>
+                </div>
+                <div id="learningHomeStats" class="learning-home-stats"></div>
+            </section>
+        </div>
+
+        <div class="learning-mode" id="learningLibraryMode">
+            <div class="learning-shell">
+                <aside class="learning-sidebar">
+                    <div class="learning-sidebar-head">
+                        <h3>Library</h3>
+                        <input id="learningSearch" type="text" placeholder="Search concepts, formulas, symbols">
+                    </div>
+                    <div id="learningViewTabs" class="learning-view-tabs"></div>
+                    <div id="learningCategoryChips" class="learning-category-chips"></div>
+                    <div id="learningItemList" class="learning-topic-list"></div>
+                </aside>
+                <section id="learningDetail" class="learning-detail">
+                    <div class="learning-empty">
+                        <h3>Select an item</h3>
+                        <p>Choose a concept, formula, or symbol from the left to open the teaching view.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="learning-mode" id="learningPathwaysMode">
+            <div class="learning-shell pathways-shell">
+                <aside class="learning-sidebar">
+                    <div class="learning-sidebar-head">
+                        <div class="learning-sidebar-head-row">
+                            <h3>Course</h3>
+                            <button class="btn btn-small btn-secondary" id="pathwayPickerToggleBtn">Change Course</button>
+                            <button class="btn btn-small btn-secondary pathway-collapse-btn" id="togglePathwaySidebarBtn">Hide Sidebar</button>
+                        </div>
+                        <div id="selectedPathwayLabel" class="learning-chip-note"></div>
+                        <input id="pathwaySearch" type="text" placeholder="Search pathways or chapters">
+                    </div>
+                    <div id="pathwayPickerWrap" class="is-hidden">
+                        <div id="pathwayList" class="learning-topic-list"></div>
+                    </div>
+                    <div class="learning-sidebar-head">
+                        <h3>Chapters</h3>
+                    </div>
+                    <div id="chapterList" class="learning-topic-list"></div>
+                </aside>
+                <section class="learning-detail">
+                    <div class="learning-stage-layout" id="learningStageLayout">
+                        <div class="learning-stage-main">
+                            <div class="learning-slide-stage" id="slideStage"></div>
+                            <div class="learning-quiz-gate" id="quizGate"></div>
+                            <div class="learning-test-panel" id="chapterTestPanel"></div>
+                        </div>
+                        <div class="slide-notes-resizer" id="slideNotesResizer"></div>
+                        <aside class="slide-notes-panel" id="slideNotesPanel">
+                            <button class="slide-notes-tab" id="slideNotesTab">Notes</button>
+                            <div class="slide-notes-head">
+                                <h3>Slide Notes</h3>
+                                <button class="btn btn-small btn-secondary" id="slideNotesToggleBtn">Hide</button>
+                            </div>
+                            <div class="slide-notes-body" id="slideNotesBody"></div>
+                        </aside>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="learning-mode" id="learningGlossaryMode">
+            <div class="learning-shell">
+                <aside class="learning-sidebar">
+                    <div class="learning-sidebar-head">
+                        <h3>Glossary</h3>
+                        <input id="glossarySearch" type="text" placeholder="Search terms">
+                    </div>
+                    <div id="glossaryList" class="learning-topic-list"></div>
+                </aside>
+                <section id="glossaryDetail" class="learning-detail">
+                    <div class="learning-empty">
+                        <h3>Select a term</h3>
+                        <p>Every linked term in the app opens here with definitions and related concepts.</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="learning-mode" id="learningCapacityMode">
+            <div class="capacity-shell" id="capacityShell">
+                <section class="learning-detail capacity-controls">
+                    <div class="learning-detail-head">
+                        <h2>Slide Capacity Test</h2>
+                        <p>Uses the same slide-fit rules with hard clipping. Only slide text below is selectable/copyable.</p>
+                    </div>
+                    <label for="capacityInput">Paste slide text to measure:</label>
+                    <textarea id="capacityInput" class="capacity-input" spellcheck="false"></textarea>
+                    <div class="capacity-row">
+                        <button class="btn btn-small btn-secondary" id="capacityLoadSyntheticBtn">Load Synthetic Test Text</button>
+                        <button class="btn btn-small btn-secondary" id="capacityLoadDenseBtn">Load Dense Stress Test</button>
+                    </div>
+                    <div class="capacity-row">
+                        <label><input type="checkbox" id="capacityWithImage"> Include 10–15% image square</label>
+                        <button class="btn btn-small" id="capacityAnalyzeBtn">Analyze</button>
+                    </div>
+                    <div class="capacity-row">
+                        <button class="btn btn-small" id="capacityPrevBtn">← Prev Page</button>
+                        <button class="btn btn-small" id="capacityNextBtn">Next Page →</button>
+                        <span id="capacityPageMeta" class="learning-q-meta"></span>
+                    </div>
+                    <div id="capacityStats" class="learning-q-meta"></div>
+                    <div class="capacity-row">
+                        <button class="btn btn-small btn-secondary" id="capacityCopyPageBtn">Copy Current Slide Text</button>
+                        <button class="btn btn-small btn-secondary" id="capacityCopyAllBtn">Copy All Slide Text</button>
+                        <button class="btn btn-small btn-secondary" id="capacityCopyReportBtn">Copy Full Report</button>
+                    </div>
+                </section>
+                <section class="learning-detail capacity-preview-pane">
+                    <div id="capacityPreview" class="learning-slide-visual loading">Run analysis to render test slide.</div>
+                    <pre id="capacityPageText" class="capacity-page-text"></pre>
+                    <textarea id="capacityReportOutput" class="capacity-report-output" readonly></textarea>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/app.js"></script>
+</body>
+</html>

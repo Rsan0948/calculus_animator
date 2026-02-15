@@ -1,0 +1,59 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "source": "curriculum.txt",
+    "description": "Seeded structure mapped from your curriculum outline. Fill slide content, quiz questions, and tests."
+  },
+  "pathways": [
+    {
+      "id": "pre_calc",
+      "title": "Pre-Calc Pathway",
+      "level": "Pre-Calc",
+      "description": "Bridge from algebra/trigonometry into calculus readiness.",
+      "chapters": [
+        { "id": "precalc_functions_graphs", "title": "Functions and Graphs", "description": "Function families, graphs, domain/range, transformations.", "micro_quiz_interval": 5, "slides": [], "midpoint_quiz": { "id": "q_precalc_functions_graphs_mid", "required_to_take": true, "required_to_pass": false, "title": "Mid-Chapter Quiz", "questions": [] }, "final_test": { "id": "t_precalc_functions_graphs_final", "optional_recommended": true, "title": "Chapter Test", "questions": [] } },
+        { "id": "precalc_exponential_logarithmic", "title": "Exponential and Logarithmic Functions", "description": "Growth/decay, inverse relationships, log laws.", "micro_quiz_interval": 5, "slides": [], "midpoint_quiz": { "id": "q_precalc_exponential_logarithmic_mid", "required_to_take": true, "required_to_pass": false, "title": "Mid-Chapter Quiz", "questions": [] }, "final_test": { "id": "t_precalc_exponential_logarithmic_final", "optional_recommended": true, "title": "Chapter Test", "questions": [] } },
+        { "id": "precalc_trigonometry", "title": "Trigonometry", "description": "Unit circle, trig functions, identities, graphs.", "micro_quiz_interval": 5, "slides": [], "midpoint_quiz": { "id": "q_precalc_trigonometry_mid", "required_to_take": true, "required_to_pass": false, "title": "Mid-Chapter Quiz", "questions": [] }, "final_test": { "id": "t_precalc_trigonometry_final", "optional_recommended": true, "title": "Chapter Test", "questions": [] } },
+        { "id": "precalc_complex_numbers", "title": "Complex Numbers", "description": "Imaginary unit, arithmetic, geometric interpretation.", "micro_quiz_interval": 6, "slides": [], "midpoint_quiz": { "id": "q_precalc_complex_numbers_mid", "required_to_take": true, "required_to_pass": false, "title": "Mid-Chapter Quiz", "questions": [] }, "final_test": { "id": "t_precalc_complex_numbers_final", "optional_recommended": true, "title": "Chapter Test", "questions": [] } },
+        { "id": "precalc_sequences_series_intro", "title": "Sequences and Series (Intro)", "description": "Arithmetic/geometric sequences and finite sums.", "micro_quiz_interval": 5, "slides": [], "midpoint_quiz": { "id": "q_precalc_sequences_series_intro_mid", "required_to_take": true, "required_to_pass": false, "title": "Mid-Chapter Quiz", "questions": [] }, "final_test": { "id": "t_precalc_sequences_series_intro_final", "optional_recommended": true, "title": "Chapter Test", "questions": [] } },
+        { "id": "precalc_conics_geometry", "title": "Conic Sections and Analytic Geometry", "description": "Parabolas, ellipses, hyperbolas, coordinate geometry fluency.", "micro_quiz_interval": 6, "slides": [], "midpoint_quiz": { "id": "q_precalc_conics_geometry_mid", "required_to_take": true, "required_to_pass": false, "title": "Mid-Chapter Quiz", "questions": [] }, "final_test": { "id": "t_precalc_conics_geometry_final", "optional_recommended": true, "title": "Chapter Test", "questions": [] } },
+        { "id": "precalc_vectors_parametric", "title": "Vectors and Parametric Equations", "description": "Vector operations and parameterized curves.", "micro_quiz_interval": 5, "slides": [], "midpoint_quiz": { "id": "q_precalc_vectors_parametric_mid", "required_to_take": true, "required_to_pass": false, "title": "Mid-Chapter Quiz", "questions": [] }, "final_test": { "id": "t_precalc_vectors_parametric_final", "optional_recommended": true, "title": "Chapter Test", "questions": [] } },
+        { "id": "precalc_intro_limits", "title": "Introductory Limits", "description": "Intuitive limit ideas before formal Calculus I treatment.", "micro_quiz_interval": 5, "slides": [], "midpoint_quiz": { "id": "q_precalc_intro_limits_mid", "required_to_take": true, "required_to_pass": false, "title": "Mid-Chapter Quiz", "questions": [] }, "final_test": { "id": "t_precalc_intro_limits_final", "optional_recommended": true, "title": "Chapter Test", "questions": [] } }
+      ]
+    },
+    {
+      "id": "calc_1",
+      "title": "Calc 1 Pathway",
+      "level": "Calculus I",
+      "description": "Limits, derivatives, and integral foundations.",
+      "chapters": [
+        { "id": "calc1_limits_continuity", "title": "Limits and Continuity", "description": "Formal limits, continuity, and behavior near points.", "micro_quiz_interval": 5, "slides": [], "midpoint_quiz": { "id": "q_calc1_limits_continuity_mid", "required_to_take": true, "required_to_pass": false, "title": "Mid-Chapter Quiz", "questions": [] }, "final_test": { "id": "t_calc1_limits_continuity_final", "optional_recommended": true, "title": "Chapter Test", "questions": [] } },
+        { "id": "calc1_derivatives_applications", "title": "Derivatives and Applications", "description": "Derivative rules, optimization, related rates, curve analysis.", "micro_quiz_interval": 5, "slides": [], "midpoint_quiz": { "id": "q_calc1_derivatives_applications_mid", "required_to_take": true, "required_to_pass": false, "title": "Mid-Chapter Quiz", "questions": [] }, "final_test": { "id": "t_calc1_derivatives_applications_final", "optional_recommended": true, "title": "Chapter Test", "questions": [] } },
+        { "id": "calc1_integrals_ftc", "title": "Integrals and the Fundamental Theorem", "description": "Riemann sums, antiderivatives, FTC, area and accumulation.", "micro_quiz_interval": 5, "slides": [], "midpoint_quiz": { "id": "q_calc1_integrals_ftc_mid", "required_to_take": true, "required_to_pass": false, "title": "Mid-Chapter Quiz", "questions": [] }, "final_test": { "id": "t_calc1_integrals_ftc_final", "optional_recommended": true, "title": "Chapter Test", "questions": [] } }
+      ]
+    },
+    {
+      "id": "calc_2",
+      "title": "Calc 2 Pathway",
+      "level": "Calculus II",
+      "description": "Advanced integration, applications, and infinite series.",
+      "chapters": [
+        { "id": "calc2_integration_techniques", "title": "Advanced Integration Techniques", "description": "Integration by parts, trig methods, partial fractions, improper integrals.", "micro_quiz_interval": 5, "slides": [], "midpoint_quiz": { "id": "q_calc2_integration_techniques_mid", "required_to_take": true, "required_to_pass": false, "title": "Mid-Chapter Quiz", "questions": [] }, "final_test": { "id": "t_calc2_integration_techniques_final", "optional_recommended": true, "title": "Chapter Test", "questions": [] } },
+        { "id": "calc2_integration_applications", "title": "Applications of Integration", "description": "Arc length, surface area, work, and physical accumulation models.", "micro_quiz_interval": 5, "slides": [], "midpoint_quiz": { "id": "q_calc2_integration_applications_mid", "required_to_take": true, "required_to_pass": false, "title": "Mid-Chapter Quiz", "questions": [] }, "final_test": { "id": "t_calc2_integration_applications_final", "optional_recommended": true, "title": "Chapter Test", "questions": [] } },
+        { "id": "calc2_parametric_polar", "title": "Parametric Equations and Polar Coordinates", "description": "Alternative curve descriptions and area/arc calculations.", "micro_quiz_interval": 5, "slides": [], "midpoint_quiz": { "id": "q_calc2_parametric_polar_mid", "required_to_take": true, "required_to_pass": false, "title": "Mid-Chapter Quiz", "questions": [] }, "final_test": { "id": "t_calc2_parametric_polar_final", "optional_recommended": true, "title": "Chapter Test", "questions": [] } },
+        { "id": "calc2_sequences_series", "title": "Sequences and Series", "description": "Convergence tests, power series, and Taylor series.", "micro_quiz_interval": 5, "slides": [], "midpoint_quiz": { "id": "q_calc2_sequences_series_mid", "required_to_take": true, "required_to_pass": false, "title": "Mid-Chapter Quiz", "questions": [] }, "final_test": { "id": "t_calc2_sequences_series_final", "optional_recommended": true, "title": "Chapter Test", "questions": [] } }
+      ]
+    },
+    {
+      "id": "advanced_calc",
+      "title": "Advanced Calculus Pathway",
+      "level": "Advanced",
+      "description": "Multivariable and vector calculus foundations.",
+      "chapters": [
+        { "id": "adv_partial_derivatives_gradient", "title": "Functions of Several Variables and Partial Derivatives", "description": "Multivariable limits, partials, gradient, and optimization.", "micro_quiz_interval": 6, "slides": [], "midpoint_quiz": { "id": "q_adv_partial_derivatives_gradient_mid", "required_to_take": true, "required_to_pass": false, "title": "Mid-Chapter Quiz", "questions": [] }, "final_test": { "id": "t_adv_partial_derivatives_gradient_final", "optional_recommended": true, "title": "Chapter Test", "questions": [] } },
+        { "id": "adv_multiple_integrals", "title": "Double and Triple Integrals", "description": "Area/volume accumulation in higher dimensions and coordinate changes.", "micro_quiz_interval": 6, "slides": [], "midpoint_quiz": { "id": "q_adv_multiple_integrals_mid", "required_to_take": true, "required_to_pass": false, "title": "Mid-Chapter Quiz", "questions": [] }, "final_test": { "id": "t_adv_multiple_integrals_final", "optional_recommended": true, "title": "Chapter Test", "questions": [] } },
+        { "id": "adv_vector_calculus_theorems", "title": "Vector Calculus and Integral Theorems", "description": "Line/surface integrals, Green, Stokes, and Divergence theorem.", "micro_quiz_interval": 6, "slides": [], "midpoint_quiz": { "id": "q_adv_vector_calculus_theorems_mid", "required_to_take": true, "required_to_pass": false, "title": "Mid-Chapter Quiz", "questions": [] }, "final_test": { "id": "t_adv_vector_calculus_theorems_final", "optional_recommended": true, "title": "Chapter Test", "questions": [] } }
+      ]
+    }
+  ]
+}

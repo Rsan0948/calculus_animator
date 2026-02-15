@@ -1,0 +1,190 @@
+{
+  "categories": [
+    {"id": "derivatives", "name": "Derivatives", "icon": "∂"},
+    {"id": "integrals", "name": "Integrals", "icon": "∫"},
+    {"id": "limits", "name": "Limits", "icon": "lim"},
+    {"id": "series", "name": "Series", "icon": "Σ"}
+  ],
+  "formulas": [
+    {
+      "id": "power_rule",
+      "category": "derivatives",
+      "name": "Power Rule",
+      "latex": "\\frac{d}{dx} x^3",
+      "tag": "derivative",
+      "params": {"variable": "x"},
+      "description": "Derivative of x³"
+    },
+    {
+      "id": "product_rule_ex",
+      "category": "derivatives",
+      "name": "Product Rule",
+      "latex": "\\frac{d}{dx} x \\sin(x)",
+      "tag": "derivative",
+      "params": {"variable": "x"},
+      "description": "Product rule example"
+    },
+    {
+      "id": "chain_rule_ex",
+      "category": "derivatives",
+      "name": "Chain Rule",
+      "latex": "\\frac{d}{dx} \\sin(x^2)",
+      "tag": "derivative",
+      "params": {"variable": "x"},
+      "description": "Chain rule example"
+    },
+    {
+      "id": "quotient_ex",
+      "category": "derivatives",
+      "name": "Quotient Rule",
+      "latex": "\\frac{d}{dx} \\frac{x}{\\cos(x)}",
+      "tag": "derivative",
+      "params": {"variable": "x"},
+      "description": "Quotient rule example"
+    },
+    {
+      "id": "exp_deriv",
+      "category": "derivatives",
+      "name": "Exponential",
+      "latex": "\\frac{d}{dx} e^{2x}",
+      "tag": "derivative",
+      "params": {"variable": "x"},
+      "description": "Derivative of e^(2x)"
+    },
+    {
+      "id": "log_deriv",
+      "category": "derivatives",
+      "name": "Logarithmic",
+      "latex": "\\frac{d}{dx} \\ln(x^2 + 1)",
+      "tag": "derivative",
+      "params": {"variable": "x"},
+      "description": "Derivative of ln(x²+1)"
+    },
+    {
+      "id": "second_deriv",
+      "category": "derivatives",
+      "name": "Second Derivative",
+      "latex": "\\frac{d^2}{dx^2} x^4",
+      "tag": "derivative",
+      "params": {"variable": "x", "order": 2},
+      "description": "Second derivative of x⁴"
+    },
+    {
+      "id": "poly_integral",
+      "category": "integrals",
+      "name": "Polynomial",
+      "latex": "\\int x^3 + 2x \\, dx",
+      "tag": "integral",
+      "params": {"variable": "x"},
+      "description": "Integral of x³ + 2x"
+    },
+    {
+      "id": "trig_integral",
+      "category": "integrals",
+      "name": "Trig Integral",
+      "latex": "\\int \\sin(x) \\, dx",
+      "tag": "integral",
+      "params": {"variable": "x"},
+      "description": "Integral of sin(x)"
+    },
+    {
+      "id": "exp_integral",
+      "category": "integrals",
+      "name": "Exponential",
+      "latex": "\\int e^{-x} \\, dx",
+      "tag": "integral",
+      "params": {"variable": "x"},
+      "description": "Integral of e^(-x)"
+    },
+    {
+      "id": "def_integral_x2",
+      "category": "integrals",
+      "name": "Definite ∫ x²",
+      "latex": "\\int_0^1 x^2 \\, dx",
+      "tag": "definite_integral",
+      "params": {"variable": "x", "lower": 0, "upper": 1},
+      "description": "∫₀¹ x² dx"
+    },
+    {
+      "id": "def_integral_sin",
+      "category": "integrals",
+      "name": "Definite ∫ sin",
+      "latex": "\\int_0^{\\pi} \\sin(x) \\, dx",
+      "tag": "definite_integral",
+      "params": {"variable": "x", "lower": 0, "upper": 3.14159},
+      "description": "∫₀^π sin(x) dx"
+    },
+    {
+      "id": "sinc_limit",
+      "category": "limits",
+      "name": "sin(x)/x",
+      "latex": "\\lim_{x \\to 0} \\frac{\\sin(x)}{x}",
+      "tag": "limit",
+      "params": {"variable": "x", "point": "0"},
+      "description": "Classic sinc limit"
+    },
+    {
+      "id": "inf_limit",
+      "category": "limits",
+      "name": "Limit at ∞",
+      "latex": "\\lim_{x \\to \\infty} \\frac{1}{x}",
+      "tag": "limit",
+      "params": {"variable": "x", "point": "oo"},
+      "description": "Limit as x → ∞"
+    },
+    {
+      "id": "exp_limit",
+      "category": "limits",
+      "name": "e definition",
+      "latex": "\\lim_{x \\to \\infty} (1 + \\frac{1}{x})^x",
+      "tag": "limit",
+      "params": {"variable": "x", "point": "oo"},
+      "description": "Limit definition of e"
+    },
+    {
+      "id": "lhopital_ex",
+      "category": "limits",
+      "name": "L'Hôpital",
+      "latex": "\\lim_{x \\to 0} \\frac{e^x - 1}{x}",
+      "tag": "limit",
+      "params": {"variable": "x", "point": "0"},
+      "description": "L'Hôpital's rule example"
+    },
+    {
+      "id": "taylor_sin",
+      "category": "series",
+      "name": "Taylor sin(x)",
+      "latex": "\\sin(x)",
+      "tag": "taylor",
+      "params": {"variable": "x", "point": 0, "order": 7},
+      "description": "Taylor series of sin(x)"
+    },
+    {
+      "id": "taylor_exp",
+      "category": "series",
+      "name": "Taylor eˣ",
+      "latex": "e^x",
+      "tag": "taylor",
+      "params": {"variable": "x", "point": 0, "order": 6},
+      "description": "Taylor series of eˣ"
+    },
+    {
+      "id": "taylor_cos",
+      "category": "series",
+      "name": "Taylor cos(x)",
+      "latex": "\\cos(x)",
+      "tag": "taylor",
+      "params": {"variable": "x", "point": 0, "order": 6},
+      "description": "Taylor series of cos(x)"
+    },
+    {
+      "id": "taylor_ln",
+      "category": "series",
+      "name": "Taylor ln(1+x)",
+      "latex": "\\ln(1+x)",
+      "tag": "taylor",
+      "params": {"variable": "x", "point": 0, "order": 6},
+      "description": "Taylor series of ln(1+x)"
+    }
+  ]
+}

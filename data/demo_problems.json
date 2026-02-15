@@ -1,0 +1,76 @@
+{
+  "collections": [
+    {
+      "id": "long_walkthroughs",
+      "name": "Long Walkthrough Demos",
+      "description": "Each demo produces at least 5 animation steps for testing.",
+      "demos": [
+        {
+          "id": "fifth_product_chain",
+          "title": "5th Derivative: Product + Chain",
+          "subtitle": "d^5/dx^5 of x^3 sin(x^2)",
+          "latex": "\\frac{d^5}{dx^5} (x^3 \\sin(x^2))",
+          "tag": "derivative",
+          "params": {"variable": "x", "order": 5},
+          "notes": [
+            "Generates 6+ steps",
+            "Includes product-rule structure",
+            "Shows repeated differentiation progression"
+          ]
+        },
+        {
+          "id": "sixth_exp_product",
+          "title": "6th Derivative: Polynomial * Exponential",
+          "subtitle": "d^6/dx^6 of x^2 e^x",
+          "latex": "\\frac{d^6}{dx^6} (x^2 e^{x})",
+          "tag": "derivative",
+          "params": {"variable": "x", "order": 6},
+          "notes": [
+            "Generates 8+ steps",
+            "Great for long animation playback",
+            "Clear left-to-right step chaining"
+          ]
+        },
+        {
+          "id": "fifth_quotient",
+          "title": "5th Derivative: Quotient + Trig",
+          "subtitle": "d^5/dx^5 of (x^2 + 1)/cos(x)",
+          "latex": "\\frac{d^5}{dx^5} \\frac{x^2 + 1}{\\cos(x)}",
+          "tag": "derivative",
+          "params": {"variable": "x", "order": 5},
+          "notes": [
+            "Generates 7+ steps",
+            "Uses quotient-rule behavior",
+            "Good stress test for symbol motion"
+          ]
+        },
+        {
+          "id": "fifth_log",
+          "title": "5th Derivative: Log Composite",
+          "subtitle": "d^5/dx^5 of ln(x^2 + 1)",
+          "latex": "\\frac{d^5}{dx^5} \\ln(x^2+1)",
+          "tag": "derivative",
+          "params": {"variable": "x", "order": 5},
+          "notes": [
+            "Generates 7+ steps",
+            "Chain behavior appears repeatedly",
+            "Good for readability checks"
+          ]
+        },
+        {
+          "id": "fifth_trig_product",
+          "title": "5th Derivative: Trig Product",
+          "subtitle": "d^5/dx^5 of sin(x)cos(x)",
+          "latex": "\\frac{d^5}{dx^5} (\\sin(x)\\cos(x))",
+          "tag": "derivative",
+          "params": {"variable": "x", "order": 5},
+          "notes": [
+            "Generates 9+ steps",
+            "Alternating trig forms are easy to track",
+            "Ideal for testing long deterministic animations"
+          ]
+        }
+      ]
+    }
+  ]
+}

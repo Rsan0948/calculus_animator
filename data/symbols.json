@@ -1,0 +1,57 @@
+{
+  "groups": [
+    {
+      "name": "Calculus",
+      "symbols": [
+        {"label": "d/dx", "latex": "\\frac{d}{dx}", "type": "prefix"},
+        {"label": "∂/∂x", "latex": "\\frac{\\partial}{\\partial x}", "type": "prefix"},
+        {"label": "∫", "latex": "\\int", "type": "prefix"},
+        {"label": "∫ₐᵇ", "latex": "\\int_{a}^{b}", "type": "prefix"},
+        {"label": "lim", "latex": "\\lim_{x \\to a}", "type": "prefix"},
+        {"label": "Σ", "latex": "\\sum_{n=0}^{\\infty}", "type": "prefix"},
+        {"label": "∏", "latex": "\\prod_{n=1}^{N}", "type": "prefix"},
+        {"label": "dx", "latex": "\\,dx", "type": "suffix"},
+        {"label": "dy", "latex": "\\,dy", "type": "suffix"}
+      ]
+    },
+    {
+      "name": "Functions",
+      "symbols": [
+        {"label": "sin", "latex": "\\sin()", "type": "wrap"},
+        {"label": "cos", "latex": "\\cos()", "type": "wrap"},
+        {"label": "tan", "latex": "\\tan()", "type": "wrap"},
+        {"label": "ln", "latex": "\\ln()", "type": "wrap"},
+        {"label": "log", "latex": "\\log()", "type": "wrap"},
+        {"label": "eˣ", "latex": "e^{}", "type": "wrap"},
+        {"label": "√", "latex": "\\sqrt{}", "type": "wrap"},
+        {"label": "ⁿ√", "latex": "\\sqrt[n]{}", "type": "wrap"},
+        {"label": "|x|", "latex": "\\left| \\right|", "type": "wrap"}
+      ]
+    },
+    {
+      "name": "Greek",
+      "symbols": [
+        {"label": "π", "latex": "\\pi", "type": "insert"},
+        {"label": "θ", "latex": "\\theta", "type": "insert"},
+        {"label": "α", "latex": "\\alpha", "type": "insert"},
+        {"label": "β", "latex": "\\beta", "type": "insert"},
+        {"label": "∞", "latex": "\\infty", "type": "insert"},
+        {"label": "Δ", "latex": "\\Delta", "type": "insert"},
+        {"label": "ε", "latex": "\\epsilon", "type": "insert"}
+      ]
+    },
+    {
+      "name": "Operators",
+      "symbols": [
+        {"label": "frac", "latex": "\\frac{}{}", "type": "wrap"},
+        {"label": "xⁿ", "latex": "^{}", "type": "suffix"},
+        {"label": "x₂", "latex": "_{}", "type": "suffix"},
+        {"label": "±", "latex": "\\pm", "type": "insert"},
+        {"label": "·", "latex": "\\cdot", "type": "insert"},
+        {"label": "≤", "latex": "\\leq", "type": "insert"},
+        {"label": "≥", "latex": "\\geq", "type": "insert"},
+        {"label": "≠", "latex": "\\neq", "type": "insert"}
+      ]
+    }
+  ]
+}

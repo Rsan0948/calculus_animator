@@ -1,0 +1,20 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "description": "Global glossary template. Terms are auto-link candidates across app content."
+  },
+  "terms": [
+    {
+      "id": "term_id",
+      "term": "Primary term",
+      "aliases": ["variant 1", "variant 2"],
+      "definition": "Short plain-language definition.",
+      "related_topic_ids": [
+        "concept_id_from_learning_library"
+      ],
+      "related_formula_ids": [
+        "formula_id_from_learning_library"
+      ]
+    }
+  ]
+}

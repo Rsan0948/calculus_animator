@@ -1,0 +1,5 @@
+pywebview>=4.4
+sympy>=1.12
+numpy>=1.24
+pygame>=2.5
+antlr4-python3-runtime==4.11.1

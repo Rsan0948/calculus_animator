@@ -1,0 +1,3638 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "language": "en-US",
+    "audience": "beginners",
+    "reading_level": "grade_6_8"
+  },
+  "symbols": [
+    {
+      "id": "sym_d_dx",
+      "group": "Calculus",
+      "label": "derivative operator",
+      "latex": "\\frac{d}{dx}",
+      "type": "prefix",
+      "plain_explanation": "This symbol means take the derivative of a function with respect to x, measuring how it changes.",
+      "when_to_use": "Use it when you want to find the rate of change or slope of a function.",
+      "common_mistake": "A common mistake is forgetting to apply the operator to the entire function or mixing up the variable.",
+      "related_formula_ids": [
+        "power_rule",
+        "product_rule_ex",
+        "chain_rule_ex",
+        "quotient_ex",
+        "exp_deriv",
+        "log_deriv",
+        "second_deriv"
+      ],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_power_rule",
+        "concept_product_rule",
+        "concept_chain_rule",
+        "concept_quotient_rule",
+        "concept_higher_order_derivatives"
+      ]
+    },
+    {
+      "id": "sym_partial",
+      "group": "Calculus",
+      "label": "partial derivative",
+      "latex": "\\frac{\\partial}{\\partial x}",
+      "type": "prefix",
+      "plain_explanation": "This symbol is used to take the derivative with respect to one variable when a function depends on several variables.",
+      "when_to_use": "Use it when differentiating a function of multiple variables with respect to a single variable.",
+      "common_mistake": "Do not use it for single‑variable functions or mix it up with the ordinary derivative symbol.",
+      "related_formula_ids": [],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_higher_order_derivatives"
+      ]
+    },
+    {
+      "id": "sym_int",
+      "group": "Calculus",
+      "label": "integral sign",
+      "latex": "\\int",
+      "type": "prefix",
+      "plain_explanation": "This long S‑shaped symbol represents integration, which sums up small pieces to find total change.",
+      "when_to_use": "Use it when finding an antiderivative or adding up a quantity continuously.",
+      "common_mistake": "A common mistake is forgetting to include the differential, such as dx, after the integrand.",
+      "related_formula_ids": [
+        "poly_integral",
+        "trig_integral",
+        "exp_integral"
+      ],
+      "related_concept_ids": [
+        "concept_integral_intro",
+        "concept_indefinite_integral"
+      ]
+    },
+    {
+      "id": "sym_int_ab",
+      "group": "Calculus",
+      "label": "definite integral sign",
+      "latex": "\\int_{a}^{b}",
+      "type": "prefix",
+      "plain_explanation": "An integral sign with lower and upper limits a and b tells you to add up a quantity from a to b.",
+      "when_to_use": "Use it when calculating the exact total between two bounds, such as area or total change.",
+      "common_mistake": "Mixing up the order of the limits, which changes the sign of the result, is a common error.",
+      "related_formula_ids": [
+        "def_integral_x2",
+        "def_integral_sin"
+      ],
+      "related_concept_ids": [
+        "concept_integral_intro",
+        "concept_definite_integral"
+      ]
+    },
+    {
+      "id": "sym_lim",
+      "group": "Calculus",
+      "label": "limit",
+      "latex": "\\lim_{x \\to a}",
+      "type": "prefix",
+      "plain_explanation": "This symbol asks what value a function approaches as x gets very close to a particular point.",
+      "when_to_use": "Use it when you need to describe the behavior of a function near a point, even if it is not defined there.",
+      "common_mistake": "Plugging in the value directly without checking for discontinuities leads to confusion.",
+      "related_formula_ids": [
+        "sinc_limit",
+        "inf_limit",
+        "exp_limit",
+        "lhopital_ex"
+      ],
+      "related_concept_ids": [
+        "concept_limits_intro",
+        "concept_limit_at_infinity",
+        "concept_lhopital_rule"
+      ]
+    },
+    {
+      "id": "sym_sum",
+      "group": "Calculus",
+      "label": "summation",
+      "latex": "\\sum_{n=0}^{\\infty}",
+      "type": "prefix",
+      "plain_explanation": "The Greek capital sigma means to add up terms in a sequence over an index n.",
+      "when_to_use": "Use it to represent the sum of many terms, sometimes infinitely many, in a compact form.",
+      "common_mistake": "Forgetting to specify where the sum starts and ends is a common mistake.",
+      "related_formula_ids": [
+        "taylor_sin",
+        "taylor_exp",
+        "taylor_cos",
+        "taylor_ln"
+      ],
+      "related_concept_ids": [
+        "concept_series_intro",
+        "concept_taylor_series"
+      ]
+    },
+    {
+      "id": "sym_prod",
+      "group": "Calculus",
+      "label": "product",
+      "latex": "\\prod_{n=1}^{N}",
+      "type": "prefix",
+      "plain_explanation": "The Greek capital pi symbol means to multiply together a sequence of terms from n=1 to N.",
+      "when_to_use": "Use it when multiplying many factors in a sequence.",
+      "common_mistake": "Confusing it with the summation symbol or forgetting the bounds.",
+      "related_formula_ids": [],
+      "related_concept_ids": [
+        "concept_series_intro"
+      ]
+    },
+    {
+      "id": "sym_dx",
+      "group": "Calculus",
+      "label": "differential dx",
+      "latex": "\\,dx",
+      "type": "suffix",
+      "plain_explanation": "This small piece indicates a tiny change in x and shows the variable of integration.",
+      "when_to_use": "Write it after the function inside an integral to show you are integrating with respect to x.",
+      "common_mistake": "Leaving off dx when integrating or confusing dx with derivative notation.",
+      "related_formula_ids": [
+        "poly_integral",
+        "trig_integral",
+        "exp_integral",
+        "def_integral_x2",
+        "def_integral_sin"
+      ],
+      "related_concept_ids": [
+        "concept_integral_intro",
+        "concept_indefinite_integral",
+        "concept_definite_integral"
+      ]
+    },
+    {
+      "id": "sym_dy",
+      "group": "Calculus",
+      "label": "differential dy",
+      "latex": "\\,dy",
+      "type": "suffix",
+      "plain_explanation": "Similar to dx, this represents a tiny change in y or the variable of integration.",
+      "when_to_use": "Use it when integrating with respect to y instead of x.",
+      "common_mistake": "Mixing up dx and dy when switching the variable of integration.",
+      "related_formula_ids": [],
+      "related_concept_ids": [
+        "concept_integral_intro"
+      ]
+    },
+    {
+      "id": "sym_sin",
+      "group": "Functions",
+      "label": "sine function",
+      "latex": "\\sin()",
+      "type": "wrap",
+      "plain_explanation": "This trigonometric function gives the ratio of the opposite side to the hypotenuse in a right triangle.",
+      "when_to_use": "Use it to model waves or angles that repeat regularly.",
+      "common_mistake": "Using degrees instead of radians in calculus problems.",
+      "related_formula_ids": [
+        "product_rule_ex",
+        "chain_rule_ex",
+        "quotient_ex",
+        "trig_integral",
+        "def_integral_sin",
+        "sinc_limit",
+        "taylor_sin"
+      ],
+      "related_concept_ids": [
+        "concept_trig_basics",
+        "concept_product_rule",
+        "concept_chain_rule"
+      ]
+    },
+    {
+      "id": "sym_cos",
+      "group": "Functions",
+      "label": "cosine function",
+      "latex": "\\cos()",
+      "type": "wrap",
+      "plain_explanation": "This trigonometric function gives the ratio of the adjacent side to the hypotenuse in a right triangle.",
+      "when_to_use": "Use it along with sine to describe angles and circular motion.",
+      "common_mistake": "Forgetting that the derivative of cos(x) is -sin(x).",
+      "related_formula_ids": [
+        "product_rule_ex",
+        "quotient_ex",
+        "trig_integral",
+        "def_integral_sin",
+        "taylor_cos"
+      ],
+      "related_concept_ids": [
+        "concept_trig_basics"
+      ]
+    },
+    {
+      "id": "sym_tan",
+      "group": "Functions",
+      "label": "tangent function",
+      "latex": "\\tan()",
+      "type": "wrap",
+      "plain_explanation": "This trigonometric function is the ratio of sine to cosine and measures the slope of an angle in a right triangle.",
+      "when_to_use": "Use it when relating the steepness of a line to an angle.",
+      "common_mistake": "Confusing tangent with its reciprocal functions or forgetting its domain restrictions.",
+      "related_formula_ids": [],
+      "related_concept_ids": [
+        "concept_trig_basics"
+      ]
+    },
+    {
+      "id": "sym_ln",
+      "group": "Functions",
+      "label": "natural logarithm",
+      "latex": "\\ln()",
+      "type": "wrap",
+      "plain_explanation": "This is the logarithm with base e, telling you what power to raise e to get a number.",
+      "when_to_use": "Use it to reverse exponentiation with base e or solve growth and decay problems.",
+      "common_mistake": "Mixing natural log with log base 10 or forgetting the chain rule.",
+      "related_formula_ids": [
+        "log_deriv",
+        "taylor_ln"
+      ],
+      "related_concept_ids": [
+        "concept_exponential_and_log"
+      ]
+    },
+    {
+      "id": "sym_log",
+      "group": "Functions",
+      "label": "logarithm",
+      "latex": "\\log()",
+      "type": "wrap",
+      "plain_explanation": "This function returns the exponent needed for a chosen base to reach a given number. The base must be specified.",
+      "when_to_use": "Use it for logarithms in bases other than e, like base 10.",
+      "common_mistake": "Not specifying the base or confusing it with the natural logarithm.",
+      "related_formula_ids": [],
+      "related_concept_ids": [
+        "concept_exponential_and_log"
+      ]
+    },
+    {
+      "id": "sym_exp",
+      "group": "Functions",
+      "label": "exponential function",
+      "latex": "e^{}",
+      "type": "wrap",
+      "plain_explanation": "This notation means the exponential function e raised to a power. In calculus, e^x is special because its derivative is itself.",
+      "when_to_use": "Use it for growth and decay models, compound change, and differential equations involving continuous change.",
+      "common_mistake": "Students often treat e like a variable. Remember e is a constant (about 2.718), while the exponent changes.",
+      "related_formula_ids": [
+        "exp_deriv",
+        "exp_integral",
+        "exp_limit",
+        "lhopital_ex",
+        "taylor_exp"
+      ],
+      "related_concept_ids": [
+        "concept_exponential_and_log"
+      ]
+    },
+    {
+      "id": "sym_sqrt",
+      "group": "Functions",
+      "label": "square root",
+      "latex": "\\sqrt{}",
+      "type": "wrap",
+      "plain_explanation": "The square root gives the non‑negative number that, when multiplied by itself, equals the input.",
+      "when_to_use": "Use it to undo squaring or find half powers of numbers.",
+      "common_mistake": "Dropping the absolute value when taking the square root of a squared expression.",
+      "related_formula_ids": [],
+      "related_concept_ids": [
+        "concept_math_notation"
+      ]
+    },
+    {
+      "id": "sym_nth_root",
+      "group": "Functions",
+      "label": "nth root",
+      "latex": "\\sqrt[n]{}",
+      "type": "wrap",
+      "plain_explanation": "This operation finds a number that, when raised to the nth power, equals the input.",
+      "when_to_use": "Use it to find fractional powers or solve equations of the form x^n = a.",
+      "common_mistake": "Confusing the nth root with raising to the 1/n power without noting domain issues.",
+      "related_formula_ids": [],
+      "related_concept_ids": [
+        "concept_math_notation"
+      ]
+    },
+    {
+      "id": "sym_abs",
+      "group": "Functions",
+      "label": "absolute value",
+      "latex": "\\left| \\right|",
+      "type": "wrap",
+      "plain_explanation": "This symbol gives the distance of a number from zero, making negative values positive.",
+      "when_to_use": "Use it when only the size of a number matters, not its sign.",
+      "common_mistake": "Applying it to each term separately when it should apply to the whole expression.",
+      "related_formula_ids": [],
+      "related_concept_ids": [
+        "concept_math_notation"
+      ]
+    },
+    {
+      "id": "sym_pi",
+      "group": "Greek",
+      "label": "pi",
+      "latex": "\\pi",
+      "type": "insert",
+      "plain_explanation": "The constant pi represents the ratio of a circle's circumference to its diameter, approximately 3.14.",
+      "when_to_use": "Use it in problems involving circles, angles, or periodic functions.",
+      "common_mistake": "Using rough approximations instead of the exact symbol in formulas.",
+      "related_formula_ids": [
+        "def_integral_sin"
+      ],
+      "related_concept_ids": [
+        "concept_trig_basics"
+      ]
+    },
+    {
+      "id": "sym_theta",
+      "group": "Greek",
+      "label": "theta",
+      "latex": "\\theta",
+      "type": "insert",
+      "plain_explanation": "Theta is a Greek letter commonly used for angles, especially in trigonometry and periodic motion.",
+      "when_to_use": "Use it when working with angle-based functions like sin(theta), cos(theta), or parameterized motion.",
+      "common_mistake": "Make sure your calculator or interpretation uses radians in calculus unless the problem explicitly states degrees.",
+      "related_formula_ids": [],
+      "related_concept_ids": [
+        "concept_trig_basics"
+      ]
+    },
+    {
+      "id": "sym_alpha",
+      "group": "Greek",
+      "label": "alpha",
+      "latex": "\\alpha",
+      "type": "insert",
+      "plain_explanation": "Alpha is a Greek letter used as a named constant or parameter. It often labels a value that stays fixed while other variables change.",
+      "when_to_use": "Use it when you need a parameter name different from x, y, or n, such as model constants.",
+      "common_mistake": "Do not assume alpha is always an angle. Its meaning depends on context in the current formula or model.",
+      "related_formula_ids": [],
+      "related_concept_ids": [
+        "concept_variable_and_parameter"
+      ]
+    },
+    {
+      "id": "sym_beta",
+      "group": "Greek",
+      "label": "beta",
+      "latex": "\\beta",
+      "type": "insert",
+      "plain_explanation": "Beta is another Greek letter used as a variable or parameter in equations.",
+      "when_to_use": "Use it alongside other parameters to distinguish between different constants.",
+      "common_mistake": "Interchanging beta with other variables like b without noting the context.",
+      "related_formula_ids": [],
+      "related_concept_ids": [
+        "concept_variable_and_parameter"
+      ]
+    },
+    {
+      "id": "sym_infinity",
+      "group": "Greek",
+      "label": "infinity",
+      "latex": "\\infty",
+      "type": "insert",
+      "plain_explanation": "This symbol represents a quantity that grows without bound and is larger than any real number.",
+      "when_to_use": "Use it when discussing limits at infinity or unbounded growth.",
+      "common_mistake": "Treating infinity as a number that can be algebraically manipulated like regular numbers.",
+      "related_formula_ids": [
+        "inf_limit",
+        "exp_limit"
+      ],
+      "related_concept_ids": [
+        "concept_limit_at_infinity"
+      ]
+    },
+    {
+      "id": "sym_delta",
+      "group": "Greek",
+      "label": "delta",
+      "latex": "\\Delta",
+      "type": "insert",
+      "plain_explanation": "Delta usually means \"change in\" something, like change in x or change in y. It compares a final value to an initial value.",
+      "when_to_use": "Use it when describing finite changes, especially before moving to limit ideas with very small changes.",
+      "common_mistake": "Do not mix up delta (a finite change) with differential notation like dx (an infinitesimal change in calculus setup).",
+      "related_formula_ids": [],
+      "related_concept_ids": [
+        "concept_limits_intro"
+      ]
+    },
+    {
+      "id": "sym_epsilon",
+      "group": "Greek",
+      "label": "epsilon",
+      "latex": "\\epsilon",
+      "type": "insert",
+      "plain_explanation": "Epsilon is used to represent a very small positive number in limit definitions.",
+      "when_to_use": "Use it when expressing how close values need to be to a limit.",
+      "common_mistake": "Thinking epsilon equals zero rather than approaching zero.",
+      "related_formula_ids": [],
+      "related_concept_ids": [
+        "concept_limits_intro"
+      ]
+    },
+    {
+      "id": "sym_frac",
+      "group": "Operators",
+      "label": "fraction",
+      "latex": "\\frac{}{}",
+      "type": "wrap",
+      "plain_explanation": "This builds a fraction with a numerator on top and denominator on bottom. Fractions are central in derivatives, limits, and algebra simplification.",
+      "when_to_use": "Use it whenever division should stay visually grouped, especially in complex expressions with sums or products.",
+      "common_mistake": "A common error is missing parentheses around long numerators or denominators, which changes the meaning of the expression.",
+      "related_formula_ids": [
+        "quotient_ex",
+        "sinc_limit",
+        "inf_limit",
+        "exp_limit",
+        "lhopital_ex"
+      ],
+      "related_concept_ids": [
+        "concept_math_notation",
+        "concept_limits_intro",
+        "concept_quotient_rule",
+        "concept_lhopital_rule"
+      ]
+    },
+    {
+      "id": "sym_power",
+      "group": "Operators",
+      "label": "exponent",
+      "latex": "^{}",
+      "type": "suffix",
+      "plain_explanation": "Placing a number or expression in the exponent position raises a base to that power.",
+      "when_to_use": "Use it to show repeated multiplication of the base.",
+      "common_mistake": "Misunderstanding that x^mn means (x^m)^n and forgetting parentheses when needed.",
+      "related_formula_ids": [
+        "power_rule",
+        "chain_rule_ex",
+        "exp_deriv",
+        "second_deriv",
+        "poly_integral",
+        "taylor_sin",
+        "taylor_exp",
+        "taylor_cos",
+        "taylor_ln"
+      ],
+      "related_concept_ids": [
+        "concept_power_rule",
+        "concept_taylor_series"
+      ]
+    },
+    {
+      "id": "sym_subscript",
+      "group": "Operators",
+      "label": "subscript",
+      "latex": "_{}",
+      "type": "suffix",
+      "plain_explanation": "Subscripts label different variables or terms with small letters written below the main symbol.",
+      "when_to_use": "Use it to distinguish multiple related quantities, like a_1, a_2, and a_n.",
+      "common_mistake": "Confusing subscripts with exponents or forgetting what each subscript stands for.",
+      "related_formula_ids": [],
+      "related_concept_ids": [
+        "concept_math_notation"
+      ]
+    },
+    {
+      "id": "sym_plus_minus",
+      "group": "Operators",
+      "label": "plus-minus",
+      "latex": "\\pm",
+      "type": "insert",
+      "plain_explanation": "This symbol indicates that both the positive and negative versions of an expression are valid.",
+      "when_to_use": "Use it when a formula has two possible signs, such as solutions to a quadratic equation.",
+      "common_mistake": "Using only one sign when the formula includes both.",
+      "related_formula_ids": [],
+      "related_concept_ids": [
+        "concept_math_notation"
+      ]
+    },
+    {
+      "id": "sym_dot",
+      "group": "Operators",
+      "label": "multiplication dot",
+      "latex": "\\cdot",
+      "type": "insert",
+      "plain_explanation": "A centered dot clearly shows multiplication, especially between variables or functions.",
+      "when_to_use": "Use it to avoid confusion between multiplication and function composition.",
+      "common_mistake": "Leaving it out and creating ambiguous expressions.",
+      "related_formula_ids": [
+        "product_rule_ex"
+      ],
+      "related_concept_ids": [
+        "concept_product_rule"
+      ]
+    },
+    {
+      "id": "sym_leq",
+      "group": "Operators",
+      "label": "less than or equal",
+      "latex": "\\leq",
+      "type": "insert",
+      "plain_explanation": "This comparison symbol means that one quantity is less than or equal to another.",
+      "when_to_use": "Use it when stating inequalities that allow equality as a possibility.",
+      "common_mistake": "Using the wrong inequality direction or forgetting the equals part.",
+      "related_formula_ids": [],
+      "related_concept_ids": [
+        "concept_math_notation"
+      ]
+    },
+    {
+      "id": "sym_geq",
+      "group": "Operators",
+      "label": "greater than or equal",
+      "latex": "\\geq",
+      "type": "insert",
+      "plain_explanation": "This comparison symbol means one quantity is greater than or equal to another.",
+      "when_to_use": "Use it when expressing values that cannot go below a certain number.",
+      "common_mistake": "Confusing it with the less than or equal symbol.",
+      "related_formula_ids": [],
+      "related_concept_ids": [
+        "concept_math_notation"
+      ]
+    },
+    {
+      "id": "sym_neq",
+      "group": "Operators",
+      "label": "not equal",
+      "latex": "\\neq",
+      "type": "insert",
+      "plain_explanation": "This symbol means two expressions are not equal. It tells you the left side and right side do not represent the same value.",
+      "when_to_use": "Use it when comparing expressions and you need to state they are different for all or some values.",
+      "common_mistake": "Do not confuse not-equal with approximately equal. \"Not equal\" means exactly different, not just rounded.",
+      "related_formula_ids": [],
+      "related_concept_ids": [
+        "concept_math_notation"
+      ]
+    }
+  ],
+  "formulas": [
+    {
+      "id": "power_rule",
+      "category": "derivatives",
+      "name": "Power rule for x^3",
+      "tag": "derivative",
+      "latex": "\\frac{d}{dx} x^3",
+      "plain_math": "d/dx of x^3",
+      "plain_explanation": "When you have x^3, multiply the exponent 3 by the coefficient 1 and decrease the exponent by one to get 3x^2.",
+      "intuition": "The slope of x cubed at each point follows a pattern: bring down the exponent and reduce it by one.",
+      "when_to_use": "Use the power rule when differentiating powers of x or polynomials term by term.",
+      "common_mistake": "Not reducing the exponent or forgetting to multiply by the old exponent.",
+      "params_hint": {
+        "variable": "x",
+        "point": "optional",
+        "lower": "optional",
+        "upper": "optional",
+        "order": "optional"
+      },
+      "related_symbol_ids": [
+        "sym_d_dx",
+        "sym_power"
+      ],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_power_rule"
+      ],
+      "example_ids": [
+        "ex_power_rule_01"
+      ]
+    },
+    {
+      "id": "product_rule_ex",
+      "category": "derivatives",
+      "name": "Product rule example with x·sin(x)",
+      "tag": "derivative",
+      "latex": "\\frac{d}{dx} x \\sin(x)",
+      "plain_math": "d/dx of x·sin(x)",
+      "plain_explanation": "To differentiate x times sin(x), use the product rule: take the derivative of x, which is 1, times sin(x), and add x times the derivative of sin(x), which is cos(x). The result is sin(x) + x cos(x).",
+      "intuition": "Because two factors change, you must account for the rate of change of each factor.",
+      "when_to_use": "Use when differentiating the product of two functions.",
+      "common_mistake": "Multiplying derivatives instead of adding or forgetting one term.",
+      "params_hint": {
+        "variable": "x",
+        "point": "optional",
+        "lower": "optional",
+        "upper": "optional",
+        "order": "optional"
+      },
+      "related_symbol_ids": [
+        "sym_d_dx",
+        "sym_sin",
+        "sym_cos",
+        "sym_dot"
+      ],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_product_rule",
+        "concept_trig_basics"
+      ],
+      "example_ids": [
+        "ex_product_rule_ex_01"
+      ]
+    },
+    {
+      "id": "chain_rule_ex",
+      "category": "derivatives",
+      "name": "Chain rule example with sin(x^2)",
+      "tag": "derivative",
+      "latex": "\\frac{d}{dx} \\sin(x^2)",
+      "plain_math": "d/dx of sin(x^2)",
+      "plain_explanation": "To differentiate sin(x^2), take the derivative of sin, which is cos, and multiply by the derivative of x^2, which is 2x. This gives 2x cos(x^2).",
+      "intuition": "Nested functions require you to peel off one layer at a time, differentiating the outside and multiplying by the inside's derivative.",
+      "when_to_use": "Use when differentiating a function of another function.",
+      "common_mistake": "Differentiating only the outer function and forgetting to multiply by the inner derivative.",
+      "params_hint": {
+        "variable": "x",
+        "point": "optional",
+        "lower": "optional",
+        "upper": "optional",
+        "order": "optional"
+      },
+      "related_symbol_ids": [
+        "sym_d_dx",
+        "sym_sin",
+        "sym_cos",
+        "sym_power"
+      ],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_chain_rule",
+        "concept_trig_basics"
+      ],
+      "example_ids": [
+        "ex_chain_rule_ex_01"
+      ]
+    },
+    {
+      "id": "quotient_ex",
+      "category": "derivatives",
+      "name": "Quotient rule example with x/cos(x)",
+      "tag": "derivative",
+      "latex": "\\frac{d}{dx} \\frac{x}{\\cos(x)}",
+      "plain_math": "d/dx of x divided by cos(x)",
+      "plain_explanation": "Using the quotient rule, differentiate the numerator x to get 1 and multiply by the denominator cos(x), then subtract the numerator multiplied by the derivative of cos(x), which is -sin(x). Divide by the square of the denominator. The result is (cos(x) + x sin(x)) / cos(x)^2.",
+      "intuition": "The quotient rule keeps track of how a ratio changes by balancing changes in the numerator and denominator.",
+      "when_to_use": "Use when differentiating one function divided by another.",
+      "common_mistake": "Forgetting to square the denominator or using addition instead of subtraction.",
+      "params_hint": {
+        "variable": "x",
+        "point": "optional",
+        "lower": "optional",
+        "upper": "optional",
+        "order": "optional"
+      },
+      "related_symbol_ids": [
+        "sym_d_dx",
+        "sym_cos",
+        "sym_sin",
+        "sym_frac"
+      ],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_quotient_rule",
+        "concept_trig_basics"
+      ],
+      "example_ids": [
+        "ex_quotient_ex_01"
+      ]
+    },
+    {
+      "id": "exp_deriv",
+      "category": "derivatives",
+      "name": "Derivative of e^{2x}",
+      "tag": "derivative",
+      "latex": "\\frac{d}{dx} e^{2x}",
+      "plain_math": "d/dx of e^{2x}",
+      "plain_explanation": "The derivative of e raised to a function is the derivative of the exponent times e raised to that function. Since the exponent 2x has derivative 2, the result is 2 e^{2x}.",
+      "intuition": "Exponential functions grow proportionally to themselves; the chain rule accounts for the inner multiplier.",
+      "when_to_use": "Use when differentiating exponential functions with linear exponents.",
+      "common_mistake": "Forgetting to multiply by the derivative of the exponent.",
+      "params_hint": {
+        "variable": "x",
+        "point": "optional",
+        "lower": "optional",
+        "upper": "optional",
+        "order": "optional"
+      },
+      "related_symbol_ids": [
+        "sym_d_dx",
+        "sym_exp"
+      ],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_chain_rule",
+        "concept_exponential_and_log"
+      ],
+      "example_ids": [
+        "ex_exp_deriv_01"
+      ]
+    },
+    {
+      "id": "log_deriv",
+      "category": "derivatives",
+      "name": "Derivative of ln(x^2 + 1)",
+      "tag": "derivative",
+      "latex": "\\frac{d}{dx} \\ln(x^2 + 1)",
+      "plain_math": "d/dx of ln(x^2 + 1)",
+      "plain_explanation": "Differentiate the log by taking 1 over the inside (x^2 + 1) and multiplying by the derivative of the inside (2x). The result is 2x/(x^2 + 1).",
+      "intuition": "The chain rule and derivative of ln combine to handle the log of a composite function.",
+      "when_to_use": "Use when differentiating natural logarithms of expressions.",
+      "common_mistake": "Not applying the chain rule or forgetting the denominator.",
+      "params_hint": {
+        "variable": "x",
+        "point": "optional",
+        "lower": "optional",
+        "upper": "optional",
+        "order": "optional"
+      },
+      "related_symbol_ids": [
+        "sym_d_dx",
+        "sym_ln",
+        "sym_power"
+      ],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_chain_rule",
+        "concept_exponential_and_log"
+      ],
+      "example_ids": [
+        "ex_log_deriv_01"
+      ]
+    },
+    {
+      "id": "second_deriv",
+      "category": "derivatives",
+      "name": "Second derivative of x^4",
+      "tag": "derivative",
+      "latex": "\\frac{d^2}{dx^2} x^4",
+      "plain_math": "d^2/dx^2 of x^4",
+      "plain_explanation": "First find the derivative of x^4, which is 4x^3. Then differentiate 4x^3 again to get 12x^2. So the second derivative is 12x^2.",
+      "intuition": "Taking derivatives successively measures how the rate of change itself changes.",
+      "when_to_use": "Use higher‑order derivatives when investigating concavity or acceleration.",
+      "common_mistake": "Only differentiating once or misapplying the power rule on the second derivative.",
+      "params_hint": {
+        "variable": "x",
+        "point": "optional",
+        "lower": "optional",
+        "upper": "optional",
+        "order": "2"
+      },
+      "related_symbol_ids": [
+        "sym_d_dx",
+        "sym_power"
+      ],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_power_rule",
+        "concept_higher_order_derivatives"
+      ],
+      "example_ids": [
+        "ex_second_deriv_01"
+      ]
+    },
+    {
+      "id": "poly_integral",
+      "category": "integrals",
+      "name": "Indefinite integral of x^3 + 2x",
+      "tag": "integral",
+      "latex": "\\int x^3 + 2x \\, dx",
+      "plain_math": "∫ (x^3 + 2x) dx",
+      "plain_explanation": "Integrate term by term. The antiderivative of x^3 is x^4/4, and the antiderivative of 2x is x^2. Add a constant C at the end. The result is x^4/4 + x^2 + C.",
+      "intuition": "Integration reverses differentiation; each term’s exponent increases by one and we divide by the new exponent.",
+      "when_to_use": "Use for finding antiderivatives of polynomials.",
+      "common_mistake": "Forgetting the constant of integration or misapplying the power rule for integration.",
+      "params_hint": {
+        "variable": "x",
+        "point": "optional",
+        "lower": "optional",
+        "upper": "optional",
+        "order": "optional"
+      },
+      "related_symbol_ids": [
+        "sym_int",
+        "sym_dx",
+        "sym_power"
+      ],
+      "related_concept_ids": [
+        "concept_integral_intro",
+        "concept_indefinite_integral"
+      ],
+      "example_ids": [
+        "ex_poly_integral_01"
+      ]
+    },
+    {
+      "id": "trig_integral",
+      "category": "integrals",
+      "name": "Indefinite integral of sin(x)",
+      "tag": "integral",
+      "latex": "\\int \\sin(x) \\, dx",
+      "plain_math": "∫ sin(x) dx",
+      "plain_explanation": "The antiderivative of sin(x) is -cos(x). Don't forget to add the constant C. So ∫ sin(x) dx = -cos(x) + C.",
+      "intuition": "Integration undoes differentiation; since the derivative of cos(x) is -sin(x), integrating sin(x) gives -cos(x).",
+      "when_to_use": "Use when finding antiderivatives of sine functions.",
+      "common_mistake": "Missing the negative sign or the constant of integration.",
+      "params_hint": {
+        "variable": "x",
+        "point": "optional",
+        "lower": "optional",
+        "upper": "optional",
+        "order": "optional"
+      },
+      "related_symbol_ids": [
+        "sym_int",
+        "sym_sin",
+        "sym_cos",
+        "sym_dx"
+      ],
+      "related_concept_ids": [
+        "concept_integral_intro",
+        "concept_indefinite_integral",
+        "concept_trig_basics"
+      ],
+      "example_ids": [
+        "ex_trig_integral_01"
+      ]
+    },
+    {
+      "id": "exp_integral",
+      "category": "integrals",
+      "name": "Indefinite integral of e^{-x}",
+      "tag": "integral",
+      "latex": "\\int e^{-x} \\, dx",
+      "plain_math": "∫ e^{-x} dx",
+      "plain_explanation": "Use the rule int e^(ax) dx = (1/a)e^(ax) + C when a is constant. Since a = -1 here, the antiderivative becomes -e^(-x) + C.",
+      "intuition": "Integration works like reversing the chain rule; dividing by the derivative of the exponent adjusts the exponential.",
+      "when_to_use": "Use when integrating exponential functions with constant exponents.",
+      "common_mistake": "Forgetting to divide by the coefficient of x in the exponent.",
+      "params_hint": {
+        "variable": "x",
+        "point": "optional",
+        "lower": "optional",
+        "upper": "optional",
+        "order": "optional"
+      },
+      "related_symbol_ids": [
+        "sym_int",
+        "sym_exp",
+        "sym_dx"
+      ],
+      "related_concept_ids": [
+        "concept_integral_intro",
+        "concept_indefinite_integral",
+        "concept_exponential_and_log"
+      ],
+      "example_ids": [
+        "ex_exp_integral_01"
+      ]
+    },
+    {
+      "id": "def_integral_x2",
+      "category": "integrals",
+      "name": "Definite integral of x^2 from 0 to 1",
+      "tag": "definite_integral",
+      "latex": "\\int_{0}^{1} x^2 \\, dx",
+      "plain_math": "∫_0^1 x^2 dx",
+      "plain_explanation": "First find the antiderivative x^3/3. Evaluate it at the upper limit 1 (giving 1/3) and subtract the value at the lower limit 0 (giving 0). The result is 1/3.",
+      "intuition": "A definite integral accumulates area from left bound to right bound. Here, integrating x^2 from 0 to 1 gives the exact total area under the curve on that interval.",
+      "when_to_use": "Use to compute exact area or accumulated quantity between two points.",
+      "common_mistake": "Not subtracting the lower limit or reversing limits without changing sign.",
+      "params_hint": {
+        "variable": "x",
+        "point": "optional",
+        "lower": "0",
+        "upper": "1",
+        "order": "optional"
+      },
+      "related_symbol_ids": [
+        "sym_int_ab",
+        "sym_dx",
+        "sym_power"
+      ],
+      "related_concept_ids": [
+        "concept_integral_intro",
+        "concept_definite_integral",
+        "concept_area_under_curve"
+      ],
+      "example_ids": [
+        "ex_def_integral_x2_01"
+      ]
+    },
+    {
+      "id": "def_integral_sin",
+      "category": "integrals",
+      "name": "Definite integral of sin(x) from 0 to π",
+      "tag": "definite_integral",
+      "latex": "\\int_{0}^{\\pi} \\sin(x) \\, dx",
+      "plain_math": "∫_0^π sin(x) dx",
+      "plain_explanation": "The antiderivative of sin(x) is -cos(x). Evaluate at π (giving 1) and at 0 (giving -1). Subtract to get 1 - (-1) = 2.",
+      "intuition": "Over [0, pi], sin(x) stays nonnegative, so accumulation equals geometric area. The integral returns the exact total area of that half-wave.",
+      "when_to_use": "Use when summing trigonometric functions over a specific interval.",
+      "common_mistake": "Forgetting the negative sign in the antiderivative or the lower limit value.",
+      "params_hint": {
+        "variable": "x",
+        "point": "optional",
+        "lower": "0",
+        "upper": "π",
+        "order": "optional"
+      },
+      "related_symbol_ids": [
+        "sym_int_ab",
+        "sym_sin",
+        "sym_cos",
+        "sym_dx",
+        "sym_pi"
+      ],
+      "related_concept_ids": [
+        "concept_integral_intro",
+        "concept_definite_integral",
+        "concept_trig_basics",
+        "concept_area_under_curve"
+      ],
+      "example_ids": [
+        "ex_def_integral_sin_01"
+      ]
+    },
+    {
+      "id": "sinc_limit",
+      "category": "limits",
+      "name": "Limit of sin(x)/x as x approaches 0",
+      "tag": "limit",
+      "latex": "\\lim_{x \\to 0} \\frac{\\sin(x)}{x}",
+      "plain_math": "lim_{x→0} sin(x)/x",
+      "plain_explanation": "As x gets very close to 0, sin(x) is approximately equal to x. Therefore, the ratio approaches 1. Using L'Hôpital's rule, the derivative of sin(x) is cos(x) and the derivative of x is 1. Evaluating cos(0)/1 gives 1.",
+      "intuition": "Near zero, sin(x) and x grow at the same rate, so their ratio tends to 1.",
+      "when_to_use": "Use this standard limit when simplifying other trigonometric limits.",
+      "common_mistake": "Plugging in x=0 directly and getting 0/0, which is indeterminate.",
+      "params_hint": {
+        "variable": "x",
+        "point": "0",
+        "lower": "optional",
+        "upper": "optional",
+        "order": "optional"
+      },
+      "related_symbol_ids": [
+        "sym_lim",
+        "sym_sin",
+        "sym_frac"
+      ],
+      "related_concept_ids": [
+        "concept_limits_intro",
+        "concept_trig_basics"
+      ],
+      "example_ids": [
+        "ex_sinc_limit_01"
+      ]
+    },
+    {
+      "id": "inf_limit",
+      "category": "limits",
+      "name": "Limit of 1/x as x approaches infinity",
+      "tag": "limit",
+      "latex": "\\lim_{x \\to \\infty} \\frac{1}{x}",
+      "plain_math": "lim_{x→∞} 1/x",
+      "plain_explanation": "As x grows without bound, the denominator in 1/x becomes larger and larger. That forces the fraction toward 0, so the limit is 0.",
+      "intuition": "When a fixed number is divided by something that keeps increasing, the result gets squeezed closer to zero.",
+      "when_to_use": "Use when analyzing end behavior of rational functions.",
+      "common_mistake": "Thinking infinity is a number and substituting directly.",
+      "params_hint": {
+        "variable": "x",
+        "point": "∞",
+        "lower": "optional",
+        "upper": "optional",
+        "order": "optional"
+      },
+      "related_symbol_ids": [
+        "sym_lim",
+        "sym_infinity",
+        "sym_frac"
+      ],
+      "related_concept_ids": [
+        "concept_limit_at_infinity"
+      ],
+      "example_ids": [
+        "ex_inf_limit_01"
+      ]
+    },
+    {
+      "id": "exp_limit",
+      "category": "limits",
+      "name": "Limit of (1 + 1/x)^x as x approaches infinity",
+      "tag": "limit",
+      "latex": "\\lim_{x \\to \\infty} \\left(1 + \\frac{1}{x}\\right)^x",
+      "plain_math": "lim_{x→∞} (1 + 1/x)^x",
+      "plain_explanation": "This expression grows toward the number e, approximately 2.71828. As x increases, the product of more and more small increases approaches e.",
+      "intuition": "Compounded growth with smaller and more frequent steps converges to a fundamental constant.",
+      "when_to_use": "Use when evaluating exponential‑like limits that define e.",
+      "common_mistake": "Assuming the limit is infinite because the exponent grows.",
+      "params_hint": {
+        "variable": "x",
+        "point": "∞",
+        "lower": "optional",
+        "upper": "optional",
+        "order": "optional"
+      },
+      "related_symbol_ids": [
+        "sym_lim",
+        "sym_infinity",
+        "sym_frac"
+      ],
+      "related_concept_ids": [
+        "concept_limit_at_infinity",
+        "concept_exponential_and_log"
+      ],
+      "example_ids": [
+        "ex_exp_limit_01"
+      ]
+    },
+    {
+      "id": "lhopital_ex",
+      "category": "limits",
+      "name": "L'Hôpital's Rule example with (e^x - 1)/x",
+      "tag": "limit",
+      "latex": "\\lim_{x \\to 0} \\frac{e^x - 1}{x}",
+      "plain_math": "lim_{x→0} (e^x - 1)/x",
+      "plain_explanation": "The numerator and denominator both approach 0. Applying L'Hôpital's rule differentiates the numerator to e^x and the denominator to 1. Evaluating at x = 0 gives e^0/1 = 1.",
+      "intuition": "L'Hôpital's rule turns an indeterminate form into a simple limit by using derivatives.",
+      "when_to_use": "Use L'Hôpital's rule when limits produce 0/0 or ∞/∞ forms.",
+      "common_mistake": "Using the rule when the limit is not indeterminate.",
+      "params_hint": {
+        "variable": "x",
+        "point": "0",
+        "lower": "optional",
+        "upper": "optional",
+        "order": "optional"
+      },
+      "related_symbol_ids": [
+        "sym_lim",
+        "sym_frac",
+        "sym_exp"
+      ],
+      "related_concept_ids": [
+        "concept_limits_intro",
+        "concept_lhopital_rule",
+        "concept_exponential_and_log"
+      ],
+      "example_ids": [
+        "ex_lhopital_ex_01"
+      ]
+    },
+    {
+      "id": "taylor_sin",
+      "category": "series",
+      "name": "Taylor series of sin(x)",
+      "tag": "taylor",
+      "latex": "\\sin(x)",
+      "plain_math": "sin(x) = x - x^3/3! + x^5/5! - ...",
+      "plain_explanation": "The sine function can be written as an infinite sum of odd powers of x with alternating signs: sin(x) = x - x^3/6 + x^5/120 - x^7/5040 + ... .",
+      "intuition": "This series allows you to approximate sin(x) for small x by adding just a few terms.",
+      "when_to_use": "Use when approximating sine or analyzing its behavior for small angles.",
+      "common_mistake": "Forgetting factorials in the denominators or the alternating signs.",
+      "params_hint": {
+        "variable": "x",
+        "point": "optional",
+        "lower": "optional",
+        "upper": "optional",
+        "order": "optional"
+      },
+      "related_symbol_ids": [
+        "sym_sum",
+        "sym_sin",
+        "sym_power"
+      ],
+      "related_concept_ids": [
+        "concept_series_intro",
+        "concept_taylor_series",
+        "concept_trig_basics"
+      ],
+      "example_ids": [
+        "ex_taylor_sin_01"
+      ]
+    },
+    {
+      "id": "taylor_exp",
+      "category": "series",
+      "name": "Taylor series of e^x",
+      "tag": "taylor",
+      "latex": "e^x",
+      "plain_math": "e^x = 1 + x + x^2/2! + x^3/3! + ...",
+      "plain_explanation": "The exponential function e^x can be written as an infinite sum: 1 + x + x^2/2 + x^3/6 + x^4/24 + ... .",
+      "intuition": "This expansion shows that e^x grows by adding higher power terms scaled by factorials.",
+      "when_to_use": "Use for approximating e^x or solving differential equations.",
+      "common_mistake": "Leaving out terms or factorials.",
+      "params_hint": {
+        "variable": "x",
+        "point": "optional",
+        "lower": "optional",
+        "upper": "optional",
+        "order": "optional"
+      },
+      "related_symbol_ids": [
+        "sym_sum",
+        "sym_exp",
+        "sym_power"
+      ],
+      "related_concept_ids": [
+        "concept_series_intro",
+        "concept_taylor_series",
+        "concept_exponential_and_log"
+      ],
+      "example_ids": [
+        "ex_taylor_exp_01"
+      ]
+    },
+    {
+      "id": "taylor_cos",
+      "category": "series",
+      "name": "Taylor series of cos(x)",
+      "tag": "taylor",
+      "latex": "\\cos(x)",
+      "plain_math": "cos(x) = 1 - x^2/2! + x^4/4! - ...",
+      "plain_explanation": "The cosine function can be written as an infinite sum of even powers of x with alternating signs: cos(x) = 1 - x^2/2 + x^4/24 - x^6/720 + ... .",
+      "intuition": "This series approximates cos(x) near x = 0 by matching derivatives at zero. Keeping only the first few terms gives quick, accurate local estimates.",
+      "when_to_use": "Use when approximating cosine or exploring its properties.",
+      "common_mistake": "Switching the signs or using wrong factorials.",
+      "params_hint": {
+        "variable": "x",
+        "point": "optional",
+        "lower": "optional",
+        "upper": "optional",
+        "order": "optional"
+      },
+      "related_symbol_ids": [
+        "sym_sum",
+        "sym_cos",
+        "sym_power"
+      ],
+      "related_concept_ids": [
+        "concept_series_intro",
+        "concept_taylor_series",
+        "concept_trig_basics"
+      ],
+      "example_ids": [
+        "ex_taylor_cos_01"
+      ]
+    },
+    {
+      "id": "taylor_ln",
+      "category": "series",
+      "name": "Taylor series of ln(1 + x)",
+      "tag": "taylor",
+      "latex": "\\ln(1+x)",
+      "plain_math": "ln(1 + x) = x - x^2/2 + x^3/3 - x^4/4 + ...",
+      "plain_explanation": "Near x = 0, ln(1+x) can be rewritten as an alternating power series: x - x^2/2 + x^3/3 - x^4/4 + .... This gives a polynomial-style approximation for small x values.",
+      "intuition": "The series turns a hard logarithm into easy powers of x, which makes local approximation and mental estimation much simpler.",
+      "when_to_use": "Use when approximating ln(1 + x) for small x or solving integrals.",
+      "common_mistake": "Using the series outside its interval of convergence or forgetting the alternating signs.",
+      "params_hint": {
+        "variable": "x",
+        "point": "optional",
+        "lower": "optional",
+        "upper": "optional",
+        "order": "optional"
+      },
+      "related_symbol_ids": [
+        "sym_sum",
+        "sym_ln",
+        "sym_power"
+      ],
+      "related_concept_ids": [
+        "concept_series_intro",
+        "concept_taylor_series",
+        "concept_exponential_and_log"
+      ],
+      "example_ids": [
+        "ex_taylor_ln_01"
+      ]
+    }
+  ],
+  "concepts": [
+    {
+      "id": "concept_function_basics",
+      "title": "Function Basics",
+      "category": "Foundations",
+      "difficulty": "beginner",
+      "summary": "A function is a rule that assigns each input exactly one output. Understanding functions is essential before learning calculus.",
+      "plain_explanation": "A function uses variables to link one quantity to another. If you put in x, the function tells you the value of y. Functions can be simple like f(x) = x + 1 or more complex.",
+      "key_ideas": [
+        "Functions map inputs to outputs",
+        "Domain and range describe possible inputs and outputs",
+        "Functions can be represented by equations, graphs, or tables"
+      ],
+      "common_mistakes": [
+        "Thinking that one input can have more than one output",
+        "Confusing the function's name with the variable"
+      ],
+      "prerequisite_concept_ids": [],
+      "symbol_ids": [
+        "sym_sin",
+        "sym_cos",
+        "sym_tan",
+        "sym_ln",
+        "sym_log",
+        "sym_exp",
+        "sym_sqrt",
+        "sym_nth_root",
+        "sym_abs"
+      ],
+      "formula_ids": [],
+      "example_ids": [],
+      "related_concept_ids": [
+        "concept_variable_and_parameter"
+      ]
+    },
+    {
+      "id": "concept_variable_and_parameter",
+      "title": "Variables and Parameters",
+      "category": "Foundations",
+      "difficulty": "beginner",
+      "summary": "Variables stand for numbers that can change; parameters are fixed values used to define families of functions.",
+      "plain_explanation": "When you write f(x) = ax + b, x is the variable and a and b are parameters because they determine the slope and y‑intercept. Understanding the difference helps you handle formulas.",
+      "key_ideas": [
+        "Variables change within problems",
+        "Parameters are constants that give shape to functions",
+        "Distinguishing them helps in calculus problems"
+      ],
+      "common_mistakes": [
+        "Treating parameters as variables",
+        "Not specifying which variable you differentiate with respect to"
+      ],
+      "prerequisite_concept_ids": [
+        "concept_function_basics"
+      ],
+      "symbol_ids": [
+        "sym_subscript",
+        "sym_alpha",
+        "sym_beta"
+      ],
+      "formula_ids": [],
+      "example_ids": [],
+      "related_concept_ids": [
+        "concept_math_notation"
+      ]
+    },
+    {
+      "id": "concept_math_notation",
+      "title": "Mathematical Notation",
+      "category": "Notation",
+      "difficulty": "beginner",
+      "summary": "Mathematical symbols provide a compact way to write ideas. Learning notation like fractions, exponents, and summations helps you read and write calculus problems.",
+      "plain_explanation": "Mathematical notation uses special symbols to represent operations like addition and multiplication, relationships like equality, and quantities like pi. Fractions show division, exponents show powers, and Greek letters are often used for constants.",
+      "key_ideas": [
+        "Symbols have specific meanings",
+        "Proper use of parentheses avoids ambiguity",
+        "Greek letters and subscripts label variables"
+      ],
+      "common_mistakes": [
+        "Misplacing parentheses or exponents",
+        "Confusing similar looking symbols"
+      ],
+      "prerequisite_concept_ids": [
+        "concept_function_basics"
+      ],
+      "symbol_ids": [
+        "sym_frac",
+        "sym_power",
+        "sym_subscript",
+        "sym_plus_minus",
+        "sym_dot",
+        "sym_leq",
+        "sym_geq",
+        "sym_neq",
+        "sym_pi",
+        "sym_delta",
+        "sym_epsilon"
+      ],
+      "formula_ids": [],
+      "example_ids": [],
+      "related_concept_ids": [
+        "concept_variable_and_parameter"
+      ]
+    },
+    {
+      "id": "concept_limits_intro",
+      "title": "Introduction to Limits",
+      "category": "Limits",
+      "difficulty": "beginner",
+      "summary": "A limit describes what value a function approaches as the input gets close to a certain point. Limits allow us to analyze behavior near points where a function might not be defined.",
+      "plain_explanation": "When you say the limit of f(x) as x approaches a is L, you're saying that as x gets closer to a, f(x) gets closer to L. Limits help define continuity and derivatives.",
+      "key_ideas": [
+        "Limits describe approaching values",
+        "They let us handle points of discontinuity",
+        "Limits are the foundation for derivatives"
+      ],
+      "common_mistakes": [
+        "Assuming the limit equals the function's value",
+        "Plugging in the value without checking if the function is continuous"
+      ],
+      "prerequisite_concept_ids": [
+        "concept_function_basics",
+        "concept_math_notation"
+      ],
+      "symbol_ids": [
+        "sym_lim",
+        "sym_delta",
+        "sym_epsilon"
+      ],
+      "formula_ids": [
+        "sinc_limit",
+        "lhopital_ex"
+      ],
+      "example_ids": [
+        "ex_sinc_limit_01",
+        "ex_lhopital_ex_01"
+      ],
+      "related_concept_ids": [
+        "concept_limit_at_infinity"
+      ]
+    },
+    {
+      "id": "concept_limit_at_infinity",
+      "title": "Limit at Infinity",
+      "category": "Limits",
+      "difficulty": "beginner",
+      "summary": "Limits at infinity describe what happens as the variable grows without bound. They help determine the end behavior of functions.",
+      "plain_explanation": "Writing lim as x goes to infinity of f(x) = L means that as x gets very large, f(x) gets closer to L. For example, the limit of 1/x as x goes to infinity is 0.",
+      "key_ideas": [
+        "Examines function behavior for large or small arguments",
+        "Helps identify horizontal asymptotes",
+        "Used to evaluate infinite sequences and series"
+      ],
+      "common_mistakes": [
+        "Thinking infinity is a number",
+        "Not checking if the function actually approaches a finite value"
+      ],
+      "prerequisite_concept_ids": [
+        "concept_limits_intro"
+      ],
+      "symbol_ids": [
+        "sym_lim",
+        "sym_infinity"
+      ],
+      "formula_ids": [
+        "inf_limit",
+        "exp_limit"
+      ],
+      "example_ids": [
+        "ex_inf_limit_01",
+        "ex_exp_limit_01"
+      ],
+      "related_concept_ids": [
+        "concept_series_intro"
+      ]
+    },
+    {
+      "id": "concept_derivative_intro",
+      "title": "Introduction to Derivatives",
+      "category": "Derivatives",
+      "difficulty": "beginner",
+      "summary": "A derivative measures how a function changes as its input changes. It represents the slope of the graph or the rate of change.",
+      "plain_explanation": "If y = f(x), the derivative f'(x) tells you how steep the graph is at each point. It is defined using limits: the limit of the average rate of change as the interval shrinks to zero.",
+      "key_ideas": [
+        "Derivatives capture instantaneous rates of change",
+        "They are found using limit definitions or rules",
+        "Derivatives have many applications like velocity"
+      ],
+      "common_mistakes": [
+        "Confusing average rate with instantaneous rate",
+        "Not specifying the variable of differentiation"
+      ],
+      "prerequisite_concept_ids": [
+        "concept_function_basics",
+        "concept_limits_intro"
+      ],
+      "symbol_ids": [
+        "sym_d_dx",
+        "sym_partial",
+        "sym_power"
+      ],
+      "formula_ids": [
+        "power_rule",
+        "product_rule_ex",
+        "chain_rule_ex",
+        "quotient_ex",
+        "exp_deriv",
+        "log_deriv",
+        "second_deriv"
+      ],
+      "example_ids": [
+        "ex_power_rule_01",
+        "ex_product_rule_ex_01",
+        "ex_chain_rule_ex_01",
+        "ex_quotient_ex_01",
+        "ex_exp_deriv_01",
+        "ex_log_deriv_01",
+        "ex_second_deriv_01",
+        "demo_fifth_product_chain",
+        "demo_sixth_exp_product",
+        "demo_fifth_quotient",
+        "demo_fifth_log",
+        "demo_fifth_trig_product"
+      ],
+      "related_concept_ids": [
+        "concept_power_rule",
+        "concept_product_rule",
+        "concept_chain_rule",
+        "concept_quotient_rule",
+        "concept_higher_order_derivatives"
+      ]
+    },
+    {
+      "id": "concept_power_rule",
+      "title": "Power Rule",
+      "category": "Derivatives",
+      "difficulty": "beginner",
+      "summary": "The power rule is the fastest way to differentiate x raised to a constant power.",
+      "plain_explanation": "If f(x)=x^n, then f'(x)=n*x^(n-1). You move the exponent in front and reduce the exponent by one. This rule is the core pattern behind many derivative problems, and it combines with product, quotient, and chain rules in bigger expressions.",
+      "key_ideas": [
+        "Works for any real exponent n",
+        "Simplifies polynomial differentiation",
+        "Can be applied term by term"
+      ],
+      "common_mistakes": [
+        "Adding exponents instead of subtracting",
+        "Forgetting to multiply by the exponent"
+      ],
+      "prerequisite_concept_ids": [
+        "concept_derivative_intro"
+      ],
+      "symbol_ids": [
+        "sym_power",
+        "sym_d_dx"
+      ],
+      "formula_ids": [
+        "power_rule",
+        "second_deriv"
+      ],
+      "example_ids": [
+        "ex_power_rule_01",
+        "ex_second_deriv_01"
+      ],
+      "related_concept_ids": [
+        "concept_higher_order_derivatives"
+      ]
+    },
+    {
+      "id": "concept_product_rule",
+      "title": "Product Rule",
+      "category": "Derivatives",
+      "difficulty": "beginner",
+      "summary": "The product rule is used to differentiate products of functions. It says the derivative of f·g is f·g' plus f'·g.",
+      "plain_explanation": "If you have h(x) = f(x) g(x), then h'(x) = f(x) g'(x) + f'(x) g(x). Each function takes turns being differentiated while the other stays the same.",
+      "key_ideas": [
+        "Both terms are needed",
+        "Order doesn't matter because of addition",
+        "Useful for products of polynomials and trigonometric or exponential functions"
+      ],
+      "common_mistakes": [
+        "Multiplying the derivatives instead of adding",
+        "Forgetting one of the terms"
+      ],
+      "prerequisite_concept_ids": [
+        "concept_derivative_intro"
+      ],
+      "symbol_ids": [
+        "sym_dot",
+        "sym_d_dx"
+      ],
+      "formula_ids": [
+        "product_rule_ex"
+      ],
+      "example_ids": [
+        "ex_product_rule_ex_01",
+        "demo_fifth_product_chain",
+        "demo_sixth_exp_product",
+        "demo_fifth_trig_product"
+      ],
+      "related_concept_ids": [
+        "concept_chain_rule"
+      ]
+    },
+    {
+      "id": "concept_chain_rule",
+      "title": "Chain Rule",
+      "category": "Derivatives",
+      "difficulty": "beginner",
+      "summary": "The chain rule is used to differentiate composite functions. It states you differentiate the outer function and multiply by the derivative of the inner function.",
+      "plain_explanation": "If a function is f(g(x)), then its derivative is f'(g(x))·g'(x). For example, to differentiate sin(x^2), take the derivative of sin which is cos, and then multiply by the derivative of x^2, which is 2x.",
+      "key_ideas": [
+        "Handles nested functions",
+        "Essential for exponential, logarithmic, and trigonometric compositions",
+        "Often combined with product or quotient rules"
+      ],
+      "common_mistakes": [
+        "Differentiating only the outer function",
+        "Not multiplying by the derivative of the inner function"
+      ],
+      "prerequisite_concept_ids": [
+        "concept_derivative_intro"
+      ],
+      "symbol_ids": [
+        "sym_sin",
+        "sym_cos",
+        "sym_d_dx"
+      ],
+      "formula_ids": [
+        "chain_rule_ex",
+        "exp_deriv",
+        "log_deriv"
+      ],
+      "example_ids": [
+        "ex_chain_rule_ex_01",
+        "ex_exp_deriv_01",
+        "ex_log_deriv_01",
+        "demo_fifth_product_chain",
+        "demo_fifth_log"
+      ],
+      "related_concept_ids": [
+        "concept_product_rule",
+        "concept_quotient_rule"
+      ]
+    },
+    {
+      "id": "concept_quotient_rule",
+      "title": "Quotient Rule",
+      "category": "Derivatives",
+      "difficulty": "beginner",
+      "summary": "The quotient rule is used to differentiate ratios of functions. It states that the derivative of s/t is (t·s' - s·t') / t^2.",
+      "plain_explanation": "When one function is divided by another, use the quotient rule: (u/v)' = (v*u' - u*v')/v^2. Differentiate top and bottom separately, keep order carefully, and square the denominator at the end.",
+      "key_ideas": [
+        "Difference not sum in numerator",
+        "Square of denominator appears in the denominator",
+        "Useful for rational functions"
+      ],
+      "common_mistakes": [
+        "Adding terms in the numerator instead of subtracting",
+        "Forgetting to square the denominator"
+      ],
+      "prerequisite_concept_ids": [
+        "concept_derivative_intro"
+      ],
+      "symbol_ids": [
+        "sym_frac",
+        "sym_d_dx"
+      ],
+      "formula_ids": [
+        "quotient_ex"
+      ],
+      "example_ids": [
+        "ex_quotient_ex_01",
+        "demo_fifth_quotient"
+      ],
+      "related_concept_ids": [
+        "concept_product_rule"
+      ]
+    },
+    {
+      "id": "concept_higher_order_derivatives",
+      "title": "Higher-Order Derivatives",
+      "category": "Derivatives",
+      "difficulty": "beginner",
+      "summary": "Higher‑order derivatives are derivatives of derivatives. The second derivative gives information about concavity.",
+      "plain_explanation": "After finding the first derivative f'(x), you can differentiate again to obtain f''(x), and so on. The second derivative tells whether the graph curves up or down.",
+      "key_ideas": [
+        "Second derivative relates to acceleration or concavity",
+        "Notation includes primes or superscripts",
+        "Apply derivative rules multiple times"
+      ],
+      "common_mistakes": [
+        "Stopping after one differentiation",
+        "Confusing the first and second derivative"
+      ],
+      "prerequisite_concept_ids": [
+        "concept_derivative_intro"
+      ],
+      "symbol_ids": [
+        "sym_power",
+        "sym_d_dx"
+      ],
+      "formula_ids": [
+        "second_deriv"
+      ],
+      "example_ids": [
+        "ex_second_deriv_01"
+      ],
+      "related_concept_ids": [
+        "concept_power_rule"
+      ]
+    },
+    {
+      "id": "concept_integral_intro",
+      "title": "Introduction to Integrals",
+      "category": "Integrals",
+      "difficulty": "beginner",
+      "summary": "An integral measures the accumulation of quantities, such as area under a curve. It is the reverse process of differentiation.",
+      "plain_explanation": "If derivatives give rates of change, integrals add up small pieces. The indefinite integral finds antiderivatives, while the definite integral computes a number representing total change over an interval.",
+      "key_ideas": [
+        "Indefinite integrals yield families of functions",
+        "Definite integrals compute net area",
+        "Integration undoes differentiation"
+      ],
+      "common_mistakes": [
+        "Forgetting the constant of integration",
+        "Not adding dx to indicate the variable"
+      ],
+      "prerequisite_concept_ids": [
+        "concept_function_basics",
+        "concept_derivative_intro"
+      ],
+      "symbol_ids": [
+        "sym_int",
+        "sym_int_ab",
+        "sym_dx"
+      ],
+      "formula_ids": [
+        "poly_integral",
+        "trig_integral",
+        "exp_integral",
+        "def_integral_x2",
+        "def_integral_sin"
+      ],
+      "example_ids": [
+        "ex_poly_integral_01",
+        "ex_trig_integral_01",
+        "ex_exp_integral_01",
+        "ex_def_integral_x2_01",
+        "ex_def_integral_sin_01"
+      ],
+      "related_concept_ids": [
+        "concept_area_under_curve",
+        "concept_indefinite_integral",
+        "concept_definite_integral"
+      ]
+    },
+    {
+      "id": "concept_indefinite_integral",
+      "title": "Indefinite Integral",
+      "category": "Integrals",
+      "difficulty": "beginner",
+      "summary": "An indefinite integral, also called an antiderivative, represents a family of functions whose derivative is the integrand.",
+      "plain_explanation": "An indefinite integral gives a family of antiderivatives, not one single curve. Because derivatives of constants are zero, you must add +C to represent all functions with the same derivative.",
+      "key_ideas": [
+        "General solution includes +C constant",
+        "Use power rule for integration on polynomials",
+        "Check by differentiating the result"
+      ],
+      "common_mistakes": [
+        "Forgetting +C",
+        "Using wrong power formula"
+      ],
+      "prerequisite_concept_ids": [
+        "concept_integral_intro"
+      ],
+      "symbol_ids": [
+        "sym_int",
+        "sym_dx"
+      ],
+      "formula_ids": [
+        "poly_integral",
+        "trig_integral",
+        "exp_integral"
+      ],
+      "example_ids": [
+        "ex_poly_integral_01",
+        "ex_trig_integral_01",
+        "ex_exp_integral_01"
+      ],
+      "related_concept_ids": [
+        "concept_definite_integral"
+      ]
+    },
+    {
+      "id": "concept_definite_integral",
+      "title": "Definite Integral",
+      "category": "Integrals",
+      "difficulty": "beginner",
+      "summary": "A definite integral computes the signed area under a curve between two limits. It yields a number, not a function.",
+      "plain_explanation": "To evaluate ∫_a^b f(x) dx, find an antiderivative F(x), then subtract F(a) from F(b). The result can be positive, negative, or zero depending on the area above or below the x‑axis.",
+      "key_ideas": [
+        "Uses limits of integration",
+        "Fundamental Theorem of Calculus connects integrals and derivatives",
+        "Area under curve can represent total change"
+      ],
+      "common_mistakes": [
+        "Not substituting both limits",
+        "Reversing limits without changing sign"
+      ],
+      "prerequisite_concept_ids": [
+        "concept_integral_intro",
+        "concept_indefinite_integral"
+      ],
+      "symbol_ids": [
+        "sym_int_ab",
+        "sym_dx"
+      ],
+      "formula_ids": [
+        "def_integral_x2",
+        "def_integral_sin"
+      ],
+      "example_ids": [
+        "ex_def_integral_x2_01",
+        "ex_def_integral_sin_01"
+      ],
+      "related_concept_ids": [
+        "concept_area_under_curve"
+      ]
+    },
+    {
+      "id": "concept_area_under_curve",
+      "title": "Area Under a Curve",
+      "category": "Integrals",
+      "difficulty": "beginner",
+      "summary": "The area under a curve can be found using definite integrals. It represents the accumulated quantity.",
+      "plain_explanation": "Imagine summing thin rectangles under the graph of f(x) from x=a to x=b. As the rectangles get thinner, the sum approaches the definite integral. This area can measure distance traveled, total mass, or probability.",
+      "key_ideas": [
+        "Area is the integral of height times width",
+        "Only the area between the curve and the x‑axis is counted",
+        "Area below the axis counts as negative if not absolute"
+      ],
+      "common_mistakes": [
+        "Ignoring sections where the curve dips below the axis",
+        "Using indefinite integral when you need a number"
+      ],
+      "prerequisite_concept_ids": [
+        "concept_integral_intro"
+      ],
+      "symbol_ids": [
+        "sym_int_ab",
+        "sym_dx"
+      ],
+      "formula_ids": [
+        "def_integral_x2",
+        "def_integral_sin"
+      ],
+      "example_ids": [
+        "ex_def_integral_x2_01",
+        "ex_def_integral_sin_01"
+      ],
+      "related_concept_ids": [
+        "concept_definite_integral"
+      ]
+    },
+    {
+      "id": "concept_trig_basics",
+      "title": "Trigonometry Basics",
+      "category": "Foundations",
+      "difficulty": "beginner",
+      "summary": "Trigonometry deals with angles and ratios of sides in right triangles. Sine, cosine, and tangent are functions used in calculus.",
+      "plain_explanation": "In a right triangle, the sine of an angle is the ratio of the opposite side to the hypotenuse, cosine is adjacent over hypotenuse, and tangent is opposite over adjacent. These functions are periodic and have special properties.",
+      "key_ideas": [
+        "Sin and cos values repeat every 2π",
+        "Trig functions have simple derivatives and integrals",
+        "Use radians for calculus calculations"
+      ],
+      "common_mistakes": [
+        "Mixing degrees and radians",
+        "Confusing sine with arcsine or other inverses"
+      ],
+      "prerequisite_concept_ids": [
+        "concept_function_basics"
+      ],
+      "symbol_ids": [
+        "sym_sin",
+        "sym_cos",
+        "sym_tan",
+        "sym_pi",
+        "sym_theta"
+      ],
+      "formula_ids": [
+        "product_rule_ex",
+        "chain_rule_ex",
+        "trig_integral",
+        "def_integral_sin",
+        "sinc_limit",
+        "taylor_sin",
+        "taylor_cos"
+      ],
+      "example_ids": [
+        "ex_product_rule_ex_01",
+        "ex_chain_rule_ex_01",
+        "ex_trig_integral_01",
+        "ex_def_integral_sin_01",
+        "ex_sinc_limit_01",
+        "ex_taylor_sin_01",
+        "ex_taylor_cos_01",
+        "demo_fifth_product_chain",
+        "demo_fifth_trig_product"
+      ],
+      "related_concept_ids": [
+        "concept_integral_intro"
+      ]
+    },
+    {
+      "id": "concept_exponential_and_log",
+      "title": "Exponential and Logarithmic Functions",
+      "category": "Foundations",
+      "difficulty": "beginner",
+      "summary": "Exponential functions grow or decay by constant factors, and logarithms are their inverses. Both are used in calculus for modeling and solving equations.",
+      "plain_explanation": "The base of natural logarithm e is special in calculus. The function e^x has the unique property that its derivative is itself. The natural logarithm ln(x) undoes exponentiation.",
+      "key_ideas": [
+        "e^x grows rapidly as x increases",
+        "ln(x) gives the power you raise e to get x",
+        "Differentiation and integration rules involve chain rule factors"
+      ],
+      "common_mistakes": [
+        "Using log instead of ln for base e",
+        "Dropping the chain rule when differentiating e^{f(x)}"
+      ],
+      "prerequisite_concept_ids": [
+        "concept_function_basics"
+      ],
+      "symbol_ids": [
+        "sym_exp",
+        "sym_ln",
+        "sym_log",
+        "sym_infinity"
+      ],
+      "formula_ids": [
+        "exp_deriv",
+        "log_deriv",
+        "exp_integral",
+        "exp_limit",
+        "lhopital_ex",
+        "taylor_exp",
+        "taylor_ln"
+      ],
+      "example_ids": [
+        "ex_exp_deriv_01",
+        "ex_log_deriv_01",
+        "ex_exp_integral_01",
+        "ex_exp_limit_01",
+        "ex_lhopital_ex_01",
+        "ex_taylor_exp_01",
+        "ex_taylor_ln_01",
+        "demo_sixth_exp_product",
+        "demo_fifth_log"
+      ],
+      "related_concept_ids": [
+        "concept_chain_rule",
+        "concept_limits_intro"
+      ]
+    },
+    {
+      "id": "concept_series_intro",
+      "title": "Series Introduction",
+      "category": "Series",
+      "difficulty": "beginner",
+      "summary": "A series is a sum of many terms, often infinitely many. Understanding series allows us to represent functions as sums.",
+      "plain_explanation": "Summations like ∑_{n=0}^∞ a_n add infinitely many terms together. If the sum approaches a finite value, the series is said to converge. Series help approximate functions.",
+      "key_ideas": [
+        "Series have terms and partial sums",
+        "Convergence determines if the sum makes sense",
+        "Can express functions as power series"
+      ],
+      "common_mistakes": [
+        "Assuming all series converge",
+        "Not checking the radius of convergence"
+      ],
+      "prerequisite_concept_ids": [
+        "concept_limit_at_infinity"
+      ],
+      "symbol_ids": [
+        "sym_sum",
+        "sym_prod"
+      ],
+      "formula_ids": [
+        "taylor_sin",
+        "taylor_exp",
+        "taylor_cos",
+        "taylor_ln"
+      ],
+      "example_ids": [
+        "ex_taylor_sin_01",
+        "ex_taylor_exp_01",
+        "ex_taylor_cos_01",
+        "ex_taylor_ln_01"
+      ],
+      "related_concept_ids": [
+        "concept_taylor_series"
+      ]
+    },
+    {
+      "id": "concept_taylor_series",
+      "title": "Taylor Series",
+      "category": "Series",
+      "difficulty": "beginner",
+      "summary": "Taylor series express functions as infinite sums of powers of (x - a) multiplied by derivatives at a point. They allow approximations near the point a.",
+      "plain_explanation": "For a function f(x), the Taylor series around a point a is f(a) + f'(a)(x−a) + f''(a)/2! (x−a)^2 + ... . When a=0, it is called a Maclaurin series. Common functions like e^x, sin(x), cos(x), and ln(1+x) have well‑known expansions.",
+      "key_ideas": [
+        "Coefficients involve derivatives evaluated at a",
+        "Taylor series approximate functions near the center",
+        "Convergence depends on the function and interval"
+      ],
+      "common_mistakes": [
+        "Using too few terms for good approximation",
+        "Ignoring the radius of convergence"
+      ],
+      "prerequisite_concept_ids": [
+        "concept_series_intro",
+        "concept_derivative_intro"
+      ],
+      "symbol_ids": [
+        "sym_sum",
+        "sym_power"
+      ],
+      "formula_ids": [
+        "taylor_sin",
+        "taylor_exp",
+        "taylor_cos",
+        "taylor_ln"
+      ],
+      "example_ids": [
+        "ex_taylor_sin_01",
+        "ex_taylor_exp_01",
+        "ex_taylor_cos_01",
+        "ex_taylor_ln_01"
+      ],
+      "related_concept_ids": [
+        "concept_limits_intro"
+      ]
+    },
+    {
+      "id": "concept_lhopital_rule",
+      "title": "L'Hôpital's Rule",
+      "category": "Limits",
+      "difficulty": "beginner",
+      "summary": "L'Hôpital's rule helps evaluate limits that lead to indeterminate forms like 0/0 or ∞/∞ by differentiating numerator and denominator.",
+      "plain_explanation": "If the limits of f(x) and g(x) both approach 0 or both approach ±∞ and g'(x) ≠ 0 near the point, then lim f(x)/g(x) equals lim f'(x)/g'(x) if the latter exists. For example, to find lim_{x→0} (e^x - 1)/x, differentiate numerator and denominator to get e^x/1; the limit is e^0 = 1.",
+      "key_ideas": [
+        "Applies only to certain indeterminate forms",
+        "Differentiate numerator and denominator separately",
+        "May need to apply the rule more than once"
+      ],
+      "common_mistakes": [
+        "Using the rule when the form is not indeterminate",
+        "Not checking if the limit exists after differentiation"
+      ],
+      "prerequisite_concept_ids": [
+        "concept_derivative_intro",
+        "concept_limits_intro"
+      ],
+      "symbol_ids": [
+        "sym_lim",
+        "sym_d_dx",
+        "sym_frac"
+      ],
+      "formula_ids": [
+        "lhopital_ex"
+      ],
+      "example_ids": [
+        "ex_lhopital_ex_01"
+      ],
+      "related_concept_ids": [
+        "concept_limits_intro"
+      ]
+    }
+  ],
+  "examples": [
+    {
+      "id": "ex_power_rule_01",
+      "title": "Derivative of x^3 using the power rule",
+      "calc_type": "derivative",
+      "problem_plain_math": "d/dx of x^3",
+      "problem_latex": "\\frac{d}{dx} x^3",
+      "goal": "Differentiate x^3 using the power rule in one clean algebra step and verify the transformed exponent.",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Recognize that the function x^3 is a power of x.",
+          "before_plain_math": "d/dx of x^3",
+          "after_plain_math": "Ready to apply the power rule",
+          "before_latex": "\\frac{d}{dx} x^3",
+          "after_latex": "x^3",
+          "rule_tag": "identify_power"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Multiply the exponent 3 by the coefficient 1.",
+          "before_plain_math": "x^3",
+          "after_plain_math": "3 x^3",
+          "before_latex": "x^3",
+          "after_latex": "3x^3",
+          "rule_tag": "multiply_by_exponent"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Subtract 1 from the exponent to reduce 3 to 2.",
+          "before_plain_math": "3 x^3",
+          "after_plain_math": "3 x^2",
+          "before_latex": "3x^3",
+          "after_latex": "3x^2",
+          "rule_tag": "decrease_exponent"
+        },
+        {
+          "step_number": 4,
+          "explanation": "Write the result as the derivative.",
+          "before_plain_math": "3 x^2",
+          "after_plain_math": "3x^2",
+          "before_latex": "3x^2",
+          "after_latex": "3x^2",
+          "rule_tag": "final"
+        }
+      ],
+      "final_answer_plain_math": "3x^2",
+      "final_answer_latex": "3x^2",
+      "result_check": "Differentiate the final answer 3x^2 backward mentally: it came from lowering the exponent of x^3 by one and multiplying by 3, so the rule application is consistent.",
+      "related_formula_ids": [
+        "power_rule"
+      ],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_power_rule"
+      ],
+      "related_symbol_ids": [
+        "sym_d_dx",
+        "sym_power"
+      ]
+    },
+    {
+      "id": "ex_product_rule_ex_01",
+      "title": "Derivative of x·sin(x) using the product rule",
+      "calc_type": "derivative",
+      "problem_plain_math": "d/dx of x·sin(x)",
+      "problem_latex": "\\frac{d}{dx} x\\sin(x)",
+      "goal": "Find the derivative of x times sin(x).",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Identify f(x)=x and g(x)=sin(x) as the two factors.",
+          "before_plain_math": "d/dx of x·sin(x)",
+          "after_plain_math": "Use product rule on f and g",
+          "before_latex": "\\frac{d}{dx} x \\sin(x)",
+          "after_latex": "x\\sin(x)",
+          "rule_tag": "identify_factors"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Differentiate f(x)=x to get f'(x)=1.",
+          "before_plain_math": "f(x)=x",
+          "after_plain_math": "f'(x)=1",
+          "before_latex": "x",
+          "after_latex": "1",
+          "rule_tag": "differentiate_f"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Differentiate g(x)=sin(x) to get g'(x)=cos(x).",
+          "before_plain_math": "g(x)=sin(x)",
+          "after_plain_math": "g'(x)=cos(x)",
+          "before_latex": "\\sin(x)",
+          "after_latex": "\\cos(x)",
+          "rule_tag": "differentiate_g"
+        },
+        {
+          "step_number": 4,
+          "explanation": "Apply the product rule: f'(x)g(x) + f(x)g'(x) = 1·sin(x) + x·cos(x).",
+          "before_plain_math": "Use product rule",
+          "after_plain_math": "sin(x) + x cos(x)",
+          "before_latex": "1\\cdot\\sin(x) + x\\cdot\\cos(x)",
+          "after_latex": "\\sin(x) + x\\cos(x)",
+          "rule_tag": "apply_product_rule"
+        }
+      ],
+      "final_answer_plain_math": "sin(x) + x cos(x)",
+      "final_answer_latex": "\\sin(x) + x\\cos(x)",
+      "result_check": "Check by evaluating at x=0: the derivative is sin(0)+0·cos(0)=0, which matches the slope of x·sin(x) at 0.",
+      "related_formula_ids": [
+        "product_rule_ex"
+      ],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_product_rule",
+        "concept_trig_basics"
+      ],
+      "related_symbol_ids": [
+        "sym_d_dx",
+        "sym_sin",
+        "sym_cos",
+        "sym_dot"
+      ]
+    },
+    {
+      "id": "ex_chain_rule_ex_01",
+      "title": "Derivative of sin(x^2) using the chain rule",
+      "calc_type": "derivative",
+      "problem_plain_math": "d/dx of sin(x^2)",
+      "problem_latex": "\\frac{d}{dx} \\sin(x^2)",
+      "goal": "Find the derivative of sin(x^2).",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Recognize that sin(x^2) is a composite function with outer function sin(u) and inner function u=x^2.",
+          "before_plain_math": "d/dx of sin(x^2)",
+          "after_plain_math": "Identify outer and inner functions",
+          "before_latex": "\\frac{d}{dx} \\sin(x^2)",
+          "after_latex": "\\sin(x^2)",
+          "rule_tag": "identify_composite"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Differentiate the outer function: the derivative of sin(u) is cos(u).",
+          "before_plain_math": "sin(u)",
+          "after_plain_math": "cos(u)",
+          "before_latex": "\\sin(u)",
+          "after_latex": "\\cos(u)",
+          "rule_tag": "differentiate_outer"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Differentiate the inner function u=x^2: the derivative is 2x.",
+          "before_plain_math": "u = x^2",
+          "after_plain_math": "u' = 2x",
+          "before_latex": "x^2",
+          "after_latex": "2x",
+          "rule_tag": "differentiate_inner"
+        },
+        {
+          "step_number": 4,
+          "explanation": "Multiply the derivatives: cos(x^2)·2x gives 2x·cos(x^2).",
+          "before_plain_math": "cos(u) and u'",
+          "after_plain_math": "2x cos(x^2)",
+          "before_latex": "\\cos(x^2)\\cdot 2x",
+          "after_latex": "2x\\cos(x^2)",
+          "rule_tag": "apply_chain_rule"
+        }
+      ],
+      "final_answer_plain_math": "2x cos(x^2)",
+      "final_answer_latex": "2x\\cos(x^2)",
+      "result_check": "You can check by graphing sin(x^2) and confirming the slope matches 2x cos(x^2).",
+      "related_formula_ids": [
+        "chain_rule_ex"
+      ],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_chain_rule",
+        "concept_trig_basics"
+      ],
+      "related_symbol_ids": [
+        "sym_d_dx",
+        "sym_sin",
+        "sym_cos",
+        "sym_power"
+      ]
+    },
+    {
+      "id": "ex_quotient_ex_01",
+      "title": "Derivative of x/cos(x) using the quotient rule",
+      "calc_type": "derivative",
+      "problem_plain_math": "d/dx of x divided by cos(x)",
+      "problem_latex": "\\frac{d}{dx} \\frac{x}{\\cos(x)}",
+      "goal": "Find the derivative of x/cos(x).",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Identify the numerator s(x)=x and the denominator t(x)=cos(x).",
+          "before_plain_math": "d/dx of x/cos(x)",
+          "after_plain_math": "Use quotient rule on s and t",
+          "before_latex": "\\frac{d}{dx} \\frac{x}{\\cos(x)}",
+          "after_latex": "\\frac{x}{\\cos(x)}",
+          "rule_tag": "identify_numer_denom"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Differentiate the numerator s(x)=x to get s'(x)=1.",
+          "before_plain_math": "s(x)=x",
+          "after_plain_math": "s'(x)=1",
+          "before_latex": "x",
+          "after_latex": "1",
+          "rule_tag": "differentiate_numerator"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Differentiate the denominator t(x)=cos(x) to get t'(x)=-sin(x).",
+          "before_plain_math": "t(x)=cos(x)",
+          "after_plain_math": "t'(x)=-sin(x)",
+          "before_latex": "\\cos(x)",
+          "after_latex": "-\\sin(x)",
+          "rule_tag": "differentiate_denominator"
+        },
+        {
+          "step_number": 4,
+          "explanation": "Apply the quotient rule: [t·s' - s·t'] / t^2 = [cos(x)·1 - x·(-sin(x))] / cos(x)^2.",
+          "before_plain_math": "Apply quotient rule",
+          "after_plain_math": "[cos(x) + x sin(x)] / cos(x)^2",
+          "before_latex": "\\frac{\\cos(x)\\cdot 1 - x\\cdot(-\\sin(x))}{\\cos(x)^2}",
+          "after_latex": "\\frac{\\cos(x) + x\\sin(x)}{\\cos(x)^2}",
+          "rule_tag": "apply_quotient_rule"
+        }
+      ],
+      "final_answer_plain_math": "(cos(x) + x sin(x)) / cos(x)^2",
+      "final_answer_latex": "\\frac{\\cos(x) + x\\sin(x)}{\\cos(x)^2}",
+      "result_check": "At x=0, the derivative gives (1 + 0)/1 = 1, which matches the slope of x/cos(x) at zero.",
+      "related_formula_ids": [
+        "quotient_ex"
+      ],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_quotient_rule",
+        "concept_trig_basics"
+      ],
+      "related_symbol_ids": [
+        "sym_d_dx",
+        "sym_cos",
+        "sym_sin",
+        "sym_frac"
+      ]
+    },
+    {
+      "id": "ex_exp_deriv_01",
+      "title": "Derivative of e^{2x}",
+      "calc_type": "derivative",
+      "problem_plain_math": "d/dx of e^{2x}",
+      "problem_latex": "\\frac{d}{dx} e^{2x}",
+      "goal": "Differentiate e^(2x) by combining the exponential derivative with the chain rule for the inner function 2x.",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Identify the function as e raised to 2x.",
+          "before_plain_math": "d/dx of e^{2x}",
+          "after_plain_math": "Recognize exponential form",
+          "before_latex": "\\frac{d}{dx} e^{2x}",
+          "after_latex": "e^{2x}",
+          "rule_tag": "identify_exp"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Recall that the derivative of e^{u} is u'·e^{u}.",
+          "before_plain_math": "e^{u}",
+          "after_plain_math": "u' e^{u}",
+          "before_latex": "e^{u}",
+          "after_latex": "u' e^{u}",
+          "rule_tag": "exp_rule"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Differentiate the exponent u=2x to get u' = 2.",
+          "before_plain_math": "u=2x",
+          "after_plain_math": "u'=2",
+          "before_latex": "2x",
+          "after_latex": "2",
+          "rule_tag": "differentiate_exponent"
+        },
+        {
+          "step_number": 4,
+          "explanation": "Multiply the derivative of the exponent with e^{2x}: 2·e^{2x}.",
+          "before_plain_math": "u'·e^{u}",
+          "after_plain_math": "2 e^{2x}",
+          "before_latex": "2\\cdot e^{2x}",
+          "after_latex": "2 e^{2x}",
+          "rule_tag": "apply_chain"
+        }
+      ],
+      "final_answer_plain_math": "2 e^{2x}",
+      "final_answer_latex": "2 e^{2x}",
+      "result_check": "Check by rule: derivative of e^(u) is e^(u)*u'. With u=2x and u'=2, the result 2e^(2x) is correct.",
+      "related_formula_ids": [
+        "exp_deriv"
+      ],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_chain_rule",
+        "concept_exponential_and_log"
+      ],
+      "related_symbol_ids": [
+        "sym_d_dx",
+        "sym_exp"
+      ]
+    },
+    {
+      "id": "ex_log_deriv_01",
+      "title": "Derivative of ln(x^2 + 1)",
+      "calc_type": "derivative",
+      "problem_plain_math": "d/dx of ln(x^2+1)",
+      "problem_latex": "\\frac{d}{dx} \\ln(x^2+1)",
+      "goal": "Find the derivative of ln(x^2 + 1).",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Identify the natural log of an expression u(x)=x^2+1.",
+          "before_plain_math": "d/dx of ln(x^2+1)",
+          "after_plain_math": "ln(u)",
+          "before_latex": "\\frac{d}{dx} \\ln(x^2 + 1)",
+          "after_latex": "\\ln(u)",
+          "rule_tag": "identify_log"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Recall that the derivative of ln(u) is u'/u.",
+          "before_plain_math": "ln(u)",
+          "after_plain_math": "u'/u",
+          "before_latex": "\\ln(u)",
+          "after_latex": "\\frac{u'}{u}",
+          "rule_tag": "log_rule"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Differentiate the inside u=x^2+1 to get u'=2x.",
+          "before_plain_math": "u=x^2+1",
+          "after_plain_math": "u'=2x",
+          "before_latex": "x^2+1",
+          "after_latex": "2x",
+          "rule_tag": "differentiate_inside"
+        },
+        {
+          "step_number": 4,
+          "explanation": "Divide u' by u: 2x/(x^2+1).",
+          "before_plain_math": "u'/u",
+          "after_plain_math": "2x/(x^2+1)",
+          "before_latex": "\\frac{2x}{x^2+1}",
+          "after_latex": "\\frac{2x}{x^2+1}",
+          "rule_tag": "apply_chain_log"
+        }
+      ],
+      "final_answer_plain_math": "2x/(x^2 + 1)",
+      "final_answer_latex": "\\frac{2x}{x^2 + 1}",
+      "result_check": "To check, substitute x=0: derivative is 0/(0+1)=0, matching the slope of ln(x^2+1) at zero.",
+      "related_formula_ids": [
+        "log_deriv"
+      ],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_chain_rule",
+        "concept_exponential_and_log"
+      ],
+      "related_symbol_ids": [
+        "sym_d_dx",
+        "sym_ln",
+        "sym_power"
+      ]
+    },
+    {
+      "id": "ex_second_deriv_01",
+      "title": "Second derivative of x^4",
+      "calc_type": "derivative",
+      "problem_plain_math": "d^2/dx^2 of x^4",
+      "problem_latex": "\\frac{d^2}{dx^2} x^4",
+      "goal": "Find the second derivative of x^4.",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "First differentiate x^4 to get 4x^3 (first derivative).",
+          "before_plain_math": "d/dx of x^4",
+          "after_plain_math": "4x^3",
+          "before_latex": "\\frac{d}{dx} x^4",
+          "after_latex": "4x^3",
+          "rule_tag": "first_derivative"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Differentiate 4x^3 again to find the second derivative.",
+          "before_plain_math": "d/dx of 4x^3",
+          "after_plain_math": "12x^2",
+          "before_latex": "\\frac{d}{dx} 4x^3",
+          "after_latex": "12x^2",
+          "rule_tag": "second_derivative"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Recognize that 12x^2 is the second derivative f''(x).",
+          "before_plain_math": "12x^2",
+          "after_plain_math": "f''(x) = 12x^2",
+          "before_latex": "12x^2",
+          "after_latex": "12x^2",
+          "rule_tag": "identify_second"
+        },
+        {
+          "step_number": 4,
+          "explanation": "State the final result.",
+          "before_plain_math": "f''(x) = 12x^2",
+          "after_plain_math": "12x^2",
+          "before_latex": "12x^2",
+          "after_latex": "12x^2",
+          "rule_tag": "final"
+        }
+      ],
+      "final_answer_plain_math": "12x^2",
+      "final_answer_latex": "12x^2",
+      "result_check": "You can check by noting that the derivative of 4x^3 is 12x^2, confirming the second derivative.",
+      "related_formula_ids": [
+        "second_deriv"
+      ],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_power_rule",
+        "concept_higher_order_derivatives"
+      ],
+      "related_symbol_ids": [
+        "sym_d_dx",
+        "sym_power"
+      ]
+    },
+    {
+      "id": "ex_poly_integral_01",
+      "title": "Indefinite integral of x^3 + 2x",
+      "calc_type": "integral",
+      "problem_plain_math": "∫ (x^3 + 2x) dx",
+      "problem_latex": "\\int x^3 + 2x \\, dx",
+      "goal": "Find the indefinite integral of x^3 + 2x.",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Identify the integrand x^3 + 2x as a sum of powers.",
+          "before_plain_math": "∫ (x^3 + 2x) dx",
+          "after_plain_math": "Integrate term by term",
+          "before_latex": "\\int x^3 + 2x \\, dx",
+          "after_latex": "x^3 + 2x",
+          "rule_tag": "identify_terms"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Integrate x^3 using the power rule for integration: add 1 to the exponent and divide by the new exponent to get x^4/4.",
+          "before_plain_math": "∫ x^3 dx",
+          "after_plain_math": "x^4/4",
+          "before_latex": "\\int x^3 \\, dx",
+          "after_latex": "\\frac{x^4}{4}",
+          "rule_tag": "integrate_x3"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Integrate 2x by applying the power rule: the antiderivative is 2·x^2/2 = x^2.",
+          "before_plain_math": "∫ 2x dx",
+          "after_plain_math": "x^2",
+          "before_latex": "\\int 2x \\, dx",
+          "after_latex": "x^2",
+          "rule_tag": "integrate_2x"
+        },
+        {
+          "step_number": 4,
+          "explanation": "Combine the results and add the constant of integration C.",
+          "before_plain_math": "x^4/4 + x^2",
+          "after_plain_math": "x^4/4 + x^2 + C",
+          "before_latex": "\\frac{x^4}{4} + x^2",
+          "after_latex": "\\frac{x^4}{4} + x^2 + C",
+          "rule_tag": "add_constant"
+        }
+      ],
+      "final_answer_plain_math": "x^4/4 + x^2 + C",
+      "final_answer_latex": "\\frac{x^4}{4} + x^2 + C",
+      "result_check": "Differentiate x^4/4 + x^2 + C to check: the result is x^3 + 2x.",
+      "related_formula_ids": [
+        "poly_integral"
+      ],
+      "related_concept_ids": [
+        "concept_integral_intro",
+        "concept_indefinite_integral"
+      ],
+      "related_symbol_ids": [
+        "sym_int",
+        "sym_dx",
+        "sym_power"
+      ]
+    },
+    {
+      "id": "ex_trig_integral_01",
+      "title": "Indefinite integral of sin(x)",
+      "calc_type": "integral",
+      "problem_plain_math": "∫ sin(x) dx",
+      "problem_latex": "\\int \\sin(x) \\, dx",
+      "goal": "Find the indefinite integral of sin(x).",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Identify the integrand sin(x).",
+          "before_plain_math": "∫ sin(x) dx",
+          "after_plain_math": "Recognize antiderivative",
+          "before_latex": "\\int \\sin(x) \\, dx",
+          "after_latex": "\\sin(x)",
+          "rule_tag": "identify_sin"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Recall that the derivative of cos(x) is -sin(x), so the antiderivative of sin(x) is -cos(x).",
+          "before_plain_math": "sin(x)",
+          "after_plain_math": "-cos(x)",
+          "before_latex": "\\sin(x)",
+          "after_latex": "-\\cos(x)",
+          "rule_tag": "use_antiderivative"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Add the constant of integration C.",
+          "before_plain_math": "-cos(x)",
+          "after_plain_math": "-cos(x) + C",
+          "before_latex": "-\\cos(x)",
+          "after_latex": "-\\cos(x) + C",
+          "rule_tag": "add_constant"
+        },
+        {
+          "step_number": 4,
+          "explanation": "State the final answer.",
+          "before_plain_math": "-cos(x) + C",
+          "after_plain_math": "-cos(x) + C",
+          "before_latex": "-\\cos(x) + C",
+          "after_latex": "-\\cos(x) + C",
+          "rule_tag": "final"
+        }
+      ],
+      "final_answer_plain_math": "-cos(x) + C",
+      "final_answer_latex": "-\\cos(x) + C",
+      "result_check": "Differentiate -cos(x) + C to confirm the original function sin(x).",
+      "related_formula_ids": [
+        "trig_integral"
+      ],
+      "related_concept_ids": [
+        "concept_integral_intro",
+        "concept_indefinite_integral",
+        "concept_trig_basics"
+      ],
+      "related_symbol_ids": [
+        "sym_int",
+        "sym_sin",
+        "sym_cos",
+        "sym_dx"
+      ]
+    },
+    {
+      "id": "ex_exp_integral_01",
+      "title": "Indefinite integral of e^{-x}",
+      "calc_type": "integral",
+      "problem_plain_math": "∫ e^{-x} dx",
+      "problem_latex": "\\int e^{-x} \\, dx",
+      "goal": "Find the indefinite integral of e^{-x}.",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Identify the integrand e^{-x}.",
+          "before_plain_math": "∫ e^{-x} dx",
+          "after_plain_math": "Recognize exponential integrand",
+          "before_latex": "\\int e^{-x} \\, dx",
+          "after_latex": "e^{-x}",
+          "rule_tag": "identify_exp"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Recall the rule ∫ e^{ax} dx = (1/a)e^{ax} + C.",
+          "before_plain_math": "e^{ax}",
+          "after_plain_math": "(1/a)e^{ax}",
+          "before_latex": "e^{ax}",
+          "after_latex": "\\frac{1}{a} e^{ax}",
+          "rule_tag": "exponential_integral_rule"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Here a = -1, so (1/(-1)) e^{-x} = -e^{-x}.",
+          "before_plain_math": "a=-1",
+          "after_plain_math": "-e^{-x}",
+          "before_latex": "a=-1",
+          "after_latex": "-e^{-x}",
+          "rule_tag": "apply_coefficient"
+        },
+        {
+          "step_number": 4,
+          "explanation": "Add the constant C and state the result.",
+          "before_plain_math": "-e^{-x}",
+          "after_plain_math": "-e^{-x} + C",
+          "before_latex": "-e^{-x}",
+          "after_latex": "-e^{-x} + C",
+          "rule_tag": "final"
+        }
+      ],
+      "final_answer_plain_math": "-e^{-x} + C",
+      "final_answer_latex": "-e^{-x} + C",
+      "result_check": "Differentiate -e^{-x} + C to check that it gives e^{-x}.",
+      "related_formula_ids": [
+        "exp_integral"
+      ],
+      "related_concept_ids": [
+        "concept_integral_intro",
+        "concept_indefinite_integral",
+        "concept_exponential_and_log"
+      ],
+      "related_symbol_ids": [
+        "sym_int",
+        "sym_exp",
+        "sym_dx"
+      ]
+    },
+    {
+      "id": "ex_def_integral_x2_01",
+      "title": "Definite integral of x^2 from 0 to 1",
+      "calc_type": "definite_integral",
+      "problem_plain_math": "∫_0^1 x^2 dx",
+      "problem_latex": "\\int_{0}^{1} x^2 \\, dx",
+      "goal": "Compute the definite integral of x^2 between 0 and 1.",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Set up the definite integral from 0 to 1.",
+          "before_plain_math": "∫_0^1 x^2 dx",
+          "after_plain_math": "Find antiderivative",
+          "before_latex": "\\int_{0}^{1} x^2 \\, dx",
+          "after_latex": "x^2",
+          "rule_tag": "setup_definite"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Find the antiderivative: ∫ x^2 dx = x^3/3.",
+          "before_plain_math": "x^2",
+          "after_plain_math": "x^3/3",
+          "before_latex": "x^2",
+          "after_latex": "\\frac{x^3}{3}",
+          "rule_tag": "antiderivative"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Evaluate the antiderivative at the upper limit x=1: (1)^3/3 = 1/3.",
+          "before_plain_math": "x^3/3",
+          "after_plain_math": "1/3",
+          "before_latex": "\\frac{1^3}{3}",
+          "after_latex": "\\frac{1}{3}",
+          "rule_tag": "evaluate_upper"
+        },
+        {
+          "step_number": 4,
+          "explanation": "Evaluate at the lower limit x=0: (0)^3/3 = 0.",
+          "before_plain_math": "x^3/3",
+          "after_plain_math": "0",
+          "before_latex": "\\frac{0^3}{3}",
+          "after_latex": "0",
+          "rule_tag": "evaluate_lower"
+        },
+        {
+          "step_number": 5,
+          "explanation": "Subtract the lower value from the upper value: 1/3 - 0 = 1/3.",
+          "before_plain_math": "1/3 - 0",
+          "after_plain_math": "1/3",
+          "before_latex": "\\frac{1}{3} - 0",
+          "after_latex": "\\frac{1}{3}",
+          "rule_tag": "subtract"
+        }
+      ],
+      "final_answer_plain_math": "1/3",
+      "final_answer_latex": "\\frac{1}{3}",
+      "result_check": "You can check that the area under x^2 from 0 to 1 is a third of a unit square.",
+      "related_formula_ids": [
+        "def_integral_x2"
+      ],
+      "related_concept_ids": [
+        "concept_integral_intro",
+        "concept_definite_integral",
+        "concept_area_under_curve"
+      ],
+      "related_symbol_ids": [
+        "sym_int_ab",
+        "sym_dx",
+        "sym_power"
+      ]
+    },
+    {
+      "id": "ex_def_integral_sin_01",
+      "title": "Definite integral of sin(x) from 0 to π",
+      "calc_type": "definite_integral",
+      "problem_plain_math": "∫_0^π sin(x) dx",
+      "problem_latex": "\\int_{0}^{\\pi} \\sin(x) \\, dx",
+      "goal": "Compute the definite integral of sin(x) between 0 and π.",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Set up the definite integral from 0 to π of sin(x).",
+          "before_plain_math": "∫_0^π sin(x) dx",
+          "after_plain_math": "Find antiderivative",
+          "before_latex": "\\int_{0}^{\\pi} \\sin(x) \\, dx",
+          "after_latex": "\\sin(x)",
+          "rule_tag": "setup_definite"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Find the antiderivative: ∫ sin(x) dx = -cos(x).",
+          "before_plain_math": "sin(x)",
+          "after_plain_math": "-cos(x)",
+          "before_latex": "\\sin(x)",
+          "after_latex": "-\\cos(x)",
+          "rule_tag": "antiderivative"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Evaluate at the upper limit x=π: -cos(π) = 1.",
+          "before_plain_math": "-cos(x)",
+          "after_plain_math": "1",
+          "before_latex": "-\\cos(\\pi)",
+          "after_latex": "1",
+          "rule_tag": "evaluate_upper"
+        },
+        {
+          "step_number": 4,
+          "explanation": "Evaluate at the lower limit x=0: -cos(0) = -1.",
+          "before_plain_math": "-cos(x)",
+          "after_plain_math": "-1",
+          "before_latex": "-\\cos(0)",
+          "after_latex": "-1",
+          "rule_tag": "evaluate_lower"
+        },
+        {
+          "step_number": 5,
+          "explanation": "Subtract the lower value from the upper value: 1 - (-1) = 2.",
+          "before_plain_math": "1 - (-1)",
+          "after_plain_math": "2",
+          "before_latex": "1 - (-1)",
+          "after_latex": "2",
+          "rule_tag": "subtract"
+        }
+      ],
+      "final_answer_plain_math": "2",
+      "final_answer_latex": "2",
+      "result_check": "This result matches the area under one half of the sine wave from 0 to π.",
+      "related_formula_ids": [
+        "def_integral_sin"
+      ],
+      "related_concept_ids": [
+        "concept_integral_intro",
+        "concept_definite_integral",
+        "concept_trig_basics",
+        "concept_area_under_curve"
+      ],
+      "related_symbol_ids": [
+        "sym_int_ab",
+        "sym_sin",
+        "sym_cos",
+        "sym_dx",
+        "sym_pi"
+      ]
+    },
+    {
+      "id": "ex_sinc_limit_01",
+      "title": "Limit of sin(x)/x as x approaches 0",
+      "calc_type": "limit",
+      "problem_plain_math": "lim_{x→0} sin(x)/x",
+      "problem_latex": "\\lim_{x \\to 0} \\frac{\\sin(x)}{x}",
+      "goal": "Find the limit of sin(x)/x as x approaches 0.",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Recognize that direct substitution gives 0/0, an indeterminate form.",
+          "before_plain_math": "lim_{x→0} sin(x)/x",
+          "after_plain_math": "0/0 form",
+          "before_latex": "\\lim_{x \\to 0} \\frac{\\sin(x)}{x}",
+          "after_latex": "0/0",
+          "rule_tag": "identify_indeterminate"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Use the fact that sin(x) behaves like x near zero or apply L'Hôpital's rule.",
+          "before_plain_math": "sin(x) ≈ x",
+          "after_plain_math": "ratio ≈ 1",
+          "before_latex": "\\sin(x) \u0007pprox x",
+          "after_latex": "1",
+          "rule_tag": "use_approximation"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Differentiate numerator and denominator: derivative of sin(x) is cos(x), derivative of x is 1.",
+          "before_plain_math": "d/dx sin(x) / d/dx x",
+          "after_plain_math": "cos(x)/1",
+          "before_latex": "\\frac{\\cos(x)}{1}",
+          "after_latex": "\\cos(x)",
+          "rule_tag": "apply_lhopital"
+        },
+        {
+          "step_number": 4,
+          "explanation": "Evaluate cos(0) = 1. Therefore the limit is 1.",
+          "before_plain_math": "cos(0)",
+          "after_plain_math": "1",
+          "before_latex": "\\cos(0)",
+          "after_latex": "1",
+          "rule_tag": "evaluate_limit"
+        }
+      ],
+      "final_answer_plain_math": "1",
+      "final_answer_latex": "1",
+      "result_check": "This is a fundamental limit used in trigonometry and calculus.",
+      "related_formula_ids": [
+        "sinc_limit"
+      ],
+      "related_concept_ids": [
+        "concept_limits_intro",
+        "concept_trig_basics"
+      ],
+      "related_symbol_ids": [
+        "sym_lim",
+        "sym_sin",
+        "sym_frac"
+      ]
+    },
+    {
+      "id": "ex_inf_limit_01",
+      "title": "Limit of 1/x as x approaches infinity",
+      "calc_type": "limit",
+      "problem_plain_math": "lim_{x→∞} 1/x",
+      "problem_latex": "\\lim_{x \\to \\infty} \\frac{1}{x}",
+      "goal": "Find the limit of 1/x as x approaches infinity.",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Identify that x becomes very large.",
+          "before_plain_math": "lim_{x→∞} 1/x",
+          "after_plain_math": "Consider large x",
+          "before_latex": "\\lim_{x \\to \\infty} \\frac{1}{x}",
+          "after_latex": "\\frac{1}{x}",
+          "rule_tag": "identify_infinity"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Test values: 1/10=0.1, 1/100=0.01, 1/1000=0.001, which get smaller.",
+          "before_plain_math": "values for x=10,100,1000",
+          "after_plain_math": "0.1,0.01,0.001",
+          "before_latex": "1/10, 1/100, 1/1000",
+          "after_latex": "0.1, 0.01, 0.001",
+          "rule_tag": "evaluate_samples"
+        },
+        {
+          "step_number": 3,
+          "explanation": "As x increases without bound, 1/x gets closer to 0.",
+          "before_plain_math": "trend of 1/x",
+          "after_plain_math": "approaches 0",
+          "before_latex": "\\frac{1}{x}",
+          "after_latex": "0",
+          "rule_tag": "conclude_behavior"
+        },
+        {
+          "step_number": 4,
+          "explanation": "State that the limit is 0.",
+          "before_plain_math": "limit",
+          "after_plain_math": "0",
+          "before_latex": "0",
+          "after_latex": "0",
+          "rule_tag": "final"
+        }
+      ],
+      "final_answer_plain_math": "0",
+      "final_answer_latex": "0",
+      "result_check": "As x becomes very large, the fraction 1/x becomes very small and tends to 0.",
+      "related_formula_ids": [
+        "inf_limit"
+      ],
+      "related_concept_ids": [
+        "concept_limit_at_infinity"
+      ],
+      "related_symbol_ids": [
+        "sym_lim",
+        "sym_infinity",
+        "sym_frac"
+      ]
+    },
+    {
+      "id": "ex_exp_limit_01",
+      "title": "Limit of (1+1/x)^x as x approaches infinity",
+      "calc_type": "limit",
+      "problem_plain_math": "lim_{x→∞} (1 + 1/x)^x",
+      "problem_latex": "\\lim_{x \\to \\infty} \\left(1 + \\frac{1}{x}\\right)^x",
+      "goal": "Find the limit of (1 + 1/x)^x as x goes to infinity.",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Recognize the form (1 + 1/x)^x as x grows large.",
+          "before_plain_math": "lim_{x→∞} (1+1/x)^x",
+          "after_plain_math": "Expression resembles definition of e",
+          "before_latex": "\\lim_{x \\to \\infty} \\left(1 + \\frac{1}{x}\\right)^x",
+          "after_latex": "(1+1/x)^x",
+          "rule_tag": "identify_form"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Evaluate sample values: (1+1)^1=2, (1+1/2)^2=2.25, (1+1/5)^5≈2.488, approaching 2.718.",
+          "before_plain_math": "sample values",
+          "after_plain_math": "approximate 2.718",
+          "before_latex": "2, 2.25, 2.488",
+          "after_latex": "2.718",
+          "rule_tag": "evaluate_samples"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Know that this limit defines the number e.",
+          "before_plain_math": "definition of e",
+          "after_plain_math": "e ≈ 2.71828",
+          "before_latex": "e",
+          "after_latex": "e",
+          "rule_tag": "definition_e"
+        },
+        {
+          "step_number": 4,
+          "explanation": "State that the limit is e.",
+          "before_plain_math": "limit",
+          "after_plain_math": "e",
+          "before_latex": "e",
+          "after_latex": "e",
+          "rule_tag": "final"
+        }
+      ],
+      "final_answer_plain_math": "e",
+      "final_answer_latex": "e",
+      "result_check": "This limit is the classic definition of the constant e.",
+      "related_formula_ids": [
+        "exp_limit"
+      ],
+      "related_concept_ids": [
+        "concept_limit_at_infinity",
+        "concept_exponential_and_log"
+      ],
+      "related_symbol_ids": [
+        "sym_lim",
+        "sym_infinity",
+        "sym_frac"
+      ]
+    },
+    {
+      "id": "ex_lhopital_ex_01",
+      "title": "L'Hôpital's rule example: (e^x-1)/x",
+      "calc_type": "limit",
+      "problem_plain_math": "lim_{x→0} (e^x - 1)/x",
+      "problem_latex": "\\lim_{x \\to 0} \\frac{e^x - 1}{x}",
+      "goal": "Use L'Hôpital's rule to find the limit of (e^x - 1)/x as x approaches 0.",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Recognize that substituting x=0 gives 0/0, an indeterminate form.",
+          "before_plain_math": "lim_{x→0} (e^x - 1)/x",
+          "after_plain_math": "0/0 form",
+          "before_latex": "\\lim_{x \\to 0} \\frac{e^x - 1}{x}",
+          "after_latex": "0/0",
+          "rule_tag": "identify_indeterminate"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Apply L'Hôpital's rule: differentiate numerator and denominator separately.",
+          "before_plain_math": "e^x - 1, x",
+          "after_plain_math": "e^x, 1",
+          "before_latex": "e^x - 1, x",
+          "after_latex": "e^x, 1",
+          "rule_tag": "apply_lhopital"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Evaluate the new expression e^x/1 at x=0: e^0 = 1.",
+          "before_plain_math": "e^x/1",
+          "after_plain_math": "1",
+          "before_latex": "\\frac{e^x}{1}",
+          "after_latex": "1",
+          "rule_tag": "evaluate"
+        },
+        {
+          "step_number": 4,
+          "explanation": "State that the limit is 1.",
+          "before_plain_math": "limit",
+          "after_plain_math": "1",
+          "before_latex": "1",
+          "after_latex": "1",
+          "rule_tag": "final"
+        }
+      ],
+      "final_answer_plain_math": "1",
+      "final_answer_latex": "1",
+      "result_check": "This shows that the growth of e^x near zero and the change in x both approach the same rate.",
+      "related_formula_ids": [
+        "lhopital_ex"
+      ],
+      "related_concept_ids": [
+        "concept_limits_intro",
+        "concept_lhopital_rule",
+        "concept_exponential_and_log"
+      ],
+      "related_symbol_ids": [
+        "sym_lim",
+        "sym_frac",
+        "sym_exp"
+      ]
+    },
+    {
+      "id": "ex_taylor_sin_01",
+      "title": "Taylor series expansion of sin(x)",
+      "calc_type": "taylor",
+      "problem_plain_math": "sin(x)",
+      "problem_latex": "\\sin(x)",
+      "goal": "Write the Taylor series for sin(x) around 0.",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Recall the Maclaurin series for sin(x) includes only odd powers.",
+          "before_plain_math": "sin(x)",
+          "after_plain_math": "series form",
+          "before_latex": "\\sin(x)",
+          "after_latex": "x - x^3/3! + ...",
+          "rule_tag": "recall_series"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Write the first term: x.",
+          "before_plain_math": "",
+          "after_plain_math": "x",
+          "before_latex": "",
+          "after_latex": "x",
+          "rule_tag": "first_term"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Write the second term: -x^3/6.",
+          "before_plain_math": "",
+          "after_plain_math": "-x^3/6",
+          "before_latex": "",
+          "after_latex": "-\\frac{x^3}{6}",
+          "rule_tag": "second_term"
+        },
+        {
+          "step_number": 4,
+          "explanation": "Write the third term: +x^5/120.",
+          "before_plain_math": "",
+          "after_plain_math": "+ x^5/120",
+          "before_latex": "",
+          "after_latex": "+\\frac{x^5}{120}",
+          "rule_tag": "third_term"
+        },
+        {
+          "step_number": 5,
+          "explanation": "State that the pattern continues with alternating signs and increasing odd powers.",
+          "before_plain_math": "",
+          "after_plain_math": "...",
+          "before_latex": "",
+          "after_latex": "...",
+          "rule_tag": "ellipsis"
+        }
+      ],
+      "final_answer_plain_math": "x - x^3/6 + x^5/120 - ...",
+      "final_answer_latex": "x - \\frac{x^3}{6} + \\frac{x^5}{120} - \\dots",
+      "result_check": "For small x, using the first few terms gives a good approximation to sin(x).",
+      "related_formula_ids": [
+        "taylor_sin"
+      ],
+      "related_concept_ids": [
+        "concept_series_intro",
+        "concept_taylor_series",
+        "concept_trig_basics"
+      ],
+      "related_symbol_ids": [
+        "sym_sum",
+        "sym_sin",
+        "sym_power"
+      ]
+    },
+    {
+      "id": "ex_taylor_exp_01",
+      "title": "Taylor series expansion of e^x",
+      "calc_type": "taylor",
+      "problem_plain_math": "e^x",
+      "problem_latex": "e^x",
+      "goal": "Write the Taylor series for e^x around 0.",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Recall that the Maclaurin series for e^x has all powers of x with positive coefficients.",
+          "before_plain_math": "e^x",
+          "after_plain_math": "series form",
+          "before_latex": "e^x",
+          "after_latex": "1 + x + x^2/2! + ...",
+          "rule_tag": "recall_series"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Write the first term: 1.",
+          "before_plain_math": "",
+          "after_plain_math": "1",
+          "before_latex": "",
+          "after_latex": "1",
+          "rule_tag": "first_term"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Write the second term: + x.",
+          "before_plain_math": "",
+          "after_plain_math": "+ x",
+          "before_latex": "",
+          "after_latex": "+x",
+          "rule_tag": "second_term"
+        },
+        {
+          "step_number": 4,
+          "explanation": "Write the third term: + x^2/2.",
+          "before_plain_math": "",
+          "after_plain_math": "+ x^2/2",
+          "before_latex": "",
+          "after_latex": "+\\frac{x^2}{2}",
+          "rule_tag": "third_term"
+        },
+        {
+          "step_number": 5,
+          "explanation": "Write the fourth term: + x^3/6.",
+          "before_plain_math": "",
+          "after_plain_math": "+ x^3/6",
+          "before_latex": "",
+          "after_latex": "+\\frac{x^3}{6}",
+          "rule_tag": "fourth_term"
+        },
+        {
+          "step_number": 6,
+          "explanation": "State that the pattern continues with higher powers divided by factorials.",
+          "before_plain_math": "",
+          "after_plain_math": "...",
+          "before_latex": "",
+          "after_latex": "...",
+          "rule_tag": "ellipsis"
+        }
+      ],
+      "final_answer_plain_math": "1 + x + x^2/2 + x^3/6 + ...",
+      "final_answer_latex": "1 + x + \frac{x^2}{2} + \frac{x^3}{6} + \\dots",
+      "result_check": "This infinite sum approximates e^x for any x, and using a few terms gives a good estimate for small x.",
+      "related_formula_ids": [
+        "taylor_exp"
+      ],
+      "related_concept_ids": [
+        "concept_series_intro",
+        "concept_taylor_series",
+        "concept_exponential_and_log"
+      ],
+      "related_symbol_ids": [
+        "sym_sum",
+        "sym_exp",
+        "sym_power"
+      ]
+    },
+    {
+      "id": "ex_taylor_cos_01",
+      "title": "Taylor series expansion of cos(x)",
+      "calc_type": "taylor",
+      "problem_plain_math": "cos(x)",
+      "problem_latex": "\\cos(x)",
+      "goal": "Write the Taylor series for cos(x) around 0.",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Recall that the Maclaurin series for cos(x) includes only even powers.",
+          "before_plain_math": "cos(x)",
+          "after_plain_math": "series form",
+          "before_latex": "\\cos(x)",
+          "after_latex": "1 - x^2/2! + ...",
+          "rule_tag": "recall_series"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Write the first term: 1.",
+          "before_plain_math": "",
+          "after_plain_math": "1",
+          "before_latex": "",
+          "after_latex": "1",
+          "rule_tag": "first_term"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Write the second term: -x^2/2.",
+          "before_plain_math": "",
+          "after_plain_math": "-x^2/2",
+          "before_latex": "",
+          "after_latex": "-\\frac{x^2}{2}",
+          "rule_tag": "second_term"
+        },
+        {
+          "step_number": 4,
+          "explanation": "Write the third term: +x^4/24.",
+          "before_plain_math": "",
+          "after_plain_math": "+ x^4/24",
+          "before_latex": "",
+          "after_latex": "+\\frac{x^4}{24}",
+          "rule_tag": "third_term"
+        },
+        {
+          "step_number": 5,
+          "explanation": "State that the pattern continues with alternating signs and even powers.",
+          "before_plain_math": "",
+          "after_plain_math": "...",
+          "before_latex": "",
+          "after_latex": "...",
+          "rule_tag": "ellipsis"
+        }
+      ],
+      "final_answer_plain_math": "1 - x^2/2 + x^4/24 - ...",
+      "final_answer_latex": "1 - \frac{x^2}{2} + \frac{x^4}{24} - \\dots",
+      "result_check": "This series approximates cos(x) near zero using even powers of x.",
+      "related_formula_ids": [
+        "taylor_cos"
+      ],
+      "related_concept_ids": [
+        "concept_series_intro",
+        "concept_taylor_series",
+        "concept_trig_basics"
+      ],
+      "related_symbol_ids": [
+        "sym_sum",
+        "sym_cos",
+        "sym_power"
+      ]
+    },
+    {
+      "id": "ex_taylor_ln_01",
+      "title": "Taylor series expansion of ln(1+x)",
+      "calc_type": "taylor",
+      "problem_plain_math": "ln(1+x)",
+      "problem_latex": "\\ln(1+x)",
+      "goal": "Write the Taylor series for ln(1+x) around 0.",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Recall that the Maclaurin series for ln(1+x) is an alternating series.",
+          "before_plain_math": "ln(1+x)",
+          "after_plain_math": "series form",
+          "before_latex": "\\ln(1+x)",
+          "after_latex": "x - x^2/2 + ...",
+          "rule_tag": "recall_series"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Write the first term: x.",
+          "before_plain_math": "",
+          "after_plain_math": "x",
+          "before_latex": "",
+          "after_latex": "x",
+          "rule_tag": "first_term"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Write the second term: -x^2/2.",
+          "before_plain_math": "",
+          "after_plain_math": "-x^2/2",
+          "before_latex": "",
+          "after_latex": "-\\frac{x^2}{2}",
+          "rule_tag": "second_term"
+        },
+        {
+          "step_number": 4,
+          "explanation": "Write the third term: +x^3/3.",
+          "before_plain_math": "",
+          "after_plain_math": "+ x^3/3",
+          "before_latex": "",
+          "after_latex": "+\\frac{x^3}{3}",
+          "rule_tag": "third_term"
+        },
+        {
+          "step_number": 5,
+          "explanation": "State that the pattern continues with alternating signs and increasing powers, valid for |x|<1.",
+          "before_plain_math": "",
+          "after_plain_math": "...",
+          "before_latex": "",
+          "after_latex": "...",
+          "rule_tag": "ellipsis"
+        }
+      ],
+      "final_answer_plain_math": "x - x^2/2 + x^3/3 - ...",
+      "final_answer_latex": "x - \frac{x^2}{2} + \frac{x^3}{3} - \\dots",
+      "result_check": "This series converges for |x|<1 and approximates the natural log near x=0.",
+      "related_formula_ids": [
+        "taylor_ln"
+      ],
+      "related_concept_ids": [
+        "concept_series_intro",
+        "concept_taylor_series",
+        "concept_exponential_and_log"
+      ],
+      "related_symbol_ids": [
+        "sym_sum",
+        "sym_ln",
+        "sym_power"
+      ]
+    },
+    {
+      "id": "demo_fifth_product_chain",
+      "title": "Derivative of x^2 sin(x^3) using the product and chain rules",
+      "calc_type": "derivative",
+      "problem_plain_math": "d/dx of x^2 sin(x^3)",
+      "problem_latex": "\\frac{d}{dx} x^2 \\sin(x^3)",
+      "goal": "Use both the product rule and the chain rule to find the derivative of x^2 sin(x^3).",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Let u(x)=x^2 and v(x)=sin(x^3) to see a product of two functions.",
+          "before_plain_math": "d/dx of x^2 sin(x^3)",
+          "after_plain_math": "Identify u and v",
+          "before_latex": "\\frac{d}{dx} x^2 \\sin(x^3)",
+          "after_latex": "x^2 \\sin(x^3)",
+          "rule_tag": "identify_u_v"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Differentiate u(x)=x^2 to get u'(x)=2x.",
+          "before_plain_math": "u(x)=x^2",
+          "after_plain_math": "u'(x)=2x",
+          "before_latex": "x^2",
+          "after_latex": "2x",
+          "rule_tag": "differentiate_u"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Differentiate v(x)=sin(x^3). Use the chain rule: derivative of sin(w) is cos(w) times derivative of w=x^3, which is 3x^2.",
+          "before_plain_math": "v(x)=sin(x^3)",
+          "after_plain_math": "v'(x)=cos(x^3)·3x^2",
+          "before_latex": "\\sin(x^3)",
+          "after_latex": "3x^2\\cos(x^3)",
+          "rule_tag": "differentiate_v"
+        },
+        {
+          "step_number": 4,
+          "explanation": "Apply the product rule: u'(x)v(x) + u(x)v'(x).",
+          "before_plain_math": "u'(x)v(x) + u(x)v'(x)",
+          "after_plain_math": "2x·sin(x^3) + x^2·[3x^2 cos(x^3)]",
+          "before_latex": "u'(x)v(x) + u(x)v'(x)",
+          "after_latex": "2x\\sin(x^3) + x^2\\cdot 3x^2\\cos(x^3)",
+          "rule_tag": "apply_product_chain"
+        },
+        {
+          "step_number": 5,
+          "explanation": "Simplify: the second term becomes 3x^4 cos(x^3). The final derivative is 2x sin(x^3) + 3x^4 cos(x^3).",
+          "before_plain_math": "2x·sin(x^3) + 3x^4 cos(x^3)",
+          "after_plain_math": "2x sin(x^3) + 3x^4 cos(x^3)",
+          "before_latex": "2x\\sin(x^3) + 3x^4\\cos(x^3)",
+          "after_latex": "2x\\sin(x^3) + 3x^4\\cos(x^3)",
+          "rule_tag": "simplify"
+        }
+      ],
+      "final_answer_plain_math": "2x sin(x^3) + 3x^4 cos(x^3)",
+      "final_answer_latex": "2x\\sin(x^3) + 3x^4\\cos(x^3)",
+      "result_check": "You can verify this by differentiating each term separately and checking the original expression.",
+      "related_formula_ids": [
+        "product_rule_ex",
+        "chain_rule_ex"
+      ],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_product_rule",
+        "concept_chain_rule",
+        "concept_trig_basics"
+      ],
+      "related_symbol_ids": [
+        "sym_d_dx",
+        "sym_power",
+        "sym_sin",
+        "sym_cos"
+      ]
+    },
+    {
+      "id": "demo_sixth_exp_product",
+      "title": "Derivative of x^2 e^x using the product rule",
+      "calc_type": "derivative",
+      "problem_plain_math": "d/dx of x^2 e^x",
+      "problem_latex": "\\frac{d}{dx} x^2 e^x",
+      "goal": "Find the derivative of x^2 e^x using the product rule.",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Identify u(x)=x^2 and v(x)=e^x as factors in a product.",
+          "before_plain_math": "d/dx of x^2 e^x",
+          "after_plain_math": "Identify u and v",
+          "before_latex": "\\frac{d}{dx} x^2 e^x",
+          "after_latex": "x^2 e^x",
+          "rule_tag": "identify_u_v"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Differentiate u(x)=x^2 to get u'(x)=2x.",
+          "before_plain_math": "u(x)=x^2",
+          "after_plain_math": "u'(x)=2x",
+          "before_latex": "x^2",
+          "after_latex": "2x",
+          "rule_tag": "differentiate_u"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Differentiate v(x)=e^x to get v'(x)=e^x.",
+          "before_plain_math": "v(x)=e^x",
+          "after_plain_math": "v'(x)=e^x",
+          "before_latex": "e^x",
+          "after_latex": "e^x",
+          "rule_tag": "differentiate_v"
+        },
+        {
+          "step_number": 4,
+          "explanation": "Apply the product rule: u'(x)v(x) + u(x)v'(x) = 2x e^x + x^2 e^x.",
+          "before_plain_math": "u'(x)v(x) + u(x)v'(x)",
+          "after_plain_math": "2x e^x + x^2 e^x",
+          "before_latex": "2x e^x + x^2 e^x",
+          "after_latex": "2x e^x + x^2 e^x",
+          "rule_tag": "apply_product_rule"
+        },
+        {
+          "step_number": 5,
+          "explanation": "Factor out e^x if desired: e^x(2x + x^2).",
+          "before_plain_math": "2x e^x + x^2 e^x",
+          "after_plain_math": "e^x (2x + x^2)",
+          "before_latex": "2x e^x + x^2 e^x",
+          "after_latex": "e^x(2x + x^2)",
+          "rule_tag": "simplify"
+        }
+      ],
+      "final_answer_plain_math": "2x e^x + x^2 e^x",
+      "final_answer_latex": "2x e^x + x^2 e^x",
+      "result_check": "Evaluate at x=0: derivative is 0 + 0 = 0, matching the slope of x^2 e^x at zero.",
+      "related_formula_ids": [
+        "product_rule_ex",
+        "exp_deriv"
+      ],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_product_rule",
+        "concept_exponential_and_log"
+      ],
+      "related_symbol_ids": [
+        "sym_d_dx",
+        "sym_power",
+        "sym_exp"
+      ]
+    },
+    {
+      "id": "demo_fifth_quotient",
+      "title": "Derivative of (x^2+1)/x using the quotient rule",
+      "calc_type": "derivative",
+      "problem_plain_math": "d/dx of (x^2+1)/x",
+      "problem_latex": "\\frac{d}{dx} \\frac{x^2+1}{x}",
+      "goal": "Find the derivative of (x^2+1)/x using the quotient rule.",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Let s(x)=x^2+1 and t(x)=x to identify numerator and denominator.",
+          "before_plain_math": "d/dx of (x^2+1)/x",
+          "after_plain_math": "Identify s and t",
+          "before_latex": "\\frac{d}{dx} \\frac{x^2+1}{x}",
+          "after_latex": "\\frac{x^2+1}{x}",
+          "rule_tag": "identify_s_t"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Differentiate s(x)=x^2+1 to get s'(x)=2x.",
+          "before_plain_math": "s(x)=x^2+1",
+          "after_plain_math": "s'(x)=2x",
+          "before_latex": "x^2+1",
+          "after_latex": "2x",
+          "rule_tag": "differentiate_s"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Differentiate t(x)=x to get t'(x)=1.",
+          "before_plain_math": "t(x)=x",
+          "after_plain_math": "t'(x)=1",
+          "before_latex": "x",
+          "after_latex": "1",
+          "rule_tag": "differentiate_t"
+        },
+        {
+          "step_number": 4,
+          "explanation": "Apply the quotient rule: (t·s' - s·t') / t^2 = [x·(2x) - (x^2+1)·1] / x^2.",
+          "before_plain_math": "[t·s' - s·t'] / t^2",
+          "after_plain_math": "[x·2x - (x^2+1)] / x^2",
+          "before_latex": "\\frac{x\\cdot 2x - (x^2+1)\\cdot 1}{x^2}",
+          "after_latex": "\\frac{x\\cdot 2x - (x^2+1)}{x^2}",
+          "rule_tag": "apply_quotient_rule"
+        },
+        {
+          "step_number": 5,
+          "explanation": "Simplify the numerator: 2x^2 - x^2 - 1 = x^2 - 1, giving (x^2 - 1)/x^2.",
+          "before_plain_math": "(2x^2 - (x^2+1)) / x^2",
+          "after_plain_math": "(x^2 - 1)/x^2",
+          "before_latex": "\\frac{2x^2 - x^2 - 1}{x^2}",
+          "after_latex": "\\frac{x^2 - 1}{x^2}",
+          "rule_tag": "simplify_numerator"
+        },
+        {
+          "step_number": 6,
+          "explanation": "Rewrite the result as 1 - 1/x^2.",
+          "before_plain_math": "(x^2 - 1)/x^2",
+          "after_plain_math": "1 - 1/x^2",
+          "before_latex": "\\frac{x^2 - 1}{x^2}",
+          "after_latex": "1 - \\frac{1}{x^2}",
+          "rule_tag": "simplify_fraction"
+        }
+      ],
+      "final_answer_plain_math": "1 - 1/x^2",
+      "final_answer_latex": "1 - \\frac{1}{x^2}",
+      "result_check": "Simplify to show the derivative equals 1 - 1/x^2, which can be checked by rewriting (x^2+1)/x = x + 1/x and differentiating term by term.",
+      "related_formula_ids": [
+        "quotient_ex"
+      ],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_quotient_rule"
+      ],
+      "related_symbol_ids": [
+        "sym_d_dx",
+        "sym_frac"
+      ]
+    },
+    {
+      "id": "demo_fifth_log",
+      "title": "Derivative of ln(x^3 + x)",
+      "calc_type": "derivative",
+      "problem_plain_math": "d/dx of ln(x^3+x)",
+      "problem_latex": "\\frac{d}{dx} \\ln(x^3 + x)",
+      "goal": "Use the chain rule and logarithmic derivative to differentiate ln(x^3+x).",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Identify the function as ln(u) where u(x)=x^3+x.",
+          "before_plain_math": "d/dx of ln(x^3+x)",
+          "after_plain_math": "ln(u)",
+          "before_latex": "\\frac{d}{dx} \\ln(x^3 + x)",
+          "after_latex": "\\ln(u)",
+          "rule_tag": "identify_ln_u"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Differentiate u(x)=x^3+x: u'(x)=3x^2+1.",
+          "before_plain_math": "u=x^3+x",
+          "after_plain_math": "u'=3x^2+1",
+          "before_latex": "x^3 + x",
+          "after_latex": "3x^2 + 1",
+          "rule_tag": "differentiate_u"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Use the derivative of ln(u): u'/u.",
+          "before_plain_math": "u'/u",
+          "after_plain_math": "(3x^2+1)/(x^3+x)",
+          "before_latex": "\\frac{u'}{u}",
+          "after_latex": "\\frac{3x^2+1}{x^3+x}",
+          "rule_tag": "apply_log_rule"
+        },
+        {
+          "step_number": 4,
+          "explanation": "Factor the denominator: x(x^2+1) to rewrite the fraction if desired.",
+          "before_plain_math": "(3x^2+1)/(x^3+x)",
+          "after_plain_math": "(3x^2+1)/(x(x^2+1))",
+          "before_latex": "\\frac{3x^2+1}{x^3+x}",
+          "after_latex": "\\frac{3x^2+1}{x(x^2+1)}",
+          "rule_tag": "factor_denominator"
+        }
+      ],
+      "final_answer_plain_math": "(3x^2+1)/(x^3+x)",
+      "final_answer_latex": "\\frac{3x^2+1}{x^3+x}",
+      "result_check": "You can rewrite the result as (3x^2+1)/(x(x^2+1)) to simplify or use partial fractions if needed.",
+      "related_formula_ids": [
+        "log_deriv"
+      ],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_chain_rule",
+        "concept_exponential_and_log"
+      ],
+      "related_symbol_ids": [
+        "sym_d_dx",
+        "sym_ln",
+        "sym_power"
+      ]
+    },
+    {
+      "id": "demo_fifth_trig_product",
+      "title": "Derivative of x cos(x)",
+      "calc_type": "derivative",
+      "problem_plain_math": "d/dx of x cos(x)",
+      "problem_latex": "\\frac{d}{dx} x \\cos(x)",
+      "goal": "Use the product rule to differentiate x cos(x).",
+      "steps": [
+        {
+          "step_number": 1,
+          "explanation": "Let u(x)=x and v(x)=cos(x) to identify a product.",
+          "before_plain_math": "d/dx of x cos(x)",
+          "after_plain_math": "Identify u and v",
+          "before_latex": "\\frac{d}{dx} x \\cos(x)",
+          "after_latex": "x\\cos(x)",
+          "rule_tag": "identify_u_v"
+        },
+        {
+          "step_number": 2,
+          "explanation": "Differentiate u(x)=x to get u'(x)=1.",
+          "before_plain_math": "u(x)=x",
+          "after_plain_math": "u'=1",
+          "before_latex": "x",
+          "after_latex": "1",
+          "rule_tag": "differentiate_u"
+        },
+        {
+          "step_number": 3,
+          "explanation": "Differentiate v(x)=cos(x) to get v'(x)=-sin(x).",
+          "before_plain_math": "v(x)=cos(x)",
+          "after_plain_math": "v'=-sin(x)",
+          "before_latex": "\\cos(x)",
+          "after_latex": "-\\sin(x)",
+          "rule_tag": "differentiate_v"
+        },
+        {
+          "step_number": 4,
+          "explanation": "Apply the product rule: u'(x)v(x) + u(x)v'(x) = 1·cos(x) + x·(-sin(x)).",
+          "before_plain_math": "u'v + u v'",
+          "after_plain_math": "cos(x) - x sin(x)",
+          "before_latex": "1\\cdot\\cos(x) + x\\cdot(-\\sin(x))",
+          "after_latex": "\\cos(x) - x\\sin(x)",
+          "rule_tag": "apply_product_rule"
+        }
+      ],
+      "final_answer_plain_math": "cos(x) - x sin(x)",
+      "final_answer_latex": "\\cos(x) - x\\sin(x)",
+      "result_check": "This result combines the derivative of the cosine function with the product rule.",
+      "related_formula_ids": [
+        "product_rule_ex"
+      ],
+      "related_concept_ids": [
+        "concept_derivative_intro",
+        "concept_product_rule",
+        "concept_trig_basics"
+      ],
+      "related_symbol_ids": [
+        "sym_d_dx",
+        "sym_cos",
+        "sym_sin",
+        "sym_dot"
+      ]
+    }
+  ]
+}

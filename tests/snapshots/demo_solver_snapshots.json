@@ -1,0 +1,88 @@
+{
+  "demos": [
+    {
+      "id": "fifth_product_chain",
+      "detected_type": "DERIVATIVE",
+      "inner_latex": "(x^3 \\sin(x^2))",
+      "step_count": 6,
+      "rules": [
+        "product_rule",
+        "product_rule_detail",
+        "sum_rule",
+        "sum_rule",
+        "sum_rule",
+        "sum_rule"
+      ],
+      "animation_step_count": 7,
+      "animation_rules": [
+        "product_rule",
+        "product_rule_detail",
+        "sum_rule",
+        "sum_rule",
+        "sum_rule",
+        "sum_rule",
+        "final_result"
+      ],
+      "result_latex_hash": "c7c6ac7d6594479776fcd6ef7e57034621e298d02d6be2ae5aa999a0fb14ab39"
+    },
+    {
+      "id": "fifth_quotient",
+      "detected_type": "DERIVATIVE",
+      "inner_latex": "\\frac{x^2 + 1}{\\cos(x)}",
+      "step_count": 7,
+      "rules": [
+        "product_rule",
+        "product_rule_detail",
+        "sum_rule",
+        "sum_rule",
+        "sum_rule",
+        "sum_rule",
+        "simplification"
+      ],
+      "animation_step_count": 8,
+      "animation_rules": [
+        "product_rule",
+        "product_rule_detail",
+        "sum_rule",
+        "sum_rule",
+        "sum_rule",
+        "sum_rule",
+        "simplification",
+        "final_result"
+      ],
+      "result_latex_hash": "35ee2c035df5279f9b908d1a741c50c7b3f0f58531a077048cb55a2cd22d146a"
+    },
+    {
+      "id": "fifth_trig_product",
+      "detected_type": "DERIVATIVE",
+      "inner_latex": "(\\sin(x)\\cos(x))",
+      "step_count": 9,
+      "rules": [
+        "product_rule",
+        "product_rule_detail",
+        "sum_rule",
+        "product_rule",
+        "product_rule_detail",
+        "sum_rule",
+        "product_rule",
+        "product_rule_detail",
+        "simplification"
+      ],
+      "animation_step_count": 10,
+      "animation_rules": [
+        "product_rule",
+        "product_rule_detail",
+        "sum_rule",
+        "product_rule",
+        "product_rule_detail",
+        "sum_rule",
+        "product_rule",
+        "product_rule_detail",
+        "simplification",
+        "final_result"
+      ],
+      "result_latex_hash": "b27917ed97618ecc281686ad39b2f786a14b911c0703c6d2f1b79f252236a259"
+    }
+  ]
+}
+

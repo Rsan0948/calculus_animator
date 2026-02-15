@@ -1,0 +1,57 @@
+name: Extended Quality
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 9 * * 1,4"
+
+jobs:
+  fuzz-perf-security:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+
+      - name: Fuzz tests
+        run: python -m pytest -m "fuzz" -q
+
+      - name: Performance smoke tests
+        run: python -m pytest -m "perf" -q
+
+      - name: Dependency audit
+        run: python -m pip_audit
+
+  e2e-ui-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+
+      - name: Install Playwright browser
+        run: python -m playwright install chromium
+
+      - name: Run E2E smoke tests
+        run: python -m pytest -m "e2e" -q
+

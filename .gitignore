@@ -1,0 +1,28 @@
+# macOS
+.DS_Store
+
+# Python environments and caches
+.venv/
+__pycache__/
+*.py[cod]
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.hypothesis/
+
+# Local tooling artifacts
+.coverage
+.mplconfig/
+.pyinstaller/
+.pyinstaller_run2/
+
+# Build and packaged outputs
+build/
+dist/
+*.spec
+*.zip
+
+# Test/report artifacts
+reports/
+tests/__pycache__/
+tools/__pycache__/

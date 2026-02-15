@@ -1,0 +1,1236 @@
+m ruff check .
+E401 [*] Multiple imports on one line
+ --> api/bridge.py:2:1
+  |
+1 | """Python ↔ JS bridge exposed via pywebview js_api."""
+2 | import json, traceback
+  | ^^^^^^^^^^^^^^^^^^^^^^
+3 | import base64
+4 | import tempfile
+  |
+help: Split imports
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> api/bridge.py:2:1
+   |
+ 1 |   """Python ↔ JS bridge exposed via pywebview js_api."""
+ 2 | / import json, traceback
+ 3 | | import base64
+ 4 | | import tempfile
+ 5 | | import subprocess
+ 6 | | import re
+ 7 | | import sys
+ 8 | | import os
+ 9 | | import hashlib
+10 | | from datetime import UTC, datetime
+11 | | from pathlib import Path
+12 | | from sympy import latex as sym_latex
+13 | |
+14 | | from core.parser import ExpressionParser
+15 | | from core.extractor import ExpressionExtractor
+16 | | from core.detector import TypeDetector, CalculusType
+17 | | from core.solver import CalculusSolver
+18 | | from core.step_generator import StepGenerator
+19 | | from core.animation_engine import AnimationEngine
+20 | | from core.slide_highlighting import build_informative_slide_highlights
+   | |______________________________________________________________________^
+   |
+help: Organize imports
+
+F401 [*] `sympy.latex` imported but unused
+  --> api/bridge.py:12:28
+   |
+10 | from datetime import UTC, datetime
+11 | from pathlib import Path
+12 | from sympy import latex as sym_latex
+   |                            ^^^^^^^^^
+13 |
+14 | from core.parser import ExpressionParser
+   |
+help: Remove unused import: `sympy.latex`
+
+F401 [*] `core.detector.CalculusType` imported but unused
+  --> api/bridge.py:16:41
+   |
+14 | from core.parser import ExpressionParser
+15 | from core.extractor import ExpressionExtractor
+16 | from core.detector import TypeDetector, CalculusType
+   |                                         ^^^^^^^^^^^^
+17 | from core.solver import CalculusSolver
+18 | from core.step_generator import StepGenerator
+   |
+help: Remove unused import: `core.detector.CalculusType`
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> api/slide_render_worker.py:15:1
+   |
+13 |   }
+14 |   """
+15 | / from __future__ import annotations
+16 | |
+17 | | import base64
+18 | | import json
+19 | | import math
+20 | | import os
+21 | | import re
+22 | | import sys
+23 | | import tempfile
+24 | | from pathlib import Path
+   | |________________________^
+   |
+help: Organize imports
+
+I001 [*] Import block is un-sorted or un-formatted
+   --> api/slide_render_worker.py:110:5
+    |
+108 |           sys.path.insert(0, str(root))
+109 |
+110 | /     import pygame  # noqa: PLC0415
+111 | |     from slide_renderer import SlideEngine, Slide, TextBox, BulletList, Shape  # noqa: PLC0415
+    | |_____________________________________________________________________________^
+112 |
+113 |       width = int(payload.get("width", 1200))
+    |
+help: Organize imports
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> core/animation_engine.py:1:1
+  |
+1 | / import numpy as np
+2 | | from sympy import lambdify, Symbol, latex as sym_latex
+  | |______________________________________________________^
+  |
+help: Organize imports
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> core/extractor.py:2:1
+  |
+1 |   r"""Extract the inner expression and parameters from full LaTeX notation."""
+2 | / import re
+3 | | from sympy import Symbol, oo, S
+  | |_______________________________^
+  |
+help: Organize imports
+
+F401 [*] `sympy.Symbol` imported but unused
+ --> core/extractor.py:3:19
+  |
+1 | r"""Extract the inner expression and parameters from full LaTeX notation."""
+2 | import re
+3 | from sympy import Symbol, oo, S
+  |                   ^^^^^^
+  |
+help: Remove unused import
+
+F401 [*] `sympy.oo` imported but unused
+ --> core/extractor.py:3:27
+  |
+1 | r"""Extract the inner expression and parameters from full LaTeX notation."""
+2 | import re
+3 | from sympy import Symbol, oo, S
+  |                           ^^
+  |
+help: Remove unused import
+
+F401 [*] `sympy.S` imported but unused
+ --> core/extractor.py:3:31
+  |
+1 | r"""Extract the inner expression and parameters from full LaTeX notation."""
+2 | import re
+3 | from sympy import Symbol, oo, S
+  |                               ^
+  |
+help: Remove unused import
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> core/parser.py:2:1
+  |
+1 |   """Robust LaTeX → SymPy parser with multiple fallback strategies."""
+2 | / import re
+3 | | from sympy import (
+4 | |     Symbol, symbols, Function, sin, cos, tan, sec, csc, cot,
+5 | |     asin, acos, atan, log, ln, exp, sqrt, pi, E, oo, Abs,
+6 | |     Rational, Integer, S, sympify,
+7 | | )
+8 | | from sympy.parsing.latex import parse_latex
+  | |___________________________________________^
+  |
+help: Organize imports
+
+F401 [*] `sympy.Symbol` imported but unused
+ --> core/parser.py:4:5
+  |
+2 | import re
+3 | from sympy import (
+4 |     Symbol, symbols, Function, sin, cos, tan, sec, csc, cot,
+  |     ^^^^^^
+5 |     asin, acos, atan, log, ln, exp, sqrt, pi, E, oo, Abs,
+6 |     Rational, Integer, S, sympify,
+  |
+help: Remove unused import
+
+F401 [*] `sympy.Function` imported but unused
+ --> core/parser.py:4:22
+  |
+2 | import re
+3 | from sympy import (
+4 |     Symbol, symbols, Function, sin, cos, tan, sec, csc, cot,
+  |                      ^^^^^^^^
+5 |     asin, acos, atan, log, ln, exp, sqrt, pi, E, oo, Abs,
+6 |     Rational, Integer, S, sympify,
+  |
+help: Remove unused import
+
+F401 [*] `sympy.Rational` imported but unused
+ --> core/parser.py:6:5
+  |
+4 |     Symbol, symbols, Function, sin, cos, tan, sec, csc, cot,
+5 |     asin, acos, atan, log, ln, exp, sqrt, pi, E, oo, Abs,
+6 |     Rational, Integer, S, sympify,
+  |     ^^^^^^^^
+7 | )
+8 | from sympy.parsing.latex import parse_latex
+  |
+help: Remove unused import
+
+F401 [*] `sympy.Integer` imported but unused
+ --> core/parser.py:6:15
+  |
+4 |     Symbol, symbols, Function, sin, cos, tan, sec, csc, cot,
+5 |     asin, acos, atan, log, ln, exp, sqrt, pi, E, oo, Abs,
+6 |     Rational, Integer, S, sympify,
+  |               ^^^^^^^
+7 | )
+8 | from sympy.parsing.latex import parse_latex
+  |
+help: Remove unused import
+
+F401 [*] `sympy.S` imported but unused
+ --> core/parser.py:6:24
+  |
+4 |     Symbol, symbols, Function, sin, cos, tan, sec, csc, cot,
+5 |     asin, acos, atan, log, ln, exp, sqrt, pi, E, oo, Abs,
+6 |     Rational, Integer, S, sympify,
+  |                        ^
+7 | )
+8 | from sympy.parsing.latex import parse_latex
+  |
+help: Remove unused import
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> core/slide_highlighting.py:2:1
+  |
+1 |   """Heuristics for building concise-but-informative slide highlights from notes."""
+2 | / from __future__ import annotations
+3 | |
+4 | | import re
+5 | | from typing import Dict, List
+  | |_____________________________^
+  |
+help: Organize imports
+
+UP035 `typing.Dict` is deprecated, use `dict` instead
+ --> core/slide_highlighting.py:5:1
+  |
+4 | import re
+5 | from typing import Dict, List
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+
+UP035 `typing.List` is deprecated, use `list` instead
+ --> core/slide_highlighting.py:5:1
+  |
+4 | import re
+5 | from typing import Dict, List
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+
+UP006 [*] Use `list` instead of `List` for type annotation
+  --> core/slide_highlighting.py:26:36
+   |
+26 | def _split_sentences(text: str) -> List[str]:
+   |                                    ^^^^
+27 |     txt = _normalize_ws(text)
+28 |     if not txt:
+   |
+help: Replace with `list`
+
+UP006 [*] Use `list` instead of `List` for type annotation
+  --> core/slide_highlighting.py:88:43
+   |
+88 | def build_legacy_slide_highlights(blocks: List[Dict], max_items: int = 3, max_chars_per_item: int = 180) -> List[Dict]:
+   |                                           ^^^^
+89 |     """Replicates the previous simple highlight algorithm for baseline reports."""
+90 |     def first_sentence(text: str) -> str:
+   |
+help: Replace with `list`
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+  --> core/slide_highlighting.py:88:48
+   |
+88 | def build_legacy_slide_highlights(blocks: List[Dict], max_items: int = 3, max_chars_per_item: int = 180) -> List[Dict]:
+   |                                                ^^^^
+89 |     """Replicates the previous simple highlight algorithm for baseline reports."""
+90 |     def first_sentence(text: str) -> str:
+   |
+help: Replace with `dict`
+
+UP006 [*] Use `list` instead of `List` for type annotation
+  --> core/slide_highlighting.py:88:109
+   |
+88 | def build_legacy_slide_highlights(blocks: List[Dict], max_items: int = 3, max_chars_per_item: int = 180) -> List[Dict]:
+   |                                                                                                             ^^^^
+89 |     """Replicates the previous simple highlight algorithm for baseline reports."""
+90 |     def first_sentence(text: str) -> str:
+   |
+help: Replace with `list`
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+  --> core/slide_highlighting.py:88:114
+   |
+88 | def build_legacy_slide_highlights(blocks: List[Dict], max_items: int = 3, max_chars_per_item: int = 180) -> List[Dict]:
+   |                                                                                                                  ^^^^
+89 |     """Replicates the previous simple highlight algorithm for baseline reports."""
+90 |     def first_sentence(text: str) -> str:
+   |
+help: Replace with `dict`
+
+UP006 [*] Use `list` instead of `List` for type annotation
+   --> core/slide_highlighting.py:122:13
+    |
+121 | def build_informative_slide_highlights(
+122 |     blocks: List[Dict],
+    |             ^^^^
+123 |     max_items: int = 5,
+124 |     max_chars_per_item: int = 210,
+    |
+help: Replace with `list`
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+   --> core/slide_highlighting.py:122:18
+    |
+121 | def build_informative_slide_highlights(
+122 |     blocks: List[Dict],
+    |                  ^^^^
+123 |     max_items: int = 5,
+124 |     max_chars_per_item: int = 210,
+    |
+help: Replace with `dict`
+
+UP006 [*] Use `list` instead of `List` for type annotation
+   --> core/slide_highlighting.py:126:6
+    |
+124 |     max_chars_per_item: int = 210,
+125 |     max_total_chars: int = 620,
+126 | ) -> List[Dict]:
+    |      ^^^^
+127 |     """
+128 |     Build highlights that are still concise but preserve enough learning value to
+    |
+help: Replace with `list`
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+   --> core/slide_highlighting.py:126:11
+    |
+124 |     max_chars_per_item: int = 210,
+125 |     max_total_chars: int = 620,
+126 | ) -> List[Dict]:
+    |           ^^^^
+127 |     """
+128 |     Build highlights that are still concise but preserve enough learning value to
+    |
+help: Replace with `dict`
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> core/solver.py:2:1
+   |
+ 1 |   """SymPy-based solver with detailed step extraction."""
+ 2 | / from sympy import (
+ 3 | |     Symbol, symbols, oo, zoo, nan, S,
+ 4 | |     diff, integrate, limit, series, dsolve, simplify, trigsimp,
+ 5 | |     expand, factor, cancel, apart, together,
+ 6 | |     sin, cos, tan, sec, csc, cot, exp, log, sqrt, Abs,
+ 7 | |     Function, Derivative, Eq, Rational, latex,
+ 8 | |     Sum, Product, Add, Mul, Pow,
+ 9 | | )
+10 | | from .detector import CalculusType
+   | |__________________________________^
+11 |
+12 |   try:
+   |
+help: Organize imports
+
+F401 [*] `sympy.symbols` imported but unused
+ --> core/solver.py:3:13
+  |
+1 | """SymPy-based solver with detailed step extraction."""
+2 | from sympy import (
+3 |     Symbol, symbols, oo, zoo, nan, S,
+  |             ^^^^^^^
+4 |     diff, integrate, limit, series, dsolve, simplify, trigsimp,
+5 |     expand, factor, cancel, apart, together,
+  |
+help: Remove unused import
+
+F401 [*] `sympy.apart` imported but unused
+ --> core/solver.py:5:29
+  |
+3 |     Symbol, symbols, oo, zoo, nan, S,
+4 |     diff, integrate, limit, series, dsolve, simplify, trigsimp,
+5 |     expand, factor, cancel, apart, together,
+  |                             ^^^^^
+6 |     sin, cos, tan, sec, csc, cot, exp, log, sqrt, Abs,
+7 |     Function, Derivative, Eq, Rational, latex,
+  |
+help: Remove unused import
+
+F401 [*] `sympy.together` imported but unused
+ --> core/solver.py:5:36
+  |
+3 |     Symbol, symbols, oo, zoo, nan, S,
+4 |     diff, integrate, limit, series, dsolve, simplify, trigsimp,
+5 |     expand, factor, cancel, apart, together,
+  |                                    ^^^^^^^^
+6 |     sin, cos, tan, sec, csc, cot, exp, log, sqrt, Abs,
+7 |     Function, Derivative, Eq, Rational, latex,
+  |
+help: Remove unused import
+
+F401 [*] `sympy.Abs` imported but unused
+ --> core/solver.py:6:51
+  |
+4 |     diff, integrate, limit, series, dsolve, simplify, trigsimp,
+5 |     expand, factor, cancel, apart, together,
+6 |     sin, cos, tan, sec, csc, cot, exp, log, sqrt, Abs,
+  |                                                   ^^^
+7 |     Function, Derivative, Eq, Rational, latex,
+8 |     Sum, Product, Add, Mul, Pow,
+  |
+help: Remove unused import
+
+F401 [*] `sympy.Derivative` imported but unused
+ --> core/solver.py:7:15
+  |
+5 |     expand, factor, cancel, apart, together,
+6 |     sin, cos, tan, sec, csc, cot, exp, log, sqrt, Abs,
+7 |     Function, Derivative, Eq, Rational, latex,
+  |               ^^^^^^^^^^
+8 |     Sum, Product, Add, Mul, Pow,
+9 | )
+  |
+help: Remove unused import
+
+F401 [*] `sympy.Rational` imported but unused
+ --> core/solver.py:7:31
+  |
+5 |     expand, factor, cancel, apart, together,
+6 |     sin, cos, tan, sec, csc, cot, exp, log, sqrt, Abs,
+7 |     Function, Derivative, Eq, Rational, latex,
+  |                               ^^^^^^^^
+8 |     Sum, Product, Add, Mul, Pow,
+9 | )
+  |
+help: Remove unused import
+
+F401 [*] `sympy.Sum` imported but unused
+  --> core/solver.py:8:5
+   |
+ 6 |     sin, cos, tan, sec, csc, cot, exp, log, sqrt, Abs,
+ 7 |     Function, Derivative, Eq, Rational, latex,
+ 8 |     Sum, Product, Add, Mul, Pow,
+   |     ^^^
+ 9 | )
+10 | from .detector import CalculusType
+   |
+help: Remove unused import
+
+F401 [*] `sympy.Product` imported but unused
+  --> core/solver.py:8:10
+   |
+ 6 |     sin, cos, tan, sec, csc, cot, exp, log, sqrt, Abs,
+ 7 |     Function, Derivative, Eq, Rational, latex,
+ 8 |     Sum, Product, Add, Mul, Pow,
+   |          ^^^^^^^
+ 9 | )
+10 | from .detector import CalculusType
+   |
+help: Remove unused import
+
+F401 [*] `sympy.Add` imported but unused
+  --> core/solver.py:8:19
+   |
+ 6 |     sin, cos, tan, sec, csc, cot, exp, log, sqrt, Abs,
+ 7 |     Function, Derivative, Eq, Rational, latex,
+ 8 |     Sum, Product, Add, Mul, Pow,
+   |                   ^^^
+ 9 | )
+10 | from .detector import CalculusType
+   |
+help: Remove unused import
+
+F401 [*] `sympy.Mul` imported but unused
+  --> core/solver.py:8:24
+   |
+ 6 |     sin, cos, tan, sec, csc, cot, exp, log, sqrt, Abs,
+ 7 |     Function, Derivative, Eq, Rational, latex,
+ 8 |     Sum, Product, Add, Mul, Pow,
+   |                        ^^^
+ 9 | )
+10 | from .detector import CalculusType
+   |
+help: Remove unused import
+
+F401 [*] `sympy.Pow` imported but unused
+  --> core/solver.py:8:29
+   |
+ 6 |     sin, cos, tan, sec, csc, cot, exp, log, sqrt, Abs,
+ 7 |     Function, Derivative, Eq, Rational, latex,
+ 8 |     Sum, Product, Add, Mul, Pow,
+   |                             ^^^
+ 9 | )
+10 | from .detector import CalculusType
+   |
+help: Remove unused import
+
+F541 [*] f-string without any placeholders
+   --> core/solver.py:194:28
+    |
+192 |             pass
+193 |         steps.append({
+194 |             "description": f"Direct substitution yields indeterminate form",
+    |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+195 |             "before": latex(expr),
+196 |             "after": "\\text{indeterminate}",
+    |
+help: Remove extraneous `f` prefix
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> core/step_generator.py:1:1
+  |
+1 | / from dataclasses import dataclass, field
+2 | | from typing import List
+3 | | from enum import Enum
+  | |_____________________^
+  |
+help: Organize imports
+
+UP035 `typing.List` is deprecated, use `list` instead
+ --> core/step_generator.py:2:1
+  |
+1 | from dataclasses import dataclass, field
+2 | from typing import List
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+3 | from enum import Enum
+  |
+
+UP006 [*] Use `list` instead of `List` for type annotation
+  --> core/step_generator.py:82:64
+   |
+81 | class StepGenerator:
+82 |     def generate(self, solver_result: dict, calc_type=None) -> List[AnimationStep]:
+   |                                                                ^^^^
+83 |         if not solver_result.get("success"):
+84 |             return []
+   |
+help: Replace with `list`
+
+UP006 [*] Use `list` instead of `List` for type annotation
+  --> core/step_generator.py:85:14
+   |
+83 |         if not solver_result.get("success"):
+84 |             return []
+85 |         out: List[AnimationStep] = []
+   |              ^^^^
+86 |         for i, step in enumerate(solver_result.get("steps", [])):
+87 |             rule = step.get("rule", "basic")
+   |
+help: Replace with `list`
+
+E401 [*] Multiple imports on one line
+ --> run.py:3:1
+  |
+1 | #!/usr/bin/env python3
+2 | """Single entry point — auto-installs dependencies, then launches the app."""
+3 | import subprocess, sys, importlib, os
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+4 |
+5 | REQUIRED = {
+  |
+help: Split imports
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> run.py:3:1
+  |
+1 | #!/usr/bin/env python3
+2 | """Single entry point — auto-installs dependencies, then launches the app."""
+3 | import subprocess, sys, importlib, os
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+4 |
+5 | REQUIRED = {
+  |
+help: Organize imports
+
+E402 Module level import not at top of file
+  --> run.py:26:1
+   |
+24 | ensure_deps()
+25 |
+26 | import webview
+   | ^^^^^^^^^^^^^^
+27 | from api.bridge import CalculusAPI
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> run.py:26:1
+   |
+24 |   ensure_deps()
+25 |
+26 | / import webview
+27 | | from api.bridge import CalculusAPI
+   | |__________________________________^
+28 |
+29 |   def main():
+   |
+help: Organize imports
+
+E402 Module level import not at top of file
+  --> run.py:27:1
+   |
+26 | import webview
+27 | from api.bridge import CalculusAPI
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+28 |
+29 | def main():
+   |
+
+F841 Local variable `window` is assigned to but never used
+  --> run.py:33:5
+   |
+31 |     ui_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ui", "index.html")
+32 |
+33 |     window = webview.create_window(
+   |     ^^^^^^
+34 |         title="Calculus Animator",
+35 |         url=ui_path,
+   |
+help: Remove assignment to unused variable `window`
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> run_full_qa.py:20:1
+   |
+18 |   """
+19 |
+20 | / from __future__ import annotations
+21 | |
+22 | | import subprocess
+23 | | import sys
+24 | | from pathlib import Path
+   | |________________________^
+   |
+help: Organize imports
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> run_quality.py:4:1
+  |
+2 |   """Run lint, typing, tests, and optional security checks in one command."""
+3 |
+4 | / from __future__ import annotations
+5 | |
+6 | | import subprocess
+7 | | import sys
+8 | | from pathlib import Path
+  | |________________________^
+  |
+help: Organize imports
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> run_tests.py:13:1
+   |
+11 |   """
+12 |
+13 | / from __future__ import annotations
+14 | |
+15 | | import subprocess
+16 | | import sys
+17 | | from pathlib import Path
+   | |________________________^
+   |
+help: Organize imports
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> slide_renderer.py:17:1
+   |
+15 |   """
+16 |
+17 | / import pygame
+18 | | import pygame.gfxdraw
+19 | | import math
+20 | | import os
+21 | | import io
+22 | | import copy
+23 | | import textwrap
+24 | | from dataclasses import dataclass, field
+25 | | from typing import (
+26 | |     List, Tuple, Optional, Callable, Dict, Any, Union
+27 | | )
+28 | | from enum import Enum, auto
+   | |___________________________^
+29 |
+30 |   # ---------------------------------------------------------------------------
+   |
+help: Organize imports
+
+F401 [*] `textwrap` imported but unused
+  --> slide_renderer.py:23:8
+   |
+21 | import io
+22 | import copy
+23 | import textwrap
+   |        ^^^^^^^^
+24 | from dataclasses import dataclass, field
+25 | from typing import (
+   |
+help: Remove unused import: `textwrap`
+
+F401 [*] `dataclasses.dataclass` imported but unused
+  --> slide_renderer.py:24:25
+   |
+22 | import copy
+23 | import textwrap
+24 | from dataclasses import dataclass, field
+   |                         ^^^^^^^^^
+25 | from typing import (
+26 |     List, Tuple, Optional, Callable, Dict, Any, Union
+   |
+help: Remove unused import
+
+F401 [*] `dataclasses.field` imported but unused
+  --> slide_renderer.py:24:36
+   |
+22 | import copy
+23 | import textwrap
+24 | from dataclasses import dataclass, field
+   |                                    ^^^^^
+25 | from typing import (
+26 |     List, Tuple, Optional, Callable, Dict, Any, Union
+   |
+help: Remove unused import
+
+UP035 [*] Import from `collections.abc` instead: `Callable`
+  --> slide_renderer.py:25:1
+   |
+23 |   import textwrap
+24 |   from dataclasses import dataclass, field
+25 | / from typing import (
+26 | |     List, Tuple, Optional, Callable, Dict, Any, Union
+27 | | )
+   | |_^
+28 |   from enum import Enum, auto
+   |
+help: Import from `collections.abc`
+
+UP035 `typing.List` is deprecated, use `list` instead
+  --> slide_renderer.py:25:1
+   |
+23 |   import textwrap
+24 |   from dataclasses import dataclass, field
+25 | / from typing import (
+26 | |     List, Tuple, Optional, Callable, Dict, Any, Union
+27 | | )
+   | |_^
+28 |   from enum import Enum, auto
+   |
+
+UP035 `typing.Tuple` is deprecated, use `tuple` instead
+  --> slide_renderer.py:25:1
+   |
+23 |   import textwrap
+24 |   from dataclasses import dataclass, field
+25 | / from typing import (
+26 | |     List, Tuple, Optional, Callable, Dict, Any, Union
+27 | | )
+   | |_^
+28 |   from enum import Enum, auto
+   |
+
+UP035 `typing.Dict` is deprecated, use `dict` instead
+  --> slide_renderer.py:25:1
+   |
+23 |   import textwrap
+24 |   from dataclasses import dataclass, field
+25 | / from typing import (
+26 | |     List, Tuple, Optional, Callable, Dict, Any, Union
+27 | | )
+   | |_^
+28 |   from enum import Enum, auto
+   |
+
+F401 [*] `typing.Tuple` imported but unused
+  --> slide_renderer.py:26:11
+   |
+24 | from dataclasses import dataclass, field
+25 | from typing import (
+26 |     List, Tuple, Optional, Callable, Dict, Any, Union
+   |           ^^^^^
+27 | )
+28 | from enum import Enum, auto
+   |
+help: Remove unused import
+
+F401 [*] `typing.Union` imported but unused
+  --> slide_renderer.py:26:49
+   |
+24 | from dataclasses import dataclass, field
+25 | from typing import (
+26 |     List, Tuple, Optional, Callable, Dict, Any, Union
+   |                                                 ^^^^^
+27 | )
+28 | from enum import Enum, auto
+   |
+help: Remove unused import
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+   --> slide_renderer.py:168:9
+    |
+166 | # ---------------------------------------------------------------------------
+167 |
+168 | THEMES: Dict[str, Dict[str, Any]] = {
+    |         ^^^^
+169 |     "modern_dark": {
+170 |         "bg_gradient": ("#1a1a2e", "#16213e"),
+    |
+help: Replace with `dict`
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+   --> slide_renderer.py:168:19
+    |
+166 | # ---------------------------------------------------------------------------
+167 |
+168 | THEMES: Dict[str, Dict[str, Any]] = {
+    |                   ^^^^
+169 |     "modern_dark": {
+170 |         "bg_gradient": ("#1a1a2e", "#16213e"),
+    |
+help: Replace with `dict`
+
+UP006 [*] Use `list` instead of `List` for type annotation
+   --> slide_renderer.py:604:24
+    |
+602 |                  footer_text=None, on_enter=None, on_exit=None,
+603 |                  duration=None, auto_advance=False, name=None):
+604 |         self.elements: List[SlideElement] = []
+    |                        ^^^^
+605 |         self.transition = _parse_transition(transition)
+606 |         self.transition_duration = transition_duration
+    |
+help: Replace with `list`
+
+B010 [*] Do not call `setattr` with a constant attribute value. It is not any safer than normal property access.
+   --> slide_renderer.py:734:9
+    |
+732 |     if cache is None:
+733 |         cache = {}
+734 |         setattr(_render_text_surface, "_cache", cache)
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+735 |     cached = cache.get(cache_key)
+736 |     if cached is not None:
+    |
+help: Replace `setattr` with assignment
+
+E741 Ambiguous variable name: `l`
+   --> slide_renderer.py:754:35
+    |
+752 |     base_h = max(1, font.get_height())
+753 |     lh = max(base_h, int(base_h * line_spacing))
+754 |     widths = [font.size(l)[0] for l in all_lines]
+    |                                   ^
+755 |     total_w = max(widths) if widths else 1
+756 |     # Preserve full glyph height on the final line (descenders like g/y/p),
+    |
+
+UP006 [*] Use `list` instead of `List` for type annotation
+   --> slide_renderer.py:804:22
+    |
+802 |         self.auto_init_pygame = auto_init_pygame
+803 |
+804 |         self.slides: List[Slide] = []
+    |                      ^^^^
+805 |         self.current_index = 0
+806 |         self._running = False
+    |
+help: Replace with `list`
+
+UP045 [*] Use `X | None` for type annotations
+   --> slide_renderer.py:820:31
+    |
+819 |         # external hooks
+820 |         self.on_slide_change: Optional[Callable] = None
+    |                               ^^^^^^^^^^^^^^^^^^
+821 |         self.on_key: Optional[Callable] = None
+    |
+help: Convert to `X | None`
+
+UP045 [*] Use `X | None` for type annotations
+   --> slide_renderer.py:821:22
+    |
+819 |         # external hooks
+820 |         self.on_slide_change: Optional[Callable] = None
+821 |         self.on_key: Optional[Callable] = None
+    |                      ^^^^^^^^^^^^^^^^^^
+822 |
+823 |     # -- public API --
+    |
+help: Convert to `X | None`
+
+F841 [*] Local variable `exc` is assigned to but never used
+    --> slide_renderer.py:1458:33
+     |
+1456 |                 final_surf, fx, fy = dg._apply_anim(elem_surf, dx, dy, w, h, progress)
+1457 |                 surface.blit(final_surf, (int(fx), int(fy)))
+1458 |             except Exception as exc:
+     |                                 ^^^
+1459 |                 pass
+     |
+help: Remove assignment to unused variable `exc`
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> tests/conftest.py:1:1
+  |
+1 | / from __future__ import annotations
+2 | |
+3 | | import sys
+4 | | from pathlib import Path
+  | |________________________^
+  |
+help: Organize imports
+
+F841 Local variable `xs` is assigned to but never used
+  --> tests/test_animation_engine.py:10:5
+   |
+ 8 | def test_safe_sample_broadcasts_scalar_expression():
+ 9 |     engine = AnimationEngine()
+10 |     xs = sp.Matrix([0, 1, 2])  # not used directly, just to ensure conversion path works with numpy arrays later
+   |     ^^
+11 |     import numpy as np
+   |
+help: Remove assignment to unused variable `xs`
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> tests/test_curriculum_regressions.py:1:1
+  |
+1 | / from __future__ import annotations
+2 | |
+3 | | from pathlib import Path
+4 | |
+5 | | from api.bridge import CalculusAPI
+  | |__________________________________^
+  |
+help: Organize imports
+
+E402 Module level import not at top of file
+  --> tests/test_fuzz_parser_extractor.py:11:1
+   |
+ 9 | HealthCheck = hypothesis.HealthCheck
+10 |
+11 | from core.extractor import ExpressionExtractor
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+12 | from core.parser import ExpressionParser
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> tests/test_fuzz_parser_extractor.py:11:1
+   |
+ 9 |   HealthCheck = hypothesis.HealthCheck
+10 |
+11 | / from core.extractor import ExpressionExtractor
+12 | | from core.parser import ExpressionParser
+   | |________________________________________^
+   |
+help: Organize imports
+
+E402 Module level import not at top of file
+  --> tests/test_fuzz_parser_extractor.py:12:1
+   |
+11 | from core.extractor import ExpressionExtractor
+12 | from core.parser import ExpressionParser
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+
+F841 Local variable `x` is assigned to but never used
+  --> tests/test_perf_smoke.py:17:5
+   |
+15 |     parser = ExpressionParser()
+16 |     solver = CalculusSolver()
+17 |     x = sp.Symbol("x")
+   |     ^
+18 |     expressions = [
+19 |         "x^5 + 3x^2 - 7x + 1",
+   |
+help: Remove assignment to unused variable `x`
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> tests/test_snapshot_regressions.py:1:1
+   |
+ 1 | / from __future__ import annotations
+ 2 | |
+ 3 | | import hashlib
+ 4 | | import json
+ 5 | | from pathlib import Path
+ 6 | |
+ 7 | | from api.bridge import CalculusAPI
+ 8 | | from core.detector import TypeDetector
+ 9 | | from core.extractor import ExpressionExtractor
+10 | | from core.parser import ExpressionParser
+11 | | from core.solver import CalculusSolver
+12 | | from core.step_generator import StepGenerator
+   | |_____________________________________________^
+   |
+help: Organize imports
+
+F401 [*] `types.SimpleNamespace` imported but unused
+ --> tests/test_solver_branches.py:3:19
+  |
+1 | from __future__ import annotations
+2 |
+3 | from types import SimpleNamespace
+  |                   ^^^^^^^^^^^^^^^
+4 |
+5 | import sympy as sp
+  |
+help: Remove unused import: `types.SimpleNamespace`
+
+UP017 [*] Use `datetime.UTC` alias
+  --> tools/ollama_slide_reviewer.py:53:25
+   |
+52 | def _now_iso() -> str:
+53 |     return datetime.now(timezone.utc).isoformat()
+   |                         ^^^^^^^^^^^^
+   |
+help: Convert to `datetime.UTC` alias
+
+UP035 [*] Import from `collections.abc` instead: `Iterable`
+  --> tools/slide_quality_pipeline.py:12:1
+   |
+10 | from datetime import datetime, timezone
+11 | from pathlib import Path
+12 | from typing import Dict, Iterable, List, Tuple
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+13 |
+14 | ROOT = Path(__file__).resolve().parents[1]
+   |
+help: Import from `collections.abc`
+
+UP035 `typing.Dict` is deprecated, use `dict` instead
+  --> tools/slide_quality_pipeline.py:12:1
+   |
+10 | from datetime import datetime, timezone
+11 | from pathlib import Path
+12 | from typing import Dict, Iterable, List, Tuple
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+13 |
+14 | ROOT = Path(__file__).resolve().parents[1]
+   |
+
+UP035 `typing.List` is deprecated, use `list` instead
+  --> tools/slide_quality_pipeline.py:12:1
+   |
+10 | from datetime import datetime, timezone
+11 | from pathlib import Path
+12 | from typing import Dict, Iterable, List, Tuple
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+13 |
+14 | ROOT = Path(__file__).resolve().parents[1]
+   |
+
+UP035 `typing.Tuple` is deprecated, use `tuple` instead
+  --> tools/slide_quality_pipeline.py:12:1
+   |
+10 | from datetime import datetime, timezone
+11 | from pathlib import Path
+12 | from typing import Dict, Iterable, List, Tuple
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+13 |
+14 | ROOT = Path(__file__).resolve().parents[1]
+   |
+
+E402 Module level import not at top of file
+  --> tools/slide_quality_pipeline.py:18:1
+   |
+16 |     sys.path.insert(0, str(ROOT))
+17 |
+18 | from core.slide_highlighting import build_informative_slide_highlights, build_legacy_slide_highlights
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> tools/slide_quality_pipeline.py:18:1
+   |
+16 |     sys.path.insert(0, str(ROOT))
+17 |
+18 | from core.slide_highlighting import build_informative_slide_highlights, build_legacy_slide_highlights
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+help: Organize imports
+
+UP017 [*] Use `datetime.UTC` alias
+  --> tools/slide_quality_pipeline.py:39:25
+   |
+38 | def _now_iso() -> str:
+39 |     return datetime.now(timezone.utc).isoformat()
+   |                         ^^^^^^^^^^^^
+   |
+help: Convert to `datetime.UTC` alias
+
+UP006 [*] Use `list` instead of `List` for type annotation
+  --> tools/slide_quality_pipeline.py:46:35
+   |
+46 | def _extract_tokens(text: str) -> List[str]:
+   |                                   ^^^^
+47 |     raw = re.findall(r"[a-zA-Z][a-zA-Z0-9]{1,}|[0-9]+", str(text or "").lower())
+48 |     return [t for t in raw if t not in STOPWORDS and (len(t) > 2 or t.isdigit())]
+   |
+help: Replace with `list`
+
+UP006 [*] Use `list` instead of `List` for type annotation
+  --> tools/slide_quality_pipeline.py:51:40
+   |
+51 | def _extract_math_tokens(text: str) -> List[str]:
+   |                                        ^^^^
+52 |     s = str(text or "").lower()
+53 |     found = set()
+   |
+help: Replace with `list`
+
+UP006 [*] Use `list` instead of `List` for type annotation
+  --> tools/slide_quality_pipeline.py:79:29
+   |
+79 | def _evaluate(notes_blocks: List[Dict], highlights: List[Dict]) -> Dict:
+   |                             ^^^^
+80 |     notes_text = "\n\n".join(_normalize_ws(b.get("text") or "") for b in notes_blocks if _normalize_ws(b.get("text") or ""))
+81 |     hl_text = " ".join(_normalize_ws(h.get("text") or "") for h in highlights if _normalize_ws(h.get("text") or ""))
+   |
+help: Replace with `list`
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+  --> tools/slide_quality_pipeline.py:79:34
+   |
+79 | def _evaluate(notes_blocks: List[Dict], highlights: List[Dict]) -> Dict:
+   |                                  ^^^^
+80 |     notes_text = "\n\n".join(_normalize_ws(b.get("text") or "") for b in notes_blocks if _normalize_ws(b.get("text") or ""))
+81 |     hl_text = " ".join(_normalize_ws(h.get("text") or "") for h in highlights if _normalize_ws(h.get("text") or ""))
+   |
+help: Replace with `dict`
+
+UP006 [*] Use `list` instead of `List` for type annotation
+  --> tools/slide_quality_pipeline.py:79:53
+   |
+79 | def _evaluate(notes_blocks: List[Dict], highlights: List[Dict]) -> Dict:
+   |                                                     ^^^^
+80 |     notes_text = "\n\n".join(_normalize_ws(b.get("text") or "") for b in notes_blocks if _normalize_ws(b.get("text") or ""))
+81 |     hl_text = " ".join(_normalize_ws(h.get("text") or "") for h in highlights if _normalize_ws(h.get("text") or ""))
+   |
+help: Replace with `list`
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+  --> tools/slide_quality_pipeline.py:79:58
+   |
+79 | def _evaluate(notes_blocks: List[Dict], highlights: List[Dict]) -> Dict:
+   |                                                          ^^^^
+80 |     notes_text = "\n\n".join(_normalize_ws(b.get("text") or "") for b in notes_blocks if _normalize_ws(b.get("text") or ""))
+81 |     hl_text = " ".join(_normalize_ws(h.get("text") or "") for h in highlights if _normalize_ws(h.get("text") or ""))
+   |
+help: Replace with `dict`
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+  --> tools/slide_quality_pipeline.py:79:68
+   |
+79 | def _evaluate(notes_blocks: List[Dict], highlights: List[Dict]) -> Dict:
+   |                                                                    ^^^^
+80 |     notes_text = "\n\n".join(_normalize_ws(b.get("text") or "") for b in notes_blocks if _normalize_ws(b.get("text") or ""))
+81 |     hl_text = " ".join(_normalize_ws(h.get("text") or "") for h in highlights if _normalize_ws(h.get("text") or ""))
+   |
+help: Replace with `dict`
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+   --> tools/slide_quality_pipeline.py:163:38
+    |
+163 | def _review_text(kind: str, metrics: Dict) -> str:
+    |                                      ^^^^
+164 |     tone = "Before rewrite" if kind == "before" else "After rewrite"
+165 |     parts = [f"{tone}: grade {metrics['grade']} ({metrics['score']}/100)."]
+    |
+help: Replace with `dict`
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+   --> tools/slide_quality_pipeline.py:191:78
+    |
+191 | def _load_curriculum(root: Path, content_file: str, curriculum_file: str) -> Dict:
+    |                                                                              ^^^^
+192 |     content_path = root / content_file
+193 |     default_path = root / curriculum_file
+    |
+help: Replace with `dict`
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+   --> tools/slide_quality_pipeline.py:206:30
+    |
+206 | def _iter_slides(curriculum: Dict) -> Iterable[Tuple[Dict, Dict, Dict]]:
+    |                              ^^^^
+207 |     for pathway in curriculum.get("pathways") or []:
+208 |         for chapter in pathway.get("chapters") or []:
+    |
+help: Replace with `dict`
+
+UP006 [*] Use `tuple` instead of `Tuple` for type annotation
+   --> tools/slide_quality_pipeline.py:206:48
+    |
+206 | def _iter_slides(curriculum: Dict) -> Iterable[Tuple[Dict, Dict, Dict]]:
+    |                                                ^^^^^
+207 |     for pathway in curriculum.get("pathways") or []:
+208 |         for chapter in pathway.get("chapters") or []:
+    |
+help: Replace with `tuple`
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+   --> tools/slide_quality_pipeline.py:206:54
+    |
+206 | def _iter_slides(curriculum: Dict) -> Iterable[Tuple[Dict, Dict, Dict]]:
+    |                                                      ^^^^
+207 |     for pathway in curriculum.get("pathways") or []:
+208 |         for chapter in pathway.get("chapters") or []:
+    |
+help: Replace with `dict`
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+   --> tools/slide_quality_pipeline.py:206:60
+    |
+206 | def _iter_slides(curriculum: Dict) -> Iterable[Tuple[Dict, Dict, Dict]]:
+    |                                                            ^^^^
+207 |     for pathway in curriculum.get("pathways") or []:
+208 |         for chapter in pathway.get("chapters") or []:
+    |
+help: Replace with `dict`
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+   --> tools/slide_quality_pipeline.py:206:66
+    |
+206 | def _iter_slides(curriculum: Dict) -> Iterable[Tuple[Dict, Dict, Dict]]:
+    |                                                                  ^^^^
+207 |     for pathway in curriculum.get("pathways") or []:
+208 |         for chapter in pathway.get("chapters") or []:
+    |
+help: Replace with `dict`
+
+UP006 [*] Use `dict` instead of `Dict` for type annotation
+   --> tools/slide_quality_pipeline.py:213:41
+    |
+213 | def _write_markdown(path: Path, report: Dict):
+    |                                         ^^^^
+214 |     slides = report["slides"]
+215 |     summary = report["summary"]
+    |
+help: Replace with `dict`
+
+Found 106 errors.
+[*] 88 fixable with the `--fix` option (3 hidden fixes can be enabled with the `--unsafe-fixes` option).
+(base) rubensanchez@MacBook-Pro-6 calculus_animator % 

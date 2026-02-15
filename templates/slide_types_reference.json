@@ -1,0 +1,56 @@
+{
+  "slide_types": [
+    {
+      "type": "lesson",
+      "purpose": "Teach one concept clearly and visually.",
+      "required_blocks": ["text"],
+      "recommended_blocks": ["example"]
+    },
+    {
+      "type": "worked_example",
+      "purpose": "Walk through a complete problem with explicit steps.",
+      "required_blocks": ["problem", "step"],
+      "recommended_blocks": ["text"]
+    },
+    {
+      "type": "summary",
+      "purpose": "Recap key ideas before quiz/test checkpoints.",
+      "required_blocks": ["text"],
+      "recommended_blocks": []
+    },
+    {
+      "type": "practice",
+      "purpose": "Provide guided practice prompts.",
+      "required_blocks": ["problem"],
+      "recommended_blocks": ["step", "text"]
+    }
+  ],
+  "content_block_kinds": [
+    {
+      "kind": "text",
+      "meaning": "Main narrative teaching content."
+    },
+    {
+      "kind": "example",
+      "meaning": "Quick illustrative mini-example."
+    },
+    {
+      "kind": "problem",
+      "meaning": "Problem statement for worked/practice flow."
+    },
+    {
+      "kind": "step",
+      "meaning": "Single transformation step or reasoning step."
+    },
+    {
+      "kind": "note",
+      "meaning": "Important caution, edge case, or common mistake."
+    }
+  ],
+  "graphics_kinds": [
+    "concept",
+    "graph",
+    "diagram",
+    "table"
+  ]
+}

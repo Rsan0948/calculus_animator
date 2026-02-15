@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "description": "Global glossary used for inline linking across the app."
+  },
+  "terms": [
+    {
+      "id": "term_function",
+      "term": "function",
+      "aliases": ["functions", "mapping"],
+      "definition": "A rule that maps each input to exactly one output.",
+      "related_topic_ids": ["concept_function_basics"],
+      "related_formula_ids": []
+    },
+    {
+      "id": "term_derivative",
+      "term": "derivative",
+      "aliases": ["rate of change", "slope"],
+      "definition": "How fast a function changes at a specific point.",
+      "related_topic_ids": ["concept_derivative_intro"],
+      "related_formula_ids": ["power_rule", "product_rule_ex", "chain_rule_ex", "quotient_ex"]
+    },
+    {
+      "id": "term_integral",
+      "term": "integral",
+      "aliases": ["antiderivative", "accumulation"],
+      "definition": "A continuous sum; can represent area under a curve.",
+      "related_topic_ids": ["concept_integral_intro"],
+      "related_formula_ids": ["poly_integral", "trig_integral", "exp_integral", "def_integral_x2", "def_integral_sin"]
+    },
+    {
+      "id": "term_limit",
+      "term": "limit",
+      "aliases": ["approaches", "near a point"],
+      "definition": "The value a function approaches as the input approaches a target.",
+      "related_topic_ids": ["concept_limits_intro", "concept_limit_at_infinity"],
+      "related_formula_ids": ["sinc_limit", "inf_limit", "exp_limit"]
+    },
+    {
+      "id": "term_taylor_series",
+      "term": "Taylor series",
+      "aliases": ["series expansion", "power series"],
+      "definition": "A polynomial-based expansion used to approximate functions near a point.",
+      "related_topic_ids": ["concept_taylor_series"],
+      "related_formula_ids": ["taylor_sin", "taylor_exp", "taylor_cos", "taylor_ln"]
+    },
+    {
+      "id": "term_quotient_rule",
+      "term": "quotient rule",
+      "aliases": ["u over v rule"],
+      "definition": "Differentiation rule for a ratio of two functions.",
+      "related_topic_ids": ["concept_quotient_rule"],
+      "related_formula_ids": ["quotient_ex"]
+    },
+    {
+      "id": "term_chain_rule",
+      "term": "chain rule",
+      "aliases": ["composite derivative"],
+      "definition": "Differentiation rule for nested functions.",
+      "related_topic_ids": ["concept_chain_rule"],
+      "related_formula_ids": ["chain_rule_ex", "log_deriv", "exp_deriv"]
+    },
+    {
+      "id": "term_product_rule",
+      "term": "product rule",
+      "aliases": ["uv prime rule"],
+      "definition": "Differentiation rule for a product of functions.",
+      "related_topic_ids": ["concept_product_rule"],
+      "related_formula_ids": ["product_rule_ex"]
+    }
+  ]
+}

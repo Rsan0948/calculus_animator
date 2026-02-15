@@ -1,0 +1,903 @@
+Slide Capacity Report
+Generated: 2026-02-10T16:34:28.340976Z
+Slides analyzed: 180
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s01 (#1)
+  input_chars=703 | no_image: page_chars=707 usable=556 pages=1 overflow=0
+  with_image: page_chars=707 usable=556 pages=1 overflow=0
+  visible_text_page1: A function is a rule that takes an input and produces exactly one output. Think of it like a machine: you feed a number in, the machine does something to it, and one number come...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s02 (#2)
+  input_chars=201 | no_image: page_chars=201 usable=164 pages=1 overflow=0
+  with_image: page_chars=201 usable=164 pages=1 overflow=0
+  visible_text_page1: The vertical line test is a quick way to check if a graph represents a function. If any vertical line crosses the graph more than once, it is not a function because that x-value...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s03 (#3)
+  input_chars=604 | no_image: page_chars=608 usable=461 pages=1 overflow=0
+  with_image: page_chars=608 usable=461 pages=1 overflow=0
+  visible_text_page1: Function notation is the standard way we write and talk about functions. When we write f(x) = 3x - 1, we are saying: the function named f takes input x and returns 3x - 1. The l...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s04 (#4)
+  input_chars=170 | no_image: page_chars=170 usable=141 pages=1 overflow=0
+  with_image: page_chars=170 usable=141 pages=1 overflow=0
+  visible_text_page1: Be careful with negative inputs. For f(x) = x^2, computing f(-3) means (-3)^2 = 9, not -(3^2) = -9. Always wrap the substituted value in parentheses to avoid sign errors.
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s05 (#5)
+  input_chars=754 | no_image: page_chars=758 usable=608 pages=1 overflow=0
+  with_image: page_chars=758 usable=608 pages=1 overflow=0
+  visible_text_page1: The domain of a function is the set of all inputs (x-values) the function can accept. The range is the set of all outputs (y-values) the function can produce. Together, domain a...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s06 (#6)
+  input_chars=142 | no_image: page_chars=142 usable=109 pages=1 overflow=0
+  with_image: page_chars=142 usable=109 pages=1 overflow=0
+  visible_text_page1: Find the domain of f(x) = 1/(x - 3). The denominator cannot be zero, so x - 3 ≠ 0, meaning x ≠ 3. The domain is all real numbers except x = 3.
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s07 (#7)
+  input_chars=532 | no_image: page_chars=534 usable=431 pages=1 overflow=0
+  with_image: page_chars=534 usable=431 pages=1 overflow=0
+  visible_text_page1: A linear function has the form f(x) = mx + b, where m is the slope and b is the y-intercept. Its graph is always a straight line. Linear functions are the simplest type of funct...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s08 (#8)
+  input_chars=418 | no_image: page_chars=420 usable=328 pages=1 overflow=0
+  with_image: page_chars=420 usable=328 pages=1 overflow=0
+  visible_text_page1: Slope is calculated as the change in y divided by the change in x between any two points: m = (y2 - y1)/(x2 - x1). This ratio is constant everywhere on a straight line, which is...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s09 (#9)
+  input_chars=460 | no_image: page_chars=464 usable=363 pages=1 overflow=0
+  with_image: page_chars=464 usable=363 pages=1 overflow=0
+  visible_text_page1: A phone plan charges a $20 monthly fee plus $0.05 per text message. Write a function for the monthly cost C(t) where t is the number of texts. Find the cost for 200 texts. What ...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s10 (#10)
+  input_chars=343 | no_image: page_chars=345 usable=277 pages=1 overflow=0
+  with_image: page_chars=345 usable=277 pages=1 overflow=0
+  visible_text_page1: Step 3: Identify the slope. The slope is 0.05. It means each additional text message adds $0.05 to the bill. The slope is the rate of change of cost with respect to the number o...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s11 (#11)
+  input_chars=549 | no_image: page_chars=551 usable=442 pages=1 overflow=0
+  with_image: page_chars=551 usable=442 pages=1 overflow=0
+  visible_text_page1: A quadratic function has the form f(x) = ax^2 + bx + c, where a ≠ 0. Its graph is a U-shaped curve called a parabola. If a is positive, the parabola opens upward (like a bowl). ...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s12 (#12)
+  input_chars=544 | no_image: page_chars=546 usable=424 pages=1 overflow=0
+  with_image: page_chars=546 usable=424 pages=1 overflow=0
+  visible_text_page1: The zeros (or roots) of a quadratic are the x-values where f(x) = 0. You can find them by factoring, completing the square, or using the quadratic formula: x = (-b ± sqrt(b^2 - ...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s13 (#13)
+  input_chars=639 | no_image: page_chars=641 usable=516 pages=1 overflow=0
+  with_image: page_chars=641 usable=516 pages=1 overflow=0
+  visible_text_page1: A polynomial function is a sum of terms where each term is a constant times x raised to a whole-number power. Examples include f(x) = x^3 - 2x + 5 and g(x) = 4x^5 - x^2 + 3. The...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s14 (#14)
+  input_chars=524 | no_image: page_chars=526 usable=421 pages=1 overflow=0
+  with_image: page_chars=526 usable=421 pages=1 overflow=0
+  visible_text_page1: For example, if the leading term is x^3, then as x goes to positive infinity, f(x) also goes to positive infinity, and as x goes to negative infinity, f(x) goes to negative infi...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s15 (#15)
+  input_chars=482 | no_image: page_chars=484 usable=399 pages=1 overflow=0
+  with_image: page_chars=484 usable=399 pages=1 overflow=0
+  visible_text_page1: A rational function is a ratio of two polynomials: f(x) = P(x)/Q(x). For example, f(x) = (x + 1)/(x - 2). These functions behave differently from polynomials because the denomin...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s16 (#16)
+  input_chars=579 | no_image: page_chars=581 usable=473 pages=1 overflow=0
+  with_image: page_chars=581 usable=473 pages=1 overflow=0
+  visible_text_page1: A horizontal asymptote describes what happens to f(x) as x gets very large or very small. If the degree of the numerator equals the degree of the denominator, the horizontal asy...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s17 (#17)
+  input_chars=509 | no_image: page_chars=513 usable=404 pages=1 overflow=0
+  with_image: page_chars=513 usable=404 pages=1 overflow=0
+  visible_text_page1: Find the domain, vertical asymptote(s), and horizontal asymptote of f(x) = (3x)/(x^2 - 4). Describe what happens near each asymptote.    Step 1: Find the domain. Set the denomin...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s18 (#18)
+  input_chars=469 | no_image: page_chars=471 usable=380 pages=1 overflow=0
+  with_image: page_chars=471 usable=380 pages=1 overflow=0
+  visible_text_page1: Step 3: Find the horizontal asymptote. The numerator has degree 1 and the denominator has degree 2. Since the denominator degree is larger, the horizontal asymptote is y = 0. As...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s19 (#19)
+  input_chars=713 | no_image: page_chars=717 usable=588 pages=1 overflow=0
+  with_image: page_chars=717 usable=588 pages=1 overflow=0
+  visible_text_page1: Once you know the graph of a basic function, you can create many new graphs by applying transformations. There are four main types: vertical shifts, horizontal shifts, vertical ...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s20 (#20)
+  input_chars=200 | no_image: page_chars=200 usable=158 pages=1 overflow=0
+  with_image: page_chars=200 usable=158 pages=1 overflow=0
+  visible_text_page1: Start with f(x) = x^2. Then g(x) = (x - 2)^2 + 3 is the same parabola shifted 2 units right and 3 units up. The vertex moves from (0, 0) to (2, 3). And h(x) = -x^2 is the parabo...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s21 (#21)
+  input_chars=715 | no_image: page_chars=719 usable=572 pages=1 overflow=0
+  with_image: page_chars=719 usable=572 pages=1 overflow=0
+  visible_text_page1: Function composition means using the output of one function as the input of another. If f(x) = 2x and g(x) = x + 3, then the composition (f ∘ g)(x) = f(g(x)) = f(x + 3) = 2(x + ...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s22 (#22)
+  input_chars=254 | no_image: page_chars=254 usable=212 pages=1 overflow=0
+  with_image: page_chars=254 usable=212 pages=1 overflow=0
+  visible_text_page1: Not every function has an inverse. A function must be one-to-one (each output comes from exactly one input) to have an inverse. The horizontal line test checks this: if any hori...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s23 (#23)
+  input_chars=351 | no_image: page_chars=357 usable=272 pages=1 overflow=0
+  with_image: page_chars=357 usable=272 pages=1 overflow=0
+  visible_text_page1: 1) For f(x) = (x - 1)/(x + 4), find the domain, the vertical asymptote, and the horizontal asymptote.    2) Let g(x) = x^2 + 2x - 8. Find the vertex, the axis of symmetry, and t...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s24 (#24)
+  input_chars=685 | no_image: page_chars=689 usable=578 pages=1 overflow=0
+  with_image: page_chars=689 usable=578 pages=1 overflow=0
+  visible_text_page1: A function assigns exactly one output to each input. We use f(x) notation to name and evaluate functions. Every function has a domain (allowed inputs) and range (possible output...
+
+[precalculus / precalc_ch1_functions_graphs] precalc_ch1_s25 (#25)
+  input_chars=224 | no_image: page_chars=224 usable=195 pages=1 overflow=0
+  with_image: page_chars=224 usable=195 pages=1 overflow=0
+  visible_text_page1: Transformations (shifts, stretches, reflections) let you build new graphs from familiar ones. Composition chains functions together, and inverse functions undo each other. These...
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s01 (#1)
+  input_chars=540 | no_image: page_chars=542 usable=438 pages=1 overflow=0
+  with_image: page_chars=542 usable=438 pages=1 overflow=0
+  visible_text_page1: An exponential function has the form f(x) = a · b^x, where a is the starting value and b is the base. The base b must be positive and not equal to 1. What makes exponentials spe...
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s02 (#2)
+  input_chars=448 | no_image: page_chars=450 usable=347 pages=1 overflow=0
+  with_image: page_chars=450 usable=347 pages=1 overflow=0
+  visible_text_page1: The graph of an exponential function always passes through (0, a) because b^0 = 1 for any base b, so f(0) = a · 1 = a. The graph has a horizontal asymptote at y = 0: the functio...
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s03 (#3)
+  input_chars=482 | no_image: page_chars=484 usable=402 pages=1 overflow=0
+  with_image: page_chars=484 usable=402 pages=1 overflow=0
+  visible_text_page1: Exponential functions model countless real-world situations. When a quantity increases by a fixed percentage each time period, it grows exponentially. When it decreases by a fix...
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s04 (#4)
+  input_chars=481 | no_image: page_chars=483 usable=398 pages=1 overflow=0
+  with_image: page_chars=483 usable=398 pages=1 overflow=0
+  visible_text_page1: Compound interest is another classic example. If you invest P dollars at an annual rate r compounded n times per year, after t years you have A = P · (1 + r/n)^(nt). As n gets l...
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s05 (#5)
+  input_chars=549 | no_image: page_chars=551 usable=465 pages=1 overflow=0
+  with_image: page_chars=551 usable=465 pages=1 overflow=0
+  visible_text_page1: Among all possible bases for exponential functions, one stands out: the number e, approximately 2.71828. It is called Euler's number and appears naturally whenever growth or dec...
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s06 (#6)
+  input_chars=496 | no_image: page_chars=498 usable=403 pages=1 overflow=0
+  with_image: page_chars=498 usable=403 pages=1 overflow=0
+  visible_text_page1: The function f(x) = e^x is called the natural exponential function. It has a remarkable property that will become central in calculus: its rate of change at any point equals its...
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s07 (#7)
+  input_chars=414 | no_image: page_chars=418 usable=329 pages=1 overflow=0
+  with_image: page_chars=418 usable=329 pages=1 overflow=0
+  visible_text_page1: A car worth $25,000 depreciates by 15% each year. Write a function for its value V(t) after t years. What is it worth after 4 years? When will it be worth less than $10,000?    ...
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s08 (#8)
+  input_chars=358 | no_image: page_chars=360 usable=297 pages=1 overflow=0
+  with_image: page_chars=360 usable=297 pages=1 overflow=0
+  visible_text_page1: Step 3: Solve 25000 · (0.85)^t < 10000. Divide both sides by 25000: (0.85)^t < 0.4. Take the natural log of both sides: t · ln(0.85) < ln(0.4). Since ln(0.85) is negative, divid...
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s09 (#9)
+  input_chars=654 | no_image: page_chars=658 usable=520 pages=1 overflow=0
+  with_image: page_chars=658 usable=520 pages=1 overflow=0
+  visible_text_page1: A logarithm answers the question: what exponent do I need? Specifically, log_b(x) = y means b^y = x. In words, log base b of x is the power you raise b to in order to get x.    ...
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s10 (#10)
+  input_chars=101 | no_image: page_chars=101 usable=81 pages=1 overflow=0
+  with_image: page_chars=101 usable=81 pages=1 overflow=0
+  visible_text_page1: log_5(25) = 2 because 5^2 = 25. log_3(1/9) = -2 because 3^(-2) = 1/9. log_10(1) = 0 because 10^0 = 1.
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s11 (#11)
+  input_chars=725 | no_image: page_chars=729 usable=606 pages=1 overflow=0
+  with_image: page_chars=729 usable=606 pages=1 overflow=0
+  visible_text_page1: Logarithms have three key properties that come directly from the rules of exponents. These properties turn multiplication into addition, division into subtraction, and powers in...
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s12 (#12)
+  input_chars=136 | no_image: page_chars=136 usable=115 pages=1 overflow=0
+  with_image: page_chars=136 usable=115 pages=1 overflow=0
+  visible_text_page1: Expand log_2(8x^3). Using the product rule: log_2(8) + log_2(x^3). Then the power rule: 3 + 3·log_2(x). So log_2(8x^3) = 3 + 3·log_2(x).
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s13 (#13)
+  input_chars=658 | no_image: page_chars=662 usable=540 pages=1 overflow=0
+  with_image: page_chars=662 usable=540 pages=1 overflow=0
+  visible_text_page1: Two bases are used so often they get special names and shorthand. The common logarithm uses base 10 and is written simply as log(x) (no base written). The natural logarithm uses...
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s14 (#14)
+  input_chars=171 | no_image: page_chars=171 usable=143 pages=1 overflow=0
+  with_image: page_chars=171 usable=143 pages=1 overflow=0
+  visible_text_page1: The change of base formula lets you convert between any two bases: log_b(x) = ln(x)/ln(b) = log(x)/log(b). This is useful when your calculator only has log and ln buttons.
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s15 (#15)
+  input_chars=252 | no_image: page_chars=258 usable=192 pages=1 overflow=0
+  with_image: page_chars=258 usable=192 pages=1 overflow=0
+  visible_text_page1: Solve for x: log_3(2x + 1) = 4.    Step 1: Convert from logarithmic to exponential form. log_3(2x + 1) = 4 means 3^4 = 2x + 1.    Step 2: Compute 3^4 = 81. So the equation becom...
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s16 (#16)
+  input_chars=72 | no_image: page_chars=72 usable=60 pages=1 overflow=0
+  with_image: page_chars=72 usable=60 pages=1 overflow=0
+  visible_text_page1: Step 4: Check. log_3(2(40) + 1) = log_3(81) = log_3(3^4) = 4. Confirmed.
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s17 (#17)
+  input_chars=670 | no_image: page_chars=674 usable=549 pages=1 overflow=0
+  with_image: page_chars=674 usable=549 pages=1 overflow=0
+  visible_text_page1: Exponential functions and logarithmic functions are inverses of each other. This means they undo each other. If f(x) = b^x, then f^(-1)(x) = log_b(x). Graphically, the log curve...
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s18 (#18)
+  input_chars=182 | no_image: page_chars=182 usable=152 pages=1 overflow=0
+  with_image: page_chars=182 usable=152 pages=1 overflow=0
+  visible_text_page1: When you see an equation with the variable in the exponent, think 'take a log.' When the variable is inside a log, think 'exponentiate.' These inverse operations are your main t...
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s19 (#19)
+  input_chars=622 | no_image: page_chars=626 usable=512 pages=1 overflow=0
+  with_image: page_chars=626 usable=512 pages=1 overflow=0
+  visible_text_page1: Many real-world problems require solving equations involving exponentials or logs. The strategy depends on where the variable appears. If x is in the exponent, isolate the expon...
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s20 (#20)
+  input_chars=174 | no_image: page_chars=174 usable=146 pages=1 overflow=0
+  with_image: page_chars=174 usable=146 pages=1 overflow=0
+  visible_text_page1: Always check your answers in the original equation. Logarithms are only defined for positive inputs, so reject any solution that makes the argument of a log zero or negative.
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s21 (#21)
+  input_chars=297 | no_image: page_chars=303 usable=243 pages=1 overflow=0
+  with_image: page_chars=303 usable=243 pages=1 overflow=0
+  visible_text_page1: 1) A bank account has $5,000 growing at 4% per year compounded annually. Write the function A(t) and find the balance after 10 years.    2) Evaluate without a calculator: log_4(...
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s22 (#22)
+  input_chars=514 | no_image: page_chars=516 usable=423 pages=1 overflow=0
+  with_image: page_chars=516 usable=423 pages=1 overflow=0
+  visible_text_page1: Exponential functions f(x) = a · b^x model quantities that grow or decay by a fixed percentage per step. The base b determines the behavior: b > 1 gives growth, 0 < b < 1 gives ...
+
+[precalculus / precalc_ch2_exp_log] precalc_ch2_s23 (#23)
+  input_chars=313 | no_image: page_chars=313 usable=268 pages=1 overflow=0
+  with_image: page_chars=313 usable=268 pages=1 overflow=0
+  visible_text_page1: To solve exponential equations, take a log. To solve log equations, exponentiate. These inverse operations are the central strategy. Always check that solutions keep log argumen...
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s01 (#1)
+  input_chars=698 | no_image: page_chars=702 usable=569 pages=1 overflow=0
+  with_image: page_chars=702 usable=569 pages=1 overflow=0
+  visible_text_page1: An angle measures the amount of rotation from one direction to another. You are probably used to measuring angles in degrees, where a full rotation is 360 degrees. In calculus a...
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s02 (#2)
+  input_chars=186 | no_image: page_chars=186 usable=157 pages=1 overflow=0
+  with_image: page_chars=186 usable=157 pages=1 overflow=0
+  visible_text_page1: Calculus almost always uses radians. The derivative formulas for sine and cosine only work cleanly in radians. Get comfortable thinking in radians now — it will save you headach...
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s03 (#3)
+  input_chars=667 | no_image: page_chars=671 usable=548 pages=1 overflow=0
+  with_image: page_chars=671 usable=548 pages=1 overflow=0
+  visible_text_page1: The unit circle is a circle with radius 1 centered at the origin. It is the key tool for defining trigonometric functions for any angle, not just angles in triangles.    Start a...
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s04 (#4)
+  input_chars=166 | no_image: page_chars=166 usable=135 pages=1 overflow=0
+  with_image: page_chars=166 usable=135 pages=1 overflow=0
+  visible_text_page1: At theta = pi/3 (60°), the point on the unit circle is (1/2, sqrt(3)/2). So cos(pi/3) = 1/2 and sin(pi/3) = sqrt(3)/2. Check: (1/2)^2 + (sqrt(3)/2)^2 = 1/4 + 3/4 = 1.
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s05 (#5)
+  input_chars=732 | no_image: page_chars=736 usable=632 pages=1 overflow=0
+  with_image: page_chars=736 usable=632 pages=1 overflow=0
+  visible_text_page1: The three primary trig functions are sine, cosine, and tangent. From a right triangle perspective: for an acute angle theta in a right triangle, sin(theta) = opposite/hypotenuse...
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s06 (#6)
+  input_chars=139 | no_image: page_chars=139 usable=117 pages=1 overflow=0
+  with_image: page_chars=139 usable=117 pages=1 overflow=0
+  visible_text_page1: At theta = pi/4 (45°), the unit circle point is (sqrt(2)/2, sqrt(2)/2). So sin(pi/4) = sqrt(2)/2, cos(pi/4) = sqrt(2)/2, and tan(pi/4) = 1.
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s07 (#7)
+  input_chars=427 | no_image: page_chars=433 usable=353 pages=1 overflow=0
+  with_image: page_chars=433 usable=353 pages=1 overflow=0
+  visible_text_page1: Find the exact values of sin(5·pi/6), cos(5·pi/6), and tan(5·pi/6).    Step 1: Find the reference angle. 5·pi/6 is in the second quadrant (between pi/2 and pi). The reference an...
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s08 (#8)
+  input_chars=94 | no_image: page_chars=94 usable=82 pages=1 overflow=0
+  with_image: page_chars=94 usable=82 pages=1 overflow=0
+  visible_text_page1: Step 4: Compute tangent. tan(5·pi/6) = sin/cos = (1/2)/(-sqrt(3)/2) = -1/sqrt(3) = -sqrt(3)/3.
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s09 (#9)
+  input_chars=611 | no_image: page_chars=613 usable=488 pages=1 overflow=0
+  with_image: page_chars=613 usable=488 pages=1 overflow=0
+  visible_text_page1: The graphs of y = sin(x) and y = cos(x) are smooth, wave-like curves that repeat every 2·pi units. This repeating behavior is called periodicity. The period is the length of one...
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s10 (#10)
+  input_chars=380 | no_image: page_chars=382 usable=310 pages=1 overflow=0
+  with_image: page_chars=382 usable=310 pages=1 overflow=0
+  visible_text_page1: For the general form y = A·sin(Bx - C) + D: |A| is the amplitude, 2·pi/|B| is the period, C/B is the phase shift (horizontal shift), and D is the vertical shift (midline). These...
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s11 (#11)
+  input_chars=740 | no_image: page_chars=744 usable=611 pages=1 overflow=0
+  with_image: page_chars=744 usable=611 pages=1 overflow=0
+  visible_text_page1: The tangent function y = tan(x) has a very different shape from sine and cosine. It has vertical asymptotes at x = pi/2 + n·pi (where cosine is zero). Between each pair of asymp...
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s12 (#12)
+  input_chars=211 | no_image: page_chars=211 usable=181 pages=1 overflow=0
+  with_image: page_chars=211 usable=181 pages=1 overflow=0
+  visible_text_page1: You will encounter all six trig functions in calculus. Tangent and secant appear especially often in derivative and integration formulas, so getting comfortable with their graph...
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s13 (#13)
+  input_chars=745 | no_image: page_chars=749 usable=631 pages=1 overflow=0
+  with_image: page_chars=749 usable=631 pages=1 overflow=0
+  visible_text_page1: Trigonometric identities are equations that are true for all valid angles. They are not something to solve — they are facts you can always use to simplify or rewrite expressions...
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s14 (#14)
+  input_chars=177 | no_image: page_chars=177 usable=147 pages=1 overflow=0
+  with_image: page_chars=177 usable=147 pages=1 overflow=0
+  visible_text_page1: You do not need to memorize all identities blindly. Focus on sin^2 + cos^2 = 1, the reciprocal relationships, and tan = sin/cos. Many other identities can be derived from these.
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s15 (#15)
+  input_chars=694 | no_image: page_chars=698 usable=578 pages=1 overflow=0
+  with_image: page_chars=698 usable=578 pages=1 overflow=0
+  visible_text_page1: The angle sum and difference formulas let you find the trig values of combined angles. sin(A + B) = sin(A)cos(B) + cos(A)sin(B). sin(A - B) = sin(A)cos(B) - cos(A)sin(B). cos(A ...
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s16 (#16)
+  input_chars=153 | no_image: page_chars=153 usable=133 pages=1 overflow=0
+  with_image: page_chars=153 usable=133 pages=1 overflow=0
+  visible_text_page1: Find cos(75°). Write 75° = 45° + 30°. cos(75°) = cos(45°)cos(30°) - sin(45°)sin(30°) = (sqrt(2)/2)(sqrt(3)/2) - (sqrt(2)/2)(1/2) = (sqrt(6) - sqrt(2))/4.
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s17 (#17)
+  input_chars=365 | no_image: page_chars=371 usable=298 pages=1 overflow=0
+  with_image: page_chars=371 usable=298 pages=1 overflow=0
+  visible_text_page1: Verify the identity: (1 - cos^2(x)) / sin(x) = sin(x).    Step 1: Focus on the left side. The numerator is 1 - cos^2(x). By the Pythagorean identity, sin^2(x) + cos^2(x) = 1, so...
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s18 (#18)
+  input_chars=224 | no_image: page_chars=224 usable=187 pages=1 overflow=0
+  with_image: page_chars=224 usable=187 pages=1 overflow=0
+  visible_text_page1: When verifying identities, work on one side only and transform it into the other side. The Pythagorean identity is your most powerful tool — look for opportunities to substitute...
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s19 (#19)
+  input_chars=710 | no_image: page_chars=714 usable=591 pages=1 overflow=0
+  with_image: page_chars=714 usable=591 pages=1 overflow=0
+  visible_text_page1: Inverse trig functions answer the question: what angle gives this trig value? For example, arcsin(1/2) (also written sin^(-1)(1/2)) asks: what angle has a sine of 1/2? The answe...
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s20 (#20)
+  input_chars=127 | no_image: page_chars=127 usable=102 pages=1 overflow=0
+  with_image: page_chars=127 usable=102 pages=1 overflow=0
+  visible_text_page1: arccos(-1) = pi because cos(pi) = -1 and pi is in [0, pi]. arctan(1) = pi/4 because tan(pi/4) = 1 and pi/4 is in (-pi/2, pi/2).
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s21 (#21)
+  input_chars=487 | no_image: page_chars=489 usable=391 pages=1 overflow=0
+  with_image: page_chars=489 usable=391 pages=1 overflow=0
+  visible_text_page1: A trig equation asks you to find the angle(s) that make a statement true. For example, solve sin(x) = 1/2. From the unit circle, x = pi/6 is one solution. But since sine is peri...
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s22 (#22)
+  input_chars=425 | no_image: page_chars=427 usable=343 pages=1 overflow=0
+  with_image: page_chars=427 usable=343 pages=1 overflow=0
+  visible_text_page1: More complex trig equations may require algebraic manipulation first. Factor, use identities to rewrite in terms of a single function, or make a substitution. For example, 2·sin...
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s23 (#23)
+  input_chars=253 | no_image: page_chars=259 usable=205 pages=1 overflow=0
+  with_image: page_chars=259 usable=205 pages=1 overflow=0
+  visible_text_page1: 1) Convert 225° to radians and find the exact values of sin(225°), cos(225°), and tan(225°).    2) Verify the identity: tan(x)·cos(x) = sin(x).    3) Find the amplitude, period,...
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s24 (#24)
+  input_chars=734 | no_image: page_chars=738 usable=623 pages=1 overflow=0
+  with_image: page_chars=738 usable=623 pages=1 overflow=0
+  visible_text_page1: Radians are the standard angle measure in calculus, with pi radians = 180 degrees. The unit circle defines sin(theta) as the y-coordinate and cos(theta) as the x-coordinate of a...
+
+[precalculus / precalc_ch3_trigonometry] precalc_ch3_s25 (#25)
+  input_chars=168 | no_image: page_chars=168 usable=144 pages=1 overflow=0
+  with_image: page_chars=168 usable=144 pages=1 overflow=0
+  visible_text_page1: Trigonometry is woven throughout calculus. Derivatives of sin and cos, trig substitution for integrals, and Fourier analysis all depend on the concepts in this chapter.
+
+[precalculus / precalc_ch4_complex_numbers] precalc_ch4_s01 (#1)
+  input_chars=743 | no_image: page_chars=663 usable=523 pages=2 overflow=80
+  with_image: page_chars=663 usable=523 pages=2 overflow=80
+  visible_text_page1: When you try to solve x^2 = -1, there is no real number that works because squaring any real number gives a positive result (or zero). To handle this, mathematicians invented th...
+
+[precalculus / precalc_ch4_complex_numbers] precalc_ch4_s02 (#2)
+  input_chars=658 | no_image: page_chars=664 usable=498 pages=1 overflow=0
+  with_image: page_chars=564 usable=427 pages=2 overflow=94
+  visible_text_page1: A complex number has the form a + bi, where a is the real part and b is the imaginary part. For example, 3 + 2i has real part 3 and imaginary part 2. The number 5 is also comple...
+
+[precalculus / precalc_ch4_complex_numbers] precalc_ch4_s03 (#3)
+  input_chars=688 | no_image: page_chars=692 usable=562 pages=1 overflow=0
+  with_image: page_chars=692 usable=562 pages=1 overflow=0
+  visible_text_page1: Complex numbers can be visualized on the complex plane (also called the Argand diagram). The horizontal axis represents the real part and the vertical axis represents the imagin...
+
+[precalculus / precalc_ch4_complex_numbers] precalc_ch4_s04 (#4)
+  input_chars=232 | no_image: page_chars=232 usable=200 pages=1 overflow=0
+  with_image: page_chars=232 usable=200 pages=1 overflow=0
+  visible_text_page1: The complex plane gives geometry to numbers. Adding complex numbers corresponds to vector addition. Multiplying by i rotates a point 90 degrees counterclockwise. This geometric ...
+
+[precalculus / precalc_ch4_complex_numbers] precalc_ch4_s05 (#5)
+  input_chars=344 | no_image: page_chars=350 usable=237 pages=1 overflow=0
+  with_image: page_chars=350 usable=237 pages=1 overflow=0
+  visible_text_page1: Let z = 2 - 3i and w = 1 + 4i. Find z + w, z · w, and |z|.    Step 1: Addition. z + w = (2 - 3i) + (1 + 4i) = (2 + 1) + (-3 + 4)i = 3 + i.    Step 2: Multiplication. z · w = (2 ...
+
+[precalculus / precalc_ch4_complex_numbers] precalc_ch4_s06 (#6)
+  input_chars=665 | no_image: page_chars=669 usable=511 pages=1 overflow=0
+  with_image: page_chars=669 usable=511 pages=1 overflow=0
+  visible_text_page1: The complex conjugate of a + bi is a - bi. You flip the sign of the imaginary part. For example, the conjugate of 3 + 2i is 3 - 2i. The conjugate of -1 - 5i is -1 + 5i.    Conju...
+
+[precalculus / precalc_ch4_complex_numbers] precalc_ch4_s07 (#7)
+  input_chars=161 | no_image: page_chars=161 usable=136 pages=1 overflow=0
+  with_image: page_chars=161 usable=136 pages=1 overflow=0
+  visible_text_page1: Multiplying by the conjugate to clear complex denominators is the same idea as rationalizing the denominator with radicals. It is a technique you will use often.
+
+[precalculus / precalc_ch4_complex_numbers] precalc_ch4_s08 (#8)
+  input_chars=563 | no_image: page_chars=565 usable=471 pages=1 overflow=0
+  with_image: page_chars=565 usable=471 pages=1 overflow=0
+  visible_text_page1: Instead of writing a complex number as a + bi (rectangular form), you can describe it using its modulus r and argument theta: z = r(cos(theta) + i·sin(theta)). This is called po...
+
+[precalculus / precalc_ch4_complex_numbers] precalc_ch4_s09 (#9)
+  input_chars=475 | no_image: page_chars=477 usable=387 pages=1 overflow=0
+  with_image: page_chars=477 usable=387 pages=1 overflow=0
+  visible_text_page1: This also makes computing powers easy. De Moivre's Theorem says: [r(cos theta + i·sin theta)]^n = r^n · (cos(n·theta) + i·sin(n·theta)). To raise a complex number to the nth pow...
+
+[precalculus / precalc_ch4_complex_numbers] precalc_ch4_s10 (#10)
+  input_chars=431 | no_image: page_chars=437 usable=348 pages=1 overflow=0
+  with_image: page_chars=437 usable=348 pages=1 overflow=0
+  visible_text_page1: Write z = -1 + sqrt(3)·i in polar form. Then use De Moivre's Theorem to find z^3.    Step 1: Find the modulus. r = sqrt((-1)^2 + (sqrt(3))^2) = sqrt(1 + 3) = sqrt(4) = 2.    Ste...
+
+[precalculus / precalc_ch4_complex_numbers] precalc_ch4_s11 (#11)
+  input_chars=144 | no_image: page_chars=144 usable=112 pages=1 overflow=0
+  with_image: page_chars=144 usable=112 pages=1 overflow=0
+  visible_text_page1: Step 4: Apply De Moivre's Theorem for z^3. z^3 = 2^3 · (cos(3 · 2·pi/3) + i·sin(3 · 2·pi/3)) = 8 · (cos(2·pi) + i·sin(2·pi)) = 8 · (1 + 0i) = 8.
+
+[precalculus / precalc_ch4_complex_numbers] precalc_ch4_s12 (#12)
+  input_chars=760 | no_image: page_chars=764 usable=626 pages=1 overflow=0
+  with_image: page_chars=764 usable=626 pages=1 overflow=0
+  visible_text_page1: One of the most beautiful results in all of mathematics connects exponentials, trigonometry, and complex numbers. Euler's formula states: e^(i·theta) = cos(theta) + i·sin(theta)...
+
+[precalculus / precalc_ch4_complex_numbers] precalc_ch4_s13 (#13)
+  input_chars=217 | no_image: page_chars=217 usable=179 pages=1 overflow=0
+  with_image: page_chars=217 usable=179 pages=1 overflow=0
+  visible_text_page1: You do not need to fully understand why Euler's formula works yet. Just know it exists and that it creates a deep bridge between exponentials and trig. You will see it again whe...
+
+[precalculus / precalc_ch4_complex_numbers] precalc_ch4_s14 (#14)
+  input_chars=612 | no_image: page_chars=616 usable=490 pages=1 overflow=0
+  with_image: page_chars=616 usable=490 pages=1 overflow=0
+  visible_text_page1: The quadratic formula x = (-b ± sqrt(b^2 - 4ac))/(2a) sometimes produces a negative number under the square root. When the discriminant b^2 - 4ac is negative, the solutions are ...
+
+[precalculus / precalc_ch4_complex_numbers] precalc_ch4_s15 (#15)
+  input_chars=228 | no_image: page_chars=228 usable=193 pages=1 overflow=0
+  with_image: page_chars=228 usable=193 pages=1 overflow=0
+  visible_text_page1: The Fundamental Theorem of Algebra says every polynomial of degree n has exactly n roots when you count complex roots and multiplicities. Complex numbers complete the number sys...
+
+[precalculus / precalc_ch4_complex_numbers] precalc_ch4_s16 (#16)
+  input_chars=212 | no_image: page_chars=218 usable=158 pages=1 overflow=0
+  with_image: page_chars=218 usable=158 pages=1 overflow=0
+  visible_text_page1: 1) Simplify: (4 - 3i)(2 + i).    2) Find the modulus and argument of z = -3 - 3i.    3) Divide: (5 + i)/(2 - 3i). Write the result in a + bi form.    4) Solve x^2 - 4x + 13 = 0 ...
+
+[precalculus / precalc_ch4_complex_numbers] precalc_ch4_s17 (#17)
+  input_chars=755 | no_image: page_chars=759 usable=644 pages=1 overflow=0
+  with_image: page_chars=759 usable=644 pages=1 overflow=0
+  visible_text_page1: Complex numbers might seem abstract, but they are indispensable in many fields. In electrical engineering, alternating current is described using complex numbers because voltage...
+
+[precalculus / precalc_ch4_complex_numbers] precalc_ch4_s18 (#18)
+  input_chars=197 | no_image: page_chars=197 usable=171 pages=1 overflow=0
+  with_image: page_chars=197 usable=171 pages=1 overflow=0
+  visible_text_page1: For calculus specifically, complex numbers help explain why certain real-valued integrals work out the way they do, and they connect exponential and trigonometric functions thro...
+
+[precalculus / precalc_ch4_complex_numbers] precalc_ch4_s19 (#19)
+  input_chars=548 | no_image: page_chars=550 usable=455 pages=1 overflow=0
+  with_image: page_chars=550 usable=455 pages=1 overflow=0
+  visible_text_page1: Complex numbers extend the real number system by introducing i where i^2 = -1. Every complex number has the form a + bi with real part a and imaginary part b. Arithmetic follows...
+
+[precalculus / precalc_ch4_complex_numbers] precalc_ch4_s20 (#20)
+  input_chars=245 | no_image: page_chars=245 usable=208 pages=1 overflow=0
+  with_image: page_chars=245 usable=208 pages=1 overflow=0
+  visible_text_page1: Complex conjugates (flip the sign of the imaginary part) are used for division and always appear as root pairs of real polynomials. Euler's formula e^(i·theta) = cos(theta) + i·...
+
+[precalculus / precalc_ch5_sequences_series] precalc_ch5_s01 (#1)
+  input_chars=513 | no_image: page_chars=515 usable=408 pages=1 overflow=0
+  with_image: page_chars=515 usable=408 pages=1 overflow=0
+  visible_text_page1: A sequence is an ordered list of numbers that follow a specific pattern or rule. Each number in the list is called a term. We label them a_1 (first term), a_2 (second term), a_3...
+
+[precalculus / precalc_ch5_sequences_series] precalc_ch5_s02 (#2)
+  input_chars=484 | no_image: page_chars=486 usable=394 pages=1 overflow=0
+  with_image: page_chars=486 usable=394 pages=1 overflow=0
+  visible_text_page1: We often ask whether a sequence converges or diverges. A sequence converges if its terms approach a specific number as n gets larger and larger. For example, a_n = 1/n gives 1, ...
+
+[precalculus / precalc_ch5_sequences_series] precalc_ch5_s03 (#3)
+  input_chars=648 | no_image: page_chars=652 usable=525 pages=1 overflow=0
+  with_image: page_chars=652 usable=525 pages=1 overflow=0
+  visible_text_page1: An arithmetic sequence has a constant difference between consecutive terms. This difference is called the common difference, d. Each term is found by adding d to the previous te...
+
+[precalculus / precalc_ch5_sequences_series] precalc_ch5_s04 (#4)
+  input_chars=114 | no_image: page_chars=114 usable=84 pages=1 overflow=0
+  with_image: page_chars=114 usable=84 pages=1 overflow=0
+  visible_text_page1: Find the 50th term of the sequence 7, 12, 17, 22, ... Here a_1 = 7 and d = 5. a_50 = 7 + (50-1)·5 = 7 + 245 = 252.
+
+[precalculus / precalc_ch5_sequences_series] precalc_ch5_s05 (#5)
+  input_chars=651 | no_image: page_chars=655 usable=528 pages=1 overflow=0
+  with_image: page_chars=655 usable=528 pages=1 overflow=0
+  visible_text_page1: A geometric sequence has a constant ratio between consecutive terms. This ratio is called the common ratio, r. Each term is found by multiplying the previous term by r: a_n = a_...
+
+[precalculus / precalc_ch5_sequences_series] precalc_ch5_s06 (#6)
+  input_chars=128 | no_image: page_chars=128 usable=97 pages=1 overflow=0
+  with_image: page_chars=128 usable=97 pages=1 overflow=0
+  visible_text_page1: Find the 8th term of 100, 50, 25, ... Here a_1 = 100 and r = 1/2. a_8 = 100 · (1/2)^7 = 100 · (1/128) = 100/128 = 25/32 ≈ 0.781.
+
+[precalculus / precalc_ch5_sequences_series] precalc_ch5_s07 (#7)
+  input_chars=448 | no_image: page_chars=454 usable=352 pages=1 overflow=0
+  with_image: page_chars=454 usable=352 pages=1 overflow=0
+  visible_text_page1: A sequence begins 4, 12, 36, 108, ... Is it arithmetic or geometric? Find the 10th term and a general formula.    Step 1: Check for arithmetic. Differences: 12 - 4 = 8, 36 - 12 ...
+
+[precalculus / precalc_ch5_sequences_series] precalc_ch5_s08 (#8)
+  input_chars=63 | no_image: page_chars=63 usable=47 pages=1 overflow=0
+  with_image: page_chars=63 usable=47 pages=1 overflow=0
+  visible_text_page1: Step 4: Find the 10th term. a_10 = 4 · 3^9 = 4 · 19683 = 78732.
+
+[precalculus / precalc_ch5_sequences_series] precalc_ch5_s09 (#9)
+  input_chars=748 | no_image: page_chars=688 usable=536 pages=2 overflow=60
+  with_image: page_chars=688 usable=536 pages=2 overflow=60
+  visible_text_page1: A series is the sum of the terms of a sequence. If you have a sequence a_1, a_2, a_3, ..., the corresponding series is S = a_1 + a_2 + a_3 + ... We often want to find the sum of...
+
+[precalculus / precalc_ch5_sequences_series] precalc_ch5_s10 (#10)
+  input_chars=682 | no_image: page_chars=686 usable=541 pages=1 overflow=0
+  with_image: page_chars=686 usable=541 pages=1 overflow=0
+  visible_text_page1: An arithmetic series is the sum of an arithmetic sequence. There is a simple formula: the sum of the first n terms is S_n = n/2 · (a_1 + a_n), or equivalently S_n = n/2 · (2a_1 ...
+
+[precalculus / precalc_ch5_sequences_series] precalc_ch5_s11 (#11)
+  input_chars=146 | no_image: page_chars=146 usable=103 pages=1 overflow=0
+  with_image: page_chars=146 usable=103 pages=1 overflow=0
+  visible_text_page1: Find the sum of the first 20 terms of 5, 9, 13, 17, ... Here a_1 = 5, d = 4, n = 20. a_20 = 5 + 19·4 = 81. S_20 = 20/2 · (5 + 81) = 10 · 86 = 860.
+
+[precalculus / precalc_ch5_sequences_series] precalc_ch5_s12 (#12)
+  input_chars=681 | no_image: page_chars=685 usable=547 pages=1 overflow=0
+  with_image: page_chars=685 usable=547 pages=1 overflow=0
+  visible_text_page1: A geometric series is the sum of a geometric sequence. The sum of the first n terms is: S_n = a_1 · (1 - r^n)/(1 - r), valid when r ≠ 1. This formula is derived by a clever tric...
+
+[precalculus / precalc_ch5_sequences_series] precalc_ch5_s13 (#13)
+  input_chars=157 | no_image: page_chars=157 usable=118 pages=1 overflow=0
+  with_image: page_chars=157 usable=118 pages=1 overflow=0
+  visible_text_page1: Sum the infinite series 10 + 5 + 2.5 + 1.25 + ... Here a_1 = 10 and r = 1/2. Since |r| < 1, S = 10/(1 - 1/2) = 10/(1/2) = 20. The infinite sum is exactly 20.
+
+[precalculus / precalc_ch5_sequences_series] precalc_ch5_s14 (#14)
+  input_chars=536 | no_image: page_chars=540 usable=428 pages=1 overflow=0
+  with_image: page_chars=540 usable=428 pages=1 overflow=0
+  visible_text_page1: A ball is dropped from 6 feet. Each time it bounces, it reaches 2/3 of its previous height. Find the total vertical distance the ball travels (up and down combined) before comin...
+
+[precalculus / precalc_ch5_sequences_series] precalc_ch5_s15 (#15)
+  input_chars=225 | no_image: page_chars=227 usable=175 pages=1 overflow=0
+  with_image: page_chars=227 usable=175 pages=1 overflow=0
+  visible_text_page1: Step 3: The bouncing heights form an infinite geometric series with a_1 = 4 and r = 2/3. Sum = 4/(1 - 2/3) = 4/(1/3) = 12.    Step 4: Total distance = 6 + 2·12 = 6 + 24 = 30 fee...
+
+[precalculus / precalc_ch5_sequences_series] precalc_ch5_s16 (#16)
+  input_chars=742 | no_image: page_chars=615 usable=497 pages=2 overflow=127
+  with_image: page_chars=615 usable=497 pages=2 overflow=127
+  visible_text_page1: Sigma notation ∑ is the standard way to write sums compactly. It has three parts: the expression being summed (like k^2 or 3·(1/2)^k), the starting index (written below ∑, like ...
+
+[precalculus / precalc_ch5_sequences_series] precalc_ch5_s17 (#17)
+  input_chars=461 | no_image: page_chars=463 usable=371 pages=1 overflow=0
+  with_image: page_chars=463 usable=371 pages=1 overflow=0
+  visible_text_page1: When we write an infinite series like ∑(k=1 to infinity) a_k, we are asking: does adding up all these terms give a finite number? If so, the series converges to that number. If ...
+
+[precalculus / precalc_ch5_sequences_series] precalc_ch5_s18 (#18)
+  input_chars=507 | no_image: page_chars=509 usable=416 pages=1 overflow=0
+  with_image: page_chars=509 usable=416 pages=1 overflow=0
+  visible_text_page1: A necessary condition for convergence is that the terms a_n must approach zero. If a_n does not go to zero, the series definitely diverges. But be careful: a_n going to zero is ...
+
+[precalculus / precalc_ch5_sequences_series] precalc_ch5_s19 (#19)
+  input_chars=352 | no_image: page_chars=358 usable=270 pages=1 overflow=0
+  with_image: page_chars=358 usable=270 pages=1 overflow=0
+  visible_text_page1: 1) Find a formula for the nth term of the sequence 2, 7, 12, 17, 22, ... and find a_30.    2) A geometric sequence has a_1 = 81 and r = 1/3. Find the 6th term.    3) Find the su...
+
+[precalculus / precalc_ch5_sequences_series] precalc_ch5_s20 (#20)
+  input_chars=754 | no_image: page_chars=758 usable=619 pages=1 overflow=0
+  with_image: page_chars=758 usable=619 pages=1 overflow=0
+  visible_text_page1: A sequence is an ordered list of numbers. Arithmetic sequences have a constant difference d between terms (a_n = a_1 + (n-1)d). Geometric sequences have a constant ratio r (a_n ...
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s01 (#1)
+  input_chars=611 | no_image: page_chars=613 usable=502 pages=1 overflow=0
+  with_image: page_chars=613 usable=502 pages=1 overflow=0
+  visible_text_page1: Conic sections are the curves you get when you slice a double cone (two cones tip-to-tip) with a flat plane. Depending on the angle of the cut, you get a circle, an ellipse, a p...
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s02 (#2)
+  input_chars=434 | no_image: page_chars=436 usable=362 pages=1 overflow=0
+  with_image: page_chars=436 usable=362 pages=1 overflow=0
+  visible_text_page1: Each conic section has a standard equation that describes its shape, and special points (like the center, focus, or vertex) that define its geometry. Understanding these equatio...
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s03 (#3)
+  input_chars=570 | no_image: page_chars=574 usable=445 pages=1 overflow=0
+  with_image: page_chars=574 usable=445 pages=1 overflow=0
+  visible_text_page1: A circle is the set of all points at a fixed distance r (the radius) from a fixed point (h, k) called the center. Its standard equation is (x - h)^2 + (y - k)^2 = r^2.    When t...
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s04 (#4)
+  input_chars=212 | no_image: page_chars=212 usable=162 pages=1 overflow=0
+  with_image: page_chars=212 usable=162 pages=1 overflow=0
+  visible_text_page1: Complete the square: x^2 - 6x + y^2 + 4y = 12. For x: (x^2 - 6x + 9) = (x-3)^2, add 9 to both sides. For y: (y^2 + 4y + 4) = (y+2)^2, add 4 to both sides. Result: (x-3)^2 + (y+2...
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s05 (#5)
+  input_chars=744 | no_image: page_chars=748 usable=598 pages=1 overflow=0
+  with_image: page_chars=748 usable=598 pages=1 overflow=0
+  visible_text_page1: An ellipse looks like a stretched circle. It has two special points inside called foci (singular: focus). The defining property of an ellipse is: for any point on the ellipse, t...
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s06 (#6)
+  input_chars=169 | no_image: page_chars=169 usable=127 pages=1 overflow=0
+  with_image: page_chars=169 usable=127 pages=1 overflow=0
+  visible_text_page1: x^2/25 + y^2/9 = 1 has a = 5, b = 3. Major axis is horizontal (since 5 > 3). c = sqrt(25 - 9) = sqrt(16) = 4. Foci at (4, 0) and (-4, 0). Vertices at (5, 0) and (-5, 0).
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s07 (#7)
+  input_chars=502 | no_image: page_chars=504 usable=411 pages=1 overflow=0
+  with_image: page_chars=504 usable=411 pages=1 overflow=0
+  visible_text_page1: A hyperbola consists of two separate branches that open in opposite directions. Like an ellipse, it has two foci. But the defining property is different: for any point on the hy...
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s08 (#8)
+  input_chars=483 | no_image: page_chars=485 usable=381 pages=1 overflow=0
+  with_image: page_chars=485 usable=381 pages=1 overflow=0
+  visible_text_page1: Hyperbolas have asymptotes — lines that the branches approach but never touch. For x^2/a^2 - y^2/b^2 = 1, the asymptotes are the lines y = (b/a)x and y = -(b/a)x. These asymptot...
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s09 (#9)
+  input_chars=541 | no_image: page_chars=547 usable=425 pages=1 overflow=0
+  with_image: page_chars=537 usable=416 pages=2 overflow=4
+  visible_text_page1: Identify the conic section given by the equation 9x^2 + 4y^2 = 36. Find the center, vertices, and foci.    Step 1: Divide both sides by 36 to get standard form: x^2/4 + y^2/9 = ...
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s10 (#10)
+  input_chars=153 | no_image: page_chars=153 usable=118 pages=1 overflow=0
+  with_image: page_chars=153 usable=118 pages=1 overflow=0
+  visible_text_page1: Step 4: Center is (0, 0). Vertices on the major axis: (0, 3) and (0, -3). c^2 = 9 - 4 = 5, so c = sqrt(5) ≈ 2.24. Foci at (0, sqrt(5)) and (0, -sqrt(5)).
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s11 (#11)
+  input_chars=641 | no_image: page_chars=645 usable=520 pages=1 overflow=0
+  with_image: page_chars=645 usable=520 pages=1 overflow=0
+  visible_text_page1: You already know parabolas as graphs of quadratic functions. Now we look at them as conic sections with a geometric definition: a parabola is the set of all points equidistant f...
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s12 (#12)
+  input_chars=348 | no_image: page_chars=350 usable=282 pages=1 overflow=0
+  with_image: page_chars=350 usable=282 pages=1 overflow=0
+  visible_text_page1: For x^2 = 12y, we have 4p = 12, so p = 3. The vertex is (0,0), the focus is (0, 3), and the directrix is y = -3. The parabola opens upward.    The focus-directrix property of pa...
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s13 (#13)
+  input_chars=679 | no_image: page_chars=683 usable=558 pages=1 overflow=0
+  with_image: page_chars=683 usable=558 pages=1 overflow=0
+  visible_text_page1: All conic sections can be described by a single number called eccentricity, written e (not to be confused with Euler's number). Eccentricity measures how much the conic deviates...
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s14 (#14)
+  input_chars=169 | no_image: page_chars=169 usable=138 pages=1 overflow=0
+  with_image: page_chars=169 usable=138 pages=1 overflow=0
+  visible_text_page1: Earth's orbit has eccentricity about 0.017 (very close to a circle). A comet on a one-time visit might have e = 1.2 (hyperbolic — it flies by the sun and never returns).
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s15 (#15)
+  input_chars=586 | no_image: page_chars=590 usable=486 pages=1 overflow=0
+  with_image: page_chars=590 usable=486 pages=1 overflow=0
+  visible_text_page1: Analytic geometry uses algebra to study geometric shapes on the coordinate plane. Two of the most fundamental tools are the distance formula and the midpoint formula.    The dis...
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s16 (#16)
+  input_chars=167 | no_image: page_chars=167 usable=139 pages=1 overflow=0
+  with_image: page_chars=167 usable=139 pages=1 overflow=0
+  visible_text_page1: Find the distance and midpoint between (1, 3) and (7, 11). Distance: sqrt((7-1)^2 + (11-3)^2) = sqrt(36 + 64) = sqrt(100) = 10. Midpoint: ((1+7)/2, (3+11)/2) = (4, 7).
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s17 (#17)
+  input_chars=517 | no_image: page_chars=523 usable=408 pages=1 overflow=0
+  with_image: page_chars=501 usable=391 pages=2 overflow=16
+  visible_text_page1: Graph the hyperbola given by (y - 1)^2/4 - (x + 2)^2/9 = 1. Identify the center, vertices, foci, and asymptotes.    Step 1: Identify the center. The equation is in standard form...
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s18 (#18)
+  input_chars=281 | no_image: page_chars=283 usable=211 pages=1 overflow=0
+  with_image: page_chars=283 usable=211 pages=1 overflow=0
+  visible_text_page1: Step 4: Find foci. c^2 = a^2 + b^2 = 4 + 9 = 13, so c = sqrt(13) ≈ 3.61. Foci at (-2, 1 + sqrt(13)) and (-2, 1 - sqrt(13)).    Step 5: Asymptotes. For a vertical hyperbola cente...
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s19 (#19)
+  input_chars=667 | no_image: page_chars=671 usable=532 pages=1 overflow=0
+  with_image: page_chars=671 usable=532 pages=1 overflow=0
+  visible_text_page1: Any conic section can be described by the general second-degree equation Ax^2 + Bxy + Cy^2 + Dx + Ey + F = 0. You can determine which conic it is by looking at the coefficients....
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s20 (#20)
+  input_chars=120 | no_image: page_chars=120 usable=88 pages=1 overflow=0
+  with_image: page_chars=120 usable=88 pages=1 overflow=0
+  visible_text_page1: Classify 3x^2 - 5y^2 + 6x + 20y - 7 = 0. Here A = 3, B = 0, C = -5. A and C have opposite signs, so this is a hyperbola.
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s21 (#21)
+  input_chars=302 | no_image: page_chars=308 usable=239 pages=1 overflow=0
+  with_image: page_chars=308 usable=239 pages=1 overflow=0
+  visible_text_page1: 1) Write the equation of a circle with center (-1, 4) and radius 6.    2) For the ellipse x^2/49 + y^2/16 = 1, find the vertices, co-vertices, and foci.    3) Find the vertex, f...
+
+[precalculus / precalc_ch6_conics] precalc_ch6_s22 (#22)
+  input_chars=671 | no_image: page_chars=675 usable=554 pages=1 overflow=0
+  with_image: page_chars=675 usable=554 pages=1 overflow=0
+  visible_text_page1: Conic sections — circles, ellipses, parabolas, and hyperbolas — arise from slicing a cone. Each has a standard equation and key features (center, vertices, foci, asymptotes, dir...
+
+[precalculus / precalc_ch7_vectors_parametric] precalc_ch7_s01 (#1)
+  input_chars=480 | no_image: page_chars=482 usable=398 pages=1 overflow=0
+  with_image: page_chars=482 usable=398 pages=1 overflow=0
+  visible_text_page1: A vector is a quantity that has both magnitude (size) and direction. Think of it as an arrow: the length of the arrow represents how much, and the direction the arrow points tel...
+
+[precalculus / precalc_ch7_vectors_parametric] precalc_ch7_s02 (#2)
+  input_chars=493 | no_image: page_chars=495 usable=402 pages=1 overflow=0
+  with_image: page_chars=495 usable=402 pages=1 overflow=0
+  visible_text_page1: We write vectors using component form: v = <a, b> means the vector points a units in the x-direction and b units in the y-direction. The vector <3, 4> starts at the origin (by c...
+
+[precalculus / precalc_ch7_vectors_parametric] precalc_ch7_s03 (#3)
+  input_chars=703 | no_image: page_chars=625 usable=475 pages=2 overflow=78
+  with_image: page_chars=625 usable=475 pages=2 overflow=78
+  visible_text_page1: Vector addition combines two vectors by adding their components. If u = <a, b> and v = <c, d>, then u + v = <a + c, b + d>. Geometrically, this is the 'tip-to-tail' method: plac...
+
+[precalculus / precalc_ch7_vectors_parametric] precalc_ch7_s04 (#4)
+  input_chars=734 | no_image: page_chars=732 usable=579 pages=2 overflow=2
+  with_image: page_chars=613 usable=484 pages=2 overflow=121
+  visible_text_page1: The magnitude (or length) of a vector v = <a, b> is |v| = sqrt(a^2 + b^2). This is just the distance formula applied to the vector's components. For v = <3, 4>, |v| = sqrt(9 + 1...
+
+[precalculus / precalc_ch7_vectors_parametric] precalc_ch7_s05 (#5)
+  input_chars=633 | no_image: page_chars=637 usable=507 pages=1 overflow=0
+  with_image: page_chars=637 usable=507 pages=1 overflow=0
+  visible_text_page1: The dot product (also called the scalar product) takes two vectors and produces a single number. For u = <a, b> and v = <c, d>, the dot product is u · v = ac + bd. Multiply corr...
+
+[precalculus / precalc_ch7_vectors_parametric] precalc_ch7_s06 (#6)
+  input_chars=126 | no_image: page_chars=126 usable=96 pages=1 overflow=0
+  with_image: page_chars=126 usable=96 pages=1 overflow=0
+  visible_text_page1: u = <2, 3> and v = <6, -4>. Dot product: 2(6) + 3(-4) = 12 - 12 = 0. Since the dot product is zero, u and v are perpendicular.
+
+[precalculus / precalc_ch7_vectors_parametric] precalc_ch7_s07 (#7)
+  input_chars=369 | no_image: page_chars=375 usable=285 pages=1 overflow=0
+  with_image: page_chars=375 usable=285 pages=1 overflow=0
+  visible_text_page1: Find the angle between u = <1, 3> and v = <4, 2>.    Step 1: Compute the dot product. u · v = 1(4) + 3(2) = 4 + 6 = 10.    Step 2: Find the magnitudes. |u| = sqrt(1 + 9) = sqrt(...
+
+[precalculus / precalc_ch7_vectors_parametric] precalc_ch7_s08 (#8)
+  input_chars=124 | no_image: page_chars=124 usable=102 pages=1 overflow=0
+  with_image: page_chars=124 usable=102 pages=1 overflow=0
+  visible_text_page1: Step 4: Solve for theta. cos(theta) = 1/sqrt(2) = sqrt(2)/2. So theta = pi/4 = 45 degrees. The vectors are 45 degrees apart.
+
+[precalculus / precalc_ch7_vectors_parametric] precalc_ch7_s09 (#9)
+  input_chars=685 | no_image: page_chars=689 usable=558 pages=1 overflow=0
+  with_image: page_chars=689 usable=558 pages=1 overflow=0
+  visible_text_page1: Normally we describe a curve as y = f(x). But some curves are hard or impossible to write this way — for example, a circle (which fails the vertical line test) or the path of a ...
+
+[precalculus / precalc_ch7_vectors_parametric] precalc_ch7_s10 (#10)
+  input_chars=181 | no_image: page_chars=181 usable=136 pages=1 overflow=0
+  with_image: page_chars=181 usable=136 pages=1 overflow=0
+  visible_text_page1: x = cos(t) and y = sin(t) for t in [0, 2·pi] traces out the unit circle counterclockwise. At t = 0 the point is (1, 0), at t = pi/2 it is (0, 1), at t = pi it is (-1, 0), and so...
+
+[precalculus / precalc_ch7_vectors_parametric] precalc_ch7_s11 (#11)
+  input_chars=727 | no_image: page_chars=731 usable=590 pages=1 overflow=0
+  with_image: page_chars=731 usable=590 pages=1 overflow=0
+  visible_text_page1: To graph a parametric curve, make a table of t values. For each t, compute x and y, then plot the points (x, y). Connect them in order of increasing t, using arrows to show dire...
+
+[precalculus / precalc_ch7_vectors_parametric] precalc_ch7_s12 (#12)
+  input_chars=135 | no_image: page_chars=135 usable=106 pages=1 overflow=0
+  with_image: page_chars=135 usable=106 pages=1 overflow=0
+  visible_text_page1: x = 3·cos(t), y = 2·sin(t). Eliminate t: cos(t) = x/3 and sin(t) = y/2. Using cos^2 + sin^2 = 1: x^2/9 + y^2/4 = 1. This is an ellipse.
+
+[precalculus / precalc_ch7_vectors_parametric] precalc_ch7_s13 (#13)
+  input_chars=510 | no_image: page_chars=514 usable=427 pages=1 overflow=0
+  with_image: page_chars=514 usable=427 pages=1 overflow=0
+  visible_text_page1: A ball is launched at 30 m/s at an angle of 60° above the horizontal. Write parametric equations for its position (ignoring air resistance) and find how far it travels horizonta...
+
+[precalculus / precalc_ch7_vectors_parametric] precalc_ch7_s14 (#14)
+  input_chars=257 | no_image: page_chars=259 usable=205 pages=1 overflow=0
+  with_image: page_chars=259 usable=205 pages=1 overflow=0
+  visible_text_page1: Step 3: Find when the ball hits the ground. Set y = 0: t(15·sqrt(3) - 4.9t) = 0. So t = 0 (launch) or t = 15·sqrt(3)/4.9 ≈ 25.98/4.9 ≈ 5.30 seconds.    Step 4: Find horizontal d...
+
+[precalculus / precalc_ch7_vectors_parametric] precalc_ch7_s15 (#15)
+  input_chars=755 | no_image: page_chars=759 usable=611 pages=1 overflow=0
+  with_image: page_chars=759 usable=611 pages=1 overflow=0
+  visible_text_page1: Vectors and parametric equations are closely related. A vector-valued function r(t) = <x(t), y(t)> assigns a position vector to each value of t. As t changes, the tip of the vec...
+
+[precalculus / precalc_ch7_vectors_parametric] precalc_ch7_s16 (#16)
+  input_chars=156 | no_image: page_chars=156 usable=116 pages=1 overflow=0
+  with_image: page_chars=156 usable=116 pages=1 overflow=0
+  visible_text_page1: The line through (2, -1) in the direction <3, 4> has parametric equations x = 2 + 3t, y = -1 + 4t. At t = 0: (2, -1). At t = 1: (5, 3). At t = -1: (-1, -5).
+
+[precalculus / precalc_ch7_vectors_parametric] precalc_ch7_s17 (#17)
+  input_chars=307 | no_image: page_chars=313 usable=234 pages=1 overflow=0
+  with_image: page_chars=313 usable=234 pages=1 overflow=0
+  visible_text_page1: 1) Given u = <-3, 7> and v = <2, 4>, find u + v, u - v, 2u, and u · v.    2) Find the unit vector in the direction of <5, -12>.    3) Eliminate the parameter: x = t^2, y = 2t + ...
+
+[precalculus / precalc_ch7_vectors_parametric] precalc_ch7_s18 (#18)
+  input_chars=754 | no_image: page_chars=758 usable=638 pages=1 overflow=0
+  with_image: page_chars=758 usable=638 pages=1 overflow=0
+  visible_text_page1: In Calculus II, you will compute arc lengths and areas using parametric curves. You will also work with polar coordinates, which describe curves using angles and distances — a n...
+
+[precalculus / precalc_ch7_vectors_parametric] precalc_ch7_s19 (#19)
+  input_chars=243 | no_image: page_chars=243 usable=207 pages=1 overflow=0
+  with_image: page_chars=243 usable=207 pages=1 overflow=0
+  visible_text_page1: If vectors feel abstract now, remember that every physical quantity involving direction — wind, ocean currents, gravity, electric fields — is best described with vectors. Learni...
+
+[precalculus / precalc_ch7_vectors_parametric] precalc_ch7_s20 (#20)
+  input_chars=707 | no_image: page_chars=711 usable=599 pages=1 overflow=0
+  with_image: page_chars=711 usable=599 pages=1 overflow=0
+  visible_text_page1: Vectors have magnitude and direction. They are written in component form <a, b> and support addition, scalar multiplication, and the dot product. The dot product u · v = |u||v|c...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s01 (#1)
+  input_chars=736 | no_image: page_chars=740 usable=597 pages=1 overflow=0
+  with_image: page_chars=740 usable=597 pages=1 overflow=0
+  visible_text_page1: Imagine walking toward a wall. You get closer and closer, but you never have to actually touch it. A limit works the same way: it describes the value a function approaches as th...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s02 (#2)
+  input_chars=216 | no_image: page_chars=216 usable=167 pages=1 overflow=0
+  with_image: page_chars=216 usable=167 pages=1 overflow=0
+  visible_text_page1: Consider f(x) = (x^2 - 1)/(x - 1). At x = 1, this is 0/0 — undefined. But simplify: (x-1)(x+1)/(x-1) = x + 1 for x ≠ 1. As x approaches 1, x + 1 approaches 2. So lim(x -> 1) f(x...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s03 (#3)
+  input_chars=639 | no_image: page_chars=643 usable=484 pages=1 overflow=0
+  with_image: page_chars=643 usable=484 pages=1 overflow=0
+  visible_text_page1: One way to find a limit is to make a table of values. Choose x-values that approach a from both sides and compute f(x) for each. If the outputs approach the same number from bot...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s04 (#4)
+  input_chars=148 | no_image: page_chars=148 usable=124 pages=1 overflow=0
+  with_image: page_chars=148 usable=124 pages=1 overflow=0
+  visible_text_page1: Tables give numerical evidence but are not rigorous proof. They are a great way to build intuition, especially when the algebra is hard to simplify.
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s05 (#5)
+  input_chars=723 | no_image: page_chars=727 usable=578 pages=1 overflow=0
+  with_image: page_chars=727 usable=578 pages=1 overflow=0
+  visible_text_page1: You can also estimate a limit by looking at a graph. Trace along the curve from the left side, approaching x = a. What y-value does the curve head toward? Then do the same from ...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s06 (#6)
+  input_chars=183 | no_image: page_chars=183 usable=147 pages=1 overflow=0
+  with_image: page_chars=183 usable=147 pages=1 overflow=0
+  visible_text_page1: Looking at the graph of f(x) = |x|/x: from the left of 0, the function equals -1. From the right, it equals 1. The left and right limits disagree, so lim(x -> 0) |x|/x does not ...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s07 (#7)
+  input_chars=689 | no_image: page_chars=693 usable=577 pages=1 overflow=0
+  with_image: page_chars=693 usable=577 pages=1 overflow=0
+  visible_text_page1: A one-sided limit looks at the function's behavior from only one direction. The left-hand limit lim(x -> a^-) f(x) examines what happens as x approaches a from values less than ...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s08 (#8)
+  input_chars=185 | no_image: page_chars=185 usable=135 pages=1 overflow=0
+  with_image: page_chars=185 usable=135 pages=1 overflow=0
+  visible_text_page1: Let f(x) = {x + 1 if x < 3, 2x - 2 if x >= 3}. Left-hand limit at 3: lim(x -> 3^-) (x + 1) = 4. Right-hand limit at 3: lim(x -> 3^+) (2x - 2) = 4. Both equal 4, so lim(x -> 3) f...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s09 (#9)
+  input_chars=300 | no_image: page_chars=306 usable=227 pages=1 overflow=0
+  with_image: page_chars=306 usable=227 pages=1 overflow=0
+  visible_text_page1: Find lim(x -> 3) (x^2 - 9)/(x - 3).    Step 1: Try direct substitution. Plugging in x = 3: (9 - 9)/(3 - 3) = 0/0. This is an indeterminate form, so we need to simplify.    Step ...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s10 (#10)
+  input_chars=251 | no_image: page_chars=253 usable=204 pages=1 overflow=0
+  with_image: page_chars=253 usable=204 pages=1 overflow=0
+  visible_text_page1: Step 4: Now substitute x = 3 into the simplified expression: 3 + 3 = 6. So the limit is 6.    The 0/0 indeterminate form is a signal to simplify, not a final answer. Factor, can...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s11 (#11)
+  input_chars=500 | no_image: page_chars=502 usable=410 pages=1 overflow=0
+  with_image: page_chars=502 usable=410 pages=1 overflow=0
+  visible_text_page1: Sometimes as x approaches a value, f(x) grows without bound — it shoots up or down toward infinity. In this case, we say the limit is positive infinity or negative infinity. Tec...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s12 (#12)
+  input_chars=462 | no_image: page_chars=464 usable=369 pages=1 overflow=0
+  with_image: page_chars=464 usable=369 pages=1 overflow=0
+  visible_text_page1: We can also ask what happens as x itself goes to infinity. lim(x -> infinity) 1/x = 0: as x gets huge, 1/x gets closer and closer to 0. This is called a limit at infinity, and i...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s13 (#13)
+  input_chars=636 | no_image: page_chars=640 usable=520 pages=1 overflow=0
+  with_image: page_chars=640 usable=520 pages=1 overflow=0
+  visible_text_page1: One of the most important limits in all of calculus is lim(x -> 0) sin(x)/x = 1, where x is measured in radians. Direct substitution gives 0/0, so you cannot just plug in. But n...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s14 (#14)
+  input_chars=158 | no_image: page_chars=158 usable=131 pages=1 overflow=0
+  with_image: page_chars=158 usable=131 pages=1 overflow=0
+  visible_text_page1: A companion limit is lim(x -> 0) (1 - cos(x))/x = 0. Both of these are worth remembering because they appear frequently in the derivation of trig derivatives.
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s15 (#15)
+  input_chars=761 | no_image: page_chars=765 usable=627 pages=1 overflow=0
+  with_image: page_chars=765 usable=627 pages=1 overflow=0
+  visible_text_page1: A function is continuous at a point x = a if three conditions are met: (1) f(a) is defined, (2) lim(x -> a) f(x) exists, and (3) lim(x -> a) f(x) = f(a). In plain language, the ...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s16 (#16)
+  input_chars=189 | no_image: page_chars=189 usable=152 pages=1 overflow=0
+  with_image: page_chars=189 usable=152 pages=1 overflow=0
+  visible_text_page1: f(x) = (x^2 - 1)/(x - 1) has a removable discontinuity at x = 1 (a hole). g(x) = 1/x has an infinite discontinuity at x = 0 (a vertical asymptote). A step function has a jump di...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s17 (#17)
+  input_chars=295 | no_image: page_chars=301 usable=222 pages=1 overflow=0
+  with_image: page_chars=301 usable=222 pages=1 overflow=0
+  visible_text_page1: Is the function f(x) = {x^2 if x < 2, 3x - 2 if x >= 2} continuous at x = 2?    Step 1: Check that f(2) is defined. Since x = 2 falls in the second piece: f(2) = 3(2) - 2 = 4.  ...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s18 (#18)
+  input_chars=240 | no_image: page_chars=242 usable=189 pages=1 overflow=0
+  with_image: page_chars=242 usable=189 pages=1 overflow=0
+  visible_text_page1: Step 4: Compare. Left limit = right limit = 4, and f(2) = 4. All three match, so f is continuous at x = 2.    If the left and right limits had disagreed, or if they matched but ...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s19 (#19)
+  input_chars=503 | no_image: page_chars=505 usable=420 pages=1 overflow=0
+  with_image: page_chars=505 usable=420 pages=1 overflow=0
+  visible_text_page1: Everything in calculus is built on limits. The derivative — measuring instantaneous rate of change — is defined as a limit: f'(a) = lim(h -> 0) (f(a+h) - f(a))/h. Without limits...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s20 (#20)
+  input_chars=503 | no_image: page_chars=505 usable=419 pages=1 overflow=0
+  with_image: page_chars=505 usable=419 pages=1 overflow=0
+  visible_text_page1: By understanding limits intuitively now, you are preparing for the two pillars of calculus. In Calculus I, you will learn precise limit laws, the formal definition, and how limi...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s21 (#21)
+  input_chars=390 | no_image: page_chars=396 usable=296 pages=1 overflow=0
+  with_image: page_chars=396 usable=296 pages=1 overflow=0
+  visible_text_page1: 1) Evaluate lim(x -> 4) (x^2 - 16)/(x - 4) by simplifying algebraically.    2) For the piecewise function f(x) = {2x + 1 if x < 1, 5 if x = 1, x^2 + 2 if x > 1}, find lim(x -> 1...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s22 (#22)
+  input_chars=628 | no_image: page_chars=632 usable=517 pages=1 overflow=0
+  with_image: page_chars=632 usable=517 pages=1 overflow=0
+  visible_text_page1: A limit describes the value a function approaches as its input gets closer to some target. We write lim(x -> a) f(x) = L. The function does not need to equal L at x = a — limits...
+
+[precalculus / precalc_ch8_intro_limits] precalc_ch8_s23 (#23)
+  input_chars=189 | no_image: page_chars=189 usable=157 pages=1 overflow=0
+  with_image: page_chars=189 usable=157 pages=1 overflow=0
+  visible_text_page1: Continuity means no holes, jumps, or asymptotes: lim f(x) = f(a). Limits are the engine of calculus — derivatives and integrals are both defined as limits. You are now ready for...
+
+[calc_1 / calc1_limits] s_limit_intro (#1)
+  input_chars=63 | no_image: page_chars=63 usable=52 pages=1 overflow=0
+  with_image: page_chars=63 usable=52 pages=1 overflow=0
+  visible_text_page1: A limit describes behavior near a point, not only at the point.
+
+[calc_1 / calc1_limits] s_limit_infinity (#2)
+  input_chars=68 | no_image: page_chars=68 usable=58 pages=1 overflow=0
+  with_image: page_chars=68 usable=58 pages=1 overflow=0
+  visible_text_page1: As x grows very large, some expressions settle toward finite values.

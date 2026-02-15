@@ -1,0 +1,40 @@
+{
+  "slides": [
+    {
+      "chapter_id": "precalc_ch1_functions_graphs",
+      "slide_id": "precalc_ch1_s01",
+      "title": "What Is a Function?",
+      "highlight_count": 5,
+      "highlight_hash": "014286c84b8dcfee49d02f0ea7d74c1ee1070ac35141cf5ccfc82df1b5022fc5"
+    },
+    {
+      "chapter_id": "precalc_ch2_exp_log",
+      "slide_id": "precalc_ch2_s01",
+      "title": "What Is an Exponential Function?",
+      "highlight_count": 4,
+      "highlight_hash": "07da26e75225051a0495a034a80fe2d09196033e65b33e3ff6689b560af58092"
+    },
+    {
+      "chapter_id": "precalc_ch3_trigonometry",
+      "slide_id": "precalc_ch3_s01",
+      "title": "Angles and Radian Measure",
+      "highlight_count": 5,
+      "highlight_hash": "7b09388443614686302dce24e96b52c49a342a8328d80d6f86afc2324896aa04"
+    },
+    {
+      "chapter_id": "precalc_ch4_complex_numbers",
+      "slide_id": "precalc_ch4_s01",
+      "title": "The Imaginary Unit i",
+      "highlight_count": 5,
+      "highlight_hash": "5b6c69c482916c50a4708385e333caf2b6f46c88e290b4b9e94ed9cf7ce501bc"
+    },
+    {
+      "chapter_id": "precalc_ch8_intro_limits",
+      "slide_id": "precalc_ch8_s01",
+      "title": "The Big Idea: What Is a Limit?",
+      "highlight_count": 5,
+      "highlight_hash": "cc0b0ab365adae60bfdbdebb96f177b1664bf286adcd2b3087d41cdb80f6968a"
+    }
+  ]
+}
+

@@ -1,0 +1,89 @@
+{
+  "categories": [
+    {
+      "id": "core",
+      "name": "Core Concepts"
+    },
+    {
+      "id": "calculus",
+      "name": "Calculus Topics"
+    }
+  ],
+  "symbols": [
+    {
+      "id": "lim",
+      "symbol": "lim",
+      "name": "Limit operator",
+      "meaning": "Describes the value a function approaches."
+    },
+    {
+      "id": "integral",
+      "symbol": "∫",
+      "name": "Integral operator",
+      "meaning": "Represents accumulation and area."
+    }
+  ],
+  "formulas": [
+    {
+      "id": "power_rule",
+      "name": "Power Rule",
+      "plain": "d/dx (x^n) = n*x^(n-1)",
+      "latex": "\\frac{d}{dx}x^n = nx^{n-1}",
+      "tags": [
+        "derivatives"
+      ]
+    }
+  ],
+  "topics": [
+    {
+      "id": "topic-template-derivative",
+      "category": "calculus",
+      "title": "Derivative Workflow Template",
+      "summary": "Template entry showing how a concept page is structured.",
+      "narrative": "Use this section for the plain-language teaching narrative. Explain what a derivative means, when to use it, and why the rule works.",
+      "symbols": [
+        "lim"
+      ],
+      "formulas": [
+        "power_rule"
+      ],
+      "examples": [
+        {
+          "id": "example-template-1",
+          "title": "Example Template",
+          "problem": "d/dx (x^3)",
+          "steps": [
+            {
+              "title": "Identify rule",
+              "explanation": "Use the power rule because the function is x raised to a power.",
+              "math": "d/dx (x^3)"
+            },
+            {
+              "title": "Apply rule",
+              "explanation": "Bring exponent down and subtract one from exponent.",
+              "math": "3x^2"
+            }
+          ]
+        }
+      ],
+      "related": [
+        "topic-template-limit"
+      ]
+    },
+    {
+      "id": "topic-template-limit",
+      "category": "core",
+      "title": "Limit Workflow Template",
+      "summary": "Template entry for linked-topic navigation.",
+      "narrative": "Use this section to explain limit intuition, one-sided limits, and infinity behavior in plain language.",
+      "symbols": [
+        "lim"
+      ],
+      "formulas": [],
+      "examples": [],
+      "related": [
+        "topic-template-derivative"
+      ]
+    }
+  ]
+}
