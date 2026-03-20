@@ -205,8 +205,8 @@ class AnimationEngine:
                     ly = ry = None
                 out.append({
                     "frame": i,
-                    "left_x": lx, "left_y": ly if ly and np.isfinite(ly) else None,
-                    "right_x": rx, "right_y": ry if ry and np.isfinite(ry) else None,
+                    "left_x": lx, "left_y": ly if ly is not None and np.isfinite(ly) else None,
+                    "right_x": rx, "right_y": ry if ry is not None and np.isfinite(ry) else None,
                     "approaching": point,
                 })
             return out

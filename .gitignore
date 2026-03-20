@@ -26,3 +26,14 @@ dist/
 reports/
 tests/__pycache__/
 tools/__pycache__/
+
+# Internal development artifacts (not for public repo)
+bugs.txt
+unit_tester.txt
+APP_PORTING_HANDOFF.txt
+content_jsons.txt
+curriculum.txt
+
+# Auto-generated at app startup — not source files
+data/slide_capacity_report.json
+data/slide_capacity_report.txt

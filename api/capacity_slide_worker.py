@@ -14,12 +14,17 @@ from __future__ import annotations
 
 import base64
 import json
+import logging
 import math
 import os
 import re
 import sys
 import tempfile
+import traceback
 from pathlib import Path
+
+logging.basicConfig(level=logging.WARNING, format="%(levelname)s:%(name)s:%(message)s")
+_log = logging.getLogger(__name__)
 
 
 def _wrap_paragraph_lines(text: str, font, max_width: int) -> list[str]:
@@ -74,8 +79,10 @@ def _render(payload: dict) -> dict:
     os.environ.setdefault("PYGAME_HIDE_SUPPORT_PROMPT", "1")
     import pygame  # noqa: PLC0415
 
-    pygame.init()
-    pygame.font.init()
+    if not pygame.get_init():
+        pygame.init()
+    if not pygame.font.get_init():
+        pygame.font.init()
 
     w = int(payload.get("width", 1300))
     h = int(payload.get("height", 812))
@@ -104,6 +111,8 @@ def _render(payload: dict) -> dict:
     max_lines = max(1, text_rect.h // line_h)
     pages = _paginate(text, font_body, text_rect.w, max_lines)
     page_index = min(req_page, len(pages) - 1)
+    if page_index != req_page:
+        _log.warning("capacity worker: page_index clamped from %d to %d (total pages: %d)", req_page, page_index, len(pages))
     page_text = pages[page_index]
 
     all_chars = len(page_text)
@@ -196,7 +205,7 @@ def main() -> int:
         sys.stdout.write(json.dumps(out))
         return 0
     except Exception as exc:
-        sys.stdout.write(json.dumps({"success": False, "error": str(exc)}))
+        sys.stdout.write(json.dumps({"success": False, "error": str(exc), "traceback": traceback.format_exc()}))
         return 1
 
 

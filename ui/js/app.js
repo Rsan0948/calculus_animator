@@ -145,7 +145,7 @@
             const raw = await pywebview.api.get_symbols();
             const data = JSON.parse(raw);
             renderSymbols(data.groups || []);
-        } catch (_) {}
+        } catch (e) { console.error("loadSymbols failed:", e); }
     }
 
     async function loadLearningLibrary() {
@@ -1999,7 +1999,7 @@
             const raw = await pywebview.api.get_graph_data(latex, calcType, JSON.stringify(params), -10 / r, 10 / r);
             graphData = JSON.parse(raw);
             drawGraph();
-        } catch (_) {}
+        } catch (e) { console.error("refreshGraph failed:", e); }
     }
 
     function drawGraph() {
