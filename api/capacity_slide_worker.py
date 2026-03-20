@@ -19,6 +19,7 @@ import os
 import re
 import sys
 import tempfile
+import traceback
 from pathlib import Path
 
 
@@ -74,8 +75,10 @@ def _render(payload: dict) -> dict:
     os.environ.setdefault("PYGAME_HIDE_SUPPORT_PROMPT", "1")
     import pygame  # noqa: PLC0415
 
-    pygame.init()
-    pygame.font.init()
+    if not pygame.get_init():
+        pygame.init()
+    if not pygame.font.get_init():
+        pygame.font.init()
 
     w = int(payload.get("width", 1300))
     h = int(payload.get("height", 812))
@@ -104,6 +107,8 @@ def _render(payload: dict) -> dict:
     max_lines = max(1, text_rect.h // line_h)
     pages = _paginate(text, font_body, text_rect.w, max_lines)
     page_index = min(req_page, len(pages) - 1)
+    if page_index != req_page:
+        print(f"[warn] capacity worker: page_index clamped from {req_page} to {page_index} (total pages: {len(pages)})", file=sys.stderr)
     page_text = pages[page_index]
 
     all_chars = len(page_text)
@@ -196,7 +201,7 @@ def main() -> int:
         sys.stdout.write(json.dumps(out))
         return 0
     except Exception as exc:
-        sys.stdout.write(json.dumps({"success": False, "error": str(exc)}))
+        sys.stdout.write(json.dumps({"success": False, "error": str(exc), "traceback": traceback.format_exc()}))
         return 1
 
 

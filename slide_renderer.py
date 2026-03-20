@@ -19,9 +19,8 @@ import io
 import math
 import os
 from enum import Enum, auto
-from typing import (
-    Any, Callable, Dict, List, Optional
-)
+from collections.abc import Callable
+from typing import Any
 
 import pygame
 import pygame.gfxdraw
@@ -164,7 +163,7 @@ def _draw_shadow(surface, rect, radius, shadow_color=(0, 0, 0, 40), offset=(4, 4
 # Themes
 # ---------------------------------------------------------------------------
 
-THEMES: Dict[str, Dict[str, Any]] = {
+THEMES: dict[str, dict[str, Any]] = {
     "modern_dark": {
         "bg_gradient": ("#1a1a2e", "#16213e"),
         "accent": "#e94560",
@@ -600,7 +599,7 @@ class Slide:
                  accent_bar_thickness=4, slide_number=True,
                  footer_text=None, on_enter=None, on_exit=None,
                  duration=None, auto_advance=False, name=None):
-        self.elements: List[SlideElement] = []
+        self.elements: list[SlideElement] = []
         self.transition = _parse_transition(transition)
         self.transition_duration = transition_duration
         self.bg_color = _parse_color(bg_color) if bg_color else None
@@ -721,16 +720,16 @@ def _wrap_text(text, font, max_width):
         lines.append(current)
     return lines if lines else [""]
 
+_TEXT_SURFACE_CACHE: dict = {}
+
+
 def _render_text_surface(text, font, color, max_width=0, line_spacing=1.4,
                           align="left", underline=False, max_lines=None):
     cache_key = (
         text, id(font), tuple(color) if isinstance(color, (list, tuple)) else color,
         int(max_width or 0), float(line_spacing), align, bool(underline), int(max_lines or 0),
     )
-    cache = getattr(_render_text_surface, "_cache", None)
-    if cache is None:
-        cache = {}
-        _render_text_surface._cache = cache
+    cache = _TEXT_SURFACE_CACHE
     cached = cache.get(cache_key)
     if cached is not None:
         return cached.copy()
@@ -800,7 +799,7 @@ class SlideEngine:
         self.bg_surface = bg_surface
         self.auto_init_pygame = auto_init_pygame
 
-        self.slides: List[Slide] = []
+        self.slides: list[Slide] = []
         self.current_index = 0
         self._running = False
         self._clock = None
@@ -816,8 +815,8 @@ class SlideEngine:
         self._owns_pygame = False
 
         # external hooks
-        self.on_slide_change: Optional[Callable] = None
-        self.on_key: Optional[Callable] = None
+        self.on_slide_change: Callable | None = None
+        self.on_key: Callable | None = None
 
     # -- public API --
 
