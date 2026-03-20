@@ -21,6 +21,7 @@ import os
 import re
 import sys
 import tempfile
+import traceback
 from pathlib import Path
 
 
@@ -180,6 +181,8 @@ def _build_data_url(payload: dict) -> str:
 
     y = 0.255
     step_idx = 1
+    if len(blocks) > 7:
+        print(f"[warn] slide_render_worker: truncating {len(blocks)} content blocks to 7", file=sys.stderr)
     for block in blocks[:7]:
         kind = (block.get("kind") or "text").lower()
         txt = (block.get("text") or "").strip()
@@ -196,8 +199,6 @@ def _build_data_url(payload: dict) -> str:
                 step_idx += 1
             if prefix and not txt.lower().startswith(prefix.lower()):
                 txt = f"{prefix}{txt}"
-        else:
-            txt = f"{txt}"
         txt = _pretty_math_text(txt)
         if len(txt) > 280:
             txt = txt[:277] + "..."
@@ -263,7 +264,7 @@ def main() -> int:
         sys.stdout.write(json.dumps({"success": True, "data_url": data_url}))
         return 0
     except Exception as exc:
-        sys.stdout.write(json.dumps({"success": False, "error": str(exc)}))
+        sys.stdout.write(json.dumps({"success": False, "error": str(exc), "traceback": traceback.format_exc()}))
         return 1
 
 
