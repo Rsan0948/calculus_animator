@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
-from typing import Dict, List, Mapping, Tuple
 from enum import Enum
+from typing import Mapping
+
+from config import MAX_ANIMATION_STEPS
 
 
 class AnimationType(Enum):
@@ -14,7 +16,7 @@ class AnimationType(Enum):
     EXPAND = "expand"
 
 
-_RULE_CONFIG: Dict[str, Tuple[AnimationType, Mapping[str, object]]] = {
+_RULE_CONFIG: dict[str, tuple[AnimationType, Mapping[str, object]]] = {
     "power_rule":           (AnimationType.TRANSFORM, {"formula": "nx^{n-1}"}),
     "chain_rule":           (AnimationType.EXPAND,    {"formula": "f'(g(x)) \\cdot g'(x)"}),
     "chain_rule_detail":    (AnimationType.EXPAND,    {"formula": "f'(g(x)) \\cdot g'(x)"}),
@@ -63,7 +65,7 @@ class AnimationStep:
     latex_after: str
     rule_name: str
     duration: float
-    visual_hints: Dict[str, object] = field(default_factory=dict)
+    visual_hints: dict[str, object] = field(default_factory=dict)
 
     def to_dict(self):
         return {
@@ -79,10 +81,10 @@ class AnimationStep:
 
 
 class StepGenerator:
-    def generate(self, solver_result: dict, calc_type=None) -> List[AnimationStep]:
+    def generate(self, solver_result: dict, calc_type=None) -> list[AnimationStep]:
         if not solver_result.get("success"):
             return []
-        out: List[AnimationStep] = []
+        out: list[AnimationStep] = []
         for i, step in enumerate(solver_result.get("steps", [])):
             rule = step.get("rule", "basic")
             atype, hints = _RULE_CONFIG.get(rule, (AnimationType.TRANSFORM, {}))
@@ -94,7 +96,7 @@ class StepGenerator:
                 latex_after=step.get("after", ""),
                 rule_name=rule,
                 duration=_DURATIONS.get(atype, 1.0),
-                visual_hints=dict(hints.items()),
+                visual_hints=dict(hints),
             ))
         final_latex = str(solver_result.get("result_latex", "") or "")
         if final_latex:
@@ -111,4 +113,4 @@ class StepGenerator:
                 duration=_DURATIONS.get(AnimationType.DRAW, 1.0),
                 visual_hints={"final": True},
             ))
-        return out
+        return out[:MAX_ANIMATION_STEPS]
