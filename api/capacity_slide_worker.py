@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import base64
 import json
+import logging
 import math
 import os
 import re
@@ -21,6 +22,9 @@ import sys
 import tempfile
 import traceback
 from pathlib import Path
+
+logging.basicConfig(level=logging.WARNING, format="%(levelname)s:%(name)s:%(message)s")
+_log = logging.getLogger(__name__)
 
 
 def _wrap_paragraph_lines(text: str, font, max_width: int) -> list[str]:
@@ -108,7 +112,7 @@ def _render(payload: dict) -> dict:
     pages = _paginate(text, font_body, text_rect.w, max_lines)
     page_index = min(req_page, len(pages) - 1)
     if page_index != req_page:
-        print(f"[warn] capacity worker: page_index clamped from {req_page} to {page_index} (total pages: {len(pages)})", file=sys.stderr)
+        _log.warning("capacity worker: page_index clamped from %d to %d (total pages: %d)", req_page, page_index, len(pages))
     page_text = pages[page_index]
 
     all_chars = len(page_text)

@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import base64
 import json
+import logging
 import math
 import os
 import re
@@ -23,6 +24,9 @@ import sys
 import tempfile
 import traceback
 from pathlib import Path
+
+logging.basicConfig(level=logging.WARNING, format="%(levelname)s:%(name)s:%(message)s")
+_log = logging.getLogger(__name__)
 
 
 _SUP_MAP = {
@@ -182,7 +186,7 @@ def _build_data_url(payload: dict) -> str:
     y = 0.255
     step_idx = 1
     if len(blocks) > 7:
-        print(f"[warn] slide_render_worker: truncating {len(blocks)} content blocks to 7", file=sys.stderr)
+        _log.warning("slide_render_worker: truncating %d content blocks to 7", len(blocks))
     for block in blocks[:7]:
         kind = (block.get("kind") or "text").lower()
         txt = (block.get("text") or "").strip()
