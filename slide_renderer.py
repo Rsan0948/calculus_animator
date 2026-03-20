@@ -19,6 +19,7 @@ import io
 import math
 import os
 from enum import Enum, auto
+from pathlib import Path
 from collections.abc import Callable
 from typing import Any
 
@@ -646,6 +647,13 @@ class _FontCache:
         if self._initialized:
             return
         self._initialized = True
+        # Pre-register bundled fallback fonts so headless/minimal systems always
+        # have a known-good font rather than falling back to pygame's bitmap default.
+        _assets = Path(__file__).parent / "assets" / "fonts"
+        for _fname, _key in [("DejaVuSans.ttf", "dejavusans"), ("DejaVuSansMono.ttf", "dejavusansmono")]:
+            _p = _assets / _fname
+            if _p.exists():
+                self._registered.setdefault(_key, str(_p))
         available = pygame.font.get_fonts()
         mono_prefs = ["dejavusansmono", "consolas", "couriernew", "liberationmono",
                        "ubuntumono", "sourcecodepro", "monospace"]
