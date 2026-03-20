@@ -7,8 +7,8 @@ import webview
 from api.bridge import CalculusAPI
 
 
-def main():
-    api = CalculusAPI()
+def launch(api: CalculusAPI) -> None:
+    """Create and start the pywebview window. Single source of truth for window config."""
     ui_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ui", "index.html")
     webview.create_window(
         title="Calculus Animator",
@@ -20,6 +20,10 @@ def main():
         min_size=(1024, 700),
     )
     webview.start(debug=False)
+
+
+def main():
+    launch(CalculusAPI())
 
 
 if __name__ == "__main__":

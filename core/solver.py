@@ -298,7 +298,7 @@ class CalculusSolver:
     def _walk_int_steps(self, obj, out, depth):
         if depth > 15:
             return
-        if hasattr(obj, "__class__"):
+        if not isinstance(obj, (str, int, float, bool, type(None))):
             name = obj.__class__.__name__
             context = getattr(obj, "context", None)
             if context is not None:

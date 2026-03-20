@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import re
-from typing import Dict, List
 
 
 _KIND_PRIORITY = {"problem": 0, "step": 1, "text": 2, "lesson": 2, "example": 3, "note": 4, "summary": 5, "practice": 6}
@@ -23,7 +22,7 @@ def _truncate(text: str, max_chars: int) -> str:
     return txt[: max_chars - 3].rstrip() + "..."
 
 
-def _split_sentences(text: str) -> List[str]:
+def _split_sentences(text: str) -> list[str]:
     txt = _normalize_ws(text)
     if not txt:
         return []
@@ -85,14 +84,14 @@ def _sentence_score(kind: str, sentence: str, position: int) -> float:
     return base + cue_bonus - position_penalty - length_penalty
 
 
-def _score_value(candidate: Dict[str, object]) -> float:
+def _score_value(candidate: dict[str, object]) -> float:
     raw_score = candidate.get("score", 0.0)
     if isinstance(raw_score, (int, float)):
         return float(raw_score)
     return 0.0
 
 
-def build_legacy_slide_highlights(blocks: List[Dict], max_items: int = 3, max_chars_per_item: int = 180) -> List[Dict]:
+def build_legacy_slide_highlights(blocks: list[dict], max_items: int = 3, max_chars_per_item: int = 180) -> list[dict]:
     """Replicates the previous simple highlight algorithm for baseline reports."""
     def first_sentence(text: str) -> str:
         txt = _normalize_ws(text)
@@ -126,11 +125,11 @@ def build_legacy_slide_highlights(blocks: List[Dict], max_items: int = 3, max_ch
 
 
 def build_informative_slide_highlights(
-    blocks: List[Dict],
+    blocks: list[dict],
     max_items: int = 5,
     max_chars_per_item: int = 210,
     max_total_chars: int = 620,
-) -> List[Dict]:
+) -> list[dict]:
     """
     Build highlights that are still concise but preserve enough learning value to
     understand the slide without opening notes.
@@ -141,7 +140,7 @@ def build_informative_slide_highlights(
     non_empty_blocks = [b for b in (blocks or []) if _normalize_ws(b.get("text") or "")]
     single_block_mode = len(non_empty_blocks) == 1
 
-    candidates: List[Dict[str, object]] = []
+    candidates: List[dict[str, object]] = []
     step_num = 1
     for b_idx, b in enumerate(blocks):
         kind = (b.get("kind") or "text").lower()

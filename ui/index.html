@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculus Animator</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-    <script src="https://unpkg.com/mathlive@0.101.0/dist/mathlive.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+          onerror="document.body.dataset.katexUnavailable='1'; console.error('KaTeX CSS failed to load — math may render incorrectly.')">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+            onerror="document.body.dataset.katexUnavailable='1'; console.error('KaTeX JS failed to load — math rendering unavailable. Check your internet connection.')"></script>
+    <script src="https://unpkg.com/mathlive@0.101.0/dist/mathlive.min.js"
+            onerror="console.error('MathLive failed to load — the math input field may not work. Check your internet connection.')"></script>
 </head>
 <body>
 <div class="screen-switcher">

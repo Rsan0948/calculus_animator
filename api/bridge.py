@@ -116,6 +116,7 @@ class CalculusAPI:
             parsed = json.loads(trimmed + completion)
             return parsed.get("pathway")
         except Exception:
+            traceback.print_exc()
             return None
 
     def _load_learning_library(self):
@@ -230,6 +231,13 @@ class CalculusAPI:
             "topics": norm_topics,
         }
 
+    def _parse_with_fallback(self, inner_latex: str, full_latex: str) -> dict:
+        """Try parsing inner_latex first; fall back to full_latex on failure."""
+        parsed = self._parser.parse(inner_latex)
+        if not parsed["success"]:
+            parsed = self._parser.parse(full_latex)
+        return parsed
+
     # ── JS-callable methods ──────────────────────────────────────
 
     def get_formulas(self) -> str:
@@ -324,7 +332,8 @@ class CalculusAPI:
             # Launch should never fail because of report generation.
             pass
 
-    def _capacity_metrics_only(self, text: str, with_image: bool = False, page_index: int = 0, width: int = 1300, height: int = 812):
+    def _run_capacity_worker(self, text: str, with_image: bool, page_index: int, width: int, height: int, metrics_only: bool) -> str:
+        """Spawn the capacity slide worker subprocess and return its raw stdout."""
         worker = Path(__file__).parent / "capacity_slide_worker.py"
         payload = {
             "text": text or "",
@@ -332,7 +341,7 @@ class CalculusAPI:
             "page_index": int(page_index),
             "width": int(width),
             "height": int(height),
-            "metrics_only": True,
+            "metrics_only": bool(metrics_only),
         }
         env = os.environ.copy()
         env.update({"SDL_VIDEODRIVER": "dummy", "PYGAME_HIDE_SUPPORT_PROMPT": "1"})
@@ -347,39 +356,20 @@ class CalculusAPI:
         )
         out = (proc.stdout or "").strip()
         if not out:
-            return {"success": False, "error": (proc.stderr or "No output").strip()}
+            return _json({"success": False, "error": (proc.stderr or "Capacity worker produced no output").strip()})
+        return out
+
+    def _capacity_metrics_only(self, text: str, with_image: bool = False, page_index: int = 0, width: int = 1300, height: int = 812):
+        raw = self._run_capacity_worker(text, with_image, page_index, width, height, metrics_only=True)
         try:
-            return json.loads(out)
+            return json.loads(raw)
         except Exception:
             return {"success": False, "error": "Invalid worker output"}
 
     def capacity_test_slide(self, text: str, with_image: bool = False, page_index: int = 0, width: int = 1300, height: int = 812) -> str:
         """Render capacity test slide and return fit metrics + page text."""
         try:
-            worker = Path(__file__).parent / "capacity_slide_worker.py"
-            payload = {
-                "text": text or "",
-                "with_image": bool(with_image),
-                "page_index": int(page_index),
-                "width": int(width),
-                "height": int(height),
-                "metrics_only": False,
-            }
-            env = os.environ.copy()
-            env.update({"SDL_VIDEODRIVER": "dummy", "PYGAME_HIDE_SUPPORT_PROMPT": "1"})
-            proc = subprocess.run(
-                [sys.executable, str(worker)],
-                input=json.dumps(payload),
-                text=True,
-                capture_output=True,
-                timeout=12,
-                env=env,
-                cwd=str(Path(__file__).parent.parent),
-            )
-            out = (proc.stdout or "").strip()
-            if not out:
-                return _json({"success": False, "error": (proc.stderr or "Capacity worker produced no output").strip()})
-            return out
+            return self._run_capacity_worker(text, with_image, page_index, width, height, metrics_only=False)
         except Exception as e:
             return _json({"success": False, "error": str(e)})
 
@@ -434,7 +424,8 @@ class CalculusAPI:
             if data.get("success") and data.get("data_url"):
                 self._slide_render_cache[cache_key] = data["data_url"]
                 if len(self._slide_render_cache) > 120:
-                    self._slide_render_cache.clear()
+                    # Evict the oldest entry rather than flushing the whole cache
+                    self._slide_render_cache.pop(next(iter(self._slide_render_cache)))
             return _json(data)
         except Exception as e:
             traceback.print_exc()
@@ -446,17 +437,24 @@ class CalculusAPI:
         return build_informative_slide_highlights(blocks or [], max_items=5, max_chars_per_item=210, max_total_chars=620)
 
     def copy_image_to_clipboard(self, data_url: str) -> str:
-        """Copy a PNG data URL into the system clipboard (macOS)."""
+        """Copy a PNG data URL into the system clipboard (macOS only)."""
+        if sys.platform != "darwin":
+            return _json({"success": False, "error": "Clipboard copy is only supported on macOS"})
         try:
             if not data_url or not data_url.startswith("data:image/png;base64,"):
                 return _json({"success": False, "error": "Invalid image data"})
             b64 = data_url.split(",", 1)[1]
             raw = base64.b64decode(b64)
-            with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
-                tmp.write(raw)
-                png_path = tmp.name
-            script = f'set the clipboard to (read (POSIX file "{png_path}") as «class PNGf»)'
-            subprocess.check_call(["osascript", "-e", script])
+            png_path = None
+            try:
+                with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
+                    tmp.write(raw)
+                    png_path = tmp.name
+                script = f'set the clipboard to (read (POSIX file "{png_path}") as «class PNGf»)'
+                subprocess.check_call(["osascript", "-e", script])
+            finally:
+                if png_path:
+                    os.unlink(png_path)
             return _json({"success": True})
         except Exception as e:
             return _json({"success": False, "error": str(e)})
@@ -472,11 +470,8 @@ class CalculusAPI:
             # 2. Extract inner expression + merge params
             inner_latex, merged = self._extractor.extract(latex_str, calc_type, params_dict)
 
-            # 3. Parse the inner expression
-            parsed = self._parser.parse(inner_latex)
-            if not parsed["success"]:
-                # Fallback: try parsing the full latex
-                parsed = self._parser.parse(latex_str)
+            # 3. Parse the inner expression (with full-latex fallback)
+            parsed = self._parse_with_fallback(inner_latex, latex_str)
             if not parsed["success"]:
                 return _json({"success": False, "error": parsed.get("error", "Parse failed")})
 
@@ -526,9 +521,7 @@ class CalculusAPI:
             params_dict = json.loads(params) if isinstance(params, str) else (params or {})
             detected = self._detector.detect(latex_str, calc_type or None)
             inner, merged = self._extractor.extract(latex_str, calc_type, params_dict)
-            parsed = self._parser.parse(inner)
-            if not parsed["success"]:
-                parsed = self._parser.parse(latex_str)
+            parsed = self._parse_with_fallback(inner, latex_str)
             if not parsed["success"]:
                 return _json({"success": False, "error": parsed.get("error", "")})
             expr = parsed["sympy_expr"]
