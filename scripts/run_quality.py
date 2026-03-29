@@ -7,8 +7,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 
 
 def _venv_python() -> Path:
@@ -18,7 +17,6 @@ def _venv_python() -> Path:
 
 
 def _run(cmd: list[str]) -> int:
-    print("$", " ".join(cmd))
     return subprocess.call(cmd, cwd=str(ROOT))
 
 
@@ -30,7 +28,7 @@ def main() -> int:
     steps = [
         [interpreter, "-m", "ruff", "check", "."],
         [interpreter, "-m", "mypy", "api", "core"],
-        [interpreter, "run_tests.py"],
+        [interpreter, "scripts/run_tests.py"],
     ]
     if include_security:
         steps.append([interpreter, "-m", "pip_audit"])

@@ -11,7 +11,6 @@ from core.parser import ExpressionParser
 from core.solver import CalculusSolver
 from core.step_generator import StepGenerator
 
-
 ROOT = Path(__file__).resolve().parent.parent
 SNAP_DIR = ROOT / "tests" / "snapshots"
 

@@ -1,3 +1,17 @@
+# Secrets
+.env
+
+# Local build archives (not for version control)
+_archive/
+
+# Generated build and distribution artifacts
+build/
+dist/
+*.egg-info/
+
+# Runtime logs
+logs/
+
 # macOS
 .DS_Store
 

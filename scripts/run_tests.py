@@ -16,8 +16,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 
 
 def _venv_python() -> Path:
@@ -62,7 +61,6 @@ def main() -> int:
         if marker_expr:
             cmd.extend(["-m", marker_expr])
 
-    print("$", " ".join(cmd))
     return subprocess.call(cmd, cwd=str(ROOT))
 
 

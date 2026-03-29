@@ -1,33 +1,34 @@
-"""Isolated pygame slide renderer worker.
-
-Reads JSON payload from stdin and writes JSON to stdout:
-{
-  "chapter_title": str,
-  "slide_title": str,
-  "slide_index": int,
-  "slide_total": int,
-  "content_blocks": [...],
-  "graphics": [...],
-  "width": int,
-  "height": int
-}
+"""
+Persistent isolated pygame slide renderer worker.
+Reads JSON tasks from stdin (one per line) and writes JSON results to stdout.
 """
 from __future__ import annotations
-
-import base64
-import json
-import logging
-import math
 import os
-import re
 import sys
-import tempfile
+
+# Force fully headless SDL and hide prompts BEFORE anything else
+os.environ["SDL_VIDEODRIVER"] = "dummy"
+os.environ["PYGAME_HIDE_SUPPORT_PROMPT"] = "1"
+import base64
+import io
+import json
+import math
+import re
 import traceback
 from pathlib import Path
 
-logging.basicConfig(level=logging.WARNING, format="%(levelname)s:%(name)s:%(message)s")
-_log = logging.getLogger(__name__)
+# Add project root to path for imports
+ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
+from config import get_logger
+
+logger = get_logger("slide_render_worker")
+
+import pygame
+
+from slide_renderer import BulletList, Shape, Slide, SlideEngine, TextBox
 
 _SUP_MAP = {
     "0": "⁰", "1": "¹", "2": "²", "3": "³", "4": "⁴", "5": "⁵", "6": "⁶", "7": "⁷", "8": "⁸", "9": "⁹",
@@ -46,14 +47,11 @@ _SUB_MAP = {
     "o": "ₒ", "p": "ₚ", "r": "ᵣ", "s": "ₛ", "t": "ₜ", "u": "ᵤ", "v": "ᵥ", "x": "ₓ",
 }
 
-
 def _to_sup(raw: str) -> str:
     return "".join(_SUP_MAP.get(ch, ch) for ch in str(raw))
 
-
 def _to_sub(raw: str) -> str:
     return "".join(_SUB_MAP.get(ch, ch) for ch in str(raw))
-
 
 def _pretty_math_text(text: str) -> str:
     s = str(text or "")
@@ -69,7 +67,6 @@ def _pretty_math_text(text: str) -> str:
         lambda m: f"d{('^(' + (m.group(1) or m.group(2) or m.group(4) or m.group(5)) + ')') if (m.group(1) or m.group(2) or m.group(4) or m.group(5)) else ''}/d{m.group(3)}{('^(' + (m.group(1) or m.group(2) or m.group(4) or m.group(5)) + ')') if (m.group(1) or m.group(2) or m.group(4) or m.group(5)) else ''}",
         s,
     )
-    # simple latex fraction flattening first
     for _ in range(6):
         ns = re.sub(r"\\frac\{([^{}]+)\}\{([^{}]+)\}", r"(\1)/(\2)", s)
         if ns == s:
@@ -77,7 +74,6 @@ def _pretty_math_text(text: str) -> str:
         s = ns
     s = s.replace("{", "(").replace("}", ")")
     s = re.sub(r"\\([a-zA-Z]+)", r"\1", s)
-    # pretty fractions: (a)/(b) -> a⁄b (with superscript/subscript where possible)
     for _ in range(6):
         ns = re.sub(
             r"\(([^()]+)\)\s*/\s*\(([^()]+)\)",
@@ -92,32 +88,17 @@ def _pretty_math_text(text: str) -> str:
         lambda m: f"{m.group(1)}{_to_sup(m.group(2))}⁄{_to_sub(m.group(3))}",
         s,
     )
-    # exponents/subscripts
     s = re.sub(r"\^\{([^}]+)\}", lambda m: _to_sup(m.group(1)), s)
     s = re.sub(r"\^\(([^)]+)\)", lambda m: _to_sup("(" + m.group(1) + ")"), s)
     s = re.sub(r"\^([a-zA-Z0-9+\-]+)", lambda m: _to_sup(m.group(1)), s)
     s = re.sub(r"_\{([^}]+)\}", lambda m: _to_sub(m.group(1)), s)
     s = re.sub(r"_\(([^)]+)\)", lambda m: _to_sub("(" + m.group(1) + ")"), s)
     s = re.sub(r"_([a-zA-Z0-9+\-]+)", lambda m: _to_sub(m.group(1)), s)
-    s = re.sub(r"[ \t]+", " ", s).strip()
-    return s
+    return re.sub(r"[ \t]+", " ", s).strip()
 
-
-def _build_data_url(payload: dict) -> str:
-    # Force fully headless SDL in worker process.
-    os.environ.setdefault("SDL_VIDEODRIVER", "dummy")
-    os.environ.setdefault("PYGAME_HIDE_SUPPORT_PROMPT", "1")
-
-    root = Path(__file__).resolve().parent.parent
-    if str(root) not in sys.path:
-        sys.path.insert(0, str(root))
-
-    import pygame  # noqa: PLC0415
-    from slide_renderer import SlideEngine, Slide, TextBox, BulletList, Shape  # noqa: PLC0415
-
+def render_slide(engine: SlideEngine, payload: dict) -> str:
     width = int(payload.get("width", 1200))
     height = int(payload.get("height", 675))
-
     chapter_title = payload.get("chapter_title", "Chapter")
     slide_title = payload.get("slide_title", "Slide")
     slide_index = int(payload.get("slide_index", 0))
@@ -125,152 +106,57 @@ def _build_data_url(payload: dict) -> str:
     blocks = payload.get("content_blocks") or []
     graphics = payload.get("graphics") or []
 
-    engine = SlideEngine(
-        width=width,
-        height=height,
-        theme="modern_dark",
-        show_progress_bar=False,
-        show_slide_count=False,
-        auto_init_pygame=True,
-    )
-    slide = Slide(
-        transition="fade",
-        accent_bar=True,
-        accent_bar_pos="top",
-        accent_bar_thickness=5,
-        slide_number=False,
-    )
-
-    slide.add(
-        Shape(
-            "rounded_rect",
-            pos=(0.5, 0.52),
-            size=(0.95, 0.88),
-            anchor="center",
-            color=(18, 24, 46, 220),
-            radius=20,
-            shadow=True,
-        )
-    )
-    slide.add(
-        TextBox(
-            f"{chapter_title}  •  Slide {slide_index + 1}/{slide_total}",
-            pos=(0.07, 0.09),
-            style="caption",
-            font_size=0.033,
-            color="#9fb3d9",
-            anchor="top_left",
-        )
-    )
-    title_len = len(str(slide_title or ""))
+    slide = Slide(transition="fade", accent_bar=True, accent_bar_pos="top", accent_bar_thickness=5)
+    slide.add(Shape("rounded_rect", pos=(0.5, 0.52), size=(0.95, 0.88), anchor="center", color=(18, 24, 46, 220), radius=20, shadow=True))
+    slide.add(TextBox(f"{chapter_title}  •  Slide {slide_index + 1}/{slide_total}", pos=(0.07, 0.09), style="caption", font_size=0.033, color="#9fb3d9", anchor="top_left"))
+    
     title_ratio = 0.072
-    if title_len > 40:
-        title_ratio = 0.064
-    if title_len > 56:
-        title_ratio = 0.058
-    if "worked example" in str(slide_title or "").lower():
-        title_ratio = min(title_ratio, 0.056)
-    slide.add(
-        TextBox(
-            slide_title,
-            pos=(0.07, 0.14),
-            style="heading",
-            font_size=title_ratio,
-            width=0.88,
-            anchor="top_left",
-            entry_anim="fade_in",
-            anim_duration=0.35,
-        )
-    )
+    if len(str(slide_title)) > 40: title_ratio = 0.064
+    if len(str(slide_title)) > 56: title_ratio = 0.058
+    slide.add(TextBox(slide_title, pos=(0.07, 0.14), style="heading", font_size=title_ratio, width=0.88, anchor="top_left"))
 
     y = 0.255
     step_idx = 1
-    if len(blocks) > 7:
-        _log.warning("slide_render_worker: truncating %d content blocks to 7", len(blocks))
     for block in blocks[:7]:
         kind = (block.get("kind") or "text").lower()
         txt = (block.get("text") or "").strip()
-        if not txt:
-            continue
-        if kind in ("step", "problem", "example", "note"):
-            prefix = {
-                "step": f"Step {step_idx}: ",
-                "problem": "Problem: ",
-                "example": "Example: ",
-                "note": "Note: ",
-            }.get(kind, "")
-            if kind == "step":
-                step_idx += 1
-            if prefix and not txt.lower().startswith(prefix.lower()):
-                txt = f"{prefix}{txt}"
-        txt = _pretty_math_text(txt)
-        if len(txt) > 280:
-            txt = txt[:277] + "..."
-        txt = "• " + txt
+        if not txt: continue
+        prefix = {"step": f"Step {step_idx}: ", "problem": "Problem: ", "example": "Example: ", "note": "Note: "}.get(kind, "")
+        if kind == "step": step_idx += 1
+        if prefix and not txt.lower().startswith(prefix.lower()): txt = f"{prefix}{txt}"
+        txt = "• " + _pretty_math_text(txt)
+        if len(txt) > 280: txt = txt[:277] + "..."
         est_lines = max(1, min(5, math.ceil(len(txt) / 50)))
-        block_h = 0.043 * est_lines + 0.018
-        slide.add(
-            TextBox(
-                txt,
-                pos=(0.09, y),
-                anchor="top_left",
-                width=0.84,
-                style="body",
-                font_size=0.041,
-                line_spacing=1.58,
-                entry_anim="fade_in",
-                anim_delay=max(0.0, y - 0.20),
-                anim_duration=0.3,
-            )
-        )
-        y += block_h + 0.016
-        if y > 0.82:
-            break
+        slide.add(TextBox(txt, pos=(0.09, y), anchor="top_left", width=0.84, style="body", font_size=0.041, line_spacing=1.58))
+        y += 0.043 * est_lines + 0.034
+        if y > 0.82: break
 
     if graphics:
-        chips = [f"{g.get('kind', 'graphic')}: {g.get('name', '')}".strip(": ") for g in graphics[:2]]
-        slide.add(
-            BulletList(
-                items=chips,
-                pos=(0.73, 0.84),
-                anchor="top_left",
-                width=0.2,
-                style="caption",
-                font_size=0.026,
-                bullet_char="◆",
-                bullet_color="#4fc3f7",
-                entry_anim="fade_in",
-                anim_delay=0.35,
-                anim_duration=0.35,
-            )
-        )
+        items = [f"{g.get('kind', 'graphic')}: {g.get('name', '')}".strip(": ") for g in graphics[:2]]
+        slide.add(BulletList(items=items, pos=(0.73, 0.84), anchor="top_left", width=0.2, style="caption", font_size=0.026))
 
+    engine.slides = []
     engine.add_slide(slide)
-    surface = engine.render_slide_to_surface(index=0, width=width, height=height)
+    surf = engine.render_slide_to_surface(0, width, height)
+    
+    buf = io.BytesIO()
+    pygame.image.save(surf, buf, "png")
+    return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode("ascii")
 
-    with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
-        tmp_path = tmp.name
-    try:
-        pygame.image.save(surface, tmp_path)
-        png = Path(tmp_path).read_bytes()
-    finally:
+def main():
+    engine = SlideEngine(width=1200, height=675, theme="modern_dark", auto_init_pygame=True)
+    
+    for line in sys.stdin:
+        if not line.strip(): continue
         try:
-            Path(tmp_path).unlink(missing_ok=True)
-        except Exception:
-            pass
-    return "data:image/png;base64," + base64.b64encode(png).decode("ascii")
-
-
-def main() -> int:
-    try:
-        payload = json.loads(sys.stdin.read() or "{}")
-        data_url = _build_data_url(payload)
-        sys.stdout.write(json.dumps({"success": True, "data_url": data_url}))
-        return 0
-    except Exception as exc:
-        sys.stdout.write(json.dumps({"success": False, "error": str(exc), "traceback": traceback.format_exc()}))
-        return 1
-
+            payload = json.loads(line)
+            data_url = render_slide(engine, payload)
+            sys.stdout.write(json.dumps({"success": True, "data_url": data_url}) + "\n")
+            sys.stdout.flush()
+        except Exception as e:
+            logger.error(f"Worker task failed: {e}")
+            sys.stdout.write(json.dumps({"success": False, "error": str(e), "traceback": traceback.format_exc()}) + "\n")
+            sys.stdout.flush()
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    main()

@@ -1,11 +1,28 @@
 """Robust LaTeX → SymPy parser with multiple fallback strategies."""
 import re
+
 from sympy import (
-    symbols, sin, cos, tan, sec, csc, cot,
-    asin, acos, atan, log, ln, exp, sqrt, pi, E, oo, Abs, sympify,
+    Abs,
+    E,
+    acos,
+    asin,
+    atan,
+    cos,
+    cot,
+    csc,
+    exp,
+    ln,
+    log,
+    oo,
+    pi,
+    sec,
+    sin,
+    sqrt,
+    symbols,
+    sympify,
+    tan,
 )
 from sympy.parsing.latex import parse_latex
-
 
 _COMMON = {
     r"\sin": "sin", r"\cos": "cos", r"\tan": "tan",
@@ -24,6 +41,21 @@ class ExpressionParser:
         self._n, self._k = symbols("n k", integer=True)
 
     def parse(self, latex_str: str) -> dict:
+        """Parse a LaTeX math expression into a SymPy object.
+
+        Tries three strategies in order: SymPy's ``parse_latex``, a manual
+        translation pass, and finally a raw ``sympify`` call.  The first
+        strategy that succeeds is returned.
+
+        Args:
+            latex_str: A LaTeX string such as ``r"\\frac{d}{dx} x^2"`` or
+                ``"x^2 + 3x - 1"``.
+
+        Returns:
+            On success: ``{"success": True, "sympy_expr": Expr, "latex": str,
+            "variables": list[str], "raw": str}``.
+            On failure: ``{"success": False, "error": str, "latex": str}``.
+        """
         cleaned = self._preprocess(latex_str)
         expr = None
         error = None
@@ -75,8 +107,7 @@ class ExpressionParser:
         s = s.replace("×", "*").replace("·", "*")
         s = s.replace("−", "-")
         s = re.sub(r"\\\s+", " ", s)
-        s = re.sub(r"\\operatorname\{(\w+)\}", r"\\\1", s)
-        return s
+        return re.sub(r"\\operatorname\{(\w+)\}", r"\\\1", s)
 
     def _latex_to_sympy_str(self, latex: str) -> str:
         s = latex
@@ -101,5 +132,4 @@ class ExpressionParser:
         s = re.sub(r"\)\(", r")*(", s)
         s = re.sub(r"(?<![a-zA-Z])([a-zA-Z])\(", r"\1*(", s)
         s = re.sub(r"([a-zA-Z0-9\)])\s+([a-zA-Z])", r"\1*\2", s)
-        s = re.sub(r"\s+", " ", s).strip()
-        return s
+        return re.sub(r"\s+", " ", s).strip()

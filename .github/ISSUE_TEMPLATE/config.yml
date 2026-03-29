@@ -1,0 +1,13 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ask a Question
+    url: https://github.com/Rsan0948/calculus_animator/discussions
+    about: Ask questions and discuss ideas with the community
+  
+  - name: Documentation
+    url: https://github.com/Rsan0948/calculus_animator#readme
+    about: Check the README for usage instructions
+  
+  - name: Security Issue
+    url: https://github.com/Rsan0948/calculus_animator/security/advisories/new
+    about: Report a security vulnerability privately

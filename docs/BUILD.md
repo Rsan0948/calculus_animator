@@ -18,7 +18,7 @@ pip install pyinstaller
 ## 3. Run the build
 
 ```bash
-python build_release.py
+python scripts/build_release.py
 ```
 
 ## 4. Output locations

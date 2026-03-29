@@ -54,6 +54,21 @@ _PATTERNS = [
 
 class TypeDetector:
     def detect(self, latex: str, explicit_tag: Optional[str] = None) -> CalculusType:
+        """Detect the calculus operation type from a LaTeX string.
+
+        Pattern matching is ordered so that more specific forms (e.g. definite
+        integral) are checked before generic ones (indefinite integral).
+        Falls back to ``SIMPLIFY`` when no pattern matches.
+
+        Args:
+            latex: The raw LaTeX expression to inspect.
+            explicit_tag: Optional string override (e.g. ``"derivative"``,
+                ``"definite_integral"``).  When provided, regex scanning is
+                skipped entirely.
+
+        Returns:
+            A ``CalculusType`` enum member representing the detected operation.
+        """
         if explicit_tag:
             return _TAG_MAP.get(explicit_tag.lower(), CalculusType.UNKNOWN)
         for calc_type, patterns in _PATTERNS:

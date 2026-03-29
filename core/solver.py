@@ -2,12 +2,35 @@
 from typing import Any, Dict, Optional
 
 from sympy import (
-    Symbol, oo, zoo, nan, S,
-    diff, integrate, limit, series, dsolve, simplify, trigsimp,
-    expand, factor, cancel,
-    sin, cos, tan, sec, csc, cot, exp, log, sqrt,
-    Function, Eq, latex,
+    Eq,
+    Function,
+    S,
+    Symbol,
+    cancel,
+    cos,
+    cot,
+    csc,
+    diff,
+    dsolve,
+    exp,
+    expand,
+    factor,
+    integrate,
+    latex,
+    limit,
+    log,
+    nan,
+    oo,
+    sec,
+    series,
+    simplify,
+    sin,
+    sqrt,
+    tan,
+    trigsimp,
+    zoo,
 )
+
 from .detector import CalculusType
 
 try:
@@ -23,6 +46,25 @@ def _sym(name, **kw):
 
 class CalculusSolver:
     def solve(self, expr, calc_type: CalculusType, params: Optional[Dict[str, Any]] = None) -> dict:
+        """Solve a calculus expression and return step-by-step results.
+
+        Dispatches to a specialised solver based on ``calc_type``, collects
+        intermediate steps with rule names, and returns a uniform result dict.
+
+        Args:
+            expr: A SymPy expression to operate on.
+            calc_type: A ``CalculusType`` enum value that selects the solver
+                (derivative, integral, limit, series, ODE, or simplify).
+            params: Optional dict of operation parameters, e.g.
+                ``{"variable": "x", "order": 2}`` for a derivative or
+                ``{"lower": 0, "upper": 1}`` for a definite integral.
+
+        Returns:
+            On success: ``{"success": True, "result": str, "result_latex": str,
+            "steps": list[dict]}``.  Each step dict has keys ``"description"``,
+            ``"before"``, ``"after"``, and ``"rule"``.
+            On failure: ``{"success": False, "error": str, "steps": []}``.
+        """
         params = params or {}
         dispatch = {
             CalculusType.DERIVATIVE: self._derivative,
@@ -104,6 +146,18 @@ class CalculusSolver:
         return subs
 
     def _identify_diff_rule(self, expr, var):
+        """Identify the primary differentiation rule that applies to ``expr``.
+
+        Args:
+            expr: The SymPy expression to classify.
+            var: The differentiation variable (a SymPy ``Symbol``).
+
+        Returns:
+            A rule name string such as ``"power_rule"``, ``"product_rule"``,
+            ``"chain_rule"``, ``"quotient_rule"``, ``"trig_rule"``,
+            ``"exponential_rule"``, ``"logarithm_rule"``, ``"sum_rule"``,
+            ``"constant_multiple"``, ``"constant"``, or ``"basic"``.
+        """
         if not expr.has(var):
             return "constant"
         if expr == var:
@@ -265,13 +319,26 @@ class CalculusSolver:
     def _ok(self, result, steps, suffix=""):
         return {
             "success": True,
-            "result": result,
+            "result": str(result),
             "result_latex": latex(result) + suffix,
             "steps": steps,
         }
 
     @staticmethod
     def _to_sympy_num(v):
+        """Convert a limit/bound value to a SymPy numeric object.
+
+        Recognises infinity shorthands (``"oo"``, ``"\\infty"``, ``"-oo"``)
+        and falls back to a ``Symbol`` if the value cannot be parsed as a
+        number.
+
+        Args:
+            v: The value to convert — may be an ``int``, ``float``, or a
+               string such as ``"0"``, ``"oo"``, ``"-\\infty"``, or ``"pi"``.
+
+        Returns:
+            A SymPy ``S`` (integer/rational), ``oo``, ``-oo``, or ``Symbol``.
+        """
         if isinstance(v, (int, float)):
             return S(v)
         s = str(v).strip().replace(" ", "")

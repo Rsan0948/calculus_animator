@@ -12,7 +12,25 @@ class ExpressionExtractor:
         explicit_type: Optional[str] = None,
         params: Optional[Dict[str, Any]] = None,
     ):
-        """Return (inner_latex, merged_params) with operation notation stripped."""
+        """Strip calculus notation and return the inner expression with its parameters.
+
+        Handles derivatives (``\\frac{d}{dx}``, ``d/dx``, prime notation),
+        definite and indefinite integrals, limits, and sums.  Extracts bounds,
+        variable, and order into ``params`` where applicable.
+
+        Args:
+            latex: Full LaTeX expression including operation wrapper, e.g.
+                ``r"\\int_0^1 x^2 \\, dx"`` or ``r"\\frac{d}{dx} \\sin(x)"``.
+            explicit_type: Reserved for future use; currently unused.
+            params: Seed parameter dict that extracted values are merged into.
+
+        Returns:
+            A tuple ``(inner_latex, merged_params)`` where ``inner_latex`` is
+            the expression with the operation wrapper removed and
+            ``merged_params`` is a dict that may contain keys such as
+            ``"variable"``, ``"order"``, ``"lower"``, ``"upper"``, and
+            ``"point"``.
+        """
         _ = explicit_type  # reserved for future explicit-type extraction overrides
         params = dict(params or {})
 

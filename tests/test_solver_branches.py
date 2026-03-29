@@ -47,7 +47,7 @@ def test_limit_direct_substitution_branch():
     x = sp.Symbol("x")
     out = solver.solve(x**2 + 1, CalculusType.LIMIT, {"variable": "x", "point": 2})
     assert out["success"] is True
-    assert sp.simplify(out["result"] - 5) == 0
+    assert sp.simplify(sp.sympify(out["result"]) - 5) == 0
     assert out["steps"][0]["rule"] == "direct_substitution"
 
 

@@ -1,15 +1,22 @@
 line-length = 100
-target-version = "py313"
+target-version = "py310"
 
 [lint]
 select = [
-  "E",
-  "F",
-  "B",
+    "E",   # Pycodestyle errors
+    "F",   # Pyflakes
+    "B",   # Bugbear (catches common logic errors)
+    "S",   # Bandit (Security)
+    "I",   # Isort (Import ordering)
+    "T20", # Disallow print statements (use logging)
+    "RET", # Return value consistency
 ]
 ignore = [
-  "E501",
+    "S101", # Allow asserts in tests
+    "S603", # Allow subprocess.run without shell=True
 ]
 
 [lint.per-file-ignores]
-"tests/*.py" = ["S101"]
+"__init__.py" = ["F401"]
+"run.py" = ["T201"] # Allow prints in entry point
+"app_main.py" = ["T201"]

@@ -1,0 +1,38 @@
+{
+  "pathway": {
+    "id": "precalculus",
+    "chapters": [
+      {
+        "id": "precalc_ch5",
+        "title": "Sequences and Series",
+        "slides": [
+          {
+            "id": "precalc_ch5_s1",
+            "title": "Introduction to Sequences",
+            "content_blocks": [],
+            "graphics": []
+          },
+          {
+            "id": "precalc_ch5_s12",
+            "title": "Geometric Sequences",
+            "content_blocks": [],
+            "graphics": []
+          }
+        ],
+        "midpoint_quiz": {
+          "id": "precalc_ch5_midquiz",
+          "required_to_take": true,
+          "required_to_pass": false,
+          "title": "Mid-Chapter Quiz: Sequences and Series",
+          "questions": []
+        },
+        "final_test": {
+          "id": "precalc_ch5_test",
+          "optional_recommended": true,
+          "title": "Chapter Test: Sequences and Series",
+          "questions": []
+        }
+      }
+    ]
+  }
+}

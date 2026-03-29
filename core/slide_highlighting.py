@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import re
 
-
 _KIND_PRIORITY = {"problem": 0, "step": 1, "text": 2, "lesson": 2, "example": 3, "note": 4, "summary": 5, "practice": 6}
 _EXPLANATORY_CUES = (
     "because", "means", "so that", "in other words", "therefore", "this means", "important",
@@ -92,7 +91,23 @@ def _score_value(candidate: dict[str, object]) -> float:
 
 
 def build_legacy_slide_highlights(blocks: list[dict], max_items: int = 3, max_chars_per_item: int = 180) -> list[dict]:
-    """Replicates the previous simple highlight algorithm for baseline reports."""
+    """Return the first sentence of the highest-priority blocks (legacy algorithm).
+
+    Sorts blocks by ``_KIND_PRIORITY``, takes the first sentence of each, and
+    applies simple ``"Problem: "`` / ``"Example: "`` / ``"Note: "`` prefixes.
+    Used for baseline comparison reports only.
+
+    Args:
+        blocks: List of content-block dicts, each with ``"kind"`` and ``"text"``
+            keys (as stored in curriculum slide JSON).
+        max_items: Maximum number of highlight entries to return.
+        max_chars_per_item: Hard character limit applied to each entry.
+
+    Returns:
+        A list of ``{"kind": str, "text": str}`` dicts, length ≤ ``max_items``.
+        Falls back to ``[{"kind": "text", "text": "No highlight content..."}]``
+        when no non-empty blocks are found.
+    """
     def first_sentence(text: str) -> str:
         txt = _normalize_ws(text)
         if not txt:
@@ -130,9 +145,26 @@ def build_informative_slide_highlights(
     max_chars_per_item: int = 210,
     max_total_chars: int = 620,
 ) -> list[dict]:
-    """
-    Build highlights that are still concise but preserve enough learning value to
-    understand the slide without opening notes.
+    """Extract the most educationally valuable sentences from slide content blocks.
+
+    Scores each sentence using ``_sentence_score`` (kind weight + explanatory-cue
+    bonus + math-notation bonus − position and length penalties), picks the
+    highest-scoring sentences per block, and assembles them in source order to
+    preserve narrative flow.  A backfill pass ensures at least 3 items when the
+    flow pass is too sparse, and a third pass adds one more entry when total
+    character budget is under 260.
+
+    Args:
+        blocks: List of content-block dicts with ``"kind"`` and ``"text"`` keys.
+        max_items: Maximum number of highlight entries to return.
+        max_chars_per_item: Hard truncation limit per entry (appends ``"..."``).
+        max_total_chars: Cumulative character budget across all entries; new
+            entries are skipped once this is exceeded.
+
+    Returns:
+        A list of ``{"kind": str, "text": str}`` dicts, length ≤ ``max_items``.
+        Falls back to ``[{"kind": "text", "text": "No highlight content..."}]``
+        when no usable content is found.
     """
     if not blocks:
         return [{"kind": "text", "text": "No highlight content for this slide."}]

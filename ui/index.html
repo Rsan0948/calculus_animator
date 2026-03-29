@@ -324,6 +324,64 @@
         </div>
     </div>
 </div>
-<script src="js/app.js"></script>
+<script type="module" src="js/app.js"></script>
+<script src="ai_tutor/tutor-panel.js"></script>
+<script>
+// AI Tutor Integration - connects solver state to tutor
+(function() {
+    // Wait for both app and tutor to load
+    const checkInit = setInterval(() => {
+        if (window.aiTutor && window.appAPI) {
+            clearInterval(checkInit);
+            integrateTutor();
+        }
+    }, 100);
+    
+    function integrateTutor() {
+        console.log('🔗 Integrating AI Tutor with solver...');
+        
+        // Hook into solve button to capture expression
+        const solveBtn = document.getElementById('solveBtn');
+        const originalSolve = solveBtn.onclick;
+        
+        solveBtn.addEventListener('click', () => {
+            const input = document.getElementById('mathInput').value;
+            const type = document.getElementById('calcTypeSelect').value || 'derivative';
+            
+            // Update tutor context
+            window.aiTutor.updateSolverState({
+                expression: input,
+                operation: type,
+                step_index: 0,
+                step_count: 0
+            });
+        });
+        
+        // Listen for step progression from the existing app
+        // This assumes the app has a way to track steps - adjust as needed
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.target.id && mutation.target.id.includes('step')) {
+                    // Try to extract step info from DOM
+                    const stepMatch = mutation.target.textContent.match(/Step\s+(\d+)/i);
+                    if (stepMatch) {
+                        const currentState = window.aiTutor.solverState || {};
+                        currentState.step_index = parseInt(stepMatch[1]) - 1;
+                        window.aiTutor.updateSolverState(currentState);
+                    }
+                }
+            });
+        });
+        
+        // Observe the solution display area
+        const solutionArea = document.getElementById('solverAppContainer');
+        if (solutionArea) {
+            observer.observe(solutionArea, { childList: true, subtree: true });
+        }
+        
+        console.log('✅ AI Tutor integrated');
+    }
+})();
+</script>
 </body>
 </html>

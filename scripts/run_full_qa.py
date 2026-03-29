@@ -23,8 +23,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 
 
 def _venv_python() -> Path:
@@ -34,8 +33,6 @@ def _venv_python() -> Path:
 
 
 def _run(cmd: list[str], label: str) -> int:
-    print(f"\n== {label} ==")
-    print("$", " ".join(cmd))
     return subprocess.call(cmd, cwd=str(ROOT))
 
 
@@ -74,7 +71,6 @@ def main() -> int:
         if setup_script.exists():
             code = _run([interpreter, str(setup_script.name)], "Install Runtime + Dev Dependencies")
         else:
-            print("\nsetup_test_env.py not found; using fallback dependency installer.")
             code = _install_deps_fallback(interpreter)
         if code != 0:
             return code
@@ -85,7 +81,7 @@ def main() -> int:
             return code
 
     # Lint + type + default tests
-    quality_cmd = [interpreter, "run_quality.py"]
+    quality_cmd = [interpreter, "scripts/run_quality.py"]
     if include_security:
         quality_cmd.append("--security")
     code = _run(quality_cmd, "Run Quality Gate")
@@ -93,20 +89,19 @@ def main() -> int:
         return code
 
     if run_fuzz:
-        code = _run([interpreter, "run_tests.py", "--fuzz"], "Run Fuzz Tests")
+        code = _run([interpreter, "scripts/run_tests.py", "--fuzz"], "Run Fuzz Tests")
         if code != 0:
             return code
 
-    code = _run([interpreter, "run_tests.py", "--perf"], "Run Performance Smoke Tests")
+    code = _run([interpreter, "scripts/run_tests.py", "--perf"], "Run Performance Smoke Tests")
     if code != 0:
         return code
 
     if run_e2e:
-        code = _run([interpreter, "run_tests.py", "--e2e"], "Run E2E Smoke Tests")
+        code = _run([interpreter, "scripts/run_tests.py", "--e2e"], "Run E2E Smoke Tests")
         if code != 0:
             return code
 
-    print("\nFull QA pipeline passed.")
     return 0
 
 
