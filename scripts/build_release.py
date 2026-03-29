@@ -12,7 +12,7 @@ from PyInstaller.__main__ import run as pyinstaller_run
 
 
 def main():
-    root = Path(__file__).resolve().parent
+    root = Path(__file__).resolve().parent.parent
     sep = ";" if os.name == "nt" else ":"
     app_name = "Calculus Animator"
 
@@ -29,26 +29,21 @@ def main():
         "--add-data",
         f"{root / 'data'}{sep}data",
         "--add-data",
-        f"{root / 'calculus_library.json'}{sep}.",
+        f"{root / 'data' / 'calculus_library.json'}{sep}data",
         "--collect-submodules",
         "webview",
         "--collect-submodules",
         "sympy",
-        str(root / "app_main.py"),
+        str(root / "window.py"),
     ]
 
     system = platform.system().lower()
     if system == "darwin":
         args.extend(["--osx-bundle-identifier", "com.calculusanimator.app"])
 
-    print("Running PyInstaller with args:")
-    for a in args:
-        print(" ", a)
+    for _a in args:
+        pass
     pyinstaller_run(args)
-    print("\nBuild complete.")
-    print("Artifacts:")
-    print(f"  {root / 'dist'}")
-    print(f"  {root / 'build'}")
 
 
 if __name__ == "__main__":

@@ -7,24 +7,24 @@ This project now supports a tiered automated quality workflow:
 - Install all runtime + dev tooling:
   - `python setup_test_env.py`
 - Default quality run (lint + types + tests):
-  - `python run_quality.py`
+  - `python scripts/run_quality.py`
 - Include dependency security audit:
-  - `python run_quality.py --security`
+  - `python scripts/run_quality.py --security`
 - Default tests (excludes heavy markers):
-  - `python run_tests.py`
+  - `python scripts/run_tests.py`
 - Quick tests:
-  - `python run_tests.py --quick`
+  - `python scripts/run_tests.py --quick`
 - Fuzz only:
-  - `python run_tests.py --fuzz`
+  - `python scripts/run_tests.py --fuzz`
 - Perf only:
-  - `python run_tests.py --perf`
+  - `python scripts/run_tests.py --perf`
 - E2E only:
-  - `python run_tests.py --e2e`
+  - `python scripts/run_tests.py --e2e`
 - Full test suite:
-  - `python run_tests.py --full`
+  - `python scripts/run_tests.py --full`
 - Release checklist runner (writes report to `reports/release_checklist_latest.md`):
-  - `python run_release_checklist.py`
-  - `python run_release_checklist.py --quick`
+  - `python scripts/run_release_checklist.py`
+  - `python scripts/run_release_checklist.py --quick`
 
 ## Test Markers
 

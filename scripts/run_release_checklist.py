@@ -17,8 +17,7 @@ from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 
-
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 REPORTS = ROOT / "reports"
 REPORTS.mkdir(exist_ok=True)
 
@@ -42,8 +41,6 @@ def _venv_python() -> Path:
 
 
 def _run(label: str, cmd: list[str]) -> StepResult:
-    print(f"\n== {label} ==")
-    print("$", " ".join(cmd))
     t0 = time.perf_counter()
     code = subprocess.call(cmd, cwd=str(ROOT))
     dt = time.perf_counter() - t0
@@ -102,31 +99,27 @@ def main() -> int:
     interpreter = str(py if py.exists() else Path(sys.executable))
 
     steps: list[StepResult] = []
-    steps.append(_run("Quality Gate (ruff + mypy + tests)", [interpreter, "run_quality.py"]))
+    steps.append(_run("Quality Gate (ruff + mypy + tests)", [interpreter, "scripts/run_quality.py"]))
     if not steps[-1].ok:
-        report_path = _write_report(steps, quick=quick, skip_perf=skip_perf, skip_e2e=skip_e2e)
-        print(f"\nRelease checklist failed. Report: {report_path}")
+        _write_report(steps, quick=quick, skip_perf=skip_perf, skip_e2e=skip_e2e)
         return 1
 
     if not skip_perf:
-        steps.append(_run("Performance Smoke Tests", [interpreter, "run_tests.py", "--perf"]))
+        steps.append(_run("Performance Smoke Tests", [interpreter, "scripts/run_tests.py", "--perf"]))
         if not steps[-1].ok:
-            report_path = _write_report(steps, quick=quick, skip_perf=skip_perf, skip_e2e=skip_e2e)
-            print(f"\nRelease checklist failed. Report: {report_path}")
+            _write_report(steps, quick=quick, skip_perf=skip_perf, skip_e2e=skip_e2e)
             return 1
 
     if not skip_e2e:
-        e2e_cmd = [interpreter, "run_tests.py", "--e2e"]
+        e2e_cmd = [interpreter, "scripts/run_tests.py", "--e2e"]
         if quick:
             e2e_cmd = [interpreter, "-m", "pytest", "-q", "-m", "e2e", "tests/test_e2e_backend_smoke.py"]
         steps.append(_run("E2E Smoke Tests", e2e_cmd))
         if not steps[-1].ok:
-            report_path = _write_report(steps, quick=quick, skip_perf=skip_perf, skip_e2e=skip_e2e)
-            print(f"\nRelease checklist failed. Report: {report_path}")
+            _write_report(steps, quick=quick, skip_perf=skip_perf, skip_e2e=skip_e2e)
             return 1
 
-    report_path = _write_report(steps, quick=quick, skip_perf=skip_perf, skip_e2e=skip_e2e)
-    print(f"\nRelease checklist passed. Report: {report_path}")
+    _write_report(steps, quick=quick, skip_perf=skip_perf, skip_e2e=skip_e2e)
     return 0
 
 

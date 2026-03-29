@@ -122,7 +122,7 @@ def run(args: argparse.Namespace) -> int:
         slides = slides[: args.limit]
 
     proposals = []
-    for i, slide in enumerate(slides, start=1):
+    for _i, slide in enumerate(slides, start=1):
         prompt = PROMPT_TEMPLATE.format(
             max_items=args.max_items,
             max_chars_per_item=args.max_chars_per_item,
@@ -135,8 +135,6 @@ def run(args: argparse.Namespace) -> int:
             notes_blocks=json.dumps(slide.get("input_notes_blocks", slide.get("notes_blocks", [])), ensure_ascii=False, indent=2),
         )
         if args.dry_run:
-            print(f"--- prompt {i}: {slide.get('slide_id')} ---")
-            print(prompt[:1500] + ("..." if len(prompt) > 1500 else ""))
             continue
 
         try:
@@ -152,7 +150,6 @@ def run(args: argparse.Namespace) -> int:
                 "proposal": constrained,
                 "raw_response": raw if args.keep_raw else "",
             })
-            print(f"[{i}/{len(slides)}] proposed: {slide.get('slide_id')}")
         except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as e:
             proposals.append({
                 "pathway_id": slide.get("pathway_id"),
@@ -162,7 +159,6 @@ def run(args: argparse.Namespace) -> int:
                 "model": args.model,
                 "error": str(e),
             })
-            print(f"[{i}/{len(slides)}] error: {slide.get('slide_id')} -> {e}")
 
     payload = {
         "generated_at": _now_iso(),
@@ -177,7 +173,6 @@ def run(args: argparse.Namespace) -> int:
         "proposals": proposals,
     }
     out_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
-    print(f"Wrote proposals: {out_path}")
     return 0
 
 

@@ -82,6 +82,24 @@ class AnimationStep:
 
 class StepGenerator:
     def generate(self, solver_result: dict, calc_type=None) -> list[AnimationStep]:
+        """Convert raw solver steps into typed ``AnimationStep`` objects.
+
+        Maps each solver step's ``"rule"`` key to an ``AnimationType`` and
+        default duration via ``_RULE_CONFIG``, then appends a terminal
+        ``AnimationType.DRAW`` step for the final result.  The list is capped at
+        ``MAX_ANIMATION_STEPS``.
+
+        Args:
+            solver_result: Dict returned by ``CalculusSolver.solve()``.  Must
+                have ``"success": True`` and a ``"steps"`` list to produce output.
+            calc_type: Unused at present; reserved for future type-specific
+                animation overrides.
+
+        Returns:
+            A list of ``AnimationStep`` instances ready to be serialised via
+            ``to_dict()``.  Returns an empty list when ``solver_result["success"]``
+            is falsy.
+        """
         if not solver_result.get("success"):
             return []
         out: list[AnimationStep] = []

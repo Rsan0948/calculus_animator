@@ -1,19 +1,48 @@
 import numpy as np
-from sympy import lambdify, Symbol, latex as sym_latex
+from sympy import Symbol, lambdify
+from sympy import latex as sym_latex
 
+from config import get_logger
+
+logger = get_logger(__name__)
 
 class AnimationEngine:
     def __init__(self):
-        self.x = Symbol("x")
+        pass
+
+    def _get_symbols(self, expr):
+        """Extract free symbols from expression, default to 'x' if none."""
+        if isinstance(expr, str):
+            from sympy import sympify
+            try:
+                expr = sympify(expr)
+            except Exception:
+                return [Symbol("x")]
+        
+        try:
+            syms = sorted(list(expr.free_symbols), key=lambda s: s.name)
+            if not syms:
+                return [Symbol("x")]
+            return syms
+        except Exception:
+            return [Symbol("x")]
 
     def _safe_sample(self, expr, xs):
-        f = lambdify(self.x, expr, modules=["numpy"])
-        ys = f(xs)
-        arr = np.array(ys, dtype=float)
-        if arr.shape == ():
-            arr = np.full_like(xs, float(arr))
-        arr = np.where(np.isfinite(arr), arr, np.nan)
-        return arr
+        try:
+            if isinstance(expr, str):
+                from sympy import sympify
+                expr = sympify(expr)
+            syms = self._get_symbols(expr)
+            # Use the first symbol as the primary variable for the 1D plot
+            f = lambdify(syms[0], expr, modules=["numpy"])
+            ys = f(xs)
+            arr = np.array(ys, dtype=float)
+            if arr.shape == ():
+                arr = np.full_like(xs, float(arr))
+            return np.where(np.isfinite(arr), arr, np.nan)
+        except Exception as e:
+            logger.error(f"Sampling failed for {expr} (type {type(expr)}): {e}")
+            return np.full_like(xs, np.nan)
 
     @staticmethod
     def _to_num(v, fallback=0.0):
@@ -37,6 +66,17 @@ class AnimationEngine:
         }
 
     def generate_graph_data(self, expr, x_range=(-10, 10), points=300):
+        """Sample a SymPy expression over an x range and return raw x/y arrays.
+
+        Args:
+            expr: A SymPy expression to evaluate.
+            x_range: Tuple ``(x_min, x_max)`` defining the sampling interval.
+            points: Number of evenly spaced sample points.
+
+        Returns:
+            On success: ``{"success": True, "x": list, "y": list, "latex": str}``.
+            On failure: ``{"success": False, "error": str}``.
+        """
         try:
             xs = np.linspace(float(x_range[0]), float(x_range[1]), points)
             ys = self._safe_sample(expr, xs)
@@ -50,9 +90,29 @@ class AnimationEngine:
             return {"success": False, "error": str(e)}
 
     def generate_graph_payload(self, expr, calc_type=None, params=None, solved_expr=None, x_range=(-10, 10), points=500):
-        """
-        Rich graph payload for robust frontend rendering.
-        Includes multi-curve support, fills, guides, markers, legend metadata.
+        """Build a rich graph payload for frontend rendering.
+
+        Assembles multiple curves, area fills, vertical/horizontal guide lines,
+        point markers, and legend metadata.  Includes type-specific overlays:
+        shaded area for definite integrals and approach guides for limits.
+
+        Args:
+            expr: Primary SymPy expression (the input function).
+            calc_type: String or ``CalculusType`` name (e.g. ``"DERIVATIVE"``).
+                Determines which overlays are added.
+            params: Dict of operation parameters; used for ``"lower"``/``"upper"``
+                bounds (definite integral) or ``"point"`` (limit).
+            solved_expr: Optional SymPy expression for the solved result.  When
+                provided and graphable, a second dashed curve is added.
+            x_range: Tuple ``(x_min, x_max)`` defining the sampling interval.
+            points: Number of evenly spaced sample points.
+
+        Returns:
+            On success: ``{"success": True, "calc_type": str, "x_range": list,
+            "y_range": list, "curves": list, "fills": list, "vlines": list,
+            "hlines": list, "points": list, "legend": list, "notes": list,
+            "x": list, "y": list, "latex": str}`` (last three for legacy compat).
+            On failure: ``{"success": False, "error": str}``.
         """
         params = params or {}
         calc_type = str(calc_type or "SIMPLIFY").upper()
@@ -67,9 +127,11 @@ class AnimationEngine:
 
             # Primary expression curve.
             try:
-                curves.append(self._curve_payload(expr, xs, "Input function", "#e94560", "solid", 2.6))
-            except Exception:
-                pass
+                curves.append(self._curve_payload(
+                    expr, xs, "Input function", "#e94560", "solid", 2.6
+                ))
+            except Exception as e:
+                logger.debug(f"Failed to generate input function curve: {e}")
 
             # Secondary curve based on solved result (when graphable and meaningful).
             if solved_expr is not None and calc_type not in ("INTEGRAL_DEFINITE", "LIMIT"):
@@ -81,15 +143,18 @@ class AnimationEngine:
                         pass
                 if str(candidate) != str(expr):
                     try:
-                        label = {
+                        labels = {
                             "DERIVATIVE": "Derivative f'(x)",
                             "INTEGRAL_INDEFINITE": "Antiderivative F(x)",
                             "SERIES": "Series approximation",
                             "TAYLOR_SERIES": "Taylor approximation",
-                        }.get(calc_type, "Solved expression")
-                        curves.append(self._curve_payload(candidate, xs, label, "#4fc3f7", "dashed", 2.2))
-                    except Exception:
-                        pass
+                        }
+                        label = labels.get(calc_type, "Solved expression")
+                        curves.append(self._curve_payload(
+                            candidate, xs, label, "#4fc3f7", "dashed", 2.2
+                        ))
+                    except Exception as e:
+                        logger.debug(f"Failed to generate solved curve: {e}")
 
             # Definite integral area shading.
             if calc_type == "INTEGRAL_DEFINITE":
@@ -116,15 +181,24 @@ class AnimationEngine:
             # Limit guides.
             if calc_type == "LIMIT":
                 pt = self._to_num(params.get("point"), 0.0)
-                vlines.append({"x": float(pt), "label": f"x→{pt:g}", "color": "#fbbf24"})
-                if solved_expr is not None:
-                    try:
+                try:
+                    vlines.append({
+                        "x": float(pt), "label": f"x={pt}",
+                        "color": "#fbbf24", "style": "dashed"
+                    })
+                    if solved_expr is not None:
                         lv = float(solved_expr)
                         if np.isfinite(lv):
-                            hlines.append({"y": lv, "label": f"limit={lv:.4g}", "color": "#22c55e"})
-                            points_out.append({"x": float(pt), "y": float(lv), "label": "Limit value", "color": "#22c55e"})
-                    except Exception:
-                        pass
+                            hlines.append({
+                                "y": lv, "label": f"limit={lv:.4g}", "color": "#22c55e"
+                            })
+                            points_out.append({
+                                "x": float(pt), "y": float(lv),
+                                "label": "Limit value", "color": "#22c55e"
+                            })
+                except Exception as e:
+                    logger.debug(f"Failed to generate limit guides: {e}")
+
                 notes.append("Dashed line indicates the approach point for the limit.")
 
             # Fallback if nothing is graphable.
@@ -176,6 +250,19 @@ class AnimationEngine:
             return {"success": False, "error": str(e)}
 
     def generate_area_frames(self, expr, lo, hi, frames=40):
+        """Generate animation frames progressively filling the area under a curve.
+
+        Args:
+            expr: SymPy expression to integrate visually.
+            lo: Left bound of the integration interval (numeric).
+            hi: Right bound of the integration interval (numeric).
+            frames: Number of animation frames to produce.
+
+        Returns:
+            A list of frame dicts, each with keys ``"frame"``, ``"x"``, ``"y"``,
+            and ``"fill_to"`` (the rightmost x reached at that frame).
+            Returns an empty list on error.
+        """
         try:
             out = []
             for i in range(frames + 1):
@@ -189,8 +276,24 @@ class AnimationEngine:
             return []
 
     def generate_limit_frames(self, expr, point, frames=40):
+        """Generate animation frames showing left/right approach to a limit point.
+
+        Each frame narrows the gap between two sample points approaching ``point``
+        from both sides, animating convergence.
+
+        Args:
+            expr: SymPy expression to evaluate near ``point``.
+            point: The x value being approached (numeric or coercible to float).
+            frames: Number of animation frames to produce.
+
+        Returns:
+            A list of frame dicts with keys ``"frame"``, ``"left_x"``,
+            ``"left_y"``, ``"right_x"``, ``"right_y"``, and ``"approaching"``.
+            Returns an empty list on error.
+        """
         try:
-            f = lambdify(self.x, expr, modules=["numpy"])
+            syms = self._get_symbols(expr)
+            f = lambdify(syms[0], expr, modules=["numpy"])
             point = float(point)
             out = []
             for i in range(frames + 1):
@@ -210,13 +313,27 @@ class AnimationEngine:
                     "approaching": point,
                 })
             return out
-        except Exception:
+        except Exception as e:
+            logger.error(f"Limit frames generation failed: {e}")
             return []
 
     def generate_tangent(self, expr, deriv_expr, x_pt):
+        """Compute the tangent line to a curve at a given x coordinate.
+
+        Args:
+            expr: SymPy expression for the original function f(x).
+            deriv_expr: SymPy expression for the derivative f'(x).
+            x_pt: The x coordinate at which to draw the tangent (numeric).
+
+        Returns:
+            On success: ``{"success": True, "point": {"x": float, "y": float},
+            "slope": float, "tangent_x": list, "tangent_y": list}``.
+            On failure: ``{"success": False, "error": str}``.
+        """
         try:
-            f = lambdify(self.x, expr, modules=["numpy"])
-            fp = lambdify(self.x, deriv_expr, modules=["numpy"])
+            syms = self._get_symbols(expr)
+            f = lambdify(syms[0], expr, modules=["numpy"])
+            fp = lambdify(syms[0], deriv_expr, modules=["numpy"])
             x_pt = float(x_pt)
             y_pt = float(f(x_pt))
             slope = float(fp(x_pt))
@@ -230,4 +347,5 @@ class AnimationEngine:
                 "tangent_y": tys.tolist(),
             }
         except Exception as e:
+            logger.error(f"Tangent generation failed: {e}")
             return {"success": False, "error": str(e)}

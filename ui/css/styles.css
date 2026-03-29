@@ -341,6 +341,9 @@ sub{font-size:.72em;line-height:0;vertical-align:sub}
 #capacityPageText,#capacityPageText *{user-select:text}
 #capacityPreview,#capacityPreview *{user-select:none}
 
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.shake-input{animation:shake 0.45s ease;border-color:var(--accent)!important}
+
 @media (max-width: 1024px){
   .quick-symbols{min-width:0;width:100%}
   .input-actions-row{flex-direction:column}

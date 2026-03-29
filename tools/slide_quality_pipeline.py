@@ -15,8 +15,10 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from core.slide_highlighting import build_informative_slide_highlights, build_legacy_slide_highlights  # noqa: E402
-
+from core.slide_highlighting import (  # noqa: E402
+    build_informative_slide_highlights,
+    build_legacy_slide_highlights,
+)
 
 STOPWORDS = {
     "the", "a", "an", "and", "or", "of", "to", "in", "on", "for", "with", "as", "by", "is", "are", "was", "were",
@@ -355,10 +357,6 @@ def run(args: argparse.Namespace) -> int:
         for row in training_rows:
             f.write(json.dumps(row, ensure_ascii=False) + "\n")
 
-    print(f"Wrote JSON report: {out_json}")
-    print(f"Wrote Markdown report: {out_md}")
-    print(f"Wrote training pairs: {out_train}")
-    print(f"Slides evaluated: {len(rows)} | avg before: {before_avg} | avg after: {after_avg} | improved: {improved}")
     return 0
 
 

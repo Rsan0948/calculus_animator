@@ -11,7 +11,6 @@ HealthCheck = hypothesis.HealthCheck
 from core.extractor import ExpressionExtractor  # noqa: E402
 from core.parser import ExpressionParser  # noqa: E402
 
-
 SAFE_ALPHABET = list("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_+-*/^(){}[]\\ ,.=→∞")
 
 

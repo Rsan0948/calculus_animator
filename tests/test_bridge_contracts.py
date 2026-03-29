@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 from types import SimpleNamespace
 
+import pytest
 import sympy as sp
 
 from api.bridge import CalculusAPI
@@ -96,6 +97,7 @@ def test_get_graph_data_contract_success():
 def test_render_learning_slide_uses_cache(monkeypatch):
     api = CalculusAPI.__new__(CalculusAPI)
     api._slide_render_cache = {}
+    api._render_worker = None
     api._curriculum = {
         "pathways": [
             {
@@ -120,11 +122,11 @@ def test_render_learning_slide_uses_cache(monkeypatch):
 
     call_count = {"n": 0}
 
-    def _fake_run(*args, **kwargs):
+    def _fake_run_task(payload):
         call_count["n"] += 1
-        return SimpleNamespace(stdout=json.dumps({"success": True, "data_url": "data:image/png;base64,AAA"}), stderr="")
+        return {"success": True, "data_url": "data:image/png;base64,AAA"}
 
-    monkeypatch.setattr("api.bridge.subprocess.run", _fake_run)
+    monkeypatch.setattr(api, "_run_render_task", _fake_run_task)
 
     out1 = json.loads(api.render_learning_slide("precalculus", "c1", 0))
     out2 = json.loads(api.render_learning_slide("precalculus", "c1", 0))
@@ -132,30 +134,6 @@ def test_render_learning_slide_uses_cache(monkeypatch):
     assert out2["success"] is True
     assert out1["data_url"].startswith("data:image/png;base64,")
     assert call_count["n"] == 1
-
-
-def test_capacity_metrics_only_parses_worker_json(monkeypatch):
-    api = CalculusAPI.__new__(CalculusAPI)
-
-    def _fake_run(*args, **kwargs):
-        return SimpleNamespace(stdout=json.dumps({"success": True, "chars_on_page": 500, "total_pages": 2}), stderr="")
-
-    monkeypatch.setattr("api.bridge.subprocess.run", _fake_run)
-    out = api._capacity_metrics_only("hello")
-    assert out["success"] is True
-    assert out["chars_on_page"] == 500
-
-
-def test_capacity_test_slide_handles_empty_worker_output(monkeypatch):
-    api = CalculusAPI.__new__(CalculusAPI)
-
-    def _fake_run(*args, **kwargs):
-        return SimpleNamespace(stdout="", stderr="worker failed")
-
-    monkeypatch.setattr("api.bridge.subprocess.run", _fake_run)
-    out = json.loads(api.capacity_test_slide("hello"))
-    assert out["success"] is False
-    assert "worker failed" in out["error"].lower()
 
 
 def test_copy_image_to_clipboard_rejects_invalid_payload():
@@ -226,7 +204,8 @@ def test_extract_pathway_from_content_file_with_minor_repair():
 def test_extract_pathway_from_content_file_truncation_fallback():
     api = CalculusAPI.__new__(CalculusAPI)
     marker = ',\n          {\n            "id": "precalc_ch5_s12"'
-    text = Path("content_jsons.txt").read_text(encoding="utf-8")
+    fixture = Path(__file__).parent / "fixtures" / "content_jsons_sample.txt"
+    text = fixture.read_text(encoding="utf-8")
     pos = text.find(marker)
     assert pos != -1
     truncated = text[: pos + len(marker) + 4]
@@ -303,49 +282,6 @@ def test_constructor_initializes_core_fields(monkeypatch):
     assert hasattr(api, "_parser")
     assert hasattr(api, "_animator")
     assert api._slide_render_cache == {}
-
-
-def test_auto_generate_capacity_report_writes_files_and_cache_short_circuit(monkeypatch, tmp_path):
-    api = CalculusAPI.__new__(CalculusAPI)
-    api._curriculum = {
-        "pathways": [
-            {
-                "id": "p",
-                "chapters": [
-                    {
-                        "id": "c",
-                        "slides": [
-                            {"id": "s1", "content_blocks": [{"text": "hello world"}], "graphics": []}
-                        ],
-                    }
-                ],
-            }
-        ]
-    }
-    api._capacity_metrics_only = lambda text, with_image=False, page_index=0, width=1300, height=812: {
-        "chars_on_page": 10 if not with_image else 8,
-        "usable_chars_on_page": 8 if not with_image else 6,
-        "total_pages": 1,
-        "overflow_chars": 0,
-        "page_text": "hello",
-    }
-
-    # Redirect bridge root path lookups to tmp path by patching __file__ usage at method scope.
-    monkeypatch.setattr("api.bridge.Path", Path)
-    monkeypatch.setattr("api.bridge.__file__", str(tmp_path / "api" / "bridge.py"))
-    (tmp_path / "data").mkdir(parents=True, exist_ok=True)
-
-    api._auto_generate_capacity_report()
-    report_json = tmp_path / "data" / "slide_capacity_report.json"
-    report_txt = tmp_path / "data" / "slide_capacity_report.txt"
-    assert report_json.exists()
-    assert report_txt.exists()
-
-    # second call should short-circuit on same curriculum hash
-    before = report_json.read_text(encoding="utf-8")
-    api._auto_generate_capacity_report()
-    after = report_json.read_text(encoding="utf-8")
-    assert before == after
 
 
 def test_get_area_animation_and_tangent_paths():

@@ -1,0 +1,105 @@
+name: Bug Report
+description: Report a bug or unexpected behavior
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug! Please fill out this form so we can help you faster.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      description: Please confirm the following
+      options:
+        - label: I have searched existing issues and this bug hasn't been reported
+          required: true
+        - label: I am using the latest version of Calculus Animator
+          required: true
+        - label: I have read the [Contributing Guide](../CONTRIBUTING.md)
+          required: false
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear description of what the bug is
+      placeholder: When I enter a derivative expression, the solver crashes...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Open the app
+        2. Enter expression: `\frac{d}{dx} x^2`
+        3. Click Solve
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What you expected to happen
+      placeholder: The derivative should be calculated as `2x`
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened
+      placeholder: The app shows "Error: parser failed"
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem
+      placeholder: Drag and drop images here
+    validations:
+      required: false
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Your system information
+      value: |
+        - OS: [e.g., macOS 14.2, Windows 11, Ubuntu 22.04]
+        - Python version: [e.g., 3.10.8]
+        - Calculus Animator version: [e.g., 1.0.0]
+        - Installation method: [e.g., pip, source, packaged]
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Relevant log output or error messages
+      render: shell
+      placeholder: |
+        Traceback (most recent call last):
+          File "core/parser.py", line 45, in parse
+            ...
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other context about the problem
+    validations:
+      required: false
