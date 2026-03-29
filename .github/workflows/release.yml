@@ -52,7 +52,7 @@ jobs:
         run: pytest -m "not gui"
       
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: build-${{ matrix.os }}-py${{ matrix.python-version }}
           path: |
