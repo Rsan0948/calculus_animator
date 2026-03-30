@@ -3,7 +3,7 @@
 ## 1) Generate before/after audit + training pairs
 
 ```bash
-cd "/Users/rubensanchez/Desktop/Personal Stuff/calculus_animator"
+cd ~/Desktop/calculus_animator
 python tools/slide_quality_pipeline.py
 ```
 
@@ -17,7 +17,7 @@ Outputs:
 Start Ollama locally, then run:
 
 ```bash
-cd "/Users/rubensanchez/Desktop/Personal Stuff/calculus_animator"
+cd ~/Desktop/calculus_animator
 python tools/ollama_slide_reviewer.py --model qwen2.5:14b
 ```
 
