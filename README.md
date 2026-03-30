@@ -11,6 +11,20 @@ Calculus Animator bridges symbolic mathematics with interactive visualization an
 
 The platform showcases production-ready AI system architecture: provider-agnostic LLM integration, retrieval-augmented generation for educational content, and multi-modal tutoring with screenshot analysis.
 
+## Screenshots
+
+![Problem Solver](docs/screenshots/problem-solver.png)
+*Problem Solver — expression input, step-by-step animation, and formula library*
+
+![Learning Library Home](docs/screenshots/learning-library-home.png)
+*Learning Library — guided pathways, concept library, and glossary*
+
+![Concept Library](docs/screenshots/learning-library-concepts.png)
+*Concept Library — narrative explanations, symbols, and formulas*
+
+![Glossary](docs/screenshots/learning-library-glossary.png)
+*Glossary — linked definitions with aliases and related topics*
+
 ## Architecture
 
 ### System Design
