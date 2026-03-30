@@ -3,7 +3,7 @@
 An educational calculus platform demonstrating modern AI integration patterns: multi-provider LLM routing, RAG-based knowledge retrieval, and vision-enabled tutoring.
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ## Overview
 
@@ -424,7 +424,7 @@ This is a tracked architectural debt, not a bug. The current structure works cor
 
 ## License
 
-MIT — see [LICENSE](LICENSE)
+Apache 2.0 — see [LICENSE](LICENSE)
 
 ## Acknowledgments
 
