@@ -403,6 +403,10 @@ make build          # or: python scripts/build_release.py
 # Output: dist/Calculus-Animator-*.zip
 ```
 
+## Known Issues
+
+- **Parser edge case**: Certain nested trigonometric expressions like `cos(x)` in complex fractions may not parse correctly, causing graph rendering to fail. The solver still works; only the visualization is affected. Tracked in [#2](https://github.com/Rsan0948/calculus_animator/issues/2).
+
 ## Roadmap
 
 ### Planned Refactors
