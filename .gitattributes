@@ -27,3 +27,4 @@
 *.woff2 binary
 *.db binary
 *.pkl binary
+*.mov binary
