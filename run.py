@@ -8,6 +8,12 @@ import sys
 import time
 from pathlib import Path
 
+# Fix for macOS multiprocessing 'spawn' causing double-launch
+# Must be before any other imports that might trigger subprocess
+if sys.platform == 'darwin':
+    import multiprocessing
+    multiprocessing.set_start_method('spawn', force=True)
+
 REQUIRED = {
     "webview": "pywebview>=4.4",
     "sympy": "sympy>=1.12",
@@ -124,4 +130,10 @@ def main():
         _shutdown()
 
 if __name__ == "__main__":
+    # Required for multiprocessing on macOS/Windows to prevent double-launch
+    # when subprocesses are spawned
+    if sys.platform == 'darwin':
+        import multiprocessing
+        multiprocessing.freeze_support()
+    
     main()
