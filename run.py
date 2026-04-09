@@ -51,7 +51,19 @@ def ensure_deps():
         except ImportError:
             missing.append(pkg)
     if missing:
+        # Security: require explicit opt-in for runtime pip installs
+        if os.environ.get("CALCULUS_ANIMATOR_AUTO_INSTALL") != "1":
+            print(
+                f"Missing required packages: {', '.join(missing)}\n"
+                "Install them manually with:\n"
+                f"  pip install {' '.join(missing)}\n"
+                "Or set CALCULUS_ANIMATOR_AUTO_INSTALL=1 to auto-install.",
+                file=sys.stderr,
+            )
+            sys.exit(1)
         print(f"Installing missing packages: {', '.join(missing)}")
+        # guardrails: allow-runtime-pip
+        # Auto-install only with explicit CALCULUS_ANIMATOR_AUTO_INSTALL=1 opt-in
         subprocess.check_call([sys.executable, "-m", "pip", "install", *missing, "-q"])
     _check_versions()
 

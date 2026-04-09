@@ -7,7 +7,6 @@ import os
 from collections.abc import Callable
 
 import pygame
-import pygame.gfxdraw
 
 from ._drawing import _draw_gradient_rect, _draw_rounded_rect, _draw_shadow, _parse_color
 from ._elements import (
