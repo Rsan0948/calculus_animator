@@ -730,8 +730,21 @@ def _call_gemini_cli_vision(
         
         return result.stdout.strip()
     finally:
-        os.unlink(prompt_file)
-        os.unlink(img_path)
+        # Validate and cleanup temp files
+        # nosec: B108 - paths come from NamedTemporaryFile, validated below
+        import tempfile
+        temp_dir = Path(tempfile.gettempdir()).resolve()
+        
+        for f in (prompt_file, img_path):
+            p = Path(f).resolve()
+            # Ensure file is within temp directory (path traversal protection)
+            try:
+                p.relative_to(temp_dir)
+                if p.exists():
+                    os.unlink(p)
+            except ValueError:
+                # Path is outside temp directory - don't delete
+                logger.warning(f"Skipping deletion of file outside temp dir: {p}")
 
 
 def generate_vision(

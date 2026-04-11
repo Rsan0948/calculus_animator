@@ -419,6 +419,16 @@ class ConceptEngine:
         # Process formula library
         if formula_library_path and formula_library_path.exists():
             try:
+                # Validate path is within project directory (path traversal protection)
+                base_dir = Path(__file__).parent.parent.parent.resolve()
+                target = formula_library_path.resolve()
+                try:
+                    target.relative_to(base_dir)
+                except ValueError:
+                    raise ValueError(f"Formula library path must be within project directory: {formula_library_path}")
+                
+                # guardrails: allow-path-traversal
+                # Path validated above: must be within project directory
                 with open(formula_library_path) as f:
                     formulas = json.load(f)
                 

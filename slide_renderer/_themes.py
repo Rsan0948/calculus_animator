@@ -1,6 +1,5 @@
 """Theme definitions and registration for slide_renderer."""
 
-import copy
 from typing import Any
 
 
