@@ -13,7 +13,7 @@ authors = [{name = "Ruben Sanchez"}]
 
 dependencies = [
     "sympy>=1.12",
-    "numpy>=1.24.0",
+    "numpy>=2.2.6",
     "pywebview>=4.4.1",
     "pygame>=2.5.2",
     "requests>=2.31.0",
