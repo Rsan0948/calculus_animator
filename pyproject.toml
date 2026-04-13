@@ -12,7 +12,7 @@ license = {text = "Apache-2.0"}
 authors = [{name = "Ruben Sanchez"}]
 
 dependencies = [
-    "sympy>=1.12",
+    "sympy>=1.14.0",
     "numpy>=1.24.0",
     "pywebview>=4.4.1",
     "pygame>=2.5.2",
