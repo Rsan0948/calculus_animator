@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from core.slide_highlighting import (  # noqa: E402
+from math_engine.plugins.calculus.slide_highlighting import (  # noqa: E402
     build_informative_slide_highlights,
     build_legacy_slide_highlights,
 )
@@ -212,7 +212,7 @@ def _iter_slides(curriculum: Dict) -> Iterable[Tuple[Dict, Dict, Dict]]:
                 yield pathway, chapter, slide
 
 
-def _write_markdown(path: Path, report: Dict):
+def _write_markdown(path: Path, report: Dict) -> None:
     slides = report["slides"]
     summary = report["summary"]
     lines = []

@@ -37,7 +37,7 @@ def test_backend_smoke_solver_graph_and_learning_slide(monkeypatch):
 
 
 @pytest.mark.e2e
-def test_backend_smoke_learning_slide_index_clamps(monkeypatch):
+def test_backend_smoke_learning_slide_index_clamps(monkeypatch) -> None:
     monkeypatch.setattr(CalculusAPI, "_auto_generate_capacity_report", lambda self: None)
     api = CalculusAPI()
     curriculum = json.loads(api.get_curriculum())

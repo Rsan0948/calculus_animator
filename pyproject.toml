@@ -3,47 +3,117 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "calculus_animator"
-version = "1.0.0"
-description = "A symbolic calculus solver and animator"
+name = "research-engine"
+version = "0.2.0"
+description = "Automated research paper formalization and MVP generation"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "Apache-2.0"}
-authors = [{name = "Ruben Sanchez"}]
+authors = [{name = "Ruben Sanchez", email = "ruben@example.com"}]
+keywords = ["math", "research", "ai", "code-generation", "formalization", "calculus", "linear-algebra"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
 
 dependencies = [
+    # Core math
     "sympy>=1.12",
     "numpy>=1.24.0",
-    "pywebview>=4.4.1",
-    "pygame>=2.5.2",
-    "requests>=2.31.0",
-    "fastapi>=0.104.0",
-    "uvicorn>=0.24.0",
-    "httpx>=0.25.0",
+    "scipy>=1.11.0",
+    "networkx>=3.0",
+    
+    # Data validation
     "pydantic>=2.0.0",
-    "antlr4-python3-runtime==4.11.1",
+    
+    # Utilities
+    "tenacity>=8.0.0",
 ]
 
 [project.optional-dependencies]
-ai_tutor = [
-    "chromadb>=0.4.0",
-    "sentence-transformers>=2.2.0",
+# Web framework (for future API)
+web = [
+    "fastapi>=0.104.0",
+    "uvicorn>=0.24.0",
+    "httpx>=0.25.0",
 ]
+
+# LLM integration for formalization
+llm = [
+    "langchain-core>=0.1.0",
+    "langchain-google-genai>=1.0.0",
+]
+
+# PDF extraction
+pdf = [
+    "marker-pdf>=0.2.0",
+]
+
+# Engineering guardrails
+guardrails = [
+    "helicops-core>=3.0.0",
+    "helicops-py>=3.0.0",
+]
+
+# Visualization (for calculus animations)
+viz = [
+    "pygame>=2.5.2",
+    "pywebview>=4.4.1",
+]
+
+# LaTeX parsing
+latex = [
+    "antlr4-python3-runtime==4.11.1",
+]
+
+# Development dependencies
 dev = [
     "pytest>=7.4.0",
     "pytest-cov>=4.1.0",
+    "pytest-asyncio>=0.21.0",
+    "pytest-benchmark>=4.0.0",
     "ruff>=0.1.0",
     "mypy>=1.6.0",
     "black>=23.10.0",
 ]
 
+# All optional dependencies
+all = [
+    "research-engine[web,llm,pdf,guardrails,viz,latex]",
+]
+
+[project.scripts]
+research-engine = "cli:main"
+
+[project.urls]
+Homepage = "https://github.com/rubensanchez/research-engine"
+Documentation = "https://github.com/rubensanchez/research-engine#readme"
+Repository = "https://github.com/rubensanchez/research-engine"
+Issues = "https://github.com/rubensanchez/research-engine/issues"
+
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["api*", "core*", "ai_tutor*"]
+include = [
+    "engine*",
+    "ingestion*",
+    "math_engine*",
+    "mvp_generator*",
+    "helicops_critic*",
+]
+exclude = [
+    "calculus_animator*",
+    "tests*",
+]
 
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-python_files = ["test_*.py"]
+
 
 [tool.mypy]
 python_version = "3.10"
@@ -51,3 +121,15 @@ warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = false
 ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]
+
+[tool.black]
+line-length = 100
+target-version = ['py310', 'py311', 'py312']

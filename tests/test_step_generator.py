@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-from core.step_generator import AnimationType, StepGenerator
+from math_engine.plugins.calculus.step_generator import AnimationType, StepGenerator
 
 
-def test_generate_returns_empty_for_unsuccessful_solver_result():
+def test_generate_returns_empty_for_unsuccessful_solver_result() -> None:
     generator = StepGenerator()
     steps = generator.generate({"success": False})
     assert steps == []
 
 
-def test_generate_maps_rule_to_animation_type_and_appends_final():
+def test_generate_maps_rule_to_animation_type_and_appends_final() -> None:
     generator = StepGenerator()
     solver_result = {
         "success": True,
@@ -31,7 +31,7 @@ def test_generate_maps_rule_to_animation_type_and_appends_final():
     assert steps[1].visual_hints["final"] is True
 
 
-def test_final_step_uses_previous_before_when_after_equals_final_latex():
+def test_final_step_uses_previous_before_when_after_equals_final_latex() -> None:
     generator = StepGenerator()
     solver_result = {
         "success": True,
@@ -51,7 +51,7 @@ def test_final_step_uses_previous_before_when_after_equals_final_latex():
     assert steps[1].description == "Final resolved solution"
 
 
-def test_no_final_step_when_result_latex_missing():
+def test_no_final_step_when_result_latex_missing() -> None:
     generator = StepGenerator()
     solver_result = {
         "success": True,

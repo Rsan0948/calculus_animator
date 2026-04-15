@@ -1,0 +1,199 @@
+# Engineering Guardrails - Pre-commit Configuration
+# Place this in project root as .pre-commit-config.yaml
+# Install: pip install pre-commit && pre-commit install
+
+repos:
+  # 1. Built-in hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+        args: ["--maxkb=1000"]
+      - id: check-merge-conflict
+      - id: detect-private-key
+
+  # 2. Security & Linting
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.3.0
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  # 3. Type Checking
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.9.0
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-all]
+        args: [--ignore-missing-imports]
+
+  # 4. Custom Guardrails
+  - repo: local
+    hooks:
+      # Core Guardrails
+      - id: absolute-paths
+        name: No Absolute Paths
+        entry: python guardrails/check_absolute_paths.py
+        language: system
+        files: \.(py|sh|yaml|yml|json)$
+        pass_filenames: true
+
+      - id: silent-exceptions
+        name: No Silent Exceptions
+        entry: python guardrails/check_silent_exceptions.py
+        language: system
+        files: \.py$
+        pass_filenames: true
+
+      - id: file-size
+        name: File Size Limit
+        entry: python guardrails/check_file_size.py
+        language: system
+        files: \.py$
+        pass_filenames: true
+
+      - id: runtime-pip
+        name: No Runtime pip install
+        entry: python guardrails/check_pip_installs.py
+        language: system
+        files: \.py$
+        pass_filenames: true
+
+      - id: insecure-serialization
+        name: No Pickle/Joblib
+        entry: python guardrails/check_pickle_usage.py
+        language: system
+        files: \.py$
+        pass_filenames: true
+
+      # Extended Guardrails
+      - id: secrets
+        name: No Secrets in Code
+        entry: python guardrails/check_secrets.py
+        language: system
+        files: \.(py|yaml|yml|json|env|sh)$
+        pass_filenames: true
+
+      - id: todo-accumulation
+        name: TODO/FIXME with Tickets
+        entry: python guardrails/check_todo_fixme.py
+        language: system
+        files: \.(py|js|ts|java|go|rs|cpp|c|h)$
+        pass_filenames: true
+
+      - id: circular-imports
+        name: No Circular Imports
+        entry: python guardrails/check_circular_imports.py
+        language: system
+        files: \.py$
+        pass_filenames: false
+        always_run: true
+
+      - id: dead-code
+        name: No Dead Code
+        entry: python guardrails/check_dead_code.py
+        language: system
+        files: \.py$
+        pass_filenames: true
+
+      - id: complexity
+        name: Complexity Limits
+        entry: python guardrails/check_complexity.py
+        language: system
+        files: \.py$
+        pass_filenames: true
+
+      # New Guardrails (5 additional)
+      - id: hardcoded-urls
+        name: No Hardcoded URLs
+        entry: python guardrails/check_hardcoded_urls.py
+        language: system
+        files: \.(py|yaml|yml|json|sh|env)$
+        pass_filenames: true
+
+      - id: print-statements
+        name: No Print Statements
+        entry: python guardrails/check_print_statements.py
+        language: system
+        files: \.py$
+        pass_filenames: true
+
+      - id: large-binaries
+        name: No Large Binaries in Git
+        entry: python guardrails/check_large_binaries.py
+        language: system
+        pass_filenames: true
+
+      - id: type-hints
+        name: Type Hints Required
+        entry: python guardrails/check_type_hints.py
+        language: system
+        files: \.py$
+        pass_filenames: true
+
+      - id: global-state
+        name: No Mutable Global State
+        entry: python guardrails/check_global_state.py
+        language: system
+        files: \.py$
+        pass_filenames: true
+
+      # ── OWASP Agentic Top 10 (v3.0) ──────────────────────────────────────────
+      - id: agent-credentials
+        name: No Hardcoded AI Credentials (ASI03)
+        entry: python guardrails/check_agent_credentials.py
+        language: system
+        files: \.(py|yaml|yml|json|toml|env)$
+        pass_filenames: true
+        stages: [commit]
+
+      - id: unsafe-execution
+        name: No Unsafe Dynamic Execution (ASI05)
+        entry: python guardrails/check_unsafe_execution.py
+        language: system
+        files: \.py$
+        pass_filenames: true
+        stages: [commit]
+
+      - id: agent-input-validation
+        name: Agent Input Validation Check (ASI01)
+        entry: python guardrails/check_agent_input_validation.py
+        language: system
+        files: \.py$
+        pass_filenames: true
+        stages: [push]
+
+      - id: supply-chain
+        name: Supply Chain Vulnerability Scan (ASI04)
+        entry: python guardrails/check_supply_chain.py
+        language: system
+        always_run: true
+        pass_filenames: false
+        stages: [push]
+
+      # ── Pre-push checks ───────────────────────────────────────────────────────
+      - id: portability
+        name: Portability Check
+        entry: python guardrails/check_portability.py
+        language: system
+        always_run: true
+        stages: [push]
+
+      - id: test-coverage
+        name: Test Coverage
+        entry: python guardrails/check_test_coverage.py
+        language: system
+        always_run: true
+        stages: [push]
+
+      - id: documentation-drift
+        name: Documentation Drift
+        entry: python guardrails/check_documentation_drift.py
+        language: system
+        files: \.md$
+        pass_filenames: true
+        stages: [push]

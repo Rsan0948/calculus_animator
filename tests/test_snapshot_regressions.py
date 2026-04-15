@@ -5,11 +5,11 @@ import json
 from pathlib import Path
 
 from api.bridge import CalculusAPI
-from core.detector import TypeDetector
-from core.extractor import ExpressionExtractor
-from core.parser import ExpressionParser
-from core.solver import CalculusSolver
-from core.step_generator import StepGenerator
+from math_engine.plugins.calculus.detector import TypeDetector
+from math_engine.plugins.calculus.extractor import ExpressionExtractor
+from math_engine.plugins.calculus.parser import ExpressionParser
+from math_engine.plugins.calculus.solver import CalculusSolver
+from math_engine.plugins.calculus.step_generator import StepGenerator
 
 ROOT = Path(__file__).resolve().parent.parent
 SNAP_DIR = ROOT / "tests" / "snapshots"
@@ -23,7 +23,7 @@ def _load_json(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def test_demo_solver_snapshots_match_baseline():
+def test_demo_solver_snapshots_match_baseline() -> None:
     demo_data = _load_json(ROOT / "data" / "demo_problems.json")
     snap = _load_json(SNAP_DIR / "demo_solver_snapshots.json")
     expected = {d["id"]: d for d in snap["demos"]}
@@ -69,7 +69,7 @@ def test_demo_solver_snapshots_match_baseline():
         )
 
 
-def test_learning_slide_highlight_snapshots_match_baseline():
+def test_learning_slide_highlight_snapshots_match_baseline() -> None:
     snap = _load_json(SNAP_DIR / "learning_slide_highlight_snapshots.json")
     expected = snap["slides"]
 
@@ -99,4 +99,3 @@ def test_learning_slide_highlight_snapshots_match_baseline():
             f"Expected: {json.dumps(exp, indent=2)}\n"
             f"Got: {json.dumps(got, indent=2)}"
         )
-

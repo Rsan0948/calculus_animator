@@ -143,7 +143,7 @@ def render_slide(engine: SlideEngine, payload: dict) -> str:
     pygame.image.save(surf, buf, "png")
     return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode("ascii")
 
-def main():
+def main() -> None:
     engine = SlideEngine(width=1200, height=675, theme="modern_dark", auto_init_pygame=True)
     
     for line in sys.stdin:

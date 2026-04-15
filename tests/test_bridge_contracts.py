@@ -5,22 +5,21 @@ import json
 from pathlib import Path
 from types import SimpleNamespace
 
-import pytest
 import sympy as sp
 
 from api.bridge import CalculusAPI
-from core.detector import CalculusType
+from math_engine.plugins.calculus.detector import CalculusType
 
 
 class _StubStep:
-    def __init__(self, payload):
+    def __init__(self, payload) -> None:
         self._payload = payload
 
     def to_dict(self):
         return dict(self._payload)
 
 
-def test_getters_return_json_strings():
+def test_getters_return_json_strings() -> None:
     api = CalculusAPI.__new__(CalculusAPI)
     api._learning = {"topics": [{"id": "t1"}]}
     api._curriculum = {"pathways": [{"id": "p1"}]}
@@ -28,7 +27,7 @@ def test_getters_return_json_strings():
     assert json.loads(api.get_curriculum())["pathways"][0]["id"] == "p1"
 
 
-def test_solve_contract_success_with_context_extraction_and_animation_steps():
+def test_solve_contract_success_with_context_extraction_and_animation_steps() -> None:
     api = CalculusAPI.__new__(CalculusAPI)
     x = sp.Symbol("x")
 
@@ -61,7 +60,7 @@ def test_solve_contract_success_with_context_extraction_and_animation_steps():
     assert out["graph_original"]["success"] is True
 
 
-def test_solve_contract_returns_parse_error_when_all_parses_fail():
+def test_solve_contract_returns_parse_error_when_all_parses_fail() -> None:
     api = CalculusAPI.__new__(CalculusAPI)
     api._detector = SimpleNamespace(detect=lambda latex, explicit=None: CalculusType.SIMPLIFY)
     api._extractor = SimpleNamespace(extract=lambda latex, calc_type, params: ("bad", {}))
@@ -74,7 +73,7 @@ def test_solve_contract_returns_parse_error_when_all_parses_fail():
     assert "Parse failed" in out["error"]
 
 
-def test_get_graph_data_contract_success():
+def test_get_graph_data_contract_success() -> None:
     api = CalculusAPI.__new__(CalculusAPI)
     x = sp.Symbol("x")
     api._detector = SimpleNamespace(detect=lambda latex, explicit=None: CalculusType.DERIVATIVE)
@@ -94,7 +93,7 @@ def test_get_graph_data_contract_success():
     assert out["curves"][0]["label"] == "Input function"
 
 
-def test_render_learning_slide_uses_cache(monkeypatch):
+def test_render_learning_slide_uses_cache(monkeypatch) -> dict:
     api = CalculusAPI.__new__(CalculusAPI)
     api._slide_render_cache = {}
     api._render_worker = None
@@ -122,7 +121,7 @@ def test_render_learning_slide_uses_cache(monkeypatch):
 
     call_count = {"n": 0}
 
-    def _fake_run_task(payload):
+    def _fake_run_task(payload) -> dict:
         call_count["n"] += 1
         return {"success": True, "data_url": "data:image/png;base64,AAA"}
 
@@ -136,13 +135,13 @@ def test_render_learning_slide_uses_cache(monkeypatch):
     assert call_count["n"] == 1
 
 
-def test_copy_image_to_clipboard_rejects_invalid_payload():
+def test_copy_image_to_clipboard_rejects_invalid_payload() -> None:
     api = CalculusAPI.__new__(CalculusAPI)
     out = json.loads(api.copy_image_to_clipboard("not-a-data-url"))
     assert out["success"] is False
 
 
-def test_copy_image_to_clipboard_success(monkeypatch):
+def test_copy_image_to_clipboard_success(monkeypatch) -> None:
     api = CalculusAPI.__new__(CalculusAPI)
     monkeypatch.setattr("api.bridge.subprocess.check_call", lambda *args, **kwargs: 0)
     payload = "data:image/png;base64," + base64.b64encode(b"fakepng").decode("ascii")
@@ -150,7 +149,7 @@ def test_copy_image_to_clipboard_success(monkeypatch):
     assert out["success"] is True
 
 
-def test_get_graph_data_returns_parse_error_payload():
+def test_get_graph_data_returns_parse_error_payload() -> None:
     api = CalculusAPI.__new__(CalculusAPI)
     api._detector = SimpleNamespace(detect=lambda latex, explicit=None: CalculusType.SIMPLIFY)
     api._extractor = SimpleNamespace(extract=lambda latex, calc_type, params: ("bad", {}))
@@ -162,7 +161,7 @@ def test_get_graph_data_returns_parse_error_payload():
     assert "bad parse" in out["error"]
 
 
-def test_render_learning_slide_error_paths():
+def test_render_learning_slide_error_paths() -> None:
     api = CalculusAPI.__new__(CalculusAPI)
     api._slide_render_cache = {}
     api._curriculum = {"pathways": []}
@@ -181,7 +180,7 @@ def test_render_learning_slide_error_paths():
     assert "No slides" in out["error"]
 
 
-def test_extract_pathway_from_content_file_complete_json():
+def test_extract_pathway_from_content_file_complete_json() -> None:
     api = CalculusAPI.__new__(CalculusAPI)
     text = json.dumps({"pathway": {"id": "precalculus", "chapters": [{"id": "c1"}]}})
     pathway = api._extract_pathway_from_content_file(text)
@@ -189,7 +188,7 @@ def test_extract_pathway_from_content_file_complete_json():
     assert pathway["chapters"][0]["id"] == "c1"
 
 
-def test_extract_pathway_from_content_file_with_minor_repair():
+def test_extract_pathway_from_content_file_with_minor_repair() -> None:
     api = CalculusAPI.__new__(CalculusAPI)
     # malformed duplicate opener before chapter item should be repaired
     broken = (
@@ -201,7 +200,7 @@ def test_extract_pathway_from_content_file_with_minor_repair():
     assert pathway["id"] == "precalculus"
 
 
-def test_extract_pathway_from_content_file_truncation_fallback():
+def test_extract_pathway_from_content_file_truncation_fallback() -> None:
     api = CalculusAPI.__new__(CalculusAPI)
     marker = ',\n          {\n            "id": "precalc_ch5_s12"'
     fixture = Path(__file__).parent / "fixtures" / "content_jsons_sample.txt"
@@ -214,7 +213,7 @@ def test_extract_pathway_from_content_file_truncation_fallback():
     assert pathway["id"] == "precalculus"
 
 
-def test_normalize_learning_library_legacy_conversion():
+def test_normalize_learning_library_legacy_conversion() -> None:
     api = CalculusAPI.__new__(CalculusAPI)
     legacy = {
         "symbols": [{"id": "sym_limit", "label": "lim", "plain_explanation": "limit"}],
@@ -238,20 +237,20 @@ def test_normalize_learning_library_legacy_conversion():
     assert out["topics"][0]["examples"][0]["steps"][0]["math"] == "2x"
 
 
-def test_normalize_learning_library_passthrough_shape():
+def test_normalize_learning_library_passthrough_shape() -> None:
     api = CalculusAPI.__new__(CalculusAPI)
     raw = {"categories": [], "symbols": [], "formulas": [], "topics": []}
     out = api._normalize_learning_library(raw)
     assert out is raw
 
 
-def test_slug_helper():
+def test_slug_helper() -> None:
     api = CalculusAPI.__new__(CalculusAPI)
     assert api._slug("Functions & Graphs") == "functions__graphs"
     assert api._slug("") == "general"
 
 
-def test_load_curriculum_data_fallback_when_extract_raises(monkeypatch):
+def test_load_curriculum_data_fallback_when_extract_raises(monkeypatch) -> None:
     api = CalculusAPI.__new__(CalculusAPI)
     monkeypatch.setattr(api, "_load_json", lambda name, default: {"pathways": [{"id": "fallback"}]})
     monkeypatch.setattr(api, "_extract_pathway_from_content_file", lambda _text: (_ for _ in ()).throw(RuntimeError("boom")))
@@ -259,11 +258,11 @@ def test_load_curriculum_data_fallback_when_extract_raises(monkeypatch):
     assert out["pathways"][0]["id"] == "fallback"
 
 
-def test_load_learning_library_uses_normalizer(monkeypatch):
+def test_load_learning_library_uses_normalizer(monkeypatch) -> dict:
     api = CalculusAPI.__new__(CalculusAPI)
     called = {"n": 0}
 
-    def _norm(raw):
+    def _norm(raw) -> dict:
         called["n"] += 1
         return {"categories": [], "symbols": raw.get("symbols", []), "formulas": [], "topics": []}
 
@@ -273,7 +272,7 @@ def test_load_learning_library_uses_normalizer(monkeypatch):
     assert called["n"] == 1
 
 
-def test_constructor_initializes_core_fields(monkeypatch):
+def test_constructor_initializes_core_fields(monkeypatch) -> None:
     monkeypatch.setattr(CalculusAPI, "_auto_generate_capacity_report", lambda self: None)
     monkeypatch.setattr(CalculusAPI, "_load_json", lambda self, name, default: default)
     monkeypatch.setattr(CalculusAPI, "_load_learning_library", lambda self: {"categories": [], "symbols": [], "formulas": [], "topics": []})
@@ -284,7 +283,7 @@ def test_constructor_initializes_core_fields(monkeypatch):
     assert api._slide_render_cache == {}
 
 
-def test_get_area_animation_and_tangent_paths():
+def test_get_area_animation_and_tangent_paths() -> None:
     api = CalculusAPI.__new__(CalculusAPI)
     x = sp.Symbol("x")
     api._extractor = SimpleNamespace(extract=lambda latex: ("x^2", {}))

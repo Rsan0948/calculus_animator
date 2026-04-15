@@ -1,0 +1,82 @@
+# Cline Rules — Engineering Guardrails
+# These rules govern Cline's behavior for this project.
+# Copy this file to your project root as .clinerules
+
+## MANDATORY PROJECT RULES
+
+This project uses engineering-guardrails. 23 automated checks run on every commit.
+Violations block the commit. Never use --no-verify to bypass them.
+
+Run before finishing any task: python ai_helper.py check-all
+
+---
+
+## CODE QUALITY
+
+Rule 1: No absolute paths. Use Path(__file__).parent or os.getenv(). Never /Users/name/ or /home/user/.
+
+Rule 2: No silent exceptions. No bare except: pass or except: return None. Use logger.exception() or raise with context.
+
+Rule 3: No files over 500 lines. Split large files into focused modules when this limit is reached.
+
+Rule 4: No runtime pip installs. No subprocess.run(["pip", "install"]) in source code. All deps go in pyproject.toml.
+
+Rule 5: No pickle or joblib. Use JSON, Parquet, or skops. Pickle enables arbitrary code execution on load.
+
+Rule 6: No hardcoded secrets. No API keys, tokens, or passwords in source. Use os.getenv("KEY_NAME").
+
+Rule 7: No orphan TODOs. Format: # TODO(TICKET-123): description. Ticketless TODOs are blocked.
+
+Rule 8: No circular imports. Dependency direction must be one-way. a→b is allowed; a→b→a is not.
+
+Rule 9: No dead code. Remove unused imports, functions, and variables before committing.
+
+Rule 10: No high-complexity functions. Cyclomatic complexity >20 is blocked. Split the function.
+
+Rule 11: Tests required. 80% minimum coverage. Write failing tests before implementation.
+
+Rule 12: No hardcoded environment URLs. Use os.getenv("API_URL") for all environment-specific URLs.
+
+Rule 13: No print statements. Use logging.getLogger(__name__) and logger.info/error/debug.
+
+Rule 14: No large binaries in git. Files >1MB that are data or models belong in object storage.
+
+Rule 15: Type hints required. All function parameters and return values must be annotated.
+
+Rule 16: No mutable globals. No module-level dict/list/set that changes at runtime.
+
+---
+
+## OWASP AGENTIC SECURITY (ASI Top 10)
+
+Rule 17 (ASI01): Validate agent inputs. user_input, prompt, query, system_prompt must be validated before flowing into f-strings or HTTP calls.
+
+Rule 18 (ASI03): No hardcoded AI API keys. ANTHROPIC_API_KEY, OPENAI_API_KEY, GOOGLE_API_KEY must come from os.getenv().
+
+Rule 19 (ASI05): No dynamic eval/exec. eval(variable), exec(variable) are blocked. Only eval("literal") is allowed.
+
+Rule 20 (ASI05): No dynamic imports. importlib.import_module(variable) and __import__(variable) are blocked.
+
+Rule 21 (ASI03): No over-privileged agent roles. permissions: "all", permissions: ["*"], role: "admin" are blocked.
+
+Rule 22 (ASI04): No vulnerable packages. pip-audit runs at push time and blocks packages with known CVEs.
+
+---
+
+## WORKFLOW
+
+Rule 23: Minimum change only. Do not refactor surrounding code. Do not add unrequested features.
+
+Rule 24: Root cause diagnosis. Diagnose before fixing. Never add try/except to silence errors.
+
+Rule 25: No bypasses. Never use --no-verify, never delete failing tests to make CI pass.
+
+Rule 26: TDD required. Write failing test → confirm it fails → write implementation.
+
+Rule 27: No .env commits. .env files are in .gitignore and must never be committed.
+
+Rule 28: Check before finishing. Run python ai_helper.py check-all. Fix all violations before declaring done.
+
+Rule 29: No speculative abstractions. Three similar lines of code is better than a premature abstraction.
+
+Rule 30: Type all new code. All new functions must have parameter and return type annotations.

@@ -7,7 +7,7 @@ from api.bridge import CalculusAPI
 ROOT = Path(__file__).resolve().parent.parent
 
 
-def test_load_curriculum_data_prefers_content_jsons_pathway_first():
+def test_load_curriculum_data_prefers_content_jsons_pathway_first() -> None:
     api = CalculusAPI.__new__(CalculusAPI)
     curriculum = api._load_curriculum_data()
     pathways = curriculum.get("pathways") or []
@@ -17,7 +17,7 @@ def test_load_curriculum_data_prefers_content_jsons_pathway_first():
     assert len(chapters) >= 8
 
 
-def test_slide_highlight_builder_outputs_concise_nonempty_items():
+def test_slide_highlight_builder_outputs_concise_nonempty_items() -> None:
     blocks = [
         {"kind": "problem", "text": "Find the derivative of x^3 sin(x)."},
         {

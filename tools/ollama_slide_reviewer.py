@@ -6,8 +6,6 @@ import argparse
 import json
 import re
 import sys
-import urllib.error
-import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -53,7 +51,7 @@ def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
-def _extract_json_blob(text: str):
+def _extract_json_blob(text: str) -> None:
     txt = (text or "").strip()
     if not txt:
         return None

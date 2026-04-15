@@ -6,17 +6,17 @@ import pygame
 
 
 class _FontCache:
-    def __init__(self):
+    def __init__(self) -> None:
         self._fonts = {}
         self._mono_name = None
         self._sans_name = None
         self._initialized = False
         self._registered = {}
 
-    def register_font(self, name, path):
+    def register_font(self, name, path) -> None:
         self._registered[str(name)] = str(path)
 
-    def _init_fonts(self):
+    def _init_fonts(self) -> None:
         if self._initialized:
             return
         self._initialized = True
@@ -41,7 +41,7 @@ class _FontCache:
                 self._sans_name = s
                 break
 
-    def get(self, name=None, size=16, bold=False, italic=False, monospace=False):
+    def get(self, name: None=None, size: int=16, bold: bool=False, italic: bool=False, monospace: bool=False):
         self._init_fonts()
         if monospace and not name:
             name = self._mono_name
@@ -70,7 +70,7 @@ class _FontCache:
 _font_cache = _FontCache()
 
 
-def _wrap_text(text, font, max_width):
+def _wrap_text(text, font, max_width) -> list:
     if max_width <= 0:
         return [text]
     words = text.split(" ")
@@ -101,8 +101,8 @@ def _wrap_text(text, font, max_width):
 _TEXT_SURFACE_CACHE: dict = {}
 
 
-def _render_text_surface(text, font, color, max_width=0, line_spacing=1.4,
-                          align="left", underline=False, max_lines=None):
+def _render_text_surface(text, font, color, max_width: int=0, line_spacing: float=1.4,
+                          align: str="left", underline: bool=False, max_lines: None=None):
     cache_key = (
         text, id(font), tuple(color) if isinstance(color, (list, tuple)) else color,
         int(max_width or 0), float(line_spacing), align, bool(underline), int(max_lines or 0),

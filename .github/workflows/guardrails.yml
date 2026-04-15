@@ -1,0 +1,207 @@
+# Engineering Guardrails - CI/CD Workflow
+# Place in .github/workflows/ for automated enforcement on every PR
+
+name: Engineering Guardrails
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  # 1. Code Quality Checks
+  quality:
+    runs-on: ubuntu-latest
+    name: Code Quality
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ruff mypy vulture
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f pyproject.toml ]; then pip install -e .; fi
+
+      # Ruff linting
+      - name: Lint with Ruff
+        run: |
+          ruff check . --output-format=github
+
+      # Type checking
+      - name: Type check with mypy
+        run: |
+          mypy src/ --ignore-missing-imports || true
+
+      # Dead code detection
+      - name: Check for dead code
+        run: |
+          vulture src/ --min-confidence 80 || true
+
+  # 2. Custom Guardrails
+  guardrails:
+    runs-on: ubuntu-latest
+    name: Guardrails
+    needs: quality
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run Core Guardrails
+        run: |
+          # Absolute paths
+          python guardrails/check_absolute_paths.py \
+            $(find . -name "*.py" -not -path "./.venv/*" -not -path "./venv/*")
+
+          # Silent exceptions
+          python guardrails/check_silent_exceptions.py \
+            $(find . -name "*.py" -not -path "./.venv/*" -not -path "./venv/*")
+
+          # File size
+          python guardrails/check_file_size.py \
+            $(find . -name "*.py" -not -path "./.venv/*" -not -path "./venv/*")
+
+          # Runtime pip
+          python guardrails/check_pip_installs.py \
+            $(find . -name "*.py" -not -path "./.venv/*" -not -path "./venv/*")
+
+          # Insecure serialization
+          python guardrails/check_pickle_usage.py \
+            $(find . -name "*.py" -not -path "./.venv/*" -not -path "./venv/*")
+
+      - name: Run Extended Guardrails
+        run: |
+          # Secrets
+          python guardrails/check_secrets.py \
+            $(find . -type f \( -name "*.py" -o -name "*.yaml" -o -name "*.yml" -o -name "*.json" \) \
+              -not -path "./.venv/*" -not -path "./venv/*")
+
+          # TODO accumulation
+          python guardrails/check_todo_fixme.py \
+            $(find . -name "*.py" -not -path "./.venv/*" -not -path "./venv/*")
+
+          # Circular imports
+          python guardrails/check_circular_imports.py \
+            --project-root . \
+            $(find . -name "*.py" -not -path "./.venv/*" -not -path "./venv/*")
+
+          # Complexity
+          python guardrails/check_complexity.py \
+            $(find . -name "*.py" -not -path "./.venv/*" -not -path "./venv/*")
+
+      # For legacy projects, use continue-on-error: true initially
+      # Then remove once clean
+      continue-on-error: false
+
+  # 3. Test Coverage
+  coverage:
+    runs-on: ubuntu-latest
+    name: Test Coverage
+    needs: guardrails
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pytest-cov
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f pyproject.toml ]; then pip install -e ".[dev]"; fi
+
+      - name: Run tests with coverage
+        run: |
+          pytest --cov=src --cov-report=xml --cov-report=term-missing
+
+      - name: Check coverage threshold
+        run: |
+          python guardrails/check_test_coverage.py --min 80
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.xml
+          fail_ci_if_error: false
+
+  # 4. Security Audit
+  security:
+    runs-on: ubuntu-latest
+    name: Security Audit
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install security tools
+        run: |
+          pip install pip-audit safety bandit[toml]
+
+      - name: Supply chain scan (ASI04)
+        run: |
+          python guardrails/check_supply_chain.py
+        continue-on-error: false
+
+      - name: Run bandit
+        run: |
+          bandit -r src/ -f json -o bandit-report.json || true
+          bandit -r src/ || true
+
+  # 5. Portability Verification
+  portability:
+    runs-on: ubuntu-latest
+    name: Portability
+    needs: [quality, guardrails]
+
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Test fresh clone
+        run: |
+          git clone ${{ github.server_url }}/${{ github.repository }} /tmp/fresh-clone
+          cd /tmp/fresh-clone
+          git checkout ${{ github.sha }}
+
+          # Check install
+          if [ -f pyproject.toml ]; then
+            pip install -e . --quiet
+            echo "✅ Project installs successfully"
+          elif [ -f requirements.txt ]; then
+            pip install -r requirements.txt --quiet
+            echo "✅ Requirements install successfully"
+          else
+            echo "❌ No pyproject.toml or requirements.txt found"
+            exit 1
+          fi
+
+          # Check entry points
+          if [ -f run.py ]; then
+            python run.py --help || echo "✅ run.py exists (help may not be implemented)"
+          fi

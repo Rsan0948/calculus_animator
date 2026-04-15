@@ -141,6 +141,6 @@ THEMES: dict[str, dict[str, Any]] = {
     },
 }
 
-def register_theme(name: str, theme_dict: dict):
+def register_theme(name: str, theme_dict: dict) -> None:
     """Register a custom theme for use with SlideEngine."""
     THEMES[name] = theme_dict

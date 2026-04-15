@@ -5,13 +5,13 @@ import time
 import pytest
 import sympy as sp
 
-from core.detector import CalculusType
-from core.parser import ExpressionParser
-from core.solver import CalculusSolver
+from math_engine.plugins.calculus.detector import CalculusType
+from math_engine.plugins.calculus.parser import ExpressionParser
+from math_engine.plugins.calculus.solver import CalculusSolver
 
 
 @pytest.mark.perf
-def test_parse_and_solve_smoke_under_reasonable_time_budget():
+def test_parse_and_solve_smoke_under_reasonable_time_budget() -> None:
     parser = ExpressionParser()
     solver = CalculusSolver()
     expressions = [
@@ -45,7 +45,7 @@ def test_parse_and_solve_smoke_under_reasonable_time_budget():
 
 
 @pytest.mark.perf
-def test_solver_bulk_derivative_smoke():
+def test_solver_bulk_derivative_smoke() -> None:
     solver = CalculusSolver()
     x = sp.Symbol("x")
     polys = [sum((i + 1) * x ** i for i in range(1, n)) for n in range(8, 18)]

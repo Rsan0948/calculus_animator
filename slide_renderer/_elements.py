@@ -8,9 +8,9 @@ from ._enums import Anchor, EntryAnim, _parse_anchor, _parse_entry, _parse_trans
 
 class SlideElement:
     """Base class for all slide elements."""
-    def __init__(self, pos=(0, 0), anchor="top_left", z_order=0,
-                 entry_anim="none", anim_delay=0.0, anim_duration=0.5,
-                 visible=True, opacity=1.0, name=None, group=None, **kwargs):
+    def __init__(self, pos: tuple=(0, 0), anchor: str="top_left", z_order: int=0,
+                 entry_anim: str="none", anim_delay: float=0.0, anim_duration: float=0.5,
+                 visible: bool=True, opacity: float=1.0, name: None=None, group: None=None, **kwargs):
         # Friendly aliases for host integrations.
         if "anim" in kwargs:
             entry_anim = kwargs.pop("anim")
@@ -32,7 +32,7 @@ class SlideElement:
         self._anim_progress = 0.0 if self.entry_anim != EntryAnim.NONE else 1.0
         self._started = False
 
-    def _resolve_rect(self, elem_w, elem_h, slide_w, slide_h):
+    def _resolve_rect(self, elem_w, elem_h, slide_w, slide_h) -> tuple:
         px = self.pos[0] * slide_w
         py = self.pos[1] * slide_h
         a = self.anchor
@@ -50,7 +50,7 @@ class SlideElement:
         # ease-out cubic
         return 1 - (1 - t) ** 3
 
-    def _apply_anim(self, surface, dest_x, dest_y, slide_w, slide_h, progress):
+    def _apply_anim(self, surface, dest_x, dest_y, slide_w, slide_h, progress) -> tuple:
         p = self._ease(progress)
         anim = self.entry_anim
         alpha = int(255 * self.opacity * (p if anim in (
@@ -87,16 +87,16 @@ class SlideElement:
 
 class TextBox(SlideElement):
     """A text element with full styling control."""
-    def __init__(self, text="", pos=(0, 0), anchor="top_left",
-                 style="body", color=None, font_size=None,
-                 bold=None, italic=False, underline=False,
-                 width=None, line_spacing=1.4,
-                 align="left", bg_color=None, bg_radius=8,
-                 bg_padding=(10, 8), bg_pad=None, shadow=False, border_color=None,
-                 border_width=2, bullet=None, bullet_indent=0.02,
-                 max_lines=None, z_order=0, entry_anim="none",
-                 anim_delay=0.0, anim_duration=0.5, opacity=1.0,
-                 name=None, group=None, visible=True):
+    def __init__(self, text: str="", pos: tuple=(0, 0), anchor: str="top_left",
+                 style: str="body", color: None=None, font_size: None=None,
+                 bold: None=None, italic: bool=False, underline: bool=False,
+                 width: None=None, line_spacing: float=1.4,
+                 align: str="left", bg_color: None=None, bg_radius: int=8,
+                 bg_padding: tuple=(10, 8), bg_pad: None=None, shadow: bool=False, border_color: None=None,
+                 border_width: int=2, bullet: None=None, bullet_indent: float=0.02,
+                 max_lines: None=None, z_order: int=0, entry_anim: str="none",
+                 anim_delay: float=0.0, anim_duration: float=0.5, opacity: float=1.0,
+                 name: None=None, group: None=None, visible: bool=True) -> None:
         if bg_pad is not None:
             bg_padding = bg_pad
         if isinstance(bg_padding, (int, float)):
@@ -126,13 +126,13 @@ class TextBox(SlideElement):
 
 class ImageBox(SlideElement):
     """An image element loaded from file path or pygame Surface."""
-    def __init__(self, source=None, pos=(0, 0), anchor="top_left",
-                 size=None, maintain_aspect=True,
-                 border_radius=0, border_color=None, border_width=2,
-                 shadow=True, opacity=1.0, tint=None,
-                 z_order=0, entry_anim="none",
-                 anim_delay=0.0, anim_duration=0.5,
-                 name=None, group=None, visible=True):
+    def __init__(self, source: None=None, pos: tuple=(0, 0), anchor: str="top_left",
+                 size: None=None, maintain_aspect: bool=True,
+                 border_radius: int=0, border_color: None=None, border_width: int=2,
+                 shadow: bool=True, opacity: float=1.0, tint: None=None,
+                 z_order: int=0, entry_anim: str="none",
+                 anim_delay: float=0.0, anim_duration: float=0.5,
+                 name: None=None, group: None=None, visible: bool=True) -> None:
         super().__init__(pos, anchor, z_order, entry_anim, anim_delay,
                          anim_duration, visible, opacity, name, group)
         self.source = source  # file path or pygame.Surface
@@ -149,15 +149,15 @@ class ImageBox(SlideElement):
 
 class Shape(SlideElement):
     """A geometric shape: rect, rounded_rect, circle, ellipse, line, polygon."""
-    def __init__(self, shape_type="rect", pos=(0, 0), size=(0.1, 0.1),
-                 anchor="top_left", color="#ffffff", fill=True,
-                 border_color=None, border_width=2, radius=12,
-                 shadow=False, opacity=1.0,
-                 points=None,  # for polygon/line: list of (norm_x, norm_y)
-                 gradient=None,  # (color_top, color_bottom)
-                 z_order=0, entry_anim="none",
-                 anim_delay=0.0, anim_duration=0.5,
-                 name=None, group=None, visible=True):
+    def __init__(self, shape_type: str="rect", pos: tuple=(0, 0), size: tuple=(0.1, 0.1),
+                 anchor: str="top_left", color: str="#ffffff", fill: bool=True,
+                 border_color: None=None, border_width: int=2, radius: int=12,
+                 shadow: bool=False, opacity: float=1.0,
+                 points: None=None,  # for polygon/line: list of (norm_x, norm_y)
+                 gradient: None=None,  # (color_top, color_bottom)
+                 z_order: int=0, entry_anim: str="none",
+                 anim_delay: float=0.0, anim_duration: float=0.5,
+                 name: None=None, group: None=None, visible: bool=True) -> None:
         super().__init__(pos, anchor, z_order, entry_anim, anim_delay,
                          anim_duration, visible, opacity, name, group)
         self.shape_type = shape_type
@@ -184,10 +184,10 @@ class DynamicGraphic(SlideElement):
         elapsed = total time on this slide
         theme   = current theme dict
     """
-    def __init__(self, render_fn=None, pos=(0, 0), size=(0.3, 0.3),
-                 anchor="top_left", z_order=0, entry_anim="none",
-                 anim_delay=0.0, anim_duration=0.5, opacity=1.0,
-                 name=None, group=None, visible=True, user_data=None):
+    def __init__(self, render_fn: None=None, pos: tuple=(0, 0), size: tuple=(0.3, 0.3),
+                 anchor: str="top_left", z_order: int=0, entry_anim: str="none",
+                 anim_delay: float=0.0, anim_duration: float=0.5, opacity: float=1.0,
+                 name: None=None, group: None=None, visible: bool=True, user_data: None=None) -> None:
         super().__init__(pos, anchor, z_order, entry_anim, anim_delay,
                          anim_duration, visible, opacity, name, group)
         self.render_fn = render_fn
@@ -197,14 +197,14 @@ class DynamicGraphic(SlideElement):
 
 class BulletList(SlideElement):
     """Convenience element: a styled bullet-point list."""
-    def __init__(self, items=None, pos=(0, 0), anchor="top_left",
-                 style="body", color=None, bullet_char="●",
-                 bullet_color=None, indent=0.03, item_spacing=1.6,
-                 width=None, font_size=None, bold=None,
-                 z_order=0, entry_anim="none", stagger_delay=0.15,
-                 anim_delay=0.0, anim_duration=0.4, opacity=1.0,
-                 name=None, group=None, visible=True,
-                 sub_bullet_char="○", nested_indent=0.025):
+    def __init__(self, items: None=None, pos: tuple=(0, 0), anchor: str="top_left",
+                 style: str="body", color: None=None, bullet_char: str="●",
+                 bullet_color: None=None, indent: float=0.03, item_spacing: float=1.6,
+                 width: None=None, font_size: None=None, bold: None=None,
+                 z_order: int=0, entry_anim: str="none", stagger_delay: float=0.15,
+                 anim_delay: float=0.0, anim_duration: float=0.4, opacity: float=1.0,
+                 name: None=None, group: None=None, visible: bool=True,
+                 sub_bullet_char: str="○", nested_indent: float=0.025) -> None:
         super().__init__(pos, anchor, z_order, entry_anim, anim_delay,
                          anim_duration, visible, opacity, name, group)
         self.items = items or []
@@ -224,14 +224,14 @@ class BulletList(SlideElement):
 
 class CodeBlock(SlideElement):
     """A syntax-highlighted (styled) code block."""
-    def __init__(self, code="", pos=(0, 0), anchor="top_left",
-                 width=None, height=None, font_size=None,
-                 bg_color=None, text_color=None,
-                 border_radius=10, shadow=True, line_numbers=False,
-                 z_order=0, entry_anim="none",
-                 anim_delay=0.0, anim_duration=0.5, opacity=1.0,
-                 name=None, group=None, visible=True,
-                 title=None, title_color=None):
+    def __init__(self, code: str="", pos: tuple=(0, 0), anchor: str="top_left",
+                 width: None=None, height: None=None, font_size: None=None,
+                 bg_color: None=None, text_color: None=None,
+                 border_radius: int=10, shadow: bool=True, line_numbers: bool=False,
+                 z_order: int=0, entry_anim: str="none",
+                 anim_delay: float=0.0, anim_duration: float=0.5, opacity: float=1.0,
+                 name: None=None, group: None=None, visible: bool=True,
+                 title: None=None, title_color: None=None) -> None:
         super().__init__(pos, anchor, z_order, entry_anim, anim_delay,
                          anim_duration, visible, opacity, name, group)
         self.code = code
@@ -249,12 +249,12 @@ class CodeBlock(SlideElement):
 
 class ProgressBar(SlideElement):
     """A progress/percentage bar."""
-    def __init__(self, value=0.5, pos=(0, 0), anchor="top_left",
-                 size=(0.3, 0.02), bg_color=None, fill_color=None,
-                 border_radius=6, label=None, label_color=None,
-                 animated=True, z_order=0, entry_anim="none",
-                 anim_delay=0.0, anim_duration=0.8, opacity=1.0,
-                 name=None, group=None, visible=True):
+    def __init__(self, value: float=0.5, pos: tuple=(0, 0), anchor: str="top_left",
+                 size: tuple=(0.3, 0.02), bg_color: None=None, fill_color: None=None,
+                 border_radius: int=6, label: None=None, label_color: None=None,
+                 animated: bool=True, z_order: int=0, entry_anim: str="none",
+                 anim_delay: float=0.0, anim_duration: float=0.8, opacity: float=1.0,
+                 name: None=None, group: None=None, visible: bool=True) -> None:
         super().__init__(pos, anchor, z_order, entry_anim, anim_delay,
                          anim_duration, visible, opacity, name, group)
         self.value = value
@@ -269,12 +269,12 @@ class ProgressBar(SlideElement):
 
 class Divider(SlideElement):
     """A horizontal or vertical divider line."""
-    def __init__(self, pos=(0, 0), length=0.9, thickness=2,
-                 color=None, orientation="horizontal",
-                 anchor="top_left", z_order=0, entry_anim="none",
-                 anim_delay=0.0, anim_duration=0.3, opacity=0.5,
-                 name=None, group=None, visible=True,
-                 gradient_fade=True):
+    def __init__(self, pos: tuple=(0, 0), length: float=0.9, thickness: int=2,
+                 color: None=None, orientation: str="horizontal",
+                 anchor: str="top_left", z_order: int=0, entry_anim: str="none",
+                 anim_delay: float=0.0, anim_duration: float=0.3, opacity: float=0.5,
+                 name: None=None, group: None=None, visible: bool=True,
+                 gradient_fade: bool=True) -> None:
         super().__init__(pos, anchor, z_order, entry_anim, anim_delay,
                          anim_duration, visible, opacity, name, group)
         self.length = length
@@ -286,12 +286,12 @@ class Divider(SlideElement):
 
 class Slide:
     """A single slide containing elements."""
-    def __init__(self, transition="fade", transition_duration=0.4,
-                 bg_color=None, bg_gradient=None, bg_image=None,
-                 accent_bar=True, accent_bar_pos="bottom",
-                 accent_bar_thickness=4, slide_number=True,
-                 footer_text=None, on_enter=None, on_exit=None,
-                 duration=None, auto_advance=False, name=None):
+    def __init__(self, transition: str="fade", transition_duration: float=0.4,
+                 bg_color: None=None, bg_gradient: None=None, bg_image: None=None,
+                 accent_bar: bool=True, accent_bar_pos: str="bottom",
+                 accent_bar_thickness: int=4, slide_number: bool=True,
+                 footer_text: None=None, on_enter: None=None, on_exit: None=None,
+                 duration: None=None, auto_advance: bool=False, name: None=None) -> None:
         self.elements: list[SlideElement] = []
         self.transition = _parse_transition(transition)
         self.transition_duration = transition_duration

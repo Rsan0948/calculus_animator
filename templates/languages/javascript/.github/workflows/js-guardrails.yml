@@ -1,0 +1,42 @@
+# JavaScript / TypeScript Guardrails
+#
+# Runs ESLint with the engineering-guardrails config on every PR.
+# Copy to .github/workflows/js-guardrails.yml in your project.
+
+name: JS/TS Guardrails
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master, develop]
+
+jobs:
+  eslint:
+    name: ESLint Guardrails
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint guardrails
+        run: |
+          npx eslint src/ \
+            --ext .js,.ts,.tsx \
+            --format stylish \
+            --max-warnings 0
+
+      - name: Check for hardcoded secrets (gitleaks)
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

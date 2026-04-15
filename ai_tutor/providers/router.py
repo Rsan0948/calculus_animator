@@ -919,5 +919,5 @@ def list_local_models() -> List[str]:
     try:
         models = ollama.list()
         return [m["name"] for m in models.get("models", [])]
-    except:
+    except Exception:
         return []

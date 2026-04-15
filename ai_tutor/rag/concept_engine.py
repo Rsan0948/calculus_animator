@@ -297,7 +297,7 @@ class ConceptEngine:
         self,
         cards_path: Optional[Path] = None,
         index_path: Optional[Path] = None,
-    ):
+    ) -> None:
         self.settings = get_settings()
         self.vector_store = get_vector_store()
         
@@ -309,7 +309,7 @@ class ConceptEngine:
         self._cards_cache: Optional[List[ConceptCard]] = None
         self._rerank_model: Optional[Any] = None
     
-    def _get_rerank_model(self):
+    def _get_rerank_model(self) -> None:
         """Load cross-encoder reranker."""
         if not RERANK_AVAILABLE:
             return None

@@ -6,7 +6,7 @@ import json
 from api import capacity_slide_worker as worker
 
 
-def test_render_metrics_only_true_returns_expected_metrics():
+def test_render_metrics_only_true_returns_expected_metrics() -> None:
     payload = {
         "text": "[CHK-001] synthetic calibration sentence.",
         "width": 800,
@@ -22,7 +22,7 @@ def test_render_metrics_only_true_returns_expected_metrics():
     assert "page_text" in out
 
 
-def test_render_metrics_only_false_returns_data_url():
+def test_render_metrics_only_false_returns_data_url() -> None:
     payload = {
         "text": "[CHK-001] synthetic calibration sentence to render output image.",
         "width": 900,
@@ -36,7 +36,7 @@ def test_render_metrics_only_false_returns_data_url():
     assert out["data_url"].startswith("data:image/png;base64,")
 
 
-def test_main_emits_error_json_on_invalid_input(monkeypatch):
+def test_main_emits_error_json_on_invalid_input(monkeypatch) -> None:
     monkeypatch.setattr("sys.stdin", io.StringIO("{"))
     out_stream = io.StringIO()
     monkeypatch.setattr("sys.stdout", out_stream)
@@ -45,4 +45,3 @@ def test_main_emits_error_json_on_invalid_input(monkeypatch):
     payload = json.loads(out_stream.getvalue())
     assert payload["success"] is False
     assert "error" in payload
-

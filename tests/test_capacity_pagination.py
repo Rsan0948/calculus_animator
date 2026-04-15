@@ -4,21 +4,21 @@ from api.capacity_slide_worker import _paginate, _wrap_paragraph_lines
 
 
 class FakeFont:
-    def __init__(self, char_px: int = 10):
+    def __init__(self, char_px: int = 10) -> None:
         self.char_px = char_px
 
-    def size(self, text: str):
+    def size(self, text: str) -> tuple:
         return (len(text) * self.char_px, 20)
 
 
-def test_wrap_paragraph_lines_hard_breaks_long_words():
+def test_wrap_paragraph_lines_hard_breaks_long_words() -> None:
     font = FakeFont(char_px=10)
     lines = _wrap_paragraph_lines("fit supercalifragilisticexpialidocious", font, max_width=50)
     assert len(lines) > 1
     assert all(len(line) <= 5 for line in lines[1:])
 
 
-def test_paginate_spreads_text_across_multiple_pages_with_stable_order():
+def test_paginate_spreads_text_across_multiple_pages_with_stable_order() -> None:
     font = FakeFont(char_px=8)
     text = "\n\n".join(
         [
@@ -35,7 +35,7 @@ def test_paginate_spreads_text_across_multiple_pages_with_stable_order():
     assert "[CHK-004]" in reconstructed
 
 
-def test_paginate_empty_text_returns_single_empty_page():
+def test_paginate_empty_text_returns_single_empty_page() -> None:
     font = FakeFont()
     pages = _paginate("", font, max_width=120, max_lines=3)
     assert pages == [""]

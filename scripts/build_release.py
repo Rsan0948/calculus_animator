@@ -11,7 +11,7 @@ from pathlib import Path
 from PyInstaller.__main__ import run as pyinstaller_run
 
 
-def main():
+def main() -> None:
     root = Path(__file__).resolve().parent.parent
     sep = ";" if os.name == "nt" else ":"
     app_name = "Calculus Animator"

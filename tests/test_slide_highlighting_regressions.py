@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from core.slide_highlighting import build_informative_slide_highlights
+from math_engine.plugins.calculus.slide_highlighting import build_informative_slide_highlights
 
 
-def test_no_duplicate_note_or_example_prefixes():
+def test_no_duplicate_note_or_example_prefixes() -> None:
     blocks = [
         {"kind": "note", "text": "Note: The vertical line test checks if any x has multiple outputs."},
         {"kind": "example", "text": "Example: If f(x)=x^2, then f(3)=9."},
@@ -14,7 +14,7 @@ def test_no_duplicate_note_or_example_prefixes():
     assert all("Example: Example:" not in t for t in texts)
 
 
-def test_single_dense_block_keeps_multiple_sentences_for_learning_value():
+def test_single_dense_block_keeps_multiple_sentences_for_learning_value() -> None:
     blocks = [
         {
             "kind": "text",
@@ -31,8 +31,7 @@ def test_single_dense_block_keeps_multiple_sentences_for_learning_value():
     assert any("vertical line test" in h["text"].lower() for h in highlights)
 
 
-def test_highlights_respect_item_limit():
+def test_highlights_respect_item_limit() -> None:
     blocks = [{"kind": "step", "text": f"Step {i} explanation with enough detail to be selected."} for i in range(1, 10)]
     highlights = build_informative_slide_highlights(blocks, max_items=4)
     assert len(highlights) <= 4
-

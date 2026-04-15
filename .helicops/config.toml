@@ -1,0 +1,58 @@
+secrets_patterns = [
+    "sk-[a-zA-Z0-9]{20,}",
+    "AKIA[0-9A-Z]{16}",
+    "ASIA[0-9A-Z]{16}",
+]
+exempt_paths = [
+    # Legacy duplicate code - not part of research_engine architecture
+    "calculus_animator/",
+    
+    # Generated/build artifacts
+    ".venv/",
+    "venv/",
+    "__pycache__/",
+    "*.egg-info/",
+    "node_modules/",
+    ".pytest_cache/",
+    ".mypy_cache/",
+    ".ruff_cache/",
+    "target/",
+    "dist/",
+    "build/",
+    ".helicops-backup/",
+]
+exempt_files = [
+    "__init__.py",
+    "conftest.py",
+    "setup.py",
+]
+
+[helicops]
+version = "3.0.0"
+state = "team"
+
+[languages.python]
+enabled = true
+max_file_lines = 500
+max_complexity = 20
+max_class_methods = 20
+git_hooks = true
+
+[languages.typescript]
+enabled = true
+max_file_lines = 500
+max_complexity = 20
+max_class_methods = 20
+git_hooks = true
+
+[languages.rust]
+enabled = false
+max_file_lines = 500
+max_complexity = 20
+max_class_methods = 20
+
+[languages.jvm]
+enabled = false
+max_file_lines = 500
+max_complexity = 20
+max_class_methods = 20

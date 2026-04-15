@@ -2,12 +2,12 @@ from __future__ import annotations
 
 import sympy as sp
 
-import core.solver as solver_module
-from core.detector import CalculusType
-from core.solver import CalculusSolver
+import math_engine.plugins.calculus.solver as solver_module
+from math_engine.plugins.calculus.detector import CalculusType
+from math_engine.plugins.calculus.solver import CalculusSolver
 
 
-def test_solve_dispatch_exception_is_captured(monkeypatch):
+def test_solve_dispatch_exception_is_captured(monkeypatch) -> None:
     solver = CalculusSolver()
     monkeypatch.setattr(solver, "_simplify", lambda expr, p: (_ for _ in ()).throw(RuntimeError("boom")))
     out = solver.solve(sp.Symbol("x"), CalculusType.UNKNOWN, {})
@@ -15,7 +15,7 @@ def test_solve_dispatch_exception_is_captured(monkeypatch):
     assert "boom" in out["error"]
 
 
-def test_identify_diff_rule_additional_branches():
+def test_identify_diff_rule_additional_branches() -> None:
     solver = CalculusSolver()
     x = sp.Symbol("x")
     y = sp.Symbol("y")
@@ -28,7 +28,7 @@ def test_identify_diff_rule_additional_branches():
     assert solver._identify_diff_rule(sp.sqrt(x), x) == "power_rule"
 
 
-def test_diff_substeps_chain_and_quotient_branches():
+def test_diff_substeps_chain_and_quotient_branches() -> None:
     solver = CalculusSolver()
     x = sp.Symbol("x")
     chain_expr = sp.sin(x**2)
@@ -42,7 +42,7 @@ def test_diff_substeps_chain_and_quotient_branches():
     assert quot_steps and quot_steps[0]["rule"] == "quotient_rule_detail"
 
 
-def test_limit_direct_substitution_branch():
+def test_limit_direct_substitution_branch() -> None:
     solver = CalculusSolver()
     x = sp.Symbol("x")
     out = solver.solve(x**2 + 1, CalculusType.LIMIT, {"variable": "x", "point": 2})
@@ -51,7 +51,7 @@ def test_limit_direct_substitution_branch():
     assert out["steps"][0]["rule"] == "direct_substitution"
 
 
-def test_taylor_alias_branch():
+def test_taylor_alias_branch() -> None:
     solver = CalculusSolver()
     x = sp.Symbol("x")
     out = solver.solve(sp.sin(x), CalculusType.TAYLOR_SERIES, {"variable": "x", "point": 0, "order": 5})
@@ -59,7 +59,7 @@ def test_taylor_alias_branch():
     assert out["steps"][0]["rule"] == "series_expansion"
 
 
-def test_ode_success_branch():
+def test_ode_success_branch() -> None:
     solver = CalculusSolver()
     x = sp.Symbol("x")
     y = sp.Function("y")
@@ -69,14 +69,14 @@ def test_ode_success_branch():
     assert out["steps"][0]["rule"] == "ode_solution"
 
 
-def test_ode_failure_branch():
+def test_ode_failure_branch() -> None:
     solver = CalculusSolver()
     out = solver.solve(sp.Symbol("x"), CalculusType.DIFFERENTIAL_EQ, {"variable": "x"})
     assert out["success"] is False
     assert out["error"].startswith("ODE solver:")
 
 
-def test_extract_integral_manual_steps_when_disabled(monkeypatch):
+def test_extract_integral_manual_steps_when_disabled(monkeypatch) -> None:
     solver = CalculusSolver()
     x = sp.Symbol("x")
     monkeypatch.setattr(solver_module, "HAS_MANUAL", False)
@@ -84,7 +84,7 @@ def test_extract_integral_manual_steps_when_disabled(monkeypatch):
     assert out == []
 
 
-def test_extract_integral_manual_steps_exception(monkeypatch):
+def test_extract_integral_manual_steps_exception(monkeypatch) -> None:
     solver = CalculusSolver()
     x = sp.Symbol("x")
     monkeypatch.setattr(solver_module, "HAS_MANUAL", True)
@@ -93,12 +93,12 @@ def test_extract_integral_manual_steps_exception(monkeypatch):
     assert out == []
 
 
-def test_walk_int_steps_depth_and_children():
+def test_walk_int_steps_depth_and_children() -> None:
     solver = CalculusSolver()
     out = []
 
     class Node:
-        def __init__(self, context=None, substep=None, substeps=None):
+        def __init__(self, context: None=None, substep: None=None, substeps: None=None) -> None:
             self.context = context
             self.substep = substep
             self.substeps = substeps
@@ -115,7 +115,7 @@ def test_walk_int_steps_depth_and_children():
     assert all("rule" in step for step in out)
 
 
-def test_to_sympy_num_symbol_fallback():
+def test_to_sympy_num_symbol_fallback() -> None:
     solver = CalculusSolver()
     val = solver._to_sympy_num("abc_not_number")
     assert isinstance(val, sp.Symbol)

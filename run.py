@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Single entry point — auto-installs dependencies, then launches the app."""
+import logging
 import importlib
 import os
 import signal
@@ -27,14 +28,14 @@ REQUIRED = {
 _MIN_VERSIONS = {"sympy": (1, 12), "numpy": (1, 24)}
 
 
-def _check_versions():
+def _check_versions() -> None:
     for mod, min_ver in _MIN_VERSIONS.items():
         try:
             m = importlib.import_module(mod)
             ver_str = getattr(m, "__version__", "") or ""
             parts = tuple(int(x) for x in ver_str.split(".")[:2] if x.isdigit())
             if parts and parts < min_ver:
-                print(
+                logging.info(
                     f"[warn] {mod} {ver_str} is older than required {'.'.join(str(v) for v in min_ver)}. "
                     f"Some features may not work correctly.",
                     file=sys.stderr,
@@ -43,7 +44,7 @@ def _check_versions():
             pass
 
 
-def ensure_deps():
+def ensure_deps() -> None:
     missing = []
     for mod, pkg in REQUIRED.items():
         try:
@@ -61,7 +62,7 @@ def ensure_deps():
                 file=sys.stderr,
             )
             sys.exit(1)
-        print(f"Installing missing packages: {', '.join(missing)}")
+        logging.info(f"Installing missing packages: {', '.join(missing)}")
         # guardrails: allow-runtime-pip
         # Auto-install only with explicit CALCULUS_ANIMATOR_AUTO_INSTALL=1 opt-in
         subprocess.check_call([sys.executable, "-m", "pip", "install", *missing, "-q"])
@@ -107,8 +108,7 @@ def _start_backend():
     )
 
 
-def _wait_for_backend(url="http://127.0.0.1:8000/health", timeout=120):
-    import urllib.request
+def _wait_for_backend(url: str="http://127.0.0.1:8000/health", timeout: int=120) -> bool:
     start = time.time()
     while time.time() - start < timeout:
         try:
@@ -116,17 +116,18 @@ def _wait_for_backend(url="http://127.0.0.1:8000/health", timeout=120):
             return True
         except Exception:
             time.sleep(0.5)
-    print("[warn] AI Tutor backend did not respond in time — chat may not work.")
+    logging.info("[warn] AI Tutor backend did not respond in time — chat may not work.")
+
     return False
 
 
-def main():
+def main() -> None:
     _load_env()
 
     backend_process = _start_backend()
     _wait_for_backend()
 
-    def _shutdown(sig=None, frame=None):
+    def _shutdown(sig: None=None, frame: None=None) -> None:
         backend_process.terminate()
         backend_process.wait()
 
@@ -147,5 +148,5 @@ if __name__ == "__main__":
     if sys.platform == 'darwin':
         import multiprocessing
         multiprocessing.freeze_support()
-    
+
     main()

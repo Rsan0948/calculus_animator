@@ -1,0 +1,80 @@
+# Cursor Rules — Engineering Guardrails
+# These rules are appended to Cursor's system prompt for every session.
+# Copy this file to your project root as .cursorrules
+
+## PROJECT GUARDRAILS — MANDATORY
+
+This project enforces engineering-guardrails. Your code is automatically checked
+on every commit. Violations will block the commit. Do not use --no-verify.
+
+---
+
+## CODE QUALITY RULES
+
+1. NEVER use absolute paths like /Users/name/ or /home/user/. Always use Path(__file__).parent or os.getenv().
+
+2. NEVER write bare except clauses. except: pass and except: return None are banned. Use logger.exception() or re-raise with context.
+
+3. NEVER write files longer than 500 lines. If a file is getting too large, split it into focused modules.
+
+4. NEVER call subprocess.run(["pip", "install", ...]) inside source code. All dependencies belong in pyproject.toml or requirements.txt.
+
+5. NEVER use pickle, joblib, or dill for serialization. Use JSON, Parquet, or skops instead. Pickle enables arbitrary code execution.
+
+6. NEVER hardcode API keys, passwords, tokens, or secrets in source files. Use os.getenv("VAR_NAME") and .env files for local development.
+
+7. NEVER write TODO or FIXME comments without a ticket reference. Format: # TODO(PROJ-123): description of what needs to be done.
+
+8. NEVER create circular imports. Design modules with clear dependency direction. If a.py imports b.py, b.py must not import a.py.
+
+9. NEVER commit unused imports, functions, or variables. Remove dead code before every commit.
+
+10. NEVER write functions with cyclomatic complexity above 20. If a function has more than 20 branches, split it into smaller functions.
+
+11. ALWAYS write tests for new logic. Minimum 80% coverage is enforced by CI. Write the failing test BEFORE the implementation.
+
+12. NEVER write hardcoded staging, dev, or internal URLs in source code. Use os.getenv("API_URL", "https://api.example.com").
+
+13. NEVER use print() for logging. Import logging and use logger = logging.getLogger(__name__). Use logger.info(), logger.error(), etc.
+
+14. NEVER commit large binary files (.pkl, .h5, .db, large .csv). Use S3, GCS, DVC, or Git LFS for large files.
+
+15. ALWAYS add type hints to function parameters and return values. def process(data: dict[str, Any]) -> list[Item]: is required.
+
+16. NEVER create mutable global variables. No module-level dict, list, or set that changes at runtime. Use dependency injection or classes.
+
+---
+
+## OWASP AGENTIC TOP 10 — SECURITY RULES
+
+17. ALWAYS validate agent inputs before using them. Variables named user_input, prompt, query, instruction, system_prompt must be validated for length and content before flowing into f-strings or HTTP calls.
+
+18. NEVER hardcode AI API keys. ANTHROPIC_API_KEY, OPENAI_API_KEY, GOOGLE_API_KEY, COHERE_API_KEY, etc. must come from os.getenv(). Never assign them as string literals.
+
+19. NEVER use eval() or exec() with dynamic arguments. eval(user_input), exec(response), exec(llm_output) are banned. eval("literal") is acceptable.
+
+20. NEVER use compile() or importlib.import_module() with variable arguments. Only use these with string literals.
+
+21. NEVER define agent roles with permissions: "all" or permissions: ["*"] or role: "admin". Use minimal, scoped permissions only.
+
+22. NEVER import packages with known CVEs. pip-audit runs at push time and will block deployment.
+
+---
+
+## WORKFLOW RULES
+
+23. BEFORE finishing any task, run: python ai_helper.py check-all. Fix all violations. Do not declare the task done if violations exist.
+
+24. ALWAYS make the MINIMUM change required. Do not refactor surrounding code, add docstrings to unchanged functions, or add features that were not asked for.
+
+25. ALWAYS diagnose the root cause before fixing. Do not add try/except to silence errors. Do not delete failing tests to make CI pass.
+
+26. NEVER use --no-verify to bypass pre-commit hooks. If a hook fails, investigate and fix the underlying issue.
+
+27. NEVER commit .env files. They contain secrets and are in .gitignore.
+
+28. WHEN fixing a bug, fix only the bug. Do not change code style, add comments, or refactor adjacent code.
+
+29. WHEN adding a feature, add only that feature. Do not add configuration options, backwards-compatibility shims, or speculative abstractions.
+
+30. ALWAYS write tests before implementation (TDD). Write a failing test, confirm it fails, then write the implementation to make it pass.

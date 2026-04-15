@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from core.extractor import ExpressionExtractor
+from math_engine.plugins.calculus.extractor import ExpressionExtractor
 
 
-def test_extract_fraction_derivative_and_order():
+def test_extract_fraction_derivative_and_order() -> None:
     extractor = ExpressionExtractor()
     inner, params = extractor.extract(r"\frac{d^5}{dx^5} x^3")
     assert inner == "x^3"
@@ -11,7 +11,7 @@ def test_extract_fraction_derivative_and_order():
     assert params["order"] == 5
 
 
-def test_extract_plain_derivative_notation():
+def test_extract_plain_derivative_notation() -> None:
     extractor = ExpressionExtractor()
     inner, params = extractor.extract("d^2/dx^2 sin(x)")
     assert inner == "sin(x)"
@@ -19,7 +19,7 @@ def test_extract_plain_derivative_notation():
     assert params["order"] == 2
 
 
-def test_extract_definite_integral_and_bounds():
+def test_extract_definite_integral_and_bounds() -> None:
     extractor = ExpressionExtractor()
     inner, params = extractor.extract(r"\int_{0}^{1} x^2 dx")
     assert inner == "x^2"
@@ -28,7 +28,7 @@ def test_extract_definite_integral_and_bounds():
     assert params["variable"] == "x"
 
 
-def test_extract_limit_plain_text_arrow_unicode():
+def test_extract_limit_plain_text_arrow_unicode() -> None:
     extractor = ExpressionExtractor()
     inner, params = extractor.extract("lim_(x → ∞) (1+(1)/(x))^x")
     assert inner == "(1+(1)/(x))^x"
@@ -36,7 +36,7 @@ def test_extract_limit_plain_text_arrow_unicode():
     assert params["point"] == "∞"
 
 
-def test_extract_returns_original_when_no_wrapper_found():
+def test_extract_returns_original_when_no_wrapper_found() -> None:
     extractor = ExpressionExtractor()
     latex = "x^2 + 3x + 2"
     inner, params = extractor.extract(latex, params={"variable": "x"})
@@ -44,13 +44,13 @@ def test_extract_returns_original_when_no_wrapper_found():
     assert params["variable"] == "x"
 
 
-def test_parse_bound_infinity_tokens():
+def test_parse_bound_infinity_tokens() -> None:
     assert ExpressionExtractor._parse_bound(r"\infty") == "oo"
     assert ExpressionExtractor._parse_bound(r"-\infty") == "-oo"
     assert ExpressionExtractor._parse_bound("2.5") == 2.5
 
 
-def test_extract_partial_derivative_branch():
+def test_extract_partial_derivative_branch() -> None:
     extractor = ExpressionExtractor()
     inner, params = extractor.extract(r"\frac{\partial^2}{\partial x^2} (x^2 y)")
     assert inner == "(x^2 y)"
@@ -58,7 +58,7 @@ def test_extract_partial_derivative_branch():
     assert params["order"] == 2
 
 
-def test_extract_prime_notation_branch():
+def test_extract_prime_notation_branch() -> None:
     extractor = ExpressionExtractor()
     inner, params = extractor.extract("y''(t)")
     assert inner == "y''(t)"
@@ -66,7 +66,7 @@ def test_extract_prime_notation_branch():
     assert params["order"] == 2
 
 
-def test_extract_definite_integral_non_braced_pattern():
+def test_extract_definite_integral_non_braced_pattern() -> None:
     extractor = ExpressionExtractor()
     inner, params = extractor.extract(r"\int_0^1 x^2 dx")
     assert inner == "x^2"
@@ -75,7 +75,7 @@ def test_extract_definite_integral_non_braced_pattern():
     assert params["variable"] == "x"
 
 
-def test_extract_plain_integral_patterns():
+def test_extract_plain_integral_patterns() -> None:
     extractor = ExpressionExtractor()
     inner1, p1 = extractor.extract("int_0^2 x dx")
     assert inner1 == "x"
@@ -86,7 +86,7 @@ def test_extract_plain_integral_patterns():
     assert p2["variable"] == "x"
 
 
-def test_extract_limit_latex_and_plain_variants():
+def test_extract_limit_latex_and_plain_variants() -> None:
     extractor = ExpressionExtractor()
     inner1, p1 = extractor.extract(r"\lim_{x \to 0} \frac{\sin x}{x}")
     assert p1["variable"] == "x" and p1["point"] == "0"
@@ -101,7 +101,7 @@ def test_extract_limit_latex_and_plain_variants():
     assert inner3 == "sin(x)/x"
 
 
-def test_extract_sum_branch():
+def test_extract_sum_branch() -> None:
     extractor = ExpressionExtractor()
     inner, params = extractor.extract(r"\sum_{n=1}^{10} n^2")
     assert "n^2" in inner
@@ -112,7 +112,7 @@ def test_extract_sum_branch():
     assert "upper" in params
 
 
-def test_extract_indefinite_integral_latex_branch():
+def test_extract_indefinite_integral_latex_branch() -> None:
     extractor = ExpressionExtractor()
     inner, params = extractor.extract(r"\int x^3 dx")
     assert inner == "x^3"

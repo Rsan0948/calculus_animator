@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import sympy as sp
 
-from core.parser import ExpressionParser
+from math_engine.plugins.calculus.parser import ExpressionParser
 
 
-def test_preprocess_normalizes_common_unicode_tokens():
+def test_preprocess_normalizes_common_unicode_tokens() -> None:
     parser = ExpressionParser()
     out = parser._preprocess("π × x − 1")
     assert "pi" in out
@@ -13,13 +13,13 @@ def test_preprocess_normalizes_common_unicode_tokens():
     assert "-" in out
 
 
-def test_latex_to_sympy_string_inserts_implicit_multiplication():
+def test_latex_to_sympy_string_inserts_implicit_multiplication() -> None:
     parser = ExpressionParser()
     out = parser._latex_to_sympy_str("2x(x+1)")
     assert out == "2*x*(x+1)"
 
 
-def test_parse_plain_polynomial_returns_symbol_and_variables():
+def test_parse_plain_polynomial_returns_symbol_and_variables() -> None:
     parser = ExpressionParser()
     result = parser.parse("x^2 + 3x + 2")
     assert result["success"] is True
@@ -27,7 +27,7 @@ def test_parse_plain_polynomial_returns_symbol_and_variables():
     assert sp.simplify(result["sympy_expr"] - (sp.Symbol("x") ** 2 + 3 * sp.Symbol("x") + 2)) == 0
 
 
-def test_parse_fraction_latex_falls_back_cleanly():
+def test_parse_fraction_latex_falls_back_cleanly() -> None:
     parser = ExpressionParser()
     result = parser.parse(r"\frac{1}{x}")
     assert result["success"] is True
@@ -35,9 +35,8 @@ def test_parse_fraction_latex_falls_back_cleanly():
     assert sp.simplify(result["sympy_expr"] - (1 / x)) == 0
 
 
-def test_parse_invalid_expression_returns_failure():
+def test_parse_invalid_expression_returns_failure() -> None:
     parser = ExpressionParser()
     result = parser.parse(")))")
     assert result["success"] is False
     assert "error" in result
-

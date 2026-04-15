@@ -1,0 +1,2153 @@
+Running HelicOps checks for: python, typescript
+
+📁 PYTHON
+  🔴 [insecure-serialization] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/self_audit/regression_gate.py:178
+     Insecure deserialization
+  🔴 [insecure-serialization] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/self_audit/regression_gate.py:180
+     Insecure deserialization
+  🔴 [runtime-pip] /Users/rubensanchez/Desktop/research_engine/calculus_animator/run.py:55
+     Runtime pip install
+  🔴 [runtime-pip] /Users/rubensanchez/Desktop/research_engine/run.py:55
+     Runtime pip install
+  🔴 [secrets] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/self_audit/regression_gate.py:162
+     Potential Hardcoded password
+  🔴 [agent-credentials] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/self_audit/regression_gate.py:155
+     Hardcoded AI API key
+  🔴 [unsafe-execution] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/self_audit/orchestrator.py:394
+     Dynamic compile() call
+
+📁 TYPESCRIPT
+  🟠 [silent-exceptions] unknown
+     ❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/js/app.js:72: silent catch block detected
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/js/app.js:117: silent catch block detected
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/js/app.js:363: silent catch block detected
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/js/app.js:439: silent catch block detected
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/js/app.js:440: silent catch block detected
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/js/app.js:454: silent catch block detected
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/js/app.js:455: silent catch block detected
+  🟠 [silent-exceptions] unknown
+     ❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/ai_tutor/tutor-panel.js:437: silent catch block detected
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/ai_tutor/tutor-panel.js:456: silent catch block detected
+  🟠 [silent-exceptions] unknown
+     ❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/ai_tutor/tutor-panel.js:437: silent catch block detected
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/ai_tutor/tutor-panel.js:456: silent catch block detected
+  🟠 [silent-exceptions] unknown
+     ❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/js/app.js:72: silent catch block detected
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/js/app.js:117: silent catch block detected
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/js/app.js:363: silent catch block detected
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/js/app.js:439: silent catch block detected
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/js/app.js:440: silent catch block detected
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/js/app.js:454: silent catch block detected
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/js/app.js:455: silent catch block detected
+  🟠 [silent-exceptions] unknown
+     ❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/js/modules/renderer.js:290: silent catch block detected
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/js/modules/renderer.js:827: silent catch block detected
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/js/modules/renderer.js:1273: silent catch block detected
+  🟠 [silent-exceptions] unknown
+     ❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/js/modules/utils.js:202: silent catch block detected
+  🟠 [silent-exceptions] unknown
+     ❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/js/modules/renderer.js:290: silent catch block detected
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/js/modules/renderer.js:827: silent catch block detected
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/js/modules/renderer.js:1273: silent catch block detected
+  🟠 [silent-exceptions] unknown
+     ❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/js/modules/utils.js:202: silent catch block detected
+
+📁 PYTHON
+  🟠 [silent-exceptions] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/tests/fixers/test_bare_except.py:45
+     Silent exception handling → pass
+  🟠 [silent-exceptions] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/tests/fixers/test_bare_except.py:47
+     Silent exception handling → pass
+  🟠 [hardcoded-urls] /Users/rubensanchez/Desktop/research_engine/calculus_animator/run.py:98
+     Hardcoded URL
+  🟠 [hardcoded-urls] /Users/rubensanchez/Desktop/research_engine/calculus_animator/tests/test_e2e_ui_smoke.py:28
+     Hardcoded URL
+  🟠 [hardcoded-urls] /Users/rubensanchez/Desktop/research_engine/calculus_animator/tools/ollama_slide_reviewer.py:184
+     Hardcoded URL
+  🟠 [hardcoded-urls] /Users/rubensanchez/Desktop/research_engine/run.py:98
+     Hardcoded URL
+  🟠 [hardcoded-urls] /Users/rubensanchez/Desktop/research_engine/tests/test_e2e_ui_smoke.py:28
+     Hardcoded URL
+  🟠 [hardcoded-urls] /Users/rubensanchez/Desktop/research_engine/tools/ollama_slide_reviewer.py:184
+     Hardcoded URL
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/ai_backend/providers/router.py:231
+     f-string interpolates potentially unsafe input
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/ai_backend/routers/tutor.py:238
+     f-string interpolates potentially unsafe input
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/ai_backend/routers/tutor.py:238
+     f-string interpolates potentially unsafe input
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/ai_backend/routers/tutor.py:300
+     f-string interpolates potentially unsafe input
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/ai_backend/routers/tutor.py:300
+     f-string interpolates potentially unsafe input
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/ai_backend/routers/tutor.py:345
+     f-string interpolates potentially unsafe input
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/ai_backend/routers/tutor.py:345
+     f-string interpolates potentially unsafe input
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/ai_tutor/providers/router.py:231
+     f-string interpolates potentially unsafe input
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/ai_tutor/routers/tutor.py:238
+     f-string interpolates potentially unsafe input
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/ai_tutor/routers/tutor.py:238
+     f-string interpolates potentially unsafe input
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/ai_tutor/routers/tutor.py:300
+     f-string interpolates potentially unsafe input
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/ai_tutor/routers/tutor.py:300
+     f-string interpolates potentially unsafe input
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/ai_tutor/routers/tutor.py:345
+     f-string interpolates potentially unsafe input
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/ai_tutor/routers/tutor.py:345
+     f-string interpolates potentially unsafe input
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/providers/router.py:231
+     f-string interpolates potentially unsafe input
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/routers/tutor.py:238
+     f-string interpolates potentially unsafe input
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/routers/tutor.py:238
+     f-string interpolates potentially unsafe input
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/routers/tutor.py:300
+     f-string interpolates potentially unsafe input
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/routers/tutor.py:300
+     f-string interpolates potentially unsafe input
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/routers/tutor.py:345
+     f-string interpolates potentially unsafe input
+  🟠 [agent-input-validation] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/routers/tutor.py:345
+     f-string interpolates potentially unsafe input
+  🟡 [global-state] /Users/rubensanchez/Desktop/research_engine/ai_backend/providers/router.py:837
+     Mutable global variable '_GEMINI_VISION_MODELS'
+  🟡 [global-state] /Users/rubensanchez/Desktop/research_engine/ai_tutor/providers/router.py:837
+     Mutable global variable '_GEMINI_VISION_MODELS'
+  🟡 [global-state] /Users/rubensanchez/Desktop/research_engine/api/slide_render_worker.py:33
+     Mutable global variable '_SUP_MAP'
+  🟡 [global-state] /Users/rubensanchez/Desktop/research_engine/api/slide_render_worker.py:43
+     Mutable global variable '_SUB_MAP'
+  🟡 [global-state] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/providers/router.py:837
+     Mutable global variable '_GEMINI_VISION_MODELS'
+  🟡 [global-state] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/slide_render_worker.py:33
+     Mutable global variable '_SUP_MAP'
+  🟡 [global-state] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/slide_render_worker.py:43
+     Mutable global variable '_SUB_MAP'
+  🟡 [global-state] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/detector.py:18
+     Mutable global variable '_TAG_MAP'
+  🟡 [global-state] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/detector.py:29
+     Mutable global variable '_PATTERNS'
+  🟡 [global-state] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/parser.py:27
+     Mutable global variable '_COMMON'
+  🟡 [global-state] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/slide_highlighting.py:6
+     Mutable global variable '_KIND_PRIORITY'
+  🟡 [global-state] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/step_generator.py:47
+     Mutable global variable '_DURATIONS'
+  🟡 [global-state] /Users/rubensanchez/Desktop/research_engine/calculus_animator/run.py:27
+     Mutable global variable '_MIN_VERSIONS'
+  🟡 [global-state] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/detector.py:18
+     Mutable global variable '_TAG_MAP'
+  🟡 [global-state] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/detector.py:29
+     Mutable global variable '_PATTERNS'
+  🟡 [global-state] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/parser.py:27
+     Mutable global variable '_COMMON'
+  🟡 [global-state] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/slide_highlighting.py:6
+     Mutable global variable '_KIND_PRIORITY'
+  🟡 [global-state] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/step_generator.py:47
+     Mutable global variable '_DURATIONS'
+  🟡 [global-state] /Users/rubensanchez/Desktop/research_engine/run.py:27
+     Mutable global variable '_MIN_VERSIONS'
+  🟡 [global-state] SYNTAX ERROR in /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/diagnostics/vibe_checker.py:1
+     invalid syntax (<unknown>, line 225)
+  🟡 [file-size] /Users/rubensanchez/Desktop/research_engine/ai_backend/providers/router.py:1
+     739 lines (max: 500)
+  🟡 [file-size] /Users/rubensanchez/Desktop/research_engine/ai_backend/rag/concept_engine.py:1
+     563 lines (max: 500)
+  🟡 [file-size] /Users/rubensanchez/Desktop/research_engine/ai_tutor/providers/router.py:1
+     739 lines (max: 500)
+  🟡 [file-size] /Users/rubensanchez/Desktop/research_engine/ai_tutor/rag/concept_engine.py:1
+     563 lines (max: 500)
+  🟡 [file-size] /Users/rubensanchez/Desktop/research_engine/api/bridge.py:1
+     658 lines (max: 500)
+  🟡 [file-size] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/providers/router.py:1
+     739 lines (max: 500)
+  🟡 [file-size] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/rag/concept_engine.py:1
+     563 lines (max: 500)
+  🟡 [file-size] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/bridge.py:1
+     658 lines (max: 500)
+  🟡 [file-size] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:1
+     763 lines (max: 500)
+  🟡 [file-size] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:1
+     763 lines (max: 500)
+  🟡 [file-size] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/cli.py:1
+     1299 lines (max: 500)
+  🟡 [file-size] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/diagnostics/vibe_checker.py:1
+     501 lines (max: 500)
+  🟡 [file-size] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/self_audit/orchestrator.py:1
+     518 lines (max: 500)
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/main.py:84
+     Function 'health' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/providers/router.py:503
+     Function '_run_async' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/providers/router.py:503
+     Parameter 'coro' in '_run_async' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/providers/router.py:525
+     Function '_get_cloud_provider_call' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/providers/router.py:802
+     Function '_call_deepseek_stream' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/providers/router.py:802
+     Parameter 'messages' in '_call_deepseek_stream' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/providers/router.py:802
+     Parameter 'model' in '_call_deepseek_stream' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/providers/router.py:802
+     Parameter 'api_key' in '_call_deepseek_stream' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/providers/router.py:825
+     Function 'generate_stream_async' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/rag/concept_engine.py:296
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/rag/concept_engine.py:312
+     Function '_get_rerank_model' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/rag/vector_store.py:33
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/routers/settings_router.py:57
+     Function 'get_current_settings' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/routers/settings_router.py:79
+     Function 'update_provider' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/routers/settings_router.py:125
+     Function 'get_default_models' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/routers/settings_router.py:138
+     Function 'rebuild_rag_index' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/routers/tutor.py:225
+     Function 'chat' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/routers/tutor.py:286
+     Function 'chat_with_vision' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/routers/tutor.py:338
+     Function 'chat_stream' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/routers/tutor.py:378
+     Function 'search_concepts' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/routers/tutor.py:404
+     Function 'get_concept' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_backend/services/ingest.py:110
+     Function 'test_retrieval' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/main.py:84
+     Function 'health' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/providers/router.py:503
+     Function '_run_async' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/providers/router.py:503
+     Parameter 'coro' in '_run_async' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/providers/router.py:525
+     Function '_get_cloud_provider_call' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/providers/router.py:802
+     Function '_call_deepseek_stream' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/providers/router.py:802
+     Parameter 'messages' in '_call_deepseek_stream' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/providers/router.py:802
+     Parameter 'model' in '_call_deepseek_stream' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/providers/router.py:802
+     Parameter 'api_key' in '_call_deepseek_stream' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/providers/router.py:825
+     Function 'generate_stream_async' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/rag/concept_engine.py:296
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/rag/concept_engine.py:312
+     Function '_get_rerank_model' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/rag/vector_store.py:33
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/routers/settings_router.py:57
+     Function 'get_current_settings' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/routers/settings_router.py:79
+     Function 'update_provider' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/routers/settings_router.py:125
+     Function 'get_default_models' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/routers/settings_router.py:138
+     Function 'rebuild_rag_index' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/routers/tutor.py:225
+     Function 'chat' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/routers/tutor.py:286
+     Function 'chat_with_vision' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/routers/tutor.py:338
+     Function 'chat_stream' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/routers/tutor.py:378
+     Function 'search_concepts' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/routers/tutor.py:404
+     Function 'get_concept' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ai_tutor/services/ingest.py:110
+     Function 'test_retrieval' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/api/bridge.py:31
+     Function 'log_to_python' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/api/bridge.py:31
+     Parameter 'msg' in 'log_to_python' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/api/bridge.py:31
+     Parameter 'level' in 'log_to_python' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/api/bridge.py:72
+     Function '_start_render_worker' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/api/bridge.py:140
+     Function '_load_json' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/api/bridge.py:140
+     Parameter 'name' in '_load_json' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/api/bridge.py:140
+     Parameter 'default' in '_load_json' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/api/bridge.py:150
+     Function '_load_curriculum_data' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/api/bridge.py:173
+     Function '_extract_pathway_from_content_file' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/api/bridge.py:173
+     Parameter 'text' in '_extract_pathway_from_content_file' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/api/bridge.py:228
+     Function '_load_learning_library' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/api/bridge.py:241
+     Function '_slug' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/api/bridge.py:241
+     Parameter 'text' in '_slug' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/api/bridge.py:251
+     Function '_normalize_learning_library' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/api/bridge.py:251
+     Parameter 'raw' in '_normalize_learning_library' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/api/capacity_slide_worker.py:30
+     Parameter 'font' in '_wrap_paragraph_lines' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/api/capacity_slide_worker.py:61
+     Parameter 'font' in '_paginate' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/main.py:84
+     Function 'health' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/providers/router.py:503
+     Function '_run_async' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/providers/router.py:503
+     Parameter 'coro' in '_run_async' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/providers/router.py:525
+     Function '_get_cloud_provider_call' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/providers/router.py:802
+     Function '_call_deepseek_stream' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/providers/router.py:802
+     Parameter 'messages' in '_call_deepseek_stream' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/providers/router.py:802
+     Parameter 'model' in '_call_deepseek_stream' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/providers/router.py:802
+     Parameter 'api_key' in '_call_deepseek_stream' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/providers/router.py:825
+     Function 'generate_stream_async' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/rag/concept_engine.py:296
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/rag/concept_engine.py:312
+     Function '_get_rerank_model' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/rag/vector_store.py:33
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/routers/settings_router.py:57
+     Function 'get_current_settings' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/routers/settings_router.py:79
+     Function 'update_provider' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/routers/settings_router.py:125
+     Function 'get_default_models' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/routers/settings_router.py:138
+     Function 'rebuild_rag_index' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/routers/tutor.py:225
+     Function 'chat' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/routers/tutor.py:286
+     Function 'chat_with_vision' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/routers/tutor.py:338
+     Function 'chat_stream' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/routers/tutor.py:378
+     Function 'search_concepts' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/routers/tutor.py:404
+     Function 'get_concept' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/services/ingest.py:110
+     Function 'test_retrieval' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/bridge.py:31
+     Function 'log_to_python' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/bridge.py:31
+     Parameter 'msg' in 'log_to_python' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/bridge.py:31
+     Parameter 'level' in 'log_to_python' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/bridge.py:72
+     Function '_start_render_worker' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/bridge.py:140
+     Function '_load_json' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/bridge.py:140
+     Parameter 'name' in '_load_json' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/bridge.py:140
+     Parameter 'default' in '_load_json' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/bridge.py:150
+     Function '_load_curriculum_data' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/bridge.py:173
+     Function '_extract_pathway_from_content_file' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/bridge.py:173
+     Parameter 'text' in '_extract_pathway_from_content_file' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/bridge.py:228
+     Function '_load_learning_library' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/bridge.py:241
+     Function '_slug' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/bridge.py:241
+     Parameter 'text' in '_slug' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/bridge.py:251
+     Function '_normalize_learning_library' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/bridge.py:251
+     Parameter 'raw' in '_normalize_learning_library' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/capacity_slide_worker.py:30
+     Parameter 'font' in '_wrap_paragraph_lines' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/capacity_slide_worker.py:61
+     Parameter 'font' in '_paginate' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/config.py:12
+     Function 'get_logger' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/config.py:12
+     Parameter 'name' in 'get_logger' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/animation_engine.py:13
+     Function '_get_symbols' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/animation_engine.py:13
+     Parameter 'expr' in '_get_symbols' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/animation_engine.py:92
+     Function 'generate_graph_payload' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/animation_engine.py:92
+     Parameter 'expr' in 'generate_graph_payload' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/animation_engine.py:92
+     Parameter 'calc_type' in 'generate_graph_payload' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/animation_engine.py:92
+     Parameter 'params' in 'generate_graph_payload' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/animation_engine.py:92
+     Parameter 'solved_expr' in 'generate_graph_payload' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/animation_engine.py:92
+     Parameter 'x_range' in 'generate_graph_payload' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/animation_engine.py:92
+     Parameter 'points' in 'generate_graph_payload' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/extractor.py:9
+     Function 'extract' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/extractor.py:169
+     Function '_parse_bound' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:48
+     Parameter 'expr' in 'solve' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:86
+     Function '_derivative' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:86
+     Parameter 'expr' in '_derivative' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:86
+     Parameter 'p' in '_derivative' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:117
+     Function '_diff_substeps' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:117
+     Parameter 'expr' in '_diff_substeps' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:117
+     Parameter 'result' in '_diff_substeps' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:117
+     Parameter 'var' in '_diff_substeps' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:117
+     Parameter 'rule' in '_diff_substeps' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:148
+     Function '_identify_diff_rule' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:148
+     Parameter 'expr' in '_identify_diff_rule' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:148
+     Parameter 'var' in '_identify_diff_rule' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:192
+     Function '_integral_indef' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:192
+     Parameter 'expr' in '_integral_indef' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:192
+     Parameter 'p' in '_integral_indef' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:207
+     Function '_integral_def' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:207
+     Parameter 'expr' in '_integral_def' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:207
+     Parameter 'p' in '_integral_def' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:230
+     Function '_limit' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:230
+     Parameter 'expr' in '_limit' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:230
+     Parameter 'p' in '_limit' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:264
+     Function '_series' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:264
+     Parameter 'expr' in '_series' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:264
+     Parameter 'p' in '_series' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:281
+     Function '_ode' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:281
+     Parameter 'expr' in '_ode' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:281
+     Parameter 'p' in '_ode' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:298
+     Function '_simplify' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:298
+     Parameter 'expr' in '_simplify' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:298
+     Parameter 'p' in '_simplify' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:328
+     Function '_to_sympy_num' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:328
+     Parameter 'v' in '_to_sympy_num' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/step_generator.py:84
+     Parameter 'calc_type' in 'generate' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/run.py:46
+     Function 'ensure_deps' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/run.py:98
+     Function '_wait_for_backend' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/run.py:98
+     Parameter 'url' in '_wait_for_backend' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/run.py:98
+     Parameter 'timeout' in '_wait_for_backend' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/run.py:111
+     Function 'main' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/scripts/build_release.py:14
+     Function 'main' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_drawing.py:8
+     Function '_parse_color' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_drawing.py:8
+     Parameter 'c' in '_parse_color' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_drawing.py:32
+     Function '_draw_rounded_rect' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_drawing.py:32
+     Parameter 'surface' in '_draw_rounded_rect' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_drawing.py:32
+     Parameter 'color' in '_draw_rounded_rect' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_drawing.py:32
+     Parameter 'rect' in '_draw_rounded_rect' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_drawing.py:32
+     Parameter 'radius' in '_draw_rounded_rect' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_drawing.py:32
+     Parameter 'border' in '_draw_rounded_rect' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:11
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:11
+     Parameter 'pos' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:11
+     Parameter 'anchor' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:11
+     Parameter 'z_order' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:11
+     Parameter 'entry_anim' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:11
+     Parameter 'anim_delay' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:11
+     Parameter 'anim_duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:11
+     Parameter 'visible' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:11
+     Parameter 'opacity' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:11
+     Parameter 'name' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:11
+     Parameter 'group' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:11
+     Parameter '**kwargs' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:35
+     Function '_resolve_rect' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:35
+     Parameter 'elem_w' in '_resolve_rect' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:35
+     Parameter 'elem_h' in '_resolve_rect' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:35
+     Parameter 'slide_w' in '_resolve_rect' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:35
+     Parameter 'slide_h' in '_resolve_rect' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:53
+     Function '_apply_anim' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:53
+     Parameter 'surface' in '_apply_anim' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:53
+     Parameter 'dest_x' in '_apply_anim' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:53
+     Parameter 'dest_y' in '_apply_anim' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:53
+     Parameter 'slide_w' in '_apply_anim' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:53
+     Parameter 'slide_h' in '_apply_anim' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:53
+     Parameter 'progress' in '_apply_anim' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'text' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'pos' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'anchor' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'style' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'font_size' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'bold' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'italic' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'underline' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'width' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'line_spacing' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'align' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'bg_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'bg_radius' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'bg_padding' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'bg_pad' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'shadow' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'border_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'border_width' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'bullet' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'bullet_indent' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'max_lines' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'z_order' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'entry_anim' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'anim_delay' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'anim_duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'opacity' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'name' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'group' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:90
+     Parameter 'visible' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:129
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:129
+     Parameter 'source' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:129
+     Parameter 'pos' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:129
+     Parameter 'anchor' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:129
+     Parameter 'size' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:129
+     Parameter 'maintain_aspect' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:129
+     Parameter 'border_radius' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:129
+     Parameter 'border_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:129
+     Parameter 'border_width' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:129
+     Parameter 'shadow' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:129
+     Parameter 'opacity' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:129
+     Parameter 'tint' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:129
+     Parameter 'z_order' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:129
+     Parameter 'entry_anim' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:129
+     Parameter 'anim_delay' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:129
+     Parameter 'anim_duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:129
+     Parameter 'name' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:129
+     Parameter 'group' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:129
+     Parameter 'visible' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Parameter 'shape_type' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Parameter 'pos' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Parameter 'size' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Parameter 'anchor' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Parameter 'color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Parameter 'fill' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Parameter 'border_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Parameter 'border_width' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Parameter 'radius' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Parameter 'shadow' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Parameter 'opacity' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Parameter 'points' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Parameter 'gradient' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Parameter 'z_order' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Parameter 'entry_anim' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Parameter 'anim_delay' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Parameter 'anim_duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Parameter 'name' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Parameter 'group' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:152
+     Parameter 'visible' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:187
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:187
+     Parameter 'render_fn' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:187
+     Parameter 'pos' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:187
+     Parameter 'size' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:187
+     Parameter 'anchor' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:187
+     Parameter 'z_order' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:187
+     Parameter 'entry_anim' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:187
+     Parameter 'anim_delay' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:187
+     Parameter 'anim_duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:187
+     Parameter 'opacity' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:187
+     Parameter 'name' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:187
+     Parameter 'group' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:187
+     Parameter 'visible' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:187
+     Parameter 'user_data' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'items' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'pos' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'anchor' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'style' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'bullet_char' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'bullet_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'indent' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'item_spacing' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'width' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'font_size' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'bold' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'z_order' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'entry_anim' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'stagger_delay' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'anim_delay' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'anim_duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'opacity' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'name' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'group' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'visible' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'sub_bullet_char' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:200
+     Parameter 'nested_indent' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'code' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'pos' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'anchor' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'width' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'height' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'font_size' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'bg_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'text_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'border_radius' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'shadow' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'line_numbers' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'z_order' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'entry_anim' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'anim_delay' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'anim_duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'opacity' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'name' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'group' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'visible' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'title' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:227
+     Parameter 'title_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:252
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:252
+     Parameter 'value' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:252
+     Parameter 'pos' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:252
+     Parameter 'anchor' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:252
+     Parameter 'size' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:252
+     Parameter 'bg_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:252
+     Parameter 'fill_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:252
+     Parameter 'border_radius' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:252
+     Parameter 'label' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:252
+     Parameter 'label_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:252
+     Parameter 'animated' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:252
+     Parameter 'z_order' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:252
+     Parameter 'entry_anim' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:252
+     Parameter 'anim_delay' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:252
+     Parameter 'anim_duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:252
+     Parameter 'opacity' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:252
+     Parameter 'name' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:252
+     Parameter 'group' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:252
+     Parameter 'visible' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:272
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:272
+     Parameter 'pos' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:272
+     Parameter 'length' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:272
+     Parameter 'thickness' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:272
+     Parameter 'color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:272
+     Parameter 'orientation' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:272
+     Parameter 'anchor' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:272
+     Parameter 'z_order' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:272
+     Parameter 'entry_anim' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:272
+     Parameter 'anim_delay' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:272
+     Parameter 'anim_duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:272
+     Parameter 'opacity' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:272
+     Parameter 'name' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:272
+     Parameter 'group' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:272
+     Parameter 'visible' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:272
+     Parameter 'gradient_fade' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:289
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:289
+     Parameter 'transition' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:289
+     Parameter 'transition_duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:289
+     Parameter 'bg_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:289
+     Parameter 'bg_gradient' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:289
+     Parameter 'bg_image' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:289
+     Parameter 'accent_bar' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:289
+     Parameter 'accent_bar_pos' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:289
+     Parameter 'accent_bar_thickness' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:289
+     Parameter 'slide_number' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:289
+     Parameter 'footer_text' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:289
+     Parameter 'on_enter' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:289
+     Parameter 'on_exit' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:289
+     Parameter 'duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:289
+     Parameter 'auto_advance' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_elements.py:289
+     Parameter 'name' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_enums.py:52
+     Parameter 'val' in '_parse_transition' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_enums.py:62
+     Parameter 'val' in '_parse_entry' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_font.py:73
+     Function '_wrap_text' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_font.py:73
+     Parameter 'text' in '_wrap_text' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_font.py:73
+     Parameter 'font' in '_wrap_text' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_font.py:73
+     Parameter 'max_width' in '_wrap_text' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_font.py:104
+     Function '_render_text_surface' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_font.py:104
+     Parameter 'text' in '_render_text_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_font.py:104
+     Parameter 'font' in '_render_text_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_font.py:104
+     Parameter 'color' in '_render_text_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_font.py:104
+     Parameter 'max_width' in '_render_text_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_font.py:104
+     Parameter 'line_spacing' in '_render_text_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_font.py:104
+     Parameter 'align' in '_render_text_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_font.py:104
+     Parameter 'underline' in '_render_text_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_font.py:104
+     Parameter 'max_lines' in '_render_text_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_font.py:19
+     Function '_init_fonts' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_font.py:44
+     Function 'get' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_font.py:44
+     Parameter 'name' in 'get' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_font.py:44
+     Parameter 'size' in 'get' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_font.py:44
+     Parameter 'bold' in 'get' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_font.py:44
+     Parameter 'italic' in 'get' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/_font.py:44
+     Parameter 'monospace' in 'get' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:25
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:25
+     Parameter 'width' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:25
+     Parameter 'height' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:25
+     Parameter 'theme' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:25
+     Parameter 'fps' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:25
+     Parameter 'title' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:25
+     Parameter 'show_progress_bar' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:25
+     Parameter 'show_slide_count' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:25
+     Parameter 'loop' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:25
+     Parameter 'bg_surface' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:25
+     Parameter 'auto_init_pygame' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:96
+     Function 'set_size' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:96
+     Parameter 'width' in 'set_size' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:96
+     Parameter 'height' in 'set_size' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:110
+     Function 'initialize' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:110
+     Parameter 'headless' in 'initialize' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:110
+     Parameter 'size' in 'initialize' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:110
+     Parameter 'surface' in 'initialize' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:142
+     Function 'handle_action' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:142
+     Parameter 'action' in 'handle_action' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:158
+     Function 'handle_event' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:158
+     Parameter 'event' in 'handle_event' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:197
+     Function 'render' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:197
+     Parameter 'target_surface' in 'render' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:209
+     Function 'run' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:223
+     Function 'render_slide_to_surface' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:223
+     Parameter 'index' in 'render_slide_to_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:223
+     Parameter 'width' in 'render_slide_to_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:223
+     Parameter 'height' in 'render_slide_to_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:241
+     Function 'export_slide_image' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:241
+     Parameter 'index' in 'export_slide_image' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:241
+     Parameter 'path' in 'export_slide_image' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:241
+     Parameter 'width' in 'export_slide_image' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:241
+     Parameter 'height' in 'export_slide_image' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:248
+     Function '_start_transition' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:248
+     Parameter 'new_index' in '_start_transition' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:265
+     Function '_reset_slide_anims' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:277
+     Function '_update' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:277
+     Parameter 'dt' in '_update' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:307
+     Function '_render_to_target' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:307
+     Parameter 'target' in '_render_to_target' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:330
+     Function '_render_transition' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:330
+     Parameter 'slide' in '_render_transition' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:330
+     Parameter 'target' in '_render_transition' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:359
+     Function '_render_slide' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:359
+     Parameter 'slide' in '_render_slide' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:359
+     Parameter 'surface' in '_render_slide' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:359
+     Parameter 'w' in '_render_slide' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:359
+     Parameter 'h' in '_render_slide' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:359
+     Parameter 'force_full' in '_render_slide' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:402
+     Function '_render_background' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:402
+     Parameter 'slide' in '_render_background' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:402
+     Parameter 'surface' in '_render_background' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:402
+     Parameter 'w' in '_render_background' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:402
+     Parameter 'h' in '_render_background' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:466
+     Function '_get_font_for_style' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:466
+     Parameter 'style_name' in '_get_font_for_style' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:466
+     Parameter 'h' in '_get_font_for_style' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:466
+     Parameter 'size_override' in '_get_font_for_style' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:466
+     Parameter 'bold_override' in '_get_font_for_style' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:466
+     Parameter 'italic' in '_get_font_for_style' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:490
+     Function '_color_for_style' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:490
+     Parameter 'style_name' in '_color_for_style' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:500
+     Function '_render_textbox' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:500
+     Parameter 'surface' in '_render_textbox' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:500
+     Parameter 'w' in '_render_textbox' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:500
+     Parameter 'h' in '_render_textbox' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:500
+     Parameter 'progress' in '_render_textbox' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:551
+     Function '_render_imagebox' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:551
+     Parameter 'surface' in '_render_imagebox' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:551
+     Parameter 'w' in '_render_imagebox' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:551
+     Parameter 'h' in '_render_imagebox' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:551
+     Parameter 'progress' in '_render_imagebox' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:617
+     Function '_render_shape' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:617
+     Parameter 'surface' in '_render_shape' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:617
+     Parameter 'w' in '_render_shape' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:617
+     Parameter 'h' in '_render_shape' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:617
+     Parameter 'progress' in '_render_shape' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:683
+     Function '_render_dynamic' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:683
+     Parameter 'surface' in '_render_dynamic' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:683
+     Parameter 'w' in '_render_dynamic' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:683
+     Parameter 'h' in '_render_dynamic' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:683
+     Parameter 'progress' in '_render_dynamic' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:683
+     Parameter 'slide' in '_render_dynamic' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:698
+     Function '_render_bulletlist' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:698
+     Parameter 'surface' in '_render_bulletlist' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:698
+     Parameter 'w' in '_render_bulletlist' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:698
+     Parameter 'h' in '_render_bulletlist' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:698
+     Parameter 'progress' in '_render_bulletlist' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:763
+     Function '_render_codeblock' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:763
+     Parameter 'surface' in '_render_codeblock' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:763
+     Parameter 'w' in '_render_codeblock' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:763
+     Parameter 'h' in '_render_codeblock' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:763
+     Parameter 'progress' in '_render_codeblock' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:820
+     Function '_render_progressbar' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:820
+     Parameter 'surface' in '_render_progressbar' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:820
+     Parameter 'w' in '_render_progressbar' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:820
+     Parameter 'h' in '_render_progressbar' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:820
+     Parameter 'progress' in '_render_progressbar' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:848
+     Function '_render_divider' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:848
+     Parameter 'surface' in '_render_divider' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:848
+     Parameter 'w' in '_render_divider' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:848
+     Parameter 'h' in '_render_divider' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:848
+     Parameter 'progress' in '_render_divider' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/tools/ollama_slide_reviewer.py:56
+     Function '_extract_json_blob' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/calculus_animator/tools/slide_quality_pipeline.py:215
+     Function '_write_markdown' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/config.py:12
+     Function 'get_logger' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/config.py:12
+     Parameter 'name' in 'get_logger' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/helicops_critic/runner.py:22
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/helicops_critic/runner.py:33
+     Parameter 'math_result' in 'audit' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/ingestion/pipeline.py:15
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/animation_engine.py:13
+     Function '_get_symbols' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/animation_engine.py:13
+     Parameter 'expr' in '_get_symbols' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/animation_engine.py:92
+     Function 'generate_graph_payload' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/animation_engine.py:92
+     Parameter 'expr' in 'generate_graph_payload' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/animation_engine.py:92
+     Parameter 'calc_type' in 'generate_graph_payload' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/animation_engine.py:92
+     Parameter 'params' in 'generate_graph_payload' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/animation_engine.py:92
+     Parameter 'solved_expr' in 'generate_graph_payload' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/animation_engine.py:92
+     Parameter 'x_range' in 'generate_graph_payload' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/animation_engine.py:92
+     Parameter 'points' in 'generate_graph_payload' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/extractor.py:9
+     Function 'extract' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/extractor.py:169
+     Function '_parse_bound' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:48
+     Parameter 'expr' in 'solve' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:86
+     Function '_derivative' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:86
+     Parameter 'expr' in '_derivative' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:86
+     Parameter 'p' in '_derivative' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:117
+     Function '_diff_substeps' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:117
+     Parameter 'expr' in '_diff_substeps' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:117
+     Parameter 'result' in '_diff_substeps' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:117
+     Parameter 'var' in '_diff_substeps' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:117
+     Parameter 'rule' in '_diff_substeps' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:148
+     Function '_identify_diff_rule' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:148
+     Parameter 'expr' in '_identify_diff_rule' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:148
+     Parameter 'var' in '_identify_diff_rule' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:192
+     Function '_integral_indef' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:192
+     Parameter 'expr' in '_integral_indef' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:192
+     Parameter 'p' in '_integral_indef' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:207
+     Function '_integral_def' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:207
+     Parameter 'expr' in '_integral_def' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:207
+     Parameter 'p' in '_integral_def' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:230
+     Function '_limit' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:230
+     Parameter 'expr' in '_limit' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:230
+     Parameter 'p' in '_limit' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:264
+     Function '_series' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:264
+     Parameter 'expr' in '_series' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:264
+     Parameter 'p' in '_series' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:281
+     Function '_ode' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:281
+     Parameter 'expr' in '_ode' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:281
+     Parameter 'p' in '_ode' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:298
+     Function '_simplify' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:298
+     Parameter 'expr' in '_simplify' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:298
+     Parameter 'p' in '_simplify' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:328
+     Function '_to_sympy_num' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:328
+     Parameter 'v' in '_to_sympy_num' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/step_generator.py:84
+     Parameter 'calc_type' in 'generate' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/mvp_generator/agents/base_agent.py:16
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/mvp_generator/orchestrator.py:27
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/run.py:46
+     Function 'ensure_deps' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/run.py:98
+     Function '_wait_for_backend' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/run.py:98
+     Parameter 'url' in '_wait_for_backend' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/run.py:98
+     Parameter 'timeout' in '_wait_for_backend' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/run.py:111
+     Function 'main' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/scripts/build_release.py:14
+     Function 'main' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_drawing.py:8
+     Function '_parse_color' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_drawing.py:8
+     Parameter 'c' in '_parse_color' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_drawing.py:32
+     Function '_draw_rounded_rect' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_drawing.py:32
+     Parameter 'surface' in '_draw_rounded_rect' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_drawing.py:32
+     Parameter 'color' in '_draw_rounded_rect' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_drawing.py:32
+     Parameter 'rect' in '_draw_rounded_rect' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_drawing.py:32
+     Parameter 'radius' in '_draw_rounded_rect' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_drawing.py:32
+     Parameter 'border' in '_draw_rounded_rect' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:11
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:11
+     Parameter 'pos' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:11
+     Parameter 'anchor' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:11
+     Parameter 'z_order' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:11
+     Parameter 'entry_anim' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:11
+     Parameter 'anim_delay' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:11
+     Parameter 'anim_duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:11
+     Parameter 'visible' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:11
+     Parameter 'opacity' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:11
+     Parameter 'name' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:11
+     Parameter 'group' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:11
+     Parameter '**kwargs' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:35
+     Function '_resolve_rect' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:35
+     Parameter 'elem_w' in '_resolve_rect' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:35
+     Parameter 'elem_h' in '_resolve_rect' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:35
+     Parameter 'slide_w' in '_resolve_rect' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:35
+     Parameter 'slide_h' in '_resolve_rect' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:53
+     Function '_apply_anim' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:53
+     Parameter 'surface' in '_apply_anim' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:53
+     Parameter 'dest_x' in '_apply_anim' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:53
+     Parameter 'dest_y' in '_apply_anim' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:53
+     Parameter 'slide_w' in '_apply_anim' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:53
+     Parameter 'slide_h' in '_apply_anim' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:53
+     Parameter 'progress' in '_apply_anim' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'text' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'pos' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'anchor' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'style' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'font_size' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'bold' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'italic' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'underline' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'width' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'line_spacing' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'align' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'bg_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'bg_radius' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'bg_padding' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'bg_pad' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'shadow' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'border_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'border_width' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'bullet' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'bullet_indent' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'max_lines' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'z_order' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'entry_anim' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'anim_delay' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'anim_duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'opacity' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'name' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'group' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:90
+     Parameter 'visible' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:129
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:129
+     Parameter 'source' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:129
+     Parameter 'pos' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:129
+     Parameter 'anchor' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:129
+     Parameter 'size' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:129
+     Parameter 'maintain_aspect' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:129
+     Parameter 'border_radius' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:129
+     Parameter 'border_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:129
+     Parameter 'border_width' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:129
+     Parameter 'shadow' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:129
+     Parameter 'opacity' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:129
+     Parameter 'tint' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:129
+     Parameter 'z_order' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:129
+     Parameter 'entry_anim' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:129
+     Parameter 'anim_delay' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:129
+     Parameter 'anim_duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:129
+     Parameter 'name' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:129
+     Parameter 'group' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:129
+     Parameter 'visible' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Parameter 'shape_type' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Parameter 'pos' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Parameter 'size' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Parameter 'anchor' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Parameter 'color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Parameter 'fill' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Parameter 'border_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Parameter 'border_width' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Parameter 'radius' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Parameter 'shadow' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Parameter 'opacity' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Parameter 'points' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Parameter 'gradient' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Parameter 'z_order' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Parameter 'entry_anim' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Parameter 'anim_delay' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Parameter 'anim_duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Parameter 'name' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Parameter 'group' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:152
+     Parameter 'visible' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:187
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:187
+     Parameter 'render_fn' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:187
+     Parameter 'pos' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:187
+     Parameter 'size' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:187
+     Parameter 'anchor' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:187
+     Parameter 'z_order' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:187
+     Parameter 'entry_anim' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:187
+     Parameter 'anim_delay' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:187
+     Parameter 'anim_duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:187
+     Parameter 'opacity' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:187
+     Parameter 'name' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:187
+     Parameter 'group' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:187
+     Parameter 'visible' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:187
+     Parameter 'user_data' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'items' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'pos' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'anchor' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'style' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'bullet_char' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'bullet_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'indent' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'item_spacing' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'width' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'font_size' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'bold' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'z_order' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'entry_anim' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'stagger_delay' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'anim_delay' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'anim_duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'opacity' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'name' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'group' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'visible' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'sub_bullet_char' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:200
+     Parameter 'nested_indent' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'code' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'pos' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'anchor' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'width' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'height' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'font_size' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'bg_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'text_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'border_radius' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'shadow' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'line_numbers' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'z_order' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'entry_anim' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'anim_delay' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'anim_duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'opacity' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'name' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'group' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'visible' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'title' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:227
+     Parameter 'title_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:252
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:252
+     Parameter 'value' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:252
+     Parameter 'pos' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:252
+     Parameter 'anchor' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:252
+     Parameter 'size' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:252
+     Parameter 'bg_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:252
+     Parameter 'fill_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:252
+     Parameter 'border_radius' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:252
+     Parameter 'label' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:252
+     Parameter 'label_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:252
+     Parameter 'animated' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:252
+     Parameter 'z_order' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:252
+     Parameter 'entry_anim' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:252
+     Parameter 'anim_delay' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:252
+     Parameter 'anim_duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:252
+     Parameter 'opacity' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:252
+     Parameter 'name' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:252
+     Parameter 'group' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:252
+     Parameter 'visible' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:272
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:272
+     Parameter 'pos' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:272
+     Parameter 'length' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:272
+     Parameter 'thickness' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:272
+     Parameter 'color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:272
+     Parameter 'orientation' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:272
+     Parameter 'anchor' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:272
+     Parameter 'z_order' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:272
+     Parameter 'entry_anim' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:272
+     Parameter 'anim_delay' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:272
+     Parameter 'anim_duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:272
+     Parameter 'opacity' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:272
+     Parameter 'name' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:272
+     Parameter 'group' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:272
+     Parameter 'visible' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:272
+     Parameter 'gradient_fade' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:289
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:289
+     Parameter 'transition' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:289
+     Parameter 'transition_duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:289
+     Parameter 'bg_color' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:289
+     Parameter 'bg_gradient' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:289
+     Parameter 'bg_image' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:289
+     Parameter 'accent_bar' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:289
+     Parameter 'accent_bar_pos' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:289
+     Parameter 'accent_bar_thickness' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:289
+     Parameter 'slide_number' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:289
+     Parameter 'footer_text' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:289
+     Parameter 'on_enter' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:289
+     Parameter 'on_exit' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:289
+     Parameter 'duration' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:289
+     Parameter 'auto_advance' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_elements.py:289
+     Parameter 'name' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_enums.py:52
+     Parameter 'val' in '_parse_transition' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_enums.py:62
+     Parameter 'val' in '_parse_entry' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_font.py:73
+     Function '_wrap_text' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_font.py:73
+     Parameter 'text' in '_wrap_text' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_font.py:73
+     Parameter 'font' in '_wrap_text' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_font.py:73
+     Parameter 'max_width' in '_wrap_text' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_font.py:104
+     Function '_render_text_surface' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_font.py:104
+     Parameter 'text' in '_render_text_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_font.py:104
+     Parameter 'font' in '_render_text_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_font.py:104
+     Parameter 'color' in '_render_text_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_font.py:104
+     Parameter 'max_width' in '_render_text_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_font.py:104
+     Parameter 'line_spacing' in '_render_text_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_font.py:104
+     Parameter 'align' in '_render_text_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_font.py:104
+     Parameter 'underline' in '_render_text_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_font.py:104
+     Parameter 'max_lines' in '_render_text_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_font.py:19
+     Function '_init_fonts' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_font.py:44
+     Function 'get' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_font.py:44
+     Parameter 'name' in 'get' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_font.py:44
+     Parameter 'size' in 'get' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_font.py:44
+     Parameter 'bold' in 'get' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_font.py:44
+     Parameter 'italic' in 'get' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/_font.py:44
+     Parameter 'monospace' in 'get' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:25
+     Function '__init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:25
+     Parameter 'width' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:25
+     Parameter 'height' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:25
+     Parameter 'theme' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:25
+     Parameter 'fps' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:25
+     Parameter 'title' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:25
+     Parameter 'show_progress_bar' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:25
+     Parameter 'show_slide_count' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:25
+     Parameter 'loop' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:25
+     Parameter 'bg_surface' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:25
+     Parameter 'auto_init_pygame' in '__init__' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:96
+     Function 'set_size' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:96
+     Parameter 'width' in 'set_size' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:96
+     Parameter 'height' in 'set_size' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:110
+     Function 'initialize' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:110
+     Parameter 'headless' in 'initialize' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:110
+     Parameter 'size' in 'initialize' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:110
+     Parameter 'surface' in 'initialize' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:142
+     Function 'handle_action' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:142
+     Parameter 'action' in 'handle_action' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:158
+     Function 'handle_event' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:158
+     Parameter 'event' in 'handle_event' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:197
+     Function 'render' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:197
+     Parameter 'target_surface' in 'render' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:209
+     Function 'run' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:223
+     Function 'render_slide_to_surface' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:223
+     Parameter 'index' in 'render_slide_to_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:223
+     Parameter 'width' in 'render_slide_to_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:223
+     Parameter 'height' in 'render_slide_to_surface' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:241
+     Function 'export_slide_image' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:241
+     Parameter 'index' in 'export_slide_image' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:241
+     Parameter 'path' in 'export_slide_image' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:241
+     Parameter 'width' in 'export_slide_image' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:241
+     Parameter 'height' in 'export_slide_image' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:248
+     Function '_start_transition' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:248
+     Parameter 'new_index' in '_start_transition' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:265
+     Function '_reset_slide_anims' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:277
+     Function '_update' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:277
+     Parameter 'dt' in '_update' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:307
+     Function '_render_to_target' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:307
+     Parameter 'target' in '_render_to_target' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:330
+     Function '_render_transition' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:330
+     Parameter 'slide' in '_render_transition' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:330
+     Parameter 'target' in '_render_transition' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:359
+     Function '_render_slide' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:359
+     Parameter 'slide' in '_render_slide' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:359
+     Parameter 'surface' in '_render_slide' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:359
+     Parameter 'w' in '_render_slide' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:359
+     Parameter 'h' in '_render_slide' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:359
+     Parameter 'force_full' in '_render_slide' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:402
+     Function '_render_background' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:402
+     Parameter 'slide' in '_render_background' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:402
+     Parameter 'surface' in '_render_background' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:402
+     Parameter 'w' in '_render_background' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:402
+     Parameter 'h' in '_render_background' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:466
+     Function '_get_font_for_style' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:466
+     Parameter 'style_name' in '_get_font_for_style' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:466
+     Parameter 'h' in '_get_font_for_style' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:466
+     Parameter 'size_override' in '_get_font_for_style' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:466
+     Parameter 'bold_override' in '_get_font_for_style' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:466
+     Parameter 'italic' in '_get_font_for_style' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:490
+     Function '_color_for_style' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:490
+     Parameter 'style_name' in '_color_for_style' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:500
+     Function '_render_textbox' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:500
+     Parameter 'surface' in '_render_textbox' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:500
+     Parameter 'w' in '_render_textbox' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:500
+     Parameter 'h' in '_render_textbox' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:500
+     Parameter 'progress' in '_render_textbox' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:551
+     Function '_render_imagebox' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:551
+     Parameter 'surface' in '_render_imagebox' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:551
+     Parameter 'w' in '_render_imagebox' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:551
+     Parameter 'h' in '_render_imagebox' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:551
+     Parameter 'progress' in '_render_imagebox' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:617
+     Function '_render_shape' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:617
+     Parameter 'surface' in '_render_shape' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:617
+     Parameter 'w' in '_render_shape' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:617
+     Parameter 'h' in '_render_shape' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:617
+     Parameter 'progress' in '_render_shape' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:683
+     Function '_render_dynamic' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:683
+     Parameter 'surface' in '_render_dynamic' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:683
+     Parameter 'w' in '_render_dynamic' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:683
+     Parameter 'h' in '_render_dynamic' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:683
+     Parameter 'progress' in '_render_dynamic' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:683
+     Parameter 'slide' in '_render_dynamic' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:698
+     Function '_render_bulletlist' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:698
+     Parameter 'surface' in '_render_bulletlist' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:698
+     Parameter 'w' in '_render_bulletlist' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:698
+     Parameter 'h' in '_render_bulletlist' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:698
+     Parameter 'progress' in '_render_bulletlist' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:763
+     Function '_render_codeblock' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:763
+     Parameter 'surface' in '_render_codeblock' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:763
+     Parameter 'w' in '_render_codeblock' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:763
+     Parameter 'h' in '_render_codeblock' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:763
+     Parameter 'progress' in '_render_codeblock' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:820
+     Function '_render_progressbar' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:820
+     Parameter 'surface' in '_render_progressbar' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:820
+     Parameter 'w' in '_render_progressbar' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:820
+     Parameter 'h' in '_render_progressbar' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:820
+     Parameter 'progress' in '_render_progressbar' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:848
+     Function '_render_divider' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:848
+     Parameter 'surface' in '_render_divider' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:848
+     Parameter 'w' in '_render_divider' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:848
+     Parameter 'h' in '_render_divider' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:848
+     Parameter 'progress' in '_render_divider' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/config_unified.py:69
+     Function '__post_init__' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/diagnostics/healing_bridge.py:308
+     Parameter 'root_frame' in '_generate_diagnostic_explanation' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/diagnostics/healing_bridge.py:308
+     Parameter 'contexts' in '_generate_diagnostic_explanation' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/diagnostics/healing_bridge.py:353
+     Parameter 'root_frame' in '_build_fix_prompt' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/diagnostics/healing_bridge.py:353
+     Parameter 'contexts' in '_build_fix_prompt' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/lsp/server.py:144
+     Function '_publish_diagnostics' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/lsp/server.py:58
+     Function 'on_document_open' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/lsp/server.py:65
+     Function 'on_document_change' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/lsp/server.py:74
+     Function 'on_document_close' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/lsp/server.py:81
+     Function 'on_config_change' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/lsp/server.py:81
+     Parameter 'params' in 'on_config_change' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/self_audit/consensus_judge.py:361
+     Parameter '**kwargs' in 'verify_divergence' missing type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/self_audit/orchestrator.py:598
+     Function '_pause_guardrails_context' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/tools/ollama_slide_reviewer.py:56
+     Function '_extract_json_blob' missing return type annotation
+  🟡 [type-hints] /Users/rubensanchez/Desktop/research_engine/tools/slide_quality_pipeline.py:215
+     Function '_write_markdown' missing return type annotation
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/ai_backend/providers/router.py:1
+     20 imports (max: 15) — High coupling, consider splitting
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/ai_tutor/providers/router.py:1
+     20 imports (max: 15) — High coupling, consider splitting
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/api/bridge.py:251
+     Function '_normalize_learning_library' has complexity 29 (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/api/bridge.py:471
+     Function 'render_learning_slide' has complexity 22 (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/api/bridge.py:30
+     Class 'CalculusAPI' has 29 methods (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/api/bridge.py:1
+     19 imports (max: 15) — High coupling, consider splitting
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/calculus_animator/ai_tutor/providers/router.py:1
+     20 imports (max: 15) — High coupling, consider splitting
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/bridge.py:251
+     Function '_normalize_learning_library' has complexity 29 (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/bridge.py:471
+     Function 'render_learning_slide' has complexity 22 (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/bridge.py:30
+     Class 'CalculusAPI' has 29 methods (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/calculus_animator/api/bridge.py:1
+     19 imports (max: 15) — High coupling, consider splitting
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/animation_engine.py:92
+     Function 'generate_graph_payload' has complexity 40 (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/extractor.py:9
+     Function 'extract' has complexity 26 (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/slide_highlighting.py:142
+     Function 'build_informative_slide_highlights' has complexity 45 (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/calculus_animator/core/solver.py:148
+     Function '_identify_diff_rule' has complexity 21 (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:617
+     Function '_render_shape' has complexity 29 (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/calculus_animator/slide_renderer/engine.py:22
+     Class 'SlideEngine' has 37 methods (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/calculus_animator/tools/slide_quality_pipeline.py:81
+     Function '_evaluate' has complexity 32 (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/animation_engine.py:92
+     Function 'generate_graph_payload' has complexity 40 (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/extractor.py:9
+     Function 'extract' has complexity 26 (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/slide_highlighting.py:142
+     Function 'build_informative_slide_highlights' has complexity 45 (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/math_engine/plugins/calculus/solver.py:148
+     Function '_identify_diff_rule' has complexity 21 (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:617
+     Function '_render_shape' has complexity 29 (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/slide_renderer/engine.py:22
+     Class 'SlideEngine' has 37 methods (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/cli.py:395
+     Function '_run_llm_fix' has complexity 27 (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/cli.py:585
+     Function '_run_self_audit' has complexity 31 (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/cli.py:847
+     Function '_run_baseline' has complexity 38 (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/cli.py:1101
+     Function '_run_debug' has complexity 47 (max: 20)
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/cli.py:1
+     42 imports (max: 15) — High coupling, consider splitting
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/diagnostics/repro_gen.py:1
+     17 imports (max: 15) — High coupling, consider splitting
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/diagnostics/test_diagnostics.py:1
+     17 imports (max: 15) — High coupling, consider splitting
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/self_audit/orchestrator.py:1
+     19 imports (max: 15) — High coupling, consider splitting
+  🟡 [complexity] /Users/rubensanchez/Desktop/research_engine/tools/slide_quality_pipeline.py:81
+     Function '_evaluate' has complexity 32 (max: 20)
+  🟡 [portability] third_party/helicops_py/helicops_py/diagnostics/test_diagnostics.py:2
+     3
+  🟡 [portability] third_party/helicops_py/helicops_py/diagnostics/test_diagnostics.py:2
+     5
+  🟡 [portability] third_party/helicops_py/helicops_py/diagnostics/test_diagnostics.py:2
+     7
+  🟡 [portability] third_party/helicops_py/helicops_py/diagnostics/test_diagnostics.py:3
+     3
+  🟡 [portability] third_party/helicops_py/helicops_py/diagnostics/test_diagnostics.py:3
+     4
+  🟡 [portability] third_party/helicops_py/tests/code/test_check_pip_installs.py:16
+     pip install at import time
+
+📁 TYPESCRIPT
+  🔵 [print-statements] unknown
+     ❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/js/app.js:101: console.error() found
+  🔵 [file-size] unknown
+     ❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/js/app.js: File exceeds maximum size (576 lines, max 500, +76)
+  🔵 [print-statements] unknown
+     ❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/ai_tutor/tutor-panel.js:614: console.error() found
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/ai_tutor/tutor-panel.js:650: console.warn() found
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/ai_tutor/tutor-panel.js:669: console.error() found
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/ai_tutor/tutor-panel.js:707: console.warn() found
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/ai_tutor/tutor-panel.js:763: console.log() found
+  🔵 [file-size] unknown
+     ❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/ai_tutor/tutor-panel.js: File exceeds maximum size (770 lines, max 500, +270)
+  🔵 [print-statements] unknown
+     ❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/ai_tutor/tutor-panel.js:614: console.error() found
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/ai_tutor/tutor-panel.js:650: console.warn() found
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/ai_tutor/tutor-panel.js:669: console.error() found
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/ai_tutor/tutor-panel.js:707: console.warn() found
+❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/ai_tutor/tutor-panel.js:763: console.log() found
+  🔵 [file-size] unknown
+     ❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/ai_tutor/tutor-panel.js: File exceeds maximum size (770 lines, max 500, +270)
+  🔵 [print-statements] unknown
+     ❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/js/app.js:101: console.error() found
+  🔵 [file-size] unknown
+     ❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/js/app.js: File exceeds maximum size (576 lines, max 500, +76)
+  🔵 [file-size] unknown
+     ❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/ui/js/modules/renderer.js: File exceeds maximum size (1372 lines, max 500, +872)
+  🔵 [file-size] unknown
+     ❌ GUARDRAIL VIOLATION: /Users/rubensanchez/Desktop/research_engine/calculus_animator/ui/js/modules/renderer.js: File exceeds maximum size (1372 lines, max 500, +872)
+
+📁 PYTHON
+  🔵 [todo] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/self_audit/consensus_judge.py:330
+     TODO/FIXME without ticket reference
+  🔵 [todo] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/self_audit/meta_guardrail.py:66
+     TODO/FIXME without ticket reference
+  🔵 [todo] /Users/rubensanchez/Desktop/research_engine/third_party/helicops_py/helicops_py/self_audit/orchestrator.py:68
+     TODO/FIXME without ticket reference
+  🔵 [dead-code] ai_backend/providers/router.py:31
+     unused variable 'vision' (100% confidence)
+  🔵 [dead-code] ai_backend/services/ingest.py:19
+     unused variable 'force_rebuild' (100% confidence)
+  🔵 [dead-code] ai_tutor/providers/router.py:31
+     unused variable 'vision' (100% confidence)
+  🔵 [dead-code] ai_tutor/services/ingest.py:19
+     unused variable 'force_rebuild' (100% confidence)
+  🔵 [dead-code] calculus_animator/ai_tutor/providers/router.py:31
+     unused variable 'vision' (100% confidence)
+  🔵 [dead-code] calculus_animator/ai_tutor/services/ingest.py:19
+     unused variable 'force_rebuild' (100% confidence)
+  🔵 [dead-code] calculus_animator/run.py:117
+     unused variable 'sig' (100% confidence)
+  🔵 [dead-code] calculus_animator/tests/test_bridge_contracts.py:35
+     unused variable 'explicit' (100% confidence)
+  🔵 [dead-code] calculus_animator/tests/test_bridge_contracts.py:66
+     unused variable 'explicit' (100% confidence)
+  🔵 [dead-code] calculus_animator/tests/test_bridge_contracts.py:80
+     unused variable 'explicit' (100% confidence)
+  🔵 [dead-code] calculus_animator/tests/test_bridge_contracts.py:155
+     unused variable 'explicit' (100% confidence)
+  🔵 [dead-code] calculus_animator/tests/test_bridge_contracts.py:294
+     unused variable 'deriv' (100% confidence)
+  🔵 [dead-code] calculus_animator/tests/test_e2e_ui_smoke.py:20
+     unused variable 'fmt' (100% confidence)
+  🔵 [dead-code] run.py:117
+     unused variable 'sig' (100% confidence)
+  🔵 [dead-code] tests/test_bridge_contracts.py:35
+     unused variable 'explicit' (100% confidence)
+  🔵 [dead-code] tests/test_bridge_contracts.py:66
+     unused variable 'explicit' (100% confidence)
+  🔵 [dead-code] tests/test_bridge_contracts.py:80
+     unused variable 'explicit' (100% confidence)
+  🔵 [dead-code] tests/test_bridge_contracts.py:155
+     unused variable 'explicit' (100% confidence)
+  🔵 [dead-code] tests/test_bridge_contracts.py:294
+     unused variable 'deriv' (100% confidence)
+  🔵 [dead-code] tests/test_e2e_ui_smoke.py:20
+     unused variable 'fmt' (100% confidence)
+  🔵 [dead-code] third_party/helicops_py/tests/operate/test_check_supply_chain.py:126
+     unused variable 'capsys' (100% confidence)
+  🔵 [dead-code] third_party/helicops_py/tests/operate/test_check_supply_chain.py:135
+     unused variable 'capsys' (100% confidence)
+
+Total: 1057 violation(s) across 2 language(s)

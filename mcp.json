@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "helicops": {
+      "command": "/Users/rubensanchez/Developer/HelicOps_Live/.venv/bin/helicops-mcp",
+      "args": [],
+      "transport": "stdio",
+      "env": {
+        "PYTHONPATH": "/Users/rubensanchez/Developer/HelicOps_Live/packages/py:/Users/rubensanchez/Developer/HelicOps_Live/packages/core",
+        "HELICOPS_PROJECT_ROOT": "/Users/rubensanchez/Desktop/research_engine"
+      }
+    }
+  }
+}

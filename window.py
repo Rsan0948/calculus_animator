@@ -31,7 +31,7 @@ def launch(api: CalculusAPI) -> None:
     webview.start(debug=False)
 
 
-def main():
+def main() -> None:
     launch(CalculusAPI())
 
 

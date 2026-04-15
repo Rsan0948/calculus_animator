@@ -1,0 +1,190 @@
+# PR Validation Workflow (Slim Version)
+#
+# A faster alternative to the full guardrails.yml for large codebases.
+# Checks ONLY the files changed in this PR instead of the entire codebase.
+# This cuts CI time from minutes to seconds on large projects.
+#
+# Trade-off: Won't catch issues introduced by interactions between changed
+# and unchanged files. Suitable for mature codebases; use full guardrails.yml
+# for new projects where the entire codebase may need cleanup.
+#
+# Use this alongside the full scheduled audit (scheduled.yml) for full coverage.
+
+name: PR Validation
+
+on:
+  pull_request:
+    branches: [main, master, develop]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  changed-files:
+    name: Detect Changed Files
+    runs-on: ubuntu-latest
+    outputs:
+      python_files: ${{ steps.changed.outputs.python_files }}
+      has_python: ${{ steps.changed.outputs.has_python }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Required to compare with base branch
+
+      - name: Get changed Python files
+        id: changed
+        run: |
+          # Get files changed in this PR vs the base branch
+          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD -- '*.py' | \
+            grep -v '__pycache__' | \
+            grep -v '.venv' | \
+            grep -v 'venv/' | \
+            tr '\n' ' ')
+
+          echo "Changed Python files: $CHANGED"
+          echo "python_files=$CHANGED" >> $GITHUB_OUTPUT
+
+          if [ -z "$CHANGED" ]; then
+            echo "has_python=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_python=true" >> $GITHUB_OUTPUT
+          fi
+
+  # ── Linting & Formatting ──────────────────────────────────────────────────────
+  lint:
+    name: Lint Changed Files
+    runs-on: ubuntu-latest
+    needs: changed-files
+    if: needs.changed-files.outputs.has_python == 'true'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install linting tools
+        run: pip install ruff mypy
+
+      - name: Ruff lint (changed files only)
+        run: |
+          ruff check ${{ needs.changed-files.outputs.python_files }}
+
+      - name: Ruff format check (changed files only)
+        run: |
+          ruff format --check ${{ needs.changed-files.outputs.python_files }}
+
+  # ── Guardrails (changed files only) ──────────────────────────────────────────
+  guardrails:
+    name: Guardrails (changed files)
+    runs-on: ubuntu-latest
+    needs: changed-files
+    if: needs.changed-files.outputs.has_python == 'true'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run guardrails on changed files
+        run: |
+          FILES="${{ needs.changed-files.outputs.python_files }}"
+
+          echo "Checking files: $FILES"
+          FAILED=0
+
+          # Run each file-based guardrail on changed files only
+          for script in \
+            guardrails/check_absolute_paths.py \
+            guardrails/check_silent_exceptions.py \
+            guardrails/check_file_size.py \
+            guardrails/check_pip_installs.py \
+            guardrails/check_pickle_usage.py \
+            guardrails/check_secrets.py \
+            guardrails/check_hardcoded_urls.py \
+            guardrails/check_print_statements.py \
+            guardrails/check_type_hints.py \
+            guardrails/check_global_state.py \
+            guardrails/check_complexity.py \
+            guardrails/check_dead_code.py \
+            guardrails/check_agent_credentials.py \
+            guardrails/check_unsafe_execution.py; do
+            if [ -f "$script" ]; then
+              python "$script" $FILES || FAILED=1
+            fi
+          done
+
+          exit $FAILED
+
+  # ── Tests (affected test files) ──────────────────────────────────────────────
+  test:
+    name: Tests (affected)
+    runs-on: ubuntu-latest
+    needs: changed-files
+    if: needs.changed-files.outputs.has_python == 'true'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest pytest-cov
+          if [ -f pyproject.toml ]; then pip install -e ".[dev]"; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run tests
+        run: |
+          # Run the full test suite — selective test running risks missing
+          # regression tests for code that changed files interact with
+          pytest tests/ --tb=short -q
+
+  # ── PR Summary ────────────────────────────────────────────────────────────────
+  summary:
+    name: PR Summary
+    runs-on: ubuntu-latest
+    needs: [lint, guardrails, test]
+    if: always()
+
+    steps:
+      - name: Post summary
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const jobs = {
+              lint: '${{ needs.lint.result }}',
+              guardrails: '${{ needs.guardrails.result }}',
+              test: '${{ needs.test.result }}',
+            };
+            const emoji = (r) => r === 'success' ? '✅' : r === 'skipped' ? '⏭️' : '❌';
+            const body = [
+              '## PR Validation Results',
+              '',
+              `| Check | Result |`,
+              `|-------|--------|`,
+              `| Lint | ${emoji(jobs.lint)} ${jobs.lint} |`,
+              `| Guardrails | ${emoji(jobs.guardrails)} ${jobs.guardrails} |`,
+              `| Tests | ${emoji(jobs.test)} ${jobs.test} |`,
+              '',
+              '_Only changed files were checked. Full scan runs nightly via scheduled.yml._',
+            ].join('\n');
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body,
+            });

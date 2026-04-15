@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import sympy as sp
 
-from core.detector import CalculusType
-from core.solver import CalculusSolver
+from math_engine.plugins.calculus.detector import CalculusType
+from math_engine.plugins.calculus.solver import CalculusSolver
 
 
-def test_derivative_basic_power_rule():
+def test_derivative_basic_power_rule() -> None:
     solver = CalculusSolver()
     x = sp.Symbol("x")
     out = solver.solve(x**3, CalculusType.DERIVATIVE, {"variable": "x"})
@@ -16,7 +16,7 @@ def test_derivative_basic_power_rule():
     assert out["steps"][0]["rule"] in {"power_rule", "basic", "chain_rule"}
 
 
-def test_derivative_higher_order():
+def test_derivative_higher_order() -> None:
     solver = CalculusSolver()
     x = sp.Symbol("x")
     out = solver.solve(x**3, CalculusType.DERIVATIVE, {"variable": "x", "order": 2})
@@ -25,7 +25,7 @@ def test_derivative_higher_order():
     assert len(out["steps"]) >= 2
 
 
-def test_indefinite_integral_appends_constant():
+def test_indefinite_integral_appends_constant() -> None:
     solver = CalculusSolver()
     x = sp.Symbol("x")
     out = solver.solve(x, CalculusType.INTEGRAL_INDEFINITE, {"variable": "x"})
@@ -35,7 +35,7 @@ def test_indefinite_integral_appends_constant():
     assert out["steps"][-1]["rule"] == "integration_result"
 
 
-def test_definite_integral_uses_fundamental_theorem_step():
+def test_definite_integral_uses_fundamental_theorem_step() -> None:
     solver = CalculusSolver()
     x = sp.Symbol("x")
     out = solver.solve(x, CalculusType.INTEGRAL_DEFINITE, {"variable": "x", "lower": 0, "upper": 1})
@@ -44,7 +44,7 @@ def test_definite_integral_uses_fundamental_theorem_step():
     assert any(step["rule"] == "fundamental_theorem" for step in out["steps"])
 
 
-def test_limit_indeterminate_path_has_explanatory_steps():
+def test_limit_indeterminate_path_has_explanatory_steps() -> None:
     solver = CalculusSolver()
     x = sp.Symbol("x")
     expr = sp.sin(x) / x
@@ -56,7 +56,7 @@ def test_limit_indeterminate_path_has_explanatory_steps():
     assert "lhopital_or_algebraic" in rules
 
 
-def test_simplify_path_returns_shorter_expression():
+def test_simplify_path_returns_shorter_expression() -> None:
     solver = CalculusSolver()
     x = sp.Symbol("x")
     out = solver.solve((x**2 - 1) / (x - 1), CalculusType.SIMPLIFY, {})
@@ -65,9 +65,8 @@ def test_simplify_path_returns_shorter_expression():
     assert out["steps"][0]["rule"] == "simplification"
 
 
-def test_to_sympy_num_handles_infinity_tokens():
+def test_to_sympy_num_handles_infinity_tokens() -> None:
     solver = CalculusSolver()
     assert solver._to_sympy_num(r"\infty") == sp.oo
     assert solver._to_sympy_num(r"-\infty") == -sp.oo
     assert solver._to_sympy_num("2.5") == sp.S("2.5")
-

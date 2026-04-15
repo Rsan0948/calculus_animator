@@ -12,13 +12,13 @@ from pathlib import Path
 from typing import Optional
 
 from config import DATA_DIR, get_logger
-from core.animation_engine import AnimationEngine
-from core.detector import TypeDetector
-from core.extractor import ExpressionExtractor
-from core.parser import ExpressionParser
-from core.slide_highlighting import build_informative_slide_highlights
-from core.solver import CalculusSolver
-from core.step_generator import StepGenerator
+from math_engine.plugins.calculus.animation_engine import AnimationEngine
+from math_engine.plugins.calculus.detector import TypeDetector
+from math_engine.plugins.calculus.extractor import ExpressionExtractor
+from math_engine.plugins.calculus.parser import ExpressionParser
+from math_engine.plugins.calculus.slide_highlighting import build_informative_slide_highlights
+from math_engine.plugins.calculus.solver import CalculusSolver
+from math_engine.plugins.calculus.step_generator import StepGenerator
 
 logger = get_logger(__name__)
 
@@ -28,7 +28,7 @@ def _json(obj):
 
 
 class CalculusAPI:
-    def log_to_python(self, msg, level="info"):
+    def log_to_python(self, msg, level: str="info") -> None:
         """Forward a JavaScript log message to the Python logger.
 
         Called from the WebView JS context so browser-side events appear in the
@@ -69,7 +69,7 @@ class CalculusAPI:
         except Exception as e:
             logger.error(f"Failed to auto-generate capacity report: {e}")
 
-    def _start_render_worker(self):
+    def _start_render_worker(self) -> None:
         worker_script = Path(__file__).parent / "slide_render_worker.py"
         env = os.environ.copy()
         env.update({"SDL_VIDEODRIVER": "dummy", "PYGAME_HIDE_SUPPORT_PROMPT": "1"})
@@ -127,7 +127,7 @@ class CalculusAPI:
             logger.error(f"Error communicating with render worker: {e}")
             return {"success": False, "error": str(e)}
 
-    def __del__(self):
+    def __del__(self) -> None:
         worker = getattr(self, "_render_worker", None)
         if worker:
             try:
@@ -147,7 +147,7 @@ class CalculusAPI:
                 return default
         return default
 
-    def _load_curriculum_data(self):
+    def _load_curriculum_data(self) -> dict:
         default = self._load_json("curriculum.json", {"pathways": []})
         logger.info(f"Initial curriculum load: {len(default.get('pathways', []))} pathways found.")
         content_file = DATA_DIR.parent / "content_jsons.txt"
@@ -171,7 +171,7 @@ class CalculusAPI:
             return default
 
     def _extract_pathway_from_content_file(self, text):
-        # Fast path: complete JSON.
+        # Fast path -> None -> None: complete JSON.
         try:
             data = json.loads(text)
             if isinstance(data, dict) and isinstance(data.get("pathway"), dict):
@@ -225,7 +225,7 @@ class CalculusAPI:
             traceback.print_exc()
             return None
 
-    def _load_learning_library(self):
+    def _load_learning_library(self) -> dict:
         root = Path(__file__).parent.parent
         canonical = root / "data" / "calculus_library.json"
         legacy = root / "data" / "learning.json"
@@ -399,7 +399,7 @@ class CalculusAPI:
         """
         return _json(self._glossary)
 
-    def _auto_generate_capacity_report(self):
+    def _auto_generate_capacity_report(self) -> None:
         """Generate a launch-time readable report of visible/overflow slide text fit."""
         try:
             root = Path(__file__).parent.parent
@@ -459,7 +459,7 @@ class CalculusAPI:
     def _capacity_metrics_only(
         self, text: str, with_image: bool = False, page_index: int = 0,
         width: int = 1300, height: int = 812
-    ):
+    ) -> dict:
         return {"success": True, "metrics": {}}
 
     def capacity_test_slide(

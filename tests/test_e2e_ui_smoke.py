@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import contextlib
-import http.server
 import socketserver
 import threading
 from pathlib import Path
@@ -14,10 +13,10 @@ playwright = pytest.importorskip("playwright.sync_api")
 @contextlib.contextmanager
 def _serve_dir(directory: Path):
     class Handler(http.server.SimpleHTTPRequestHandler):
-        def __init__(self, *args, **kwargs):
+        def __init__(self, *args, **kwargs) -> None:
             super().__init__(*args, directory=str(directory), **kwargs)
 
-        def log_message(self, fmt, *args):  # pragma: no cover - silence test output
+        def log_message(self, fmt, *args):  # pragma -> None -> None: no cover - silence test output
             return
 
     with socketserver.TCPServer(("127.0.0.1", 0), Handler) as httpd:
@@ -32,7 +31,7 @@ def _serve_dir(directory: Path):
 
 
 @pytest.mark.e2e
-def test_ui_static_shell_loads_and_core_nav_visible():
+def test_ui_static_shell_loads_and_core_nav_visible() -> None:
     root = Path(__file__).resolve().parent.parent
     ui_root = root / "ui"
     with _serve_dir(ui_root) as base_url:
@@ -51,4 +50,3 @@ def test_ui_static_shell_loads_and_core_nav_visible():
             page.click("button[data-screen='learning']")
             assert page.locator("#learningScreen").is_visible()
             browser.close()
-

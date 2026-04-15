@@ -2,9 +2,12 @@
 
 import copy
 import io
+import logging
 import math
 import os
 from collections.abc import Callable
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 import pygame
 
@@ -17,14 +20,17 @@ from ._enums import EntryAnim, Transition
 from ._font import _font_cache, _render_text_surface
 from ._themes import THEMES
 
+logger = logging.getLogger(__name__)
+
 
 class SlideEngine:
     """Main engine: manages slides, themes, rendering, navigation, and animations."""
 
-    def __init__(self, width=1280, height=720, theme="modern_dark",
-                 fps=60, title="SlideEngine Presentation",
-                 show_progress_bar=True, show_slide_count=True,
-                 loop=False, bg_surface=None, auto_init_pygame=True):
+    def __init__(self, width: int=1280, height: int=720, theme: str="modern_dark",
+                 fps: int=60, title: str="SlideEngine Presentation",
+                 show_progress_bar: bool=True, show_slide_count: bool=True,
+                 loop: bool=False, bg_surface: Optional[pygame.Surface]=None, 
+                 auto_init_pygame: bool=True) -> None:
         self.width = width
         self.height = height
         self.theme_name = theme
@@ -40,33 +46,36 @@ class SlideEngine:
         self.slides: list[Slide] = []
         self.current_index = 0
         self._running = False
-        self._clock = None
-        self._screen = None
-        self._slide_surface = None
-        self._target_surface = None
-        self._prev_surface = None
+        self._clock: Optional[pygame.time.Clock] = None
+        self._screen: Optional[pygame.Surface] = None
+        self._slide_surface: Optional[pygame.Surface] = None
+        self._target_surface: Optional[pygame.Surface] = None
+        self._prev_surface: Optional[pygame.Surface] = None
         self._transition_progress = 1.0
         self._transitioning = False
         self._transition_dir = 1
-        self._bg_cache = None
+        self._bg_cache: Optional[Tuple[Any, pygame.Surface]] = None
         self._headless = False
         self._owns_pygame = False
 
         # external hooks
-        self.on_slide_change: Callable | None = None
-        self.on_key: Callable | None = None
+        self.on_slide_change: Optional[Callable[[int], None]] = None
+        self.on_key: Optional[Callable[[pygame.event.Event], bool]] = None
 
     # -- public API --
 
-    def add_slide(self, slide: Slide):
+    def add_slide(self, slide: Slide) -> "SlideEngine":
+        """Add a slide to the presentation."""
         self.slides.append(slide)
         return self
 
-    def register_font(self, name, path):
+    def register_font(self, name: str, path: Union[str, Path]) -> "SlideEngine":
+        """Register a custom font file."""
         _font_cache.register_font(name, path)
         return self
 
-    def set_theme(self, name_or_dict):
+    def set_theme(self, name_or_dict: Union[str, Dict[str, Any]]) -> None:
+        """Set the current theme by name or provide a custom theme dict."""
         if isinstance(name_or_dict, str):
             self.theme = copy.deepcopy(THEMES.get(name_or_dict, THEMES["modern_dark"]))
             self.theme_name = name_or_dict
@@ -75,38 +84,45 @@ class SlideEngine:
             self.theme_name = "custom"
         self._bg_cache = None
 
-    def goto_slide(self, index):
+    def goto_slide(self, index: int) -> None:
+        """Navigate to a specific slide index."""
         index = max(0, min(index, len(self.slides) - 1))
         if index != self.current_index:
             self._start_transition(index)
 
-    def next_slide(self):
+    def next_slide(self) -> None:
+        """Advance to the next slide."""
         if self.current_index < len(self.slides) - 1:
             self._start_transition(self.current_index + 1)
         elif self.loop and self.slides:
             self._start_transition(0)
 
-    def prev_slide(self):
+    def prev_slide(self) -> None:
+        """Go back to the previous slide."""
         if self.current_index > 0:
             self._start_transition(self.current_index - 1)
         elif self.loop and self.slides:
             self._start_transition(len(self.slides) - 1)
 
-    def set_size(self, width, height):
+    def set_size(self, width: int, height: int) -> None:
+        """Set the dimensions of the presentation."""
         self.width, self.height = int(width), int(height)
         if not self._headless and self._screen is not None:
             self._screen = pygame.display.set_mode((self.width, self.height), pygame.RESIZABLE)
         self._slide_surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
         self._bg_cache = None
 
-    def set_target_surface(self, surface):
+    def set_target_surface(self, surface: Optional[pygame.Surface]) -> None:
+        """Set an external surface to render into."""
         self._target_surface = surface
         if surface is not None:
             self.width, self.height = surface.get_size()
             self._slide_surface = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
             self._bg_cache = None
 
-    def initialize(self, headless=False, size=None, surface=None):
+    def initialize(self, headless: bool=False, size: Optional[Tuple[int, int]]=None, 
+                   surface: Optional[pygame.Surface]=None) -> "SlideEngine":
+        """Initialize pygame, fonts, and display."""
         if self.auto_init_pygame and not pygame.get_init():
             pygame.init()
             self._owns_pygame = True
@@ -132,13 +148,15 @@ class SlideEngine:
         self._reset_slide_anims()
         return self
 
-    def shutdown(self):
+    def shutdown(self) -> None:
+        """Shut down the engine and pygame if owned."""
         self._running = False
         if self._owns_pygame:
             pygame.quit()
             self._owns_pygame = False
 
-    def handle_action(self, action):
+    def handle_action(self, action: Optional[str]) -> bool:
+        """Handle abstract navigation actions (e.g. 'next', 'prev')."""
         action = str(action or "").lower()
         if action in ("next", "next_slide", "forward"):
             self.next_slide()
@@ -154,7 +172,8 @@ class SlideEngine:
             return True
         return False
 
-    def handle_event(self, event):
+    def handle_event(self, event: pygame.event.Event) -> bool:
+        """Handle standard pygame events."""
         if event.type == pygame.QUIT:
             self._running = False
             return True
@@ -190,10 +209,12 @@ class SlideEngine:
             return True
         return False
 
-    def update(self, dt):
+    def update(self, dt: float) -> None:
+        """Update animations and logic."""
         self._update(dt)
 
-    def render(self, target_surface=None):
+    def render(self, target_surface: Optional[pygame.Surface]=None) -> pygame.Surface:
+        """Render the current state to the target surface."""
         if target_surface is not None:
             self.set_target_surface(target_surface)
         if self._slide_surface is None:
@@ -205,13 +226,17 @@ class SlideEngine:
         self._render_to_target(target)
         return target
 
-    def run(self):
+    def run(self) -> None:
         """Start the presentation loop. Blocks until window is closed."""
         self.initialize(headless=False)
         self._running = True
 
         while self._running:
-            dt = self._clock.tick(self.fps) / 1000.0
+            if self._clock:
+                dt = self._clock.tick(self.fps) / 1000.0
+            else:
+                dt = 1.0 / self.fps
+                
             for event in pygame.event.get():
                 self.handle_event(event)
             self.update(dt)
@@ -219,7 +244,8 @@ class SlideEngine:
             pygame.display.flip()
         self.shutdown()
 
-    def render_slide_to_surface(self, index=None, width=None, height=None):
+    def render_slide_to_surface(self, index: Optional[int]=None, width: Optional[int]=None, 
+                                height: Optional[int]=None) -> pygame.Surface:
         """Render a single slide to a pygame.Surface (for embedding in other apps)."""
         if self.auto_init_pygame and not pygame.get_init():
             pygame.init()
@@ -237,23 +263,28 @@ class SlideEngine:
         self._render_slide(self.slides[idx], surf, w, h, force_full=True)
         return surf
 
-    def export_slide_image(self, index, path, width=None, height=None):
+    def export_slide_image(self, index: Optional[int], path: Union[str, Path], 
+                           width: Optional[int]=None, height: Optional[int]=None) -> None:
         """Export a slide as a PNG image."""
         surf = self.render_slide_to_surface(index, width, height)
-        pygame.image.save(surf, path)
+        pygame.image.save(surf, str(path))
 
     # -- internal --
 
-    def _start_transition(self, new_index):
+    def _start_transition(self, new_index: int) -> None:
         old_slide = self.slides[self.current_index] if self.slides else None
         if old_slide and old_slide.on_exit:
             old_slide.on_exit(self.current_index)
-        self._prev_surface = self._slide_surface.copy()
+        
+        if self._slide_surface:
+            self._prev_surface = self._slide_surface.copy()
+            
         self._transition_dir = 1 if new_index > self.current_index else -1
         self.current_index = new_index
         self._transition_progress = 0.0
         self._transitioning = True
         self._reset_slide_anims()
+        
         new_slide = self.slides[self.current_index]
         new_slide._elapsed = 0.0
         if new_slide.on_enter:
@@ -261,7 +292,7 @@ class SlideEngine:
         if self.on_slide_change:
             self.on_slide_change(self.current_index)
 
-    def _reset_slide_anims(self):
+    def _reset_slide_anims(self) -> None:
         if not self.slides:
             return
         slide = self.slides[self.current_index]
@@ -273,7 +304,7 @@ class SlideEngine:
                 e._anim_progress = 1.0
                 e._started = True
 
-    def _update(self, dt):
+    def _update(self, dt: float) -> None:
         if not self.slides:
             return
         slide = self.slides[self.current_index]
@@ -303,19 +334,20 @@ class SlideEngine:
         if slide.auto_advance and slide.duration and slide._elapsed >= slide.duration:
             self.next_slide()
 
-    def _render_to_target(self, target):
+    def _render_to_target(self, target: pygame.Surface) -> None:
         if not self.slides:
             target.fill((0, 0, 0))
             return
 
         slide = self.slides[self.current_index]
-        self._slide_surface.fill((0, 0, 0, 0))
-        self._render_slide(slide, self._slide_surface, self.width, self.height)
+        if self._slide_surface:
+            self._slide_surface.fill((0, 0, 0, 0))
+            self._render_slide(slide, self._slide_surface, self.width, self.height)
 
-        if self._transitioning and self._prev_surface:
-            self._render_transition(slide, target)
-        else:
-            target.blit(self._slide_surface, (0, 0))
+            if self._transitioning and self._prev_surface:
+                self._render_transition(slide, target)
+            else:
+                target.blit(self._slide_surface, (0, 0))
 
         # progress bar at bottom
         if self.show_progress_bar and len(self.slides) > 1:
@@ -326,36 +358,38 @@ class SlideEngine:
             pygame.draw.rect(target, (*accent[:3], 120), (0, self.height - bar_h, self.width, bar_h))
             pygame.draw.rect(target, accent, (0, self.height - bar_h, bar_w, bar_h))
 
-    def _render_transition(self, slide, target):
+    def _render_transition(self, slide: Slide, target: pygame.Surface) -> None:
         t = self._ease_transition(self._transition_progress)
         tr = slide.transition
-        if tr == Transition.FADE:
-            target.blit(self._prev_surface, (0, 0))
-            self._slide_surface.set_alpha(int(255 * t))
-            target.blit(self._slide_surface, (0, 0))
-            self._slide_surface.set_alpha(255)
-        elif tr == Transition.SLIDE_LEFT:
-            d = self._transition_dir
-            offset = int((1 - t) * self.width)
-            target.blit(self._prev_surface, (-offset * d, 0))
-            target.blit(self._slide_surface, (self.width * (1 - t) * (1 if d > 0 else -1), 0))
-        elif tr == Transition.SLIDE_RIGHT:
-            d = -self._transition_dir
-            offset = int((1 - t) * self.width)
-            target.blit(self._prev_surface, (-offset * d, 0))
-            target.blit(self._slide_surface, (self.width * (1 - t) * (1 if d > 0 else -1), 0))
-        elif tr in (Transition.SLIDE_UP, Transition.SLIDE_DOWN):
-            d = 1 if tr == Transition.SLIDE_UP else -1
-            offset = int((1 - t) * self.height)
-            target.blit(self._prev_surface, (0, -offset * d))
-            target.blit(self._slide_surface, (0, self.height * (1 - t) * d))
-        else:
-            target.blit(self._slide_surface, (0, 0))
+        if self._prev_surface and self._slide_surface:
+            if tr == Transition.FADE:
+                target.blit(self._prev_surface, (0, 0))
+                self._slide_surface.set_alpha(int(255 * t))
+                target.blit(self._slide_surface, (0, 0))
+                self._slide_surface.set_alpha(255)
+            elif tr == Transition.SLIDE_LEFT:
+                d = self._transition_dir
+                offset = int((1 - t) * self.width)
+                target.blit(self._prev_surface, (-offset * d, 0))
+                target.blit(self._slide_surface, (int(self.width * (1 - t) * (1 if d > 0 else -1)), 0))
+            elif tr == Transition.SLIDE_RIGHT:
+                d = -self._transition_dir
+                offset = int((1 - t) * self.width)
+                target.blit(self._prev_surface, (-offset * d, 0))
+                target.blit(self._slide_surface, (int(self.width * (1 - t) * (1 if d > 0 else -1)), 0))
+            elif tr in (Transition.SLIDE_UP, Transition.SLIDE_DOWN):
+                d = 1 if tr == Transition.SLIDE_UP else -1
+                offset = int((1 - t) * self.height)
+                target.blit(self._prev_surface, (0, -offset * d))
+                target.blit(self._slide_surface, (0, int(self.height * (1 - t) * d)))
+            else:
+                target.blit(self._slide_surface, (0, 0))
 
-    def _ease_transition(self, t):
+    def _ease_transition(self, t: float) -> float:
         return t * t * (3 - 2 * t)  # smoothstep
 
-    def _render_slide(self, slide, surface, w, h, force_full=False):
+    def _render_slide(self, slide: Slide, surface: pygame.Surface, w: int, h: int, 
+                      force_full: bool=False) -> None:
         # background
         self._render_background(slide, surface, w, h)
 
@@ -398,7 +432,7 @@ class SlideEngine:
             ts = font.render(slide.footer_text, True, nc)
             surface.blit(ts, (16, h - ts.get_height() - 12))
 
-    def _render_background(self, slide, surface, w, h):
+    def _render_background(self, slide: Slide, surface: pygame.Surface, w: int, h: int) -> None:
         slide_key = slide.name or id(slide)
         bg_key = (slide_key, w, h, str(slide.bg_gradient), str(slide.bg_color), str(slide.bg_image), self.theme_name)
         if isinstance(self._bg_cache, tuple) and self._bg_cache[0] == bg_key:
@@ -427,9 +461,8 @@ class SlideEngine:
         elif slide.bg_color:
             bg_surf.fill(slide.bg_color)
         else:
-            bg_surf.fill(_parse_color(self.theme.get("bg_gradient", ["#1a1a2e"])[0]
-                         if isinstance(self.theme.get("bg_gradient"), (list, tuple))
-                         else self.theme.get("bg_gradient", "#1a1a2e")))
+            bg_grad = self.theme.get("bg_gradient", ["#1a1a2e"])
+            bg_surf.fill(_parse_color(bg_grad[0] if isinstance(bg_grad, (list, tuple)) else bg_grad))
 
         if slide.bg_image:
             try:
@@ -439,12 +472,14 @@ class SlideEngine:
                     img = pygame.image.load(slide.bg_image).convert_alpha()
                 img = pygame.transform.smoothscale(img, (w, h))
                 bg_surf.blit(img, (0, 0))
-            except Exception:
-                pass
+            except Exception as e:
+                logger.debug("Failed to load background image: %s", e)
+                
         self._bg_cache = (bg_key, bg_surf.copy())
         surface.blit(bg_surf, (0, 0))
 
-    def _render_element(self, elem, surface, w, h, progress, slide):
+    def _render_element(self, elem: SlideElement, surface: pygame.Surface, w: int, h: int, 
+                        progress: float, slide: Slide) -> None:
         if isinstance(elem, TextBox):
             self._render_textbox(elem, surface, w, h, progress)
         elif isinstance(elem, ImageBox):
@@ -462,7 +497,8 @@ class SlideEngine:
         elif isinstance(elem, Divider):
             self._render_divider(elem, surface, w, h, progress)
 
-    def _get_font_for_style(self, style_name, h, size_override=None, bold_override=None, italic=False):
+    def _get_font_for_style(self, style_name: str, h: int, size_override: Optional[float]=None, 
+                            bold_override: Optional[bool]=None, italic: bool=False) -> pygame.font.Font:
         fstyles = self.theme.get("fonts", {})
         fdef = fstyles.get(style_name, fstyles.get("body", {"size_ratio": 0.028, "bold": False}))
         ratio = fdef.get("size_ratio", 0.028)
@@ -486,7 +522,7 @@ class SlideEngine:
             monospace=fdef.get("monospace", False),
         )
 
-    def _color_for_style(self, style_name):
+    def _color_for_style(self, style_name: str) -> Tuple[int, int, int, int]:
         mapping = {
             "title": "title_color", "subtitle": "subtitle_color",
             "heading": "title_color", "subheading": "title_color",
@@ -496,7 +532,8 @@ class SlideEngine:
         key = mapping.get(style_name, "body_color")
         return _parse_color(self.theme.get(key, "#ffffff"))
 
-    def _render_textbox(self, tb: TextBox, surface, w, h, progress):
+    def _render_textbox(self, tb: TextBox, surface: pygame.Surface, w: int, h: int, 
+                        progress: float) -> None:
         font = self._get_font_for_style(tb.style, h, tb.font_size, tb.bold, tb.italic)
         color = tb.color or self._color_for_style(tb.style)
         max_w = int(tb.width * w) if tb.width else 0
@@ -547,7 +584,8 @@ class SlideEngine:
         final_surf, fx, fy = tb._apply_anim(elem_surf, dx + padx, dy + pady, w, h, progress)
         surface.blit(final_surf, (int(fx), int(fy)))
 
-    def _render_imagebox(self, ib: ImageBox, surface, w, h, progress):
+    def _render_imagebox(self, ib: ImageBox, surface: pygame.Surface, w: int, h: int, 
+                         progress: float) -> None:
         # load/cache
         target_w = int(ib.size[0] * w) if ib.size else None
         target_h = int(ib.size[1] * h) if ib.size else None
@@ -591,29 +629,32 @@ class SlideEngine:
 
                 ib._cached_surface = img
                 ib._cached_key = cache_key
-            except Exception:
+            except Exception as e:
+                logger.debug("Failed to render image box: %s", e)
                 ib._cached_surface = pygame.Surface((50, 50), pygame.SRCALPHA)
                 ib._cached_surface.fill((80, 80, 80))
                 ib._cached_key = cache_key
 
         img = ib._cached_surface
-        iw, ih = img.get_size()
-        dx, dy = ib._resolve_rect(iw, ih, w, h)
+        if img:
+            iw, ih = img.get_size()
+            dx, dy = ib._resolve_rect(iw, ih, w, h)
 
-        if ib.shadow:
-            _draw_shadow(surface, (dx, dy, iw, ih), ib.border_radius,
-                         self.theme.get("shadow_color", (0, 0, 0, 50)),
-                         offset=(5, 5), blur=10)
+            if ib.shadow:
+                _draw_shadow(surface, (dx, dy, iw, ih), ib.border_radius,
+                             self.theme.get("shadow_color", (0, 0, 0, 50)),
+                             offset=(5, 5), blur=10)
 
-        final_surf, fx, fy = ib._apply_anim(img.copy(), dx, dy, w, h, progress)
-        surface.blit(final_surf, (int(fx), int(fy)))
+            final_surf, fx, fy = ib._apply_anim(img.copy(), dx, dy, w, h, progress)
+            surface.blit(final_surf, (int(fx), int(fy)))
 
-        if ib.border_color:
-            _draw_rounded_rect(surface, ib.border_color,
-                               (int(fx), int(fy), iw, ih),
-                               ib.border_radius, ib.border_width)
+            if ib.border_color:
+                _draw_rounded_rect(surface, ib.border_color,
+                                   (int(fx), int(fy), iw, ih),
+                                   ib.border_radius, ib.border_width)
 
-    def _render_shape(self, sh: Shape, surface, w, h, progress):
+    def _render_shape(self, sh: Shape, surface: pygame.Surface, w: int, h: int, 
+                      progress: float) -> None:
         sw, s_h = int(sh.size[0] * w), int(sh.size[1] * h)
         dx, dy = sh._resolve_rect(sw, s_h, w, h)
         elem_surf = pygame.Surface((sw, s_h), pygame.SRCALPHA)
@@ -679,7 +720,8 @@ class SlideEngine:
         final_surf, fx, fy = sh._apply_anim(elem_surf, dx, dy, w, h, progress)
         surface.blit(final_surf, (int(fx), int(fy)))
 
-    def _render_dynamic(self, dg: DynamicGraphic, surface, w, h, progress, slide):
+    def _render_dynamic(self, dg: DynamicGraphic, surface: pygame.Surface, w: int, h: int, 
+                        progress: float, slide: Slide) -> None:
         dw, dh = int(dg.size[0] * w), int(dg.size[1] * h)
         dx, dy = dg._resolve_rect(dw, dh, w, h)
 
@@ -691,10 +733,11 @@ class SlideEngine:
                              self.theme, **dg.user_data)
                 final_surf, fx, fy = dg._apply_anim(elem_surf, dx, dy, w, h, progress)
                 surface.blit(final_surf, (int(fx), int(fy)))
-            except Exception:
-                pass
+            except Exception as e:
+                logger.warning("Dynamic graphic render failed: %s", e)
 
-    def _render_bulletlist(self, bl: BulletList, surface, w, h, progress):
+    def _render_bulletlist(self, bl: BulletList, surface: pygame.Surface, w: int, h: int, 
+                           progress: float) -> None:
         font = self._get_font_for_style(bl.style, h, bl.font_size, bl.bold)
         color = bl.color or self._color_for_style(bl.style)
         bullet_color = bl.bullet_color or _parse_color(self.theme.get("bullet_color", "#e94560"))
@@ -750,7 +793,7 @@ class SlideEngine:
                 bs.set_alpha(alpha)
                 ts.set_alpha(alpha)
 
-            ox = 0
+            ox = 0.0
             if bl.entry_anim == EntryAnim.SLIDE_IN_LEFT:
                 ox = -(1 - ep) * w * 0.1
             elif bl.entry_anim == EntryAnim.SLIDE_IN_RIGHT:
@@ -759,7 +802,8 @@ class SlideEngine:
             surface.blit(bs, (int(x_bullet + ox), int(y + (lh - bs.get_height()) / 2)))
             surface.blit(ts, (int(x_text + ox), int(y + (lh - ts.get_height()) / 2)))
 
-    def _render_codeblock(self, cb: CodeBlock, surface, w, h, progress):
+    def _render_codeblock(self, cb: CodeBlock, surface: pygame.Surface, w: int, h: int, 
+                          progress: float) -> None:
         mono_font = self._get_font_for_style("code", h, cb.font_size)
         bg = cb.bg_color or _parse_color(self.theme.get("code_bg", (15, 15, 30, 240)))
         fg = cb.text_color or _parse_color(self.theme.get("code_color", "#80ffaa"))
@@ -816,7 +860,8 @@ class SlideEngine:
         final_surf, fx, fy = cb._apply_anim(elem_surf, dx, dy, w, h, progress)
         surface.blit(final_surf, (int(fx), int(fy)))
 
-    def _render_progressbar(self, pb: ProgressBar, surface, w, h, progress):
+    def _render_progressbar(self, pb: ProgressBar, surface: pygame.Surface, w: int, h: int, 
+                            progress: float) -> None:
         pw, ph = int(pb.size[0] * w), int(pb.size[1] * h)
         dx, dy = pb._resolve_rect(pw, ph + (20 if pb.label else 0), w, h)
         accent = _parse_color(self.theme.get("accent", "#e94560"))
@@ -844,7 +889,8 @@ class SlideEngine:
         final_surf, fx, fy = pb._apply_anim(elem_surf, dx, dy + label_h, w, h, progress)
         surface.blit(final_surf, (int(fx), int(fy)))
 
-    def _render_divider(self, dv: Divider, surface, w, h, progress):
+    def _render_divider(self, dv: Divider, surface: pygame.Surface, w: int, h: int, 
+                        progress: float) -> None:
         color = dv.color or _parse_color(self.theme.get("muted_color", "#606080"))
         horiz = dv.orientation == "horizontal"
         length_px = int(dv.length * (w if horiz else h))
