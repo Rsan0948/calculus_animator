@@ -1,0 +1,12 @@
+# Calculus Animator — optional AI-tutor RAG stack.
+#
+# Heavyweight dependencies for the local concept retrieval / reranking
+# pipeline used by the in-app AI tutor. Operators who only want the
+# desktop animator can skip this file entirely.
+# Mirror group: ``[ai_tutor]`` extras in pyproject.toml.
+#
+# Install (after ``pip install -r requirements.txt``):
+#   pip install -r requirements-ai.txt
+
+chromadb==1.5.7
+sentence-transformers==5.4.1
