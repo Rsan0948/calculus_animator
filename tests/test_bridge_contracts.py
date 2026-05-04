@@ -2,9 +2,11 @@ from __future__ import annotations
 
 import base64
 import json
+import sys
 from pathlib import Path
 from types import SimpleNamespace
 
+import pytest
 import sympy as sp
 
 from api.bridge import CalculusAPI
@@ -141,6 +143,7 @@ def test_copy_image_to_clipboard_rejects_invalid_payload():
     assert out["success"] is False
 
 
+@pytest.mark.skipif(sys.platform != "darwin", reason="copy_image_to_clipboard uses osascript (macOS only)")
 def test_copy_image_to_clipboard_success(monkeypatch):
     api = CalculusAPI.__new__(CalculusAPI)
     monkeypatch.setattr("api.bridge.subprocess.check_call", lambda *args, **kwargs: 0)
