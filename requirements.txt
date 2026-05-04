@@ -1,16 +1,26 @@
-pywebview>=4.4
-sympy>=1.12
-numpy>=1.24
-pygame>=2.5
+# Calculus Animator — runtime-only base dependencies.
+#
+# Pinned to the versions used by Lane A's dev environment on Python 3.10+
+# (the floor pyproject.toml requires). The optional AI-tutor RAG stack
+# (chromadb, sentence-transformers) lives in ``requirements-ai.txt`` so
+# operators can install the desktop core without dragging in the heavier
+# ML deps. Mirror group: ``[project.optional-dependencies]`` — these are
+# the ``project.dependencies`` set in pyproject.toml.
+#
+# Install:
+#   pip install -r requirements.txt
+#   pip install -r requirements-ai.txt   # optional: AI tutor / RAG
+#   pip install -r requirements-dev.txt  # optional: tests + linters
+#
+# Desktop shell + math/render stack
+pywebview==6.2
+sympy==1.14.0
+numpy==2.4.4
+pygame==2.6.1
 antlr4-python3-runtime==4.11.1
 
-# AI Tutor Dependencies
-fastapi>=0.104.0
-uvicorn>=0.24.0
-httpx>=0.25.0
-chromadb>=0.4.0
-sentence-transformers>=2.2.0
-pydantic>=2.0.0
-
-# Optional - for local LLM support
-# ollama>=0.1.0
+# Local FastAPI tutor backend (loopback only by design)
+fastapi==0.135.3
+uvicorn==0.44.0
+httpx==0.28.1
+pydantic==2.12.5

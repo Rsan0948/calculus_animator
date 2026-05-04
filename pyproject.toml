@@ -11,30 +11,42 @@ requires-python = ">=3.10"
 license = {text = "Apache-2.0"}
 authors = [{name = "Ruben Sanchez"}]
 
+# Mirrors ``requirements.txt`` line-for-line. Update both files together.
 dependencies = [
-    "sympy>=1.12",
-    "numpy>=1.24.0",
-    "pywebview>=4.4.1",
-    "pygame>=2.5.2",
-    "requests>=2.31.0",
-    "fastapi>=0.104.0",
-    "uvicorn>=0.24.0",
-    "httpx>=0.25.0",
-    "pydantic>=2.0.0",
+    "pywebview==6.2",
+    "sympy==1.14.0",
+    "numpy==2.4.4",
+    "pygame==2.6.1",
     "antlr4-python3-runtime==4.11.1",
+    "fastapi==0.135.3",
+    "uvicorn==0.44.0",
+    "httpx==0.28.1",
+    "pydantic==2.12.5",
 ]
 
+# Each extras group mirrors the corresponding ``requirements-*.txt`` file.
+# Operators can install via ``pip install -r requirements-X.txt`` (the
+# canonical path) or ``pip install -e .[X]`` (the package-extras path);
+# both resolve to the same versions.
 [project.optional-dependencies]
 ai_tutor = [
-    "chromadb>=0.4.0",
-    "sentence-transformers>=2.2.0",
+    "chromadb==1.5.7",
+    "sentence-transformers==5.4.1",
 ]
 dev = [
-    "pytest>=7.4.0",
-    "pytest-cov>=4.1.0",
-    "ruff>=0.1.0",
-    "mypy>=1.6.0",
-    "black>=23.10.0",
+    "pytest==9.0.3",
+    "pytest-cov==7.1.0",
+    "hypothesis==6.152.4",
+    "ruff==0.13.3",
+    "mypy==1.20.2",
+    "pip-audit==2.7.3",
+    # 1.49.0 is the floor that ships greenlet>=3.1 wheels for Python 3.13;
+    # earlier playwright pins (e.g. 1.47.0) drag in greenlet 3.0.x and fail
+    # the C++ source build on macOS.
+    "playwright==1.49.0",
+]
+build = [
+    "pyinstaller==6.20.0",
 ]
 
 [tool.setuptools.packages.find]

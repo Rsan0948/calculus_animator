@@ -1,8 +1,22 @@
-pytest>=8.0
-pytest-cov>=5.0
-hypothesis>=6.0
-ruff>=0.6.0
-mypy>=1.10
-pip-audit>=2.7
-playwright>=1.47
+# Calculus Animator — development / test dependencies.
+#
+# Pinned to the versions used by Lane A's dev environment. Mirror group:
+# ``[dev]`` extras in pyproject.toml. ``pip-audit`` and ``playwright`` are
+# pinned to recent stable versions; they are not exercised by the default
+# ``pytest -m "not gui"`` set, so an env that omits them still runs the
+# core suite.
+#
+# Note: playwright==1.49.0 is the floor that ships greenlet>=3.1 wheels for
+# Python 3.13. Earlier playwright pins (e.g. 1.47.0) drag in greenlet 3.0.x,
+# which has no Python 3.13 wheel and fails the C++ source build on macOS.
+#
+# Install (after ``pip install -r requirements.txt``):
+#   pip install -r requirements-dev.txt
 
+pytest==9.0.3
+pytest-cov==7.1.0
+hypothesis==6.152.4
+ruff==0.13.3
+mypy==1.20.2
+pip-audit==2.7.3
+playwright==1.49.0
