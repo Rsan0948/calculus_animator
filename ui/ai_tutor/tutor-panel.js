@@ -17,8 +17,13 @@ class AITutorPanel {
         // fall back to the desktop's loopback FastAPI when running inside the
         // PyWebView shell (file:// pages can't make relative HTTP calls). An
         // explicit options.apiUrl wins over either.
-        const isDesktopShell = typeof window.pywebview !== 'undefined'
-            || window.location.protocol === 'file:';
+        //
+        // Detection is protocol-only: the Space's space_bridge.js installs a
+        // window.pywebview stand-in for the calculus API, so we can't rely on
+        // window.pywebview to discriminate desktop vs browser. The file://
+        // protocol is the real signal — only the desktop PyWebView shell
+        // serves the UI from disk; the Space serves it over http(s)://.
+        const isDesktopShell = window.location.protocol === 'file:';
         this.apiBaseUrl = options.apiUrl
             || (isDesktopShell ? 'http://127.0.0.1:8000' : '');
         this.solverState = null;
