@@ -20,6 +20,11 @@ sympy==1.14.0
 numpy==2.4.4
 antlr4-python3-runtime==4.11.1
 
+# Slide-render worker (pygame, headless via SDL_VIDEODRIVER=dummy in the
+# Dockerfile). Fonts come from the fonts-dejavu apt package; pygame's
+# SysFont enumerator resolves them without bundled .ttf files.
+pygame==2.6.1
+
 # AI tutor backend deps (router is imported lazily in ai_tutor.main)
 fastapi==0.135.3
 uvicorn==0.44.0
