@@ -1,3 +1,14 @@
+---
+title: Calculus Animator
+emoji: 🧮
+colorFrom: blue
+colorTo: indigo
+sdk: gradio
+sdk_version: 4.44.0
+app_file: app.py
+pinned: false
+---
+
 # Calculus Animator
 
 An educational calculus platform demonstrating modern AI integration patterns: multi-provider LLM routing, RAG-based knowledge retrieval, and vision-enabled tutoring.
