@@ -2,8 +2,10 @@
 
 An educational calculus platform demonstrating modern AI integration patterns: multi-provider LLM routing, RAG-based knowledge retrieval, and vision-enabled tutoring.
 
+[![CI](https://github.com/Rsan0948/calculus_animator/actions/workflows/ci.yml/badge.svg)](https://github.com/Rsan0948/calculus_animator/actions/workflows/ci.yml)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 
 ## Overview
 
@@ -26,6 +28,8 @@ The platform showcases production-ready AI system architecture: provider-agnosti
 *Glossary — linked definitions with aliases and related topics*
 
 ## Architecture
+
+> **For runtime / IPC / lifecycle details, see [docs/architecture.md](docs/architecture.md).** This section gives the high-level overview; the architecture doc has the process model, message shapes, watchdog behavior, and the configuration surface.
 
 ### System Design
 
@@ -276,11 +280,43 @@ make release-check  # or: python scripts/run_release_checklist.py
 ```bash
 git clone https://github.com/Rsan0948/calculus_animator.git
 cd calculus_animator
-pip install -r requirements.txt
+python -m venv .venv && source .venv/bin/activate    # Windows: .venv\Scripts\activate
+pip install -e .                                      # core only
 python run.py
 ```
 
-`run.py` automatically checks and installs missing dependencies before launching.
+For the full app with AI tutoring:
+
+```bash
+pip install -e '.[ai_tutor]'                          # adds ChromaDB + sentence-transformers
+```
+
+For the dev/test toolchain (ruff, mypy, pytest, hypothesis, playwright):
+
+```bash
+pip install -e '.[dev]'
+```
+
+For the release-build toolchain (PyInstaller):
+
+```bash
+pip install -e '.[build]'
+```
+
+The same install paths work via the explicit requirements files (`requirements.txt`, `requirements-ai.txt`, `requirements-dev.txt`) for environments that prefer them. `run.py` will check and install any missing runtime deps before launching.
+
+### Verify Installation
+
+```bash
+python scripts/smoke_test.py
+```
+
+This runs three checks (backend constructs cleanly, bridge capacity probe responds, render pipeline completes a slide end-to-end) and exits 0 on success. Use it after a fresh install or as a CI gate.
+
+### First-Run Notes
+
+- The first slide render after a cold start takes **~6–19s on Apple Silicon** while pygame initializes the persistent render worker. Subsequent renders are fast. This is not a hang; do not kill the process.
+- `python run.py --help` and `python run.py --version` short-circuit before launching the desktop window — handy for scripted environments.
 
 ### AI Tutor Setup (Optional)
 
@@ -400,15 +436,28 @@ python scripts/run_tests.py --full
 ### Code Quality
 
 ```bash
-# Linting
-ruff check .
+# Linting (correctness — F-class — across the whole repo)
+ruff check . --select F
 
-# Type checking
-mypy api core
+# JS linting (ui/js/**/*.js, excludes ui/vendor/)
+npm install --no-audit --no-fund    # one-time
+npm run lint
+
+# Type checking (actively-maintained packages)
+mypy api core ai_tutor
 
 # Formatting
 ruff format .
+
+# Security scans (run by CI on every PR)
+pip-audit -r requirements.txt -r requirements-dev.txt --strict
+bandit -r api core ai_tutor -ll
+
+# Test coverage (CI enforces ≥50% across api + core + ai_tutor)
+pytest -m "not gui" --cov=api --cov=core --cov=ai_tutor --cov-fail-under=50
 ```
+
+CI gates: ruff `--select F` over the whole repo, ESLint over `ui/js/`, mypy over `api core ai_tutor`, `pytest -m "not gui"` with `--cov-fail-under=50`, `pip-audit`, and `bandit`. See `.github/workflows/ci.yml` for the live configuration. Heavier scans (fuzz/perf/E2E UI) run on a Mon/Thu cron in `.github/workflows/extended-quality.yml`.
 
 ### Building Releases
 
