@@ -18,9 +18,5 @@ httpx==0.28.1
 pydantic==2.12.5
 
 # Gradio Space UI + headless plotting
-gradio==4.44.0
+gradio==5.0.1
 matplotlib>=3.8
-
-# Gradio 4.44.0 still imports HfFolder from huggingface_hub, which was
-# removed in huggingface_hub 1.0. Pin below 1.0 until we bump gradio.
-huggingface_hub<1.0
