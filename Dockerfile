@@ -56,7 +56,12 @@ COPY ui/ ./ui/
 COPY slide_renderer/ ./slide_renderer/
 COPY scripts/ ./scripts/
 COPY data/ ./data/
-COPY assets/ ./assets/
+# ``assets/`` (pygame fonts) is intentionally absent on this branch — HF's
+# binary-file rule rejects ``.ttf`` files, and slide rendering is not the
+# Space's primary surface. ``/api/render_learning_slide`` will surface a
+# missing-font error via the structured error envelope; Solve and graph
+# endpoints work without it. Restore via Git LFS if slide rendering is
+# wanted on the Space.
 # ``config.py`` lives at the project root and is imported by ``run.py`` and
 # tests; keep it on the image so any module that walks ``sys.path[0]``
 # resolves it the same way as on the host.
