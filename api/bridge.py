@@ -3,10 +3,13 @@ import base64
 import hashlib
 import json
 import os
+import queue
 import re
 import subprocess
 import sys
 import tempfile
+import threading
+import time
 import traceback
 from pathlib import Path
 from typing import Optional
@@ -21,6 +24,79 @@ from core.solver import CalculusSolver
 from core.step_generator import StepGenerator
 
 logger = get_logger(__name__)
+
+
+def _env_float(name: str, default: float) -> float:
+    """Read a float from the environment, falling back to ``default`` on parse failure."""
+    raw = os.environ.get(name)
+    if raw is None or raw == "":
+        return default
+    try:
+        return float(raw)
+    except ValueError:
+        logger.warning("Invalid float for env %s=%r; using default %s", name, raw, default)
+        return default
+
+
+# Slide-render worker tuning (env-configurable). The render timeout bounds
+# how long a single render call may block waiting on the worker; the startup
+# timeout bounds how long the constructor may block detecting an early-death
+# import error; the watchdog interval is how often the supervisor polls for
+# crashes.
+_RENDER_TIMEOUT_SEC = _env_float("CALC_ANIM_RENDER_TIMEOUT_SEC", 60.0)
+_STARTUP_TIMEOUT_SEC = _env_float("CALC_ANIM_RENDER_STARTUP_TIMEOUT_SEC", 5.0)
+_STARTUP_ALIVE_GRACE_SEC = 0.2
+_WATCHDOG_INTERVAL_SEC = _env_float("CALC_ANIM_RENDER_WATCHDOG_SEC", 2.0)
+_MAX_CONSECUTIVE_RESTART_FAILURES = 3
+
+
+def _drain_stream_to_logger(stream, label: str) -> None:
+    """Forward worker subprocess stream lines to the project logger.
+
+    Runs in a daemon thread for the lifetime of one worker process. Exits
+    when the stream closes (worker exits). Continuously draining stderr
+    prevents the OS pipe buffer from filling, which would otherwise block
+    the worker on its next ``write`` call and deadlock the parent on
+    ``readline``.
+    """
+    if stream is None:
+        return
+    try:
+        for line in iter(stream.readline, ""):
+            text = line.rstrip()
+            if text:
+                logger.warning("[%s] %s", label, text)
+    except (OSError, ValueError) as exc:
+        logger.debug("%s drain ended: %s", label, exc)
+    finally:
+        try:
+            stream.close()
+        except (OSError, ValueError) as exc:
+            logger.debug("%s close failed: %s", label, exc)
+
+
+def _read_stdout_to_queue(stream, response_queue: "queue.Queue") -> None:
+    """Forward worker subprocess stdout lines to a response queue.
+
+    Runs in a daemon thread for the lifetime of one worker process. Pushes
+    a ``None`` sentinel on exit so a blocking ``queue.get`` consumer can
+    distinguish "worker exited" from "still waiting".
+    """
+    if stream is None:
+        response_queue.put(None)
+        return
+    try:
+        for line in iter(stream.readline, ""):
+            response_queue.put(line)
+    except (OSError, ValueError) as exc:
+        logger.debug("worker stdout reader ended: %s", exc)
+    finally:
+        response_queue.put(None)
+        try:
+            stream.close()
+        except (OSError, ValueError) as exc:
+            logger.debug("worker stdout close failed: %s", exc)
+
 
 def _json(obj):
     # Use JSON strings for robust cross-process transfer of large objects
@@ -59,75 +135,238 @@ class CalculusAPI:
         self._curriculum = self._load_curriculum_data()
         self._glossary = self._load_json("glossary.json", {"terms": []})
         self._slide_render_cache = {}
-        
-        # Persistent render worker
+
+        # Persistent render worker + supervision
         self._render_worker = None
-        self._start_render_worker()
+        self._render_worker_lock = threading.Lock()
+        self._render_response_queue: "queue.Queue" = queue.Queue()
+        self._render_worker_stopping = threading.Event()
+        self._render_worker_restart_failures = 0
+        self._render_worker_watchdog = None
+
+        with self._render_worker_lock:
+            self._start_render_worker_locked()
+
+        self._render_worker_watchdog = threading.Thread(
+            target=self._watchdog_loop,
+            name="render-worker-watchdog",
+            daemon=True,
+        )
+        self._render_worker_watchdog.start()
 
         try:
             self._auto_generate_capacity_report()
         except Exception as e:
             logger.error(f"Failed to auto-generate capacity report: {e}")
 
-    def _start_render_worker(self):
+    def _start_render_worker(self) -> None:
+        """Public-shaped restart entry point.
+
+        Acquires the worker lock and delegates to
+        :meth:`_start_render_worker_locked`. Kept as a thin wrapper so that
+        external callers and existing tests can request a restart without
+        knowing about internal locking.
+        """
+        with self._render_worker_lock:
+            self._start_render_worker_locked()
+
+    def _start_render_worker_locked(self) -> None:
+        """Spawn the persistent worker subprocess.
+
+        Caller must hold ``self._render_worker_lock``. Tears down any prior
+        worker, drops the previous response queue, spawns a new ``Popen``,
+        and starts daemon threads to drain stderr (preventing pipe-buffer
+        deadlock) and forward stdout lines to ``self._render_response_queue``.
+        Polls up to ``_STARTUP_TIMEOUT_SEC`` for early death; exits early
+        once the process has stayed alive for ``_STARTUP_ALIVE_GRACE_SEC``.
+
+        On failure (Popen raises, or the process dies during startup) leaves
+        ``self._render_worker`` set to ``None`` and logs an error so callers
+        can surface a structured failure.
+        """
+        old = self._render_worker
+        self._render_worker = None
+        if old is not None:
+            try:
+                if old.poll() is None:
+                    old.kill()
+                    old.wait(timeout=2)
+            except (OSError, subprocess.TimeoutExpired) as exc:
+                logger.debug("error tearing down old render worker: %s", exc)
+
+        # Start with a fresh queue so any sentinel values pushed by the
+        # previous worker's reader thread cannot be consumed by the next call.
+        self._render_response_queue = queue.Queue()
+
         worker_script = Path(__file__).parent / "slide_render_worker.py"
         env = os.environ.copy()
         env.update({"SDL_VIDEODRIVER": "dummy", "PYGAME_HIDE_SUPPORT_PROMPT": "1"})
         try:
-            self._render_worker = subprocess.Popen(
+            proc = subprocess.Popen(
                 [sys.executable, str(worker_script)],
                 stdin=subprocess.PIPE,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
-                bufsize=1, # line buffered
+                bufsize=1,  # line buffered
                 env=env,
-                cwd=str(Path(__file__).parent.parent)
+                cwd=str(Path(__file__).parent.parent),
             )
-            logger.info("Persistent slide render worker started")
-        except Exception as e:
-            logger.error(f"Failed to start persistent render worker: {e}")
+        except OSError as exc:
+            logger.error("Failed to spawn slide render worker: %s", exc)
+            return
+
+        # Start drain threads BEFORE the startup poll so the stderr buffer
+        # cannot fill while we wait for early-death detection.
+        threading.Thread(
+            target=_drain_stream_to_logger,
+            args=(proc.stderr, "render-worker"),
+            name="render-worker-stderr-drain",
+            daemon=True,
+        ).start()
+        threading.Thread(
+            target=_read_stdout_to_queue,
+            args=(proc.stdout, self._render_response_queue),
+            name="render-worker-stdout-reader",
+            daemon=True,
+        ).start()
+
+        deadline = time.monotonic() + _STARTUP_TIMEOUT_SEC
+        spawned_at = time.monotonic()
+        while time.monotonic() < deadline:
+            rc = proc.poll()
+            if rc is not None:
+                logger.error(
+                    "Slide render worker exited during startup (rc=%s)", rc,
+                )
+                return
+            if time.monotonic() - spawned_at >= _STARTUP_ALIVE_GRACE_SEC:
+                break
+            time.sleep(0.05)
+
+        self._render_worker = proc
+        logger.info("Persistent slide render worker started (pid=%s)", proc.pid)
+
+    def _watchdog_loop(self) -> None:
+        """Background loop that detects worker crashes and triggers restart.
+
+        Polls every ``_WATCHDOG_INTERVAL_SEC``. When a crash is detected
+        (proc.poll() returns non-None) the watchdog acquires the worker lock
+        and asks for a fresh worker. Restart attempts are bounded by
+        ``_MAX_CONSECUTIVE_RESTART_FAILURES`` so a worker that dies on every
+        spawn does not loop forever; once that ceiling is hit auto-restart
+        halts and the next render call returns the explicit
+        ``"Render worker unavailable"`` error.
+        """
+        while not self._render_worker_stopping.wait(_WATCHDOG_INTERVAL_SEC):
+            with self._render_worker_lock:
+                proc = self._render_worker
+                if proc is None:
+                    # Either startup never succeeded or repeated restarts
+                    # exhausted the budget; nothing to monitor.
+                    continue
+                if proc.poll() is None:
+                    self._render_worker_restart_failures = 0
+                    continue
+                logger.warning(
+                    "Watchdog: slide render worker died (rc=%s); restarting",
+                    proc.returncode,
+                )
+                self._start_render_worker_locked()
+                if self._render_worker is None:
+                    self._render_worker_restart_failures += 1
+                    if self._render_worker_restart_failures >= _MAX_CONSECUTIVE_RESTART_FAILURES:
+                        logger.error(
+                            "Watchdog: %d consecutive restart failures; halting auto-restart.",
+                            self._render_worker_restart_failures,
+                        )
+                        return
+                else:
+                    self._render_worker_restart_failures = 0
+
+    def _kill_worker_locked(self, proc) -> None:
+        """Terminate a misbehaving worker so the next call can restart it.
+
+        Caller must hold ``self._render_worker_lock``. Used when a write
+        fails or a render call times out — we drop the worker rather than
+        leaving it half-alive, then push a sentinel so any straggling
+        ``queue.get`` consumer unblocks.
+        """
+        try:
+            if proc.poll() is None:
+                proc.kill()
+                proc.wait(timeout=2)
+        except (OSError, subprocess.TimeoutExpired) as exc:
+            logger.debug("kill worker failed: %s", exc)
+        self._render_response_queue.put(None)
+        if self._render_worker is proc:
+            self._render_worker = None
 
     def _run_render_task(self, payload: dict) -> dict:
         """Send a render payload to the persistent worker and return its response.
 
-        Restarts the worker if it has died.  Writes one JSON line to stdin and
-        reads one JSON line from stdout.
+        Holds ``_render_worker_lock`` for the duration of one round trip so
+        concurrent JS callers cannot interleave writes on the worker stdin
+        pipe. Restarts the worker if it has died. Bounds the wait on the
+        response queue by ``_RENDER_TIMEOUT_SEC`` — on timeout we kill the
+        worker (so the next call will get a fresh one) and return a
+        structured error rather than blocking forever.
 
         Args:
-            payload: Dict describing the slide to render (title, blocks, size,
-                etc.).  Must be JSON-serialisable.
+            payload: Dict describing the slide to render. Must be
+                JSON-serialisable.
 
         Returns:
-            The decoded JSON response dict from the worker.  Contains at minimum
-            ``"success": bool``.  Returns ``{"success": False, "error": str}``
-            on communication failure.
+            The decoded JSON response dict from the worker. Always contains
+            a ``"success": bool`` key. On communication failure or timeout
+            returns ``{"success": False, "error": str}``.
         """
-        if not self._render_worker or self._render_worker.poll() is not None:
-            logger.warning("Render worker not running, restarting...")
-            self._start_render_worker()
-        
-        if not self._render_worker:
-            return {"success": False, "error": "Render worker unavailable"}
+        with self._render_worker_lock:
+            proc = self._render_worker
+            if proc is None or proc.poll() is not None:
+                logger.warning("Render worker not running, restarting...")
+                self._start_render_worker_locked()
+                proc = self._render_worker
 
-        try:
-            line = json.dumps(payload) + "\n"
-            self._render_worker.stdin.write(line)
-            self._render_worker.stdin.flush()
-            
-            # Read response (one line)
-            resp_line = self._render_worker.stdout.readline()
-            if not resp_line:
-                # Worker likely crashed
-                out, err = self._render_worker.communicate(timeout=1)
-                return {"success": False, "error": f"Worker crashed: {err}"}
-            
-            return json.loads(resp_line)
-        except Exception as e:
-            logger.error(f"Error communicating with render worker: {e}")
-            return {"success": False, "error": str(e)}
+            if proc is None:
+                return {"success": False, "error": "Render worker unavailable"}
+
+            try:
+                line = json.dumps(payload) + "\n"
+                proc.stdin.write(line)
+                proc.stdin.flush()
+            except (BrokenPipeError, OSError, ValueError) as exc:
+                logger.error("Render worker stdin write failed: %s", exc)
+                self._kill_worker_locked(proc)
+                return {"success": False, "error": f"Worker write failed: {exc}"}
+
+            try:
+                resp_line = self._render_response_queue.get(timeout=_RENDER_TIMEOUT_SEC)
+            except queue.Empty:
+                logger.error(
+                    "Render worker timed out after %.1fs; killing for restart.",
+                    _RENDER_TIMEOUT_SEC,
+                )
+                self._kill_worker_locked(proc)
+                return {"success": False, "error": "Render worker timeout"}
+
+            if resp_line is None:
+                rc = proc.poll()
+                logger.error("Render worker exited unexpectedly (rc=%s)", rc)
+                if self._render_worker is proc:
+                    self._render_worker = None
+                return {"success": False, "error": "Render worker exited unexpectedly"}
+
+            try:
+                return json.loads(resp_line)
+            except (ValueError, TypeError) as exc:
+                logger.error("Render worker emitted invalid JSON: %s", exc)
+                return {"success": False, "error": f"Invalid worker response: {exc}"}
 
     def __del__(self):
+        stopping = getattr(self, "_render_worker_stopping", None)
+        if stopping is not None:
+            stopping.set()
         worker = getattr(self, "_render_worker", None)
         if worker:
             try:
@@ -448,25 +687,44 @@ class CalculusAPI:
         except Exception as e:
             logger.error(f"Capacity report generation failed: {e}")
 
+    # ── Capacity-check stubs ─────────────────────────────────────
+    # These return an honest ``capability_unavailable`` rather than a
+    # synthetic ``{"success": True}``. Slide capacity testing is not
+    # implemented in this build; any caller that depends on real metrics
+    # must check ``success`` and surface the unavailability rather than
+    # assume zeroed metrics are real.
+
+    @staticmethod
+    def _capability_unavailable(detail: str) -> dict:
+        return {
+            "success": False,
+            "error": "capability_unavailable",
+            "reason": detail,
+        }
+
     def _run_capacity_worker(
         self, text: str, with_image: bool = False, page_index: int = 0,
         width: int = 1300, height: int = 812, metrics_only: bool = False
     ):
-        # We can also use the persistent worker for capacity tests if we refactor it further, 
-        # but for now we'll focus on learning slide rendering.
-        return {"success": True, "metrics": {}}
+        return self._capability_unavailable(
+            "Slide capacity worker is not wired up in this build."
+        )
 
     def _capacity_metrics_only(
         self, text: str, with_image: bool = False, page_index: int = 0,
         width: int = 1300, height: int = 812
     ):
-        return {"success": True, "metrics": {}}
+        return self._capability_unavailable(
+            "Slide capacity metrics are not computed in this build."
+        )
 
     def capacity_test_slide(
         self, text: str, with_image: bool = False, page_index: int = 0,
         width: int = 1300, height: int = 812
     ) -> str:
-        return _json({"success": True})
+        return _json(self._capability_unavailable(
+            "Slide capacity testing is not implemented in this build."
+        ))
 
     def render_learning_slide(
         self, pathway_id: str, chapter_id: str, slide_index: int,
@@ -497,31 +755,31 @@ class CalculusAPI:
             pathway = next((p for p in pathways if p.get("id") == pathway_id), None)
             if not pathway:
                 return _json({"success": False, "error": "Pathway not found"})
-            
+
             chapters = pathway.get("chapters") or []
             chapter = next((c for c in chapters if c.get("id") == chapter_id), None)
             if not chapter:
                 return _json({"success": False, "error": "Chapter not found"})
-            
+
             slides = chapter.get("slides") or []
             if not slides:
                 return _json({"success": False, "error": "No slides in chapter"})
 
             idx = max(0, min(int(slide_index), len(slides) - 1))
             s = slides[idx]
-            
+
             # Complex cache key split across lines
             cache_key = (
                 pathway_id, chapter_id, idx, int(width), int(height),
-                s.get("id"), s.get("title"), 
-                len(s.get("content_blocks") or []), 
+                s.get("id"), s.get("title"),
+                len(s.get("content_blocks") or []),
                 len(s.get("graphics") or []),
             )
-            
+
             if cache_key in self._slide_render_cache:
                 result = {
-                    "success": True, 
-                    "data_url": self._slide_render_cache[cache_key], 
+                    "success": True,
+                    "data_url": self._slide_render_cache[cache_key],
                     "slide_index": idx
                 }
                 return _json(result)
@@ -536,15 +794,15 @@ class CalculusAPI:
                 "width": int(width),
                 "height": int(height),
             }
-            
+
             data = self._run_render_task(payload)
-            
+
             if data.get("success") and data.get("data_url"):
                 self._slide_render_cache[cache_key] = data["data_url"]
                 if len(self._slide_render_cache) > 120:
                     # Remove oldest entry
                     self._slide_render_cache.pop(next(iter(self._slide_render_cache)))
-            
+
             data["slide_index"] = idx
             return _json(data)
         except Exception as e:
@@ -555,7 +813,7 @@ class CalculusAPI:
     def _build_slide_highlights(blocks):
         """Condense notes into concise but educationally sufficient slide highlights."""
         return build_informative_slide_highlights(
-            blocks or [], max_items=5, 
+            blocks or [], max_items=5,
             max_chars_per_item=210, max_total_chars=620
         )
 
@@ -688,11 +946,11 @@ class CalculusAPI:
             except Exception:
                 solved_expr = None
             payload = self._animator.generate_graph_payload(
-                expr, 
-                calc_type=detected.name, 
-                params=merged, 
-                solved_expr=solved_expr, 
-                x_range=(x_min, x_max), 
+                expr,
+                calc_type=detected.name,
+                params=merged,
+                solved_expr=solved_expr,
+                x_range=(x_min, x_max),
                 points=560
             )
             return _json(payload)
@@ -717,7 +975,7 @@ class CalculusAPI:
             parsed = self._parser.parse(inner)
             if not parsed["success"]:
                 return _json({"success": False})
-            
+
             frames = self._animator.generate_area_frames(
                 parsed["sympy_expr"], lower, upper
             )
@@ -743,7 +1001,7 @@ class CalculusAPI:
             p2 = self._parser.parse(deriv_latex)
             if not p1["success"] or not p2["success"]:
                 return _json({"success": False})
-            
+
             tangent = self._animator.generate_tangent(
                 p1["sympy_expr"], p2["sympy_expr"], x_point
             )
