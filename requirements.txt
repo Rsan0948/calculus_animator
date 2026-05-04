@@ -1,8 +1,17 @@
-# Calculus Animator — Hugging Face Space dependencies.
+# Calculus Animator — Hugging Face Space (Docker SDK) dependencies.
 #
-# This file is the Space-flavored dependency list (Gradio + matplotlib for
-# the headless container; no pywebview/pygame). The desktop branch on GitHub
-# uses a different requirements.txt with the desktop shell + render stack.
+# This file is the Space-flavored dependency list shipped to the Docker
+# container that backs the HF Space. It is intentionally minimal: the
+# runtime is FastAPI serving the existing ``ui/`` static bundle plus an
+# ``/api/*`` JSON shim that mirrors ``api.bridge.CalculusAPI``.
+#
+# Gradio / matplotlib / huggingface_hub were removed when the Space SDK
+# switched from Gradio to Docker; they have no runtime use here.
+#
+# pygame is intentionally NOT pinned in this branch yet — slide-render
+# endpoints will return ``ModuleNotFoundError`` if invoked. The Dockerfile
+# still installs the SDL2 runtime libs so a future ``pygame==…`` line drop-in
+# enables ``/api/render_learning_slide`` without an OS-deps rebuild.
 #
 # Install (Space picks this up automatically; for local Space-mode dev):
 #   pip install -r requirements.txt
@@ -11,17 +20,8 @@ sympy==1.14.0
 numpy==2.4.4
 antlr4-python3-runtime==4.11.1
 
-# AI tutor backend deps (router is imported lazily in app.py)
+# AI tutor backend deps (router is imported lazily in ai_tutor.main)
 fastapi==0.135.3
 uvicorn==0.44.0
 httpx==0.28.1
 pydantic==2.12.5
-
-# Gradio Space UI + headless plotting
-gradio==5.0.1
-matplotlib>=3.8
-
-# Gradio 5.0.1 (and older 4.x/5.x) imports HfFolder from huggingface_hub,
-# which was removed in huggingface_hub 1.0. Pin below 1.0 until gradio
-# drops the import.
-huggingface_hub<1.0

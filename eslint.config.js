@@ -38,6 +38,7 @@ export default [
             "ui/vendor/**",          // bundled third-party (KaTeX, MathLive)
             "ai_tutor/tutor-panel.js", // separately maintained AI-tutor UI
             "data/**",
+            ".helicops/**",
             "node_modules/**",
             "dist/**",
             "build/**",
@@ -68,6 +69,14 @@ export default [
                 FontFace: "readonly",
                 Event: "readonly",
                 CustomEvent: "readonly",
+                // Fetch API (used by the Docker Space bridge shim)
+                fetch: "readonly",
+                Headers: "readonly",
+                Request: "readonly",
+                Response: "readonly",
+                URL: "readonly",
+                URLSearchParams: "readonly",
+                AbortController: "readonly",
                 // Loaded via <script> in index.html (vendored under ui/vendor/)
                 katex: "readonly",
                 MathLive: "readonly",

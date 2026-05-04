@@ -6,7 +6,10 @@ ZDS-ID: TOOL-1002 (Unified Entry Point Orchestrator)
 Serves:
 - Desktop app (PyWebView bridge)
 - Direct API clients
-- Future web frontend
+- Hugging Face Space (Docker SDK): same FastAPI process serves the
+  ``ui/`` static bundle at ``/`` and the ``/api/*`` JSON shim that
+  mirrors ``api.bridge.CalculusAPI`` for the browser-side
+  ``space_bridge.js``.
 
 This is a local desktop app: the backend binds to ``127.0.0.1`` only and
 serves callers running on the same machine (the PyWebView shell or a
@@ -26,12 +29,14 @@ binding is the perimeter. Hardening implemented here:
 
 import logging
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import AsyncGenerator
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from ai_tutor.config import get_settings
@@ -47,9 +52,14 @@ from ai_tutor.middleware import (
     get_max_request_bytes,
 )
 from ai_tutor.rag.concept_engine import get_concept_engine
-from ai_tutor.routers import settings_router, tutor
+from ai_tutor.routers import api_bridge, settings_router, tutor
 
 logger = logging.getLogger(__name__)
+
+# UI bundle lives at the project root next to ``ai_tutor/``. Resolve once at
+# import time so the StaticFiles mount uses an absolute path regardless of
+# the cwd uvicorn is launched from (matters for the Docker Space build).
+_UI_DIR = (Path(__file__).resolve().parent.parent / "ui").resolve()
 
 
 def _loopback_origins(port: int) -> list[str]:
@@ -161,6 +171,8 @@ def create_app() -> FastAPI:
         CORSMiddleware,
         # Local desktop app: only the PyWebView shell + loopback browser are
         # legitimate origins. Anything else is misconfiguration or attack.
+        # In Space (Docker) mode the browser hits the same origin as the
+        # backend, so CORS preflight isn't triggered for those requests.
         allow_origins=_loopback_origins(settings.port),
         allow_credentials=True,
         allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -210,21 +222,12 @@ def create_app() -> FastAPI:
             headers={REQUEST_ID_HEADER: rid},
         )
 
-    # Routers
+    # Routers (must be included before the catch-all StaticFiles mount so
+    # ``/api/*`` / ``/tutor/*`` / ``/settings/*`` are matched as routes
+    # rather than swallowed by the UI fallback).
+    app.include_router(api_bridge.router, prefix="/api", tags=["api"])
     app.include_router(tutor.router, prefix="/tutor", tags=["tutor"])
     app.include_router(settings_router.router, prefix="/settings", tags=["settings"])
-
-    @app.get("/")
-    async def root():
-        return {
-            "service": "Calculus AI Tutor",
-            "version": "1.0.0",
-            "zds_components": [
-                "TOOL-102 (Doctrine RAG Stack)",
-                "TOOL-305 (Intelligent Cloud Failover)",
-                "TOOL-405 (Teacher-in-the-Loop)",
-            ]
-        }
 
     @app.get("/health")
     async def health():
@@ -251,6 +254,21 @@ def create_app() -> FastAPI:
             status_code=503,
         )
 
+    # Static UI bundle. ``html=True`` makes the mount serve ``index.html``
+    # for directory requests (so ``GET /`` returns the desktop UI HTML in
+    # Space mode). Mounted last so explicit routes above take priority.
+    if _UI_DIR.is_dir():
+        app.mount(
+            "/",
+            StaticFiles(directory=str(_UI_DIR), html=True),
+            name="ui",
+        )
+    else:
+        logger.warning(
+            "UI directory not found at %s — / will 404; expected for backend-only test runs",
+            _UI_DIR,
+        )
+
     return app
 
 
@@ -265,6 +283,8 @@ if __name__ == "__main__":
 
     # Loopback-only by design. Even if settings.host is overridden elsewhere,
     # the host bound here is the perimeter of the local-desktop deployment.
+    # The Space (Docker) build uses ``CMD ["uvicorn", "ai_tutor.main:app",
+    # "--host", "0.0.0.0", ...]`` instead of this entry path.
     uvicorn.run(
         "ai_tutor.main:app",
         host="127.0.0.1",

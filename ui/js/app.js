@@ -1,6 +1,12 @@
 /**
  * Calculus Animator - Main Orchestrator
  */
+// Side-effect import — installs `window.pywebview.api` as a fetch-backed
+// shim when running in a browser (Docker Space) where PyWebView is absent.
+// MUST come before any other module import that touches `pywebview.api`,
+// because the desktop bridge proxy in `./modules/bridge.js` reads
+// `window.pywebview` at call time.
+import './modules/space_bridge.js';
 import { state } from './modules/state.js';
 import * as utils from './modules/utils.js';
 import { bridge } from './modules/bridge.js';

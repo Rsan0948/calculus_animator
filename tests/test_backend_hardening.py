@@ -41,8 +41,17 @@ from ai_tutor.providers.router import _PROVIDER_HOSTS, _validate_provider_url
 
 @pytest.fixture
 def app() -> FastAPI:
-    """Fresh app per test so route registrations / config state stay isolated."""
-    return create_app()
+    """Fresh app per test so route registrations / config state stay isolated.
+
+    The ``/`` StaticFiles mount that ``create_app`` registers for the Docker
+    Space build is removed here: tests below dynamically attach
+    ``@app.get('/__test/*')`` routes after the fixture returns, and a
+    catch-all mount registered earlier would 404 those paths before the
+    test route ever runs.
+    """
+    fresh = create_app()
+    fresh.routes[:] = [r for r in fresh.routes if getattr(r, "name", None) != "ui"]
+    return fresh
 
 
 @pytest.fixture
