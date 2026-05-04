@@ -3,10 +3,13 @@
 Adapted from yoga-companion ICF pattern.
 """
 
+import asyncio
+import base64
 import logging
 import json
 from pathlib import Path
-from typing import Any, Dict, Generator, List, Optional, Union
+from typing import Any, AsyncGenerator, Dict, FrozenSet, Generator, List, Optional, Union
+from urllib.parse import urlparse
 
 import httpx
 
@@ -20,6 +23,56 @@ except ImportError:
 
 from ai_tutor.config import get_settings
 
+
+# ═════════════════════════════════════════════════════════════════════════════
+# OUTBOUND-URL ALLOWLIST (SSRF CONTAINMENT)
+# ═════════════════════════════════════════════════════════════════════════════
+#
+# Each provider call site validates the outbound URL before making the HTTP
+# call. The allowlist is intentionally narrow: scheme must be https and the
+# netloc must match the provider's documented endpoint host. The intent is
+# to defeat SSRF redirects driven by config drift, prompt-injected model
+# names, or future custom-base-URL features that haven't yet had their
+# validation written. Productionizing this should move the allowlist into
+# config (env var / settings) with the values still validated at load time.
+
+_PROVIDER_HOSTS: Dict[str, FrozenSet[str]] = {
+    "openai": frozenset({"api.openai.com"}),
+    "anthropic": frozenset({"api.anthropic.com"}),
+    "google": frozenset({"generativelanguage.googleapis.com"}),
+    "deepseek": frozenset({"api.deepseek.com"}),
+}
+
+
+def _validate_provider_url(url: str, provider: str) -> str:
+    """Validate that ``url`` targets the allowlisted host for ``provider``.
+
+    Returns the URL unchanged on success; raises ``ValueError`` with a
+    redaction-safe message on rejection (no api keys are echoed). The
+    rejection is also logged at WARNING so that operators see attempted
+    redirects in the structured access log.
+    """
+    parsed = urlparse(url)
+    if parsed.scheme != "https":
+        logger.warning(
+            "Rejected outbound URL for provider %r: scheme=%r must be https",
+            provider, parsed.scheme,
+        )
+        raise ValueError(
+            f"Provider {provider!r} URL must use https (got scheme={parsed.scheme!r})"
+        )
+    allowed = _PROVIDER_HOSTS.get(provider, frozenset())
+    if parsed.netloc not in allowed:
+        logger.warning(
+            "Rejected outbound URL for provider %r: host=%r not in allowlist %r",
+            provider, parsed.netloc, sorted(allowed),
+        )
+        raise ValueError(
+            f"Provider {provider!r} host {parsed.netloc!r} not in allowlist {sorted(allowed)}"
+        )
+    return url
+
+
 # ═════════════════════════════════════════════════════════════════════════════
 # PROVIDER IMPLEMENTATIONS
 # ═════════════════════════════════════════════════════════════════════════════
@@ -32,6 +85,7 @@ async def _call_openai(
 ) -> str:
     """Call OpenAI API (non-streaming)."""
     url = "https://api.openai.com/v1/chat/completions"
+    _validate_provider_url(url, "openai")
     headers = {"Authorization": f"Bearer {api_key}"}
     
     payload = {
@@ -47,13 +101,14 @@ async def _call_openai(
         return resp.json()["choices"][0]["message"]["content"]
 
 
-async def _call_openai_stream(
+async def _call_openai_stream(  # async generator: see AsyncGenerator return
     messages: List[Dict[str, str]],
     model: str,
     api_key: str
-) -> Generator[str, None, None]:
+) -> AsyncGenerator[str, None]:
     """Stream OpenAI response."""
     url = "https://api.openai.com/v1/chat/completions"
+    _validate_provider_url(url, "openai")
     headers = {"Authorization": f"Bearer {api_key}"}
     
     payload = {
@@ -89,6 +144,7 @@ async def _call_anthropic(
 ) -> str:
     """Call Anthropic API (non-streaming)."""
     url = "https://api.anthropic.com/v1/messages"
+    _validate_provider_url(url, "anthropic")
     headers = {
         "x-api-key": api_key,
         "anthropic-version": "2023-06-01",
@@ -124,9 +180,10 @@ async def _call_anthropic_stream(
     model: str,
     api_key: str,
     system: Optional[str] = None
-) -> Generator[str, None, None]:
+) -> AsyncGenerator[str, None]:
     """Stream Anthropic response."""
     url = "https://api.anthropic.com/v1/messages"
+    _validate_provider_url(url, "anthropic")
     headers = {
         "x-api-key": api_key,
         "anthropic-version": "2023-06-01",
@@ -201,6 +258,8 @@ async def _call_google(
 ) -> str:
     """Call Google Gemini API."""
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+    # Validate before appending api key — keeps the key out of any error log.
+    _validate_provider_url(url, "google")
 
     # Separate system prompt from conversation messages
     system_text = None
@@ -213,7 +272,9 @@ async def _call_google(
 
     contents = _convert_messages_to_gemini_contents(user_messages)
 
-    payload = {"contents": contents}
+    # Annotated as Dict[str, Any] so the optional ``system_instruction`` entry
+    # below (different value shape) does not narrow the inferred element type.
+    payload: Dict[str, Any] = {"contents": contents}
     if system_text:
         payload["system_instruction"] = {"parts": [{"text": system_text}]}
 
@@ -224,11 +285,13 @@ async def _call_google(
             timeout=120.0
         )
         if resp.status_code >= 400:
-            raise RuntimeError(f"Gemini API {resp.status_code} error (model={model}): {resp.text}")
+            raise RuntimeError(
+                f"Gemini API error (model={model}, status={resp.status_code})"
+            )
         data = resp.json()
         candidates = data.get("candidates", [])
         if not candidates:
-            raise RuntimeError(f"Gemini returned no candidates (safety filter?): {data}")
+            raise RuntimeError("Gemini returned no candidates (safety filter or empty response)")
         return candidates[0]["content"]["parts"][0]["text"]
 
 
@@ -236,9 +299,10 @@ async def _call_google_stream(
     messages: List[Dict[str, str]],
     model: str,
     api_key: str
-) -> Generator[str, None, None]:
+) -> AsyncGenerator[str, None]:
     """Stream Google Gemini response."""
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:streamGenerateContent"
+    _validate_provider_url(url, "google")
 
     # Separate system prompt from conversation messages
     system_text = None
@@ -251,7 +315,7 @@ async def _call_google_stream(
 
     contents = _convert_messages_to_gemini_contents(user_messages)
 
-    payload = {"contents": contents}
+    payload: Dict[str, Any] = {"contents": contents}
     if system_text:
         payload["system_instruction"] = {"parts": [{"text": system_text}]}
 
@@ -284,6 +348,7 @@ async def _call_deepseek(
 ) -> str:
     """Call DeepSeek API."""
     url = "https://api.deepseek.com/chat/completions"
+    _validate_provider_url(url, "deepseek")
     headers = {"Authorization": f"Bearer {api_key}"}
     
     async with httpx.AsyncClient() as client:
@@ -332,22 +397,37 @@ def _call_local_stream(
 # ═════════════════════════════════════════════════════════════════════════════
 
 def _find_gemini_cli() -> Optional[str]:
-    """Find the gemini CLI executable."""
+    """Find the gemini CLI executable.
+
+    Each candidate path is constructed from a literal allowed root joined
+    with the literal binary name "gemini", then resolved and verified to
+    stay within that root before existence is checked. This avoids any
+    Path() construction from a non-literal value escaping its expected
+    install root.
+    """
     import shutil
-    
-    # Check common locations
-    paths = [
-        shutil.which("gemini"),
-        "/opt/homebrew/bin/gemini",
-        "/usr/local/bin/gemini",
-        "/usr/bin/gemini",
-        str(Path.home() / ".local" / "bin" / "gemini"),
-    ]
-    
-    for path in paths:
-        if path and Path(path).exists():
-            return path
-    
+
+    # Prefer $PATH lookup; shutil.which returns an absolute path or None.
+    found = shutil.which("gemini")
+    if found:
+        return found
+
+    fallback_roots = (
+        Path("/opt/homebrew/bin"),
+        Path("/usr/local/bin"),
+        Path("/usr/bin"),
+        Path.home() / ".local" / "bin",
+    )
+    for root in fallback_roots:
+        root_resolved = root.resolve()
+        candidate = (root_resolved / "gemini").resolve()
+        try:
+            candidate.relative_to(root_resolved)
+        except ValueError:
+            continue
+        if candidate.exists():
+            return str(candidate)
+
     return None
 
 
@@ -400,7 +480,24 @@ def _call_gemini_cli(
         
         return result.stdout.strip()
     finally:
-        os.unlink(prompt_file)
+        # Validate and cleanup temp files
+        # nosec: B108 - paths come from NamedTemporaryFile, validated below
+        temp_dir = Path(tempfile.gettempdir()).resolve()
+
+        # Loop variable renamed to ``path_str`` so the inner annotation does
+        # not shadow the ``with ... as f`` (``_TemporaryFileWrapper[str]``)
+        # in the enclosing scope — mypy reports an assignment mismatch
+        # otherwise even though runtime is fine.
+        for path_str in (prompt_file,):
+            p = Path(path_str).resolve()
+            # Ensure file is within temp directory (path traversal protection)
+            try:
+                p.relative_to(temp_dir)
+                if p.exists():
+                    os.unlink(p)
+            except ValueError:
+                # Path is outside temp directory - don't delete
+                logger.warning(f"Skipping deletion of file outside temp dir: {p}")
 
 
 def _call_gemini_cli_stream(
@@ -443,9 +540,14 @@ def _call_gemini_cli_stream(
             universal_newlines=True
         )
         
+        # ``stdout``/``stderr`` are guaranteed non-None because we set
+        # ``stdout=subprocess.PIPE`` and ``stderr=subprocess.PIPE`` above.
+        # mypy's stub still types them as Optional[IO[str]], so narrow.
+        stdout_pipe = process.stdout
+        assert stdout_pipe is not None
         buffer = ""
         while True:
-            char = process.stdout.read(1)
+            char = stdout_pipe.read(1)
             if not char:
                 break
             buffer += char
@@ -459,11 +561,26 @@ def _call_gemini_cli_stream(
         
         process.wait()
         if process.returncode != 0:
-            stderr = process.stderr.read()
+            stderr_pipe = process.stderr
+            assert stderr_pipe is not None
+            stderr = stderr_pipe.read()
             raise RuntimeError(f"Gemini CLI error: {stderr}")
             
     finally:
-        os.unlink(prompt_file)
+        # Validate and cleanup temp files
+        # nosec: B108 - paths come from NamedTemporaryFile, validated below
+        temp_dir = Path(tempfile.gettempdir()).resolve()
+
+        for path_str in (prompt_file,):
+            p = Path(path_str).resolve()
+            # Ensure file is within temp directory (path traversal protection)
+            try:
+                p.relative_to(temp_dir)
+                if p.exists():
+                    os.unlink(p)
+            except ValueError:
+                # Path is outside temp directory - don't delete
+                logger.warning(f"Skipping deletion of file outside temp dir: {p}")
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -476,7 +593,9 @@ def _prepare_messages(
     image_b64: Optional[str] = None
 ) -> List[Dict[str, Any]]:
     """Prepare message list with optional image for vision models."""
-    messages = []
+    # Annotate so the user-message branch (content=str vs content=list)
+    # does not narrow the inferred element type.
+    messages: List[Dict[str, Any]] = []
     
     if system:
         messages.append({"role": "system", "content": system})
@@ -581,7 +700,9 @@ def _attempt_cloud_failover(
                         yield loop.run_until_complete(agen.__anext__())
                     except StopAsyncIteration:
                         break
-                return
+                # Bare ``return`` inside a generator branch; the function's
+                # Union return type makes mypy expect a value here.
+                return  # type: ignore[return-value]
             else:
                 result = _run_async(call_fn(messages, model, api_key))
                 return result
@@ -730,8 +851,21 @@ def _call_gemini_cli_vision(
         
         return result.stdout.strip()
     finally:
-        os.unlink(prompt_file)
-        os.unlink(img_path)
+        # Validate and cleanup temp files
+        # nosec: B108 - paths come from NamedTemporaryFile, validated below
+        import tempfile
+        temp_dir = Path(tempfile.gettempdir()).resolve()
+        
+        for path_str in (prompt_file, img_path):
+            p = Path(path_str).resolve()
+            # Ensure file is within temp directory (path traversal protection)
+            try:
+                p.relative_to(temp_dir)
+                if p.exists():
+                    os.unlink(p)
+            except ValueError:
+                # Path is outside temp directory - don't delete
+                logger.warning(f"Skipping deletion of file outside temp dir: {p}")
 
 
 def generate_vision(
@@ -803,6 +937,7 @@ async def _call_deepseek_stream(messages, model, api_key):
     """Stream from DeepSeek API (SSE)."""
     import json as _json
     url = "https://api.deepseek.com/chat/completions"
+    _validate_provider_url(url, "deepseek")
     payload = {"model": model, "messages": messages, "stream": True}
     headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
     async with httpx.AsyncClient() as client:
@@ -818,8 +953,8 @@ async def _call_deepseek_stream(messages, model, api_key):
                         delta = chunk["choices"][0]["delta"].get("content", "")
                         if delta:
                             yield delta
-                    except Exception:
-                        pass
+                    except (ValueError, KeyError, IndexError, TypeError) as exc:
+                        logger.debug("Failed to parse DeepSeek stream chunk: %s", exc)
 
 
 async def generate_stream_async(prompt: str, mode: str = "fast", system: Optional[str] = None):
@@ -844,7 +979,6 @@ async def generate_vision_async(prompt: str, image_b64: str, mode: str = "power"
     # Use CLI if configured (bypasses API quota entirely)
     if settings.llm_provider == "gemini_cli" and GEMINI_CLI_PATH:
         model = settings.get_model(mode) if mode == "power" else "gemini-2.0-flash"
-        import asyncio
         return await asyncio.get_event_loop().run_in_executor(
             None, _call_gemini_cli_vision, prompt, image_b64, model, system
         )

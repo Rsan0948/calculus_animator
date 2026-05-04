@@ -93,7 +93,7 @@ def verify_index() -> Dict[str, Any]:
         collection_stats = {"error": str(e)}
     
     # Topic distribution
-    topic_counts = {}
+    topic_counts: dict[str, int] = {}
     for c in cards:
         topic_counts[c.topic] = topic_counts.get(c.topic, 0) + 1
     

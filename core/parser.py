@@ -1,4 +1,5 @@
 """Robust LaTeX → SymPy parser with multiple fallback strategies."""
+import logging
 import re
 
 from sympy import (
@@ -23,6 +24,8 @@ from sympy import (
     tan,
 )
 from sympy.parsing.latex import parse_latex
+
+logger = logging.getLogger(__name__)
 
 _COMMON = {
     r"\sin": "sin", r"\cos": "cos", r"\tan": "tan",
@@ -63,8 +66,8 @@ class ExpressionParser:
         # Strategy 1: SymPy parse_latex
         try:
             expr = parse_latex(cleaned)
-        except Exception:
-            pass
+        except Exception as exc:  # noqa: BLE001 — parse_latex wraps many ANTLR / SymPy errors; we fall through to the next strategy.
+            logger.debug("parse_latex failed for %r: %s", cleaned, exc)
 
         # Strategy 2: manual translation to SymPy string
         if expr is None:
@@ -78,8 +81,8 @@ class ExpressionParser:
                     "atan": atan, "log": log, "ln": ln, "exp": exp,
                     "sqrt": sqrt, "Abs": Abs, "oo": oo,
                 })
-            except Exception:
-                pass
+            except Exception as exc:  # noqa: BLE001 — sympify exposes many parse-class exceptions; fall through to Strategy 3.
+                logger.debug("manual sympify failed for %r: %s", cleaned, exc)
 
         # Strategy 3: try raw sympify
         if expr is None:
@@ -88,7 +91,12 @@ class ExpressionParser:
             except Exception as e:
                 error = str(e)
 
-        if expr is not None:
+        # ``sympify`` can return non-Basic singletons for inputs like
+        # ``"..."`` (Python's Ellipsis) which lack ``free_symbols``. Reject
+        # those alongside None so downstream callers always see a real
+        # sympy expression on the success branch — surfaced by the
+        # hypothesis fuzz suite (``test_parser_never_raises_on_fuzzy_math_like_input``).
+        if expr is not None and hasattr(expr, "free_symbols"):
             return {
                 "success": True,
                 "sympy_expr": expr,

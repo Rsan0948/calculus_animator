@@ -11,6 +11,7 @@ Converts curriculum artifacts into structured ConceptCards with:
 """
 
 import json
+import logging
 import re
 import sqlite3
 from dataclasses import asdict, dataclass
@@ -26,6 +27,8 @@ except ImportError:
 
 from ai_tutor.config import get_settings
 from ai_tutor.rag.vector_store import generate_id, get_vector_store
+
+logger = logging.getLogger(__name__)
 
 # Calculus topic taxonomy
 TOPIC_KEYWORDS: Dict[str, List[str]] = {
@@ -76,7 +79,9 @@ def _word_count(text: str) -> int:
 def _safe_slug(text: str) -> str:
     text = text.lower()
     text = re.sub(r"[^a-z0-9]+", "-", text)
-    text = re.sub(r"-+", "-").strip("-")
+    # Bug fix: ``re.sub`` requires three positional args (pattern, repl, string).
+    # The previous form was missing ``text`` and silently returned a partial.
+    text = re.sub(r"-+", "-", text).strip("-")
     return text or "concept"
 
 
@@ -175,8 +180,8 @@ def _chunk_content(text: str, target_words: int = 300, max_words: int = 500) -> 
     """
     paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
     
-    chunks = []
-    current_chunk = []
+    chunks: List[str] = []
+    current_chunk: List[str] = []
     current_words = 0
     
     for para in paragraphs:
@@ -194,7 +199,7 @@ def _chunk_content(text: str, target_words: int = 300, max_words: int = 500) -> 
                 current_words = 0
             
             sentences = re.split(r'(?<=[.!?])\s+', para)
-            sent_chunk = []
+            sent_chunk: List[str] = []
             sent_words = 0
             
             for sent in sentences:
@@ -303,6 +308,7 @@ class ConceptEngine:
         
         # Paths
         base_dir = Path(__file__).parent.parent.parent
+        self._project_root = base_dir.resolve()
         self.cards_path = cards_path or (base_dir / "data" / "concepts.jsonl")
         self.index_path = index_path or (base_dir / "data" / "concepts.db")
         
@@ -419,6 +425,16 @@ class ConceptEngine:
         # Process formula library
         if formula_library_path and formula_library_path.exists():
             try:
+                # Validate path is within project directory (path traversal protection)
+                base_dir = Path(__file__).parent.parent.parent.resolve()
+                target = formula_library_path.resolve()
+                try:
+                    target.relative_to(base_dir)
+                except ValueError:
+                    raise ValueError(f"Formula library path must be within project directory: {formula_library_path}")
+                
+                # guardrails: allow-path-traversal
+                # Path validated above: must be within project directory
                 with open(formula_library_path) as f:
                     formulas = json.load(f)
                 
@@ -448,15 +464,22 @@ class ConceptEngine:
                             token_count=_word_count(content)
                         )
                         cards.append(card)
-            except Exception:
-                pass
+            except (OSError, ValueError, KeyError, TypeError) as exc:
+                logger.warning(
+                    "Failed to load formula library %s: %s",
+                    formula_library_path,
+                    exc,
+                )
         
         return cards
     
     def save_cards(self, cards: List[ConceptCard]) -> None:
         """Save cards to JSONL."""
-        self.cards_path.parent.mkdir(parents=True, exist_ok=True)
-        with open(self.cards_path, "w", encoding="utf-8") as f:
+        target = self.cards_path.resolve()
+        # Path traversal guard: must stay within the resolved project root.
+        target.relative_to(self._project_root)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        with open(target, "w", encoding="utf-8") as f:
             for card in cards:
                 f.write(json.dumps(asdict(card), ensure_ascii=True) + "\n")
     
@@ -465,8 +488,11 @@ class ConceptEngine:
         if not self.cards_path.exists():
             return []
         
+        target = self.cards_path.resolve()
+        # Path traversal guard: must stay within the resolved project root.
+        target.relative_to(self._project_root)
         cards = []
-        with open(self.cards_path, "r", encoding="utf-8") as f:
+        with open(target, "r", encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
                 if line:

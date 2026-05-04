@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import re
+from typing import Dict, List
 
 _KIND_PRIORITY = {"problem": 0, "step": 1, "text": 2, "lesson": 2, "example": 3, "note": 4, "summary": 5, "practice": 6}
 _EXPLANATORY_CUES = (
