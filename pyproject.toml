@@ -43,7 +43,7 @@ dev = [
     # 1.49.0 is the floor that ships greenlet>=3.1 wheels for Python 3.13;
     # earlier playwright pins (e.g. 1.47.0) drag in greenlet 3.0.x and fail
     # the C++ source build on macOS.
-    "playwright==1.49.0",
+    "playwright==1.59.0",
 ]
 build = [
     "pyinstaller==6.20.0",
