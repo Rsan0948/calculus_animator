@@ -14,17 +14,34 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Create Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          python-version: '3.10'
+
+      - name: Generate SBOM (CycloneDX)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt -r requirements-ai.txt cyclonedx-bom
+          cyclonedx-py environment -o sbom.json
+
+      # actions/create-release@v1 is archived (deprecated since 2021).
+      # softprops/action-gh-release@v2 is the maintained replacement and
+      # supports attaching files (we use it to upload the SBOM alongside the
+      # release).
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
           draft: true
           prerelease: false
           body: |
             See [CHANGELOG.md](https://github.com/Rsan0948/calculus_animator/blob/main/CHANGELOG.md) for details.
+
+            A Software Bill of Materials (SBOM) is attached as `sbom.json`.
+          files: |
+            sbom.json
 
   build-packages:
     needs: create-release

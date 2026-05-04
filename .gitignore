@@ -51,3 +51,10 @@ curriculum.txt
 # Auto-generated at app startup — not source files
 data/slide_capacity_report.json
 data/slide_capacity_report.txt
+
+# JS lint tooling — `package.json` declares the eslint devDeps and
+# `package-lock.json` (committed) pins the full transitive graph for
+# reproducible CI installs via `npm ci`. `node_modules/` and the eslint
+# cache are regenerated on each install and never committed.
+node_modules/
+.eslintcache
