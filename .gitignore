@@ -58,3 +58,12 @@ data/slide_capacity_report.txt
 # cache are regenerated on each install and never committed.
 node_modules/
 .eslintcache
+
+# Local Claude Code / agent tooling (machine-specific, not for public repo)
+.claude/
+.helicops/
+.mcp.json
+AGENTS.md
+CLAUDE.md
+docs/ORCHESTRATOR_HANDOFF.md
+notes/
