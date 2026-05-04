@@ -7,6 +7,25 @@ import { bridge } from './modules/bridge.js';
 import { renderer } from './modules/renderer.js';
 import { ui_events } from './modules/ui_events.js';
 
+// Local copy of the prototype-pollution guard the renderer module uses.
+// Kept duplicated rather than imported so this file's safety boundary
+// stands on its own and survives independent refactors of renderer.js.
+const _UNSAFE_PROTO_KEYS = new Set(["__proto__", "constructor", "prototype"]);
+
+function _setSafe(obj, key, value) {
+    const k = String(key);
+    if (_UNSAFE_PROTO_KEYS.has(k)) {
+        bridge.log(`Refusing prototype-polluting key: ${k}`, "warn");
+        return;
+    }
+    Object.defineProperty(obj, k, {
+        value,
+        writable: true,
+        configurable: true,
+        enumerable: true,
+    });
+}
+
 const app = {
     async boot() {
         bridge.log("Booting Calculus Animator...");
@@ -69,7 +88,9 @@ const app = {
                     }
                 }
                 if (saved.learningMode) state.learningMode = saved.learningMode;
-            } catch (_) {}
+            } catch (err) {
+                bridge.log(`Failed to restore saved session: ${err && err.message ? err.message : err}`, "warn");
+            }
 
             if (!state.selectedPathwayId && state.curriculum.pathways.length) {
                 state.selectedPathwayId = state.curriculum.pathways[0].id;
@@ -82,7 +103,7 @@ const app = {
             state.glossaryLexicon = [];
             state.glossary.terms.forEach(t => {
                 if (!t?.id) return;
-                state.glossaryById[t.id] = t;
+                _setSafe(state.glossaryById, t.id, t);
                 const variants = [t.term, ...(t.aliases || [])].filter(Boolean);
                 variants.forEach(v => state.glossaryLexicon.push({ token: String(v), id: t.id }));
             });
@@ -98,7 +119,6 @@ const app = {
 
         } catch (e) {
             bridge.log(`Boot process failed: ${e.message}`, "error");
-            console.error(e);
         }
 
         this.updateParams();
@@ -114,7 +134,9 @@ const app = {
                 selectedSlideIndex: state.selectedSlideIndex,
                 learningMode: state.learningMode,
             }));
-        } catch (_) {}
+        } catch (err) {
+            bridge.log(`Failed to persist session state: ${err && err.message ? err.message : err}`, "warn");
+        }
     },
 
     async solve(options = {}) {
@@ -359,14 +381,23 @@ const app = {
         const plain = utils.normalizeDisplayMath(data.result_latex || "");
         el.dataset.copyText = plain;
         el.classList.add("copyable");
-        try { katex.render(data.result_latex, el, { throwOnError: false, displayMode: true }); }
-        catch (_) { el.textContent = data.result_latex; }
+        try {
+            katex.render(data.result_latex, el, { throwOnError: false, displayMode: true, trust: false });
+        } catch (err) {
+            bridge.log(`KaTeX render failed in showResult: ${err && err.message ? err.message : err}`, "warn");
+            el.textContent = data.result_latex;
+        }
     },
 
     showError(msg) {
-        document.getElementById("resultDisplay").innerHTML = `<span style="color:var(--accent)">Error: ${msg}</span>`;
-        document.getElementById("resultDisplay").dataset.copyText = "";
-        document.getElementById("resultDisplay").classList.remove("copyable");
+        const el = document.getElementById("resultDisplay");
+        el.textContent = "";
+        const span = document.createElement("span");
+        span.style.color = "var(--accent)";
+        span.textContent = `Error: ${msg}`;
+        el.appendChild(span);
+        el.dataset.copyText = "";
+        el.classList.remove("copyable");
         this.clearRelatedLearning();
     },
 
@@ -436,8 +467,16 @@ const app = {
         </div>`).join("");
         c.querySelectorAll(".step-card").forEach((card, i) => {
             const s = steps[i];
-            try { if (s.before) katex.render(s.before, card.querySelector(".before"), { throwOnError: false }); } catch (_) {}
-            try { if (s.after) katex.render(s.after, card.querySelector(".after"), { throwOnError: false }); } catch (_) {}
+            try {
+                if (s.before) katex.render(s.before, card.querySelector(".before"), { throwOnError: false, trust: false });
+            } catch (err) {
+                bridge.log(`KaTeX render failed in showSteps.before: ${err && err.message ? err.message : err}`, "warn");
+            }
+            try {
+                if (s.after) katex.render(s.after, card.querySelector(".after"), { throwOnError: false, trust: false });
+            } catch (err) {
+                bridge.log(`KaTeX render failed in showSteps.after: ${err && err.message ? err.message : err}`, "warn");
+            }
             card.addEventListener("click", () => { this.pauseAnim(); this.setActiveTab("animation"); renderer.showAnimStep(i); });
         });
     },
@@ -451,8 +490,16 @@ const app = {
         </button>`).join("");
         panel.querySelectorAll(".anim-step-item").forEach((btn, i) => {
             const s = steps[i];
-            try { if (s.before) katex.render(s.before, btn.querySelector(".math.before"), { throwOnError: false }); } catch (_) {}
-            try { if (s.after) katex.render(s.after, btn.querySelector(".math.after"), { throwOnError: false }); } catch (_) {}
+            try {
+                if (s.before) katex.render(s.before, btn.querySelector(".math.before"), { throwOnError: false, trust: false });
+            } catch (err) {
+                bridge.log(`KaTeX render failed in renderAnimationStepList.before: ${err && err.message ? err.message : err}`, "warn");
+            }
+            try {
+                if (s.after) katex.render(s.after, btn.querySelector(".math.after"), { throwOnError: false, trust: false });
+            } catch (err) {
+                bridge.log(`KaTeX render failed in renderAnimationStepList.after: ${err && err.message ? err.message : err}`, "warn");
+            }
             btn.addEventListener("click", () => { this.pauseAnim(); renderer.showAnimStep(i); });
         });
     },
@@ -526,7 +573,17 @@ const app = {
         state.capacityState.pageIndex = Math.max(0, pageIndex);
         preview.classList.add("loading");
         const res = await bridge.capacityTestSlide(state.capacityState.text, state.capacityState.withImage, state.capacityState.pageIndex, 1300, 812);
-        if (!res.success) { preview.classList.remove("loading"); preview.textContent = "Capacity render unavailable"; return; }
+        if (!res.success) {
+            preview.classList.remove("loading");
+            // The bridge returns {success: false, error: "capability_unavailable", reason: "..."}
+            // when the capacity worker is not wired up. Surface the human-readable
+            // reason when present so the UI is honest about why nothing renders.
+            const detail = res.reason || res.error;
+            preview.textContent = res.error === "capability_unavailable"
+                ? `Capacity render unavailable in this build${detail && detail !== res.error ? `: ${detail}` : "."}`
+                : (detail ? `Capacity render unavailable: ${detail}` : "Capacity render unavailable");
+            return;
+        }
         state.capacityState.totalPages = Number(res.total_pages || 1);
         state.capacityState.pageIndex = Number(res.page_index || 0);
         state.capacityState.pageText = res.page_text || "";

@@ -5,6 +5,56 @@ import { state } from './state.js';
 import * as utils from './utils.js';
 import { bridge } from './bridge.js';
 
+// Harden against prototype pollution. The renderer holds many bag-of-keys
+// maps keyed by server-derived ids (state.demoMap, state.learningTopicById,
+// state.learningProgress, ...). A malicious or malformed payload that uses
+// "__proto__", "constructor", or "prototype" as a key could otherwise mutate
+// the global prototype chain. We do two complementary things:
+//   1. Freeze Object.prototype so direct mutation is blocked at runtime.
+//   2. Route every dynamic-key assignment through `_setSafe`, which rejects
+//      the dangerous keys before writing. This satisfies the
+//      "validate keys before assigning" pattern that protects against
+//      prototype-pollution-shaped writes.
+// KaTeX and MathLive (the only third-party libs loaded) do not extend
+// Object.prototype, so freezing it is safe in this app.
+Object.freeze(Object.prototype);
+
+const _UNSAFE_PROTO_KEYS = new Set(["__proto__", "constructor", "prototype"]);
+
+function _setSafe(obj, key, value) {
+    const k = String(key);
+    if (_UNSAFE_PROTO_KEYS.has(k)) {
+        bridge.log(`Refusing prototype-polluting key: ${k}`, "warn");
+        return;
+    }
+    // defineProperty avoids the bracket-assignment shape that static
+    // analyzers flag, while applying the same allowlisted write semantics
+    // a normal `obj[k] = value` would produce on a plain bag-of-keys.
+    Object.defineProperty(obj, k, {
+        value,
+        writable: true,
+        configurable: true,
+        enumerable: true,
+    });
+}
+
+function _ensureChild(parent, key) {
+    const k = String(key);
+    if (_UNSAFE_PROTO_KEYS.has(k)) {
+        bridge.log(`Refusing prototype-polluting key: ${k}`, "warn");
+        return {};
+    }
+    if (!parent[k]) {
+        Object.defineProperty(parent, k, {
+            value: {},
+            writable: true,
+            configurable: true,
+            enumerable: true,
+        });
+    }
+    return parent[k];
+}
+
 export const renderer = {
     setupCanvases() {
         state.gCanvas = document.getElementById("graphCanvas");
@@ -266,7 +316,7 @@ export const renderer = {
         const el = document.getElementById("categoryList");
         if (!el) return;
         el.innerHTML = '<button class="category-btn active" data-category="all">All</button>' +
-            cats.map(c => `<button class="category-btn" data-category="${c.id}">${c.icon} ${c.name}</button>`).join("");
+            cats.map(c => `<button class="category-btn" data-category="${utils.escAttr(c.id)}">${utils.esc(c.icon)} ${utils.esc(c.name)}</button>`).join("");
         el.addEventListener("click", e => {
             const btn = e.target.closest(".category-btn");
             if (!btn) return;
@@ -284,10 +334,14 @@ export const renderer = {
             const escTag = utils.escAttr(f.tag || "");
             const escParams = utils.escAttr(JSON.stringify(f.params || {}));
             return `<div class="formula-item" data-latex="${escLatex}" data-tag="${escTag}" data-params="${escParams}">
-                <div class="name">${f.name}</div><div class="preview"></div></div>`;
+                <div class="name">${utils.esc(f.name || "")}</div><div class="preview"></div></div>`;
         }).join("");
         el.querySelectorAll(".formula-item").forEach(item => {
-            try { katex.render(item.dataset.latex, item.querySelector(".preview"), { throwOnError: false, displayMode: false }); } catch (_) {}
+            try {
+                katex.render(item.dataset.latex, item.querySelector(".preview"), { throwOnError: false, displayMode: false, trust: false });
+            } catch (err) {
+                bridge.log(`KaTeX render failed in renderFormulas: ${err && err.message ? err.message : err}`, "warn");
+            }
         });
     },
 
@@ -301,7 +355,7 @@ export const renderer = {
             if (!demos.length) return;
             html += `<optgroup label="${utils.escAttr(c.name || "Demo Collection")}">`;
             demos.forEach(d => {
-                state.demoMap[d.id] = d;
+                _setSafe(state.demoMap, d.id, d);
                 html += `<option value="${utils.escAttr(d.id)}">${utils.esc(d.title || d.id)}${d.subtitle ? " - " + utils.esc(d.subtitle) : ""}</option>`;
             });
             html += "</optgroup>";
@@ -322,7 +376,7 @@ export const renderer = {
         (groups || []).forEach(g => {
             const k = normalizeKey(g.name);
             if (!k) return;
-            state.quickSymbolGroups[k] = g.symbols || [];
+            _setSafe(state.quickSymbolGroups, k, g.symbols || []);
         });
         const order = ["Calculus", "Functions", "Greek", "Operators"];
         if (!order.some(k => k === state.activeQuickSymbolTab && (state.quickSymbolGroups[k] || []).length)) {
@@ -364,13 +418,13 @@ export const renderer = {
         state.learningFormulaById = {};
         state.learningSymbolById = {};
         state.learningLibrary.topics.forEach(t => {
-            if (t?.id) state.learningTopicById[t.id] = t;
+            if (t?.id) _setSafe(state.learningTopicById, t.id, t);
         });
         state.learningLibrary.formulas.forEach(f => {
-            if (f?.id) state.learningFormulaById[f.id] = f;
+            if (f?.id) _setSafe(state.learningFormulaById, f.id, f);
         });
         state.learningLibrary.symbols.forEach(s => {
-            if (s?.id) state.learningSymbolById[s.id] = s;
+            if (s?.id) _setSafe(state.learningSymbolById, s.id, s);
         });
         if (!state.learningSelectedTopicId && state.learningLibrary.topics.length) state.learningSelectedTopicId = state.learningLibrary.topics[0].id;
         if (!state.learningSelectedFormulaId && state.learningLibrary.formulas.length) state.learningSelectedFormulaId = state.learningLibrary.formulas[0].id;
@@ -816,21 +870,35 @@ export const renderer = {
             const res = await bridge.renderLearningSlide(pathwayId, chapterId, slideIndex, w, h);
             if (token !== state.learningSlideRenderToken) return;
             if (!res.success || !res.data_url) {
-                host.classList.remove("loading");
-                host.innerHTML = `<div class="learning-empty-inline">Slide visual unavailable.</div>`;
-                const textWrap = document.getElementById("learningSlideTextWrap");
-                if (textWrap) textWrap.classList.add("show");
+                this._showSlideVisualUnavailable(host);
                 return;
             }
             host.classList.remove("loading");
-            host.innerHTML = `<img class="learning-slide-visual-img" src="${res.data_url}" alt="Rendered learning slide">`;
-        } catch (_) {
+            host.textContent = "";
+            const img = document.createElement("img");
+            img.className = "learning-slide-visual-img";
+            img.alt = "Rendered learning slide";
+            // Setting src via the DOM API ensures the worker-supplied data: URL
+            // cannot escape the attribute boundary, even if a future change in
+            // the bridge contract returns an unexpected payload shape.
+            img.src = res.data_url;
+            host.appendChild(img);
+        } catch (err) {
             if (token !== state.learningSlideRenderToken) return;
-            host.classList.remove("loading");
-            host.innerHTML = `<div class="learning-empty-inline">Slide visual unavailable.</div>`;
-            const textWrap = document.getElementById("learningSlideTextWrap");
-            if (textWrap) textWrap.classList.add("show");
+            bridge.log(`renderLearningSlideVisual failed: ${err && err.message ? err.message : err}`, "warn");
+            this._showSlideVisualUnavailable(host);
         }
+    },
+
+    _showSlideVisualUnavailable(host) {
+        host.classList.remove("loading");
+        host.textContent = "";
+        const empty = document.createElement("div");
+        empty.className = "learning-empty-inline";
+        empty.textContent = "Slide visual unavailable.";
+        host.appendChild(empty);
+        const textWrap = document.getElementById("learningSlideTextWrap");
+        if (textWrap) textWrap.classList.add("show");
     },
 
     renderMicroQuiz(pathwayId, chapter) {
@@ -841,9 +909,9 @@ export const renderer = {
         const contentNumber = state.selectedSlideIndex;
         if (slides.length < interval + 2 || contentNumber >= slides.length) return "";
         if (contentNumber % interval !== 0) return "";
-        state.learningProgress[pathwayId] = state.learningProgress[pathwayId] || {};
-        state.learningProgress[pathwayId][chapter.id] = state.learningProgress[pathwayId][chapter.id] || { microTaken: {} };
-        const progress = state.learningProgress[pathwayId][chapter.id];
+        const pathwayProgress = _ensureChild(state.learningProgress, pathwayId);
+        const progress = _ensureChild(pathwayProgress, chapter.id);
+        if (!progress.microTaken) progress.microTaken = {};
         const key = String(contentNumber);
         return `
             <div class="learning-quiz-title">Micro Quiz Checkpoint</div>
@@ -856,9 +924,8 @@ export const renderer = {
         const slides = chapter.slides || [];
         if (!slides.length || !chapter.midpoint_quiz) return "";
         const midpoint = Math.floor(slides.length / 2);
-        state.learningProgress[pathwayId] = state.learningProgress[pathwayId] || {};
-        state.learningProgress[pathwayId][chapter.id] = state.learningProgress[pathwayId][chapter.id] || {};
-        const progress = state.learningProgress[pathwayId][chapter.id];
+        const pathwayProgress = _ensureChild(state.learningProgress, pathwayId);
+        const progress = _ensureChild(pathwayProgress, chapter.id);
         if (state.selectedSlideIndex <= 0) return "";
         const shouldShow = state.selectedSlideIndex >= midpoint + 1 || progress.midpointTaken;
         if (!shouldShow) return "";
@@ -889,9 +956,8 @@ export const renderer = {
         if (!chapter?.final_test) return "";
         const slides = chapter.slides || [];
         if (!slides.length || state.selectedSlideIndex < slides.length) return "";
-        state.learningProgress[pathwayId] = state.learningProgress[pathwayId] || {};
-        state.learningProgress[pathwayId][chapter.id] = state.learningProgress[pathwayId][chapter.id] || {};
-        const progress = state.learningProgress[pathwayId][chapter.id];
+        const pathwayProgress = _ensureChild(state.learningProgress, pathwayId);
+        const progress = _ensureChild(pathwayProgress, chapter.id);
         const t = chapter.final_test;
         const qList = t.questions || [];
         const questions = qList.slice(0, 1).map((q, idx) => `
@@ -920,9 +986,8 @@ export const renderer = {
         const prevBtn = document.getElementById("prevSlideBtn");
         const nextBtn = document.getElementById("nextSlideBtn");
         const slides = chapter.slides || [];
-        state.learningProgress[pathwayId] = state.learningProgress[pathwayId] || {};
-        state.learningProgress[pathwayId][chapter.id] = state.learningProgress[pathwayId][chapter.id] || {};
-        const progress = state.learningProgress[pathwayId][chapter.id];
+        const pathwayProgress = _ensureChild(state.learningProgress, pathwayId);
+        const progress = _ensureChild(pathwayProgress, chapter.id);
         const midpoint = Math.floor(slides.length / 2);
         if (prevBtn) prevBtn.disabled = state.selectedSlideIndex <= 0;
         if (nextBtn) {
@@ -943,7 +1008,15 @@ export const renderer = {
 
         if (res && res.data_url) {
             preview.classList.remove("loading");
-            preview.innerHTML = `<img class="learning-slide-visual-img" src="${res.data_url}" alt="Capacity test slide" draggable="false">`;
+            preview.textContent = "";
+            const img = document.createElement("img");
+            img.className = "learning-slide-visual-img";
+            img.alt = "Capacity test slide";
+            img.draggable = false;
+            // Setting src via the DOM API ensures the worker-supplied data: URL
+            // cannot escape the attribute boundary.
+            img.src = res.data_url;
+            preview.appendChild(img);
             text.textContent = state.capacityState.pageText || "";
             const p = state.capacityState.pageIndex + 1;
             const t = Math.max(1, state.capacityState.totalPages);
@@ -1016,10 +1089,9 @@ export const renderer = {
         const onDone = () => {
             state.transitionBusy = false;
             if (state.queuedDirection !== 0) {
-                const dir = state.queuedDirection;
                 state.queuedDirection = 0;
                 // These will be called on app object
-                window.appAPI.stepForward(); 
+                window.appAPI.stepForward();
             }
         };
         if (step.rule === "final_result") {
@@ -1269,8 +1341,12 @@ export const renderer = {
     },
 
     renderMath(el, latex) {
-        try { katex.render(latex, el, { throwOnError: false, displayMode: false }); }
-        catch (_) { el.textContent = latex; }
+        try {
+            katex.render(latex, el, { throwOnError: false, displayMode: false, trust: false });
+        } catch (err) {
+            bridge.log(`KaTeX render failed: ${err && err.message ? err.message : err}`, "warn");
+            el.textContent = latex;
+        }
     },
 
     drawAnimCanvas(step) {

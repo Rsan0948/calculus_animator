@@ -1,0 +1,16 @@
+{
+  "name": "calculus-animator-lint",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Lint-only manifest for calculus-animator's vanilla JS UI. Not published, not loaded at runtime, not used by the desktop app. Exists solely so eslint can resolve its config-file imports from a project-local node_modules.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint -c eslint.config.js \"ui/js/**/*.js\""
+  },
+  "devDependencies": {
+    "@eslint/js": "9.18.0",
+    "eslint": "9.18.0",
+    "eslint-plugin-no-unsanitized": "4.1.2"
+  }
+}
