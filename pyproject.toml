@@ -30,7 +30,7 @@ dependencies = [
 # both resolve to the same versions.
 [project.optional-dependencies]
 ai_tutor = [
-    "chromadb==1.5.7",
+    "chromadb==1.5.8",
     "sentence-transformers==5.4.1",
 ]
 dev = [
