@@ -12,7 +12,15 @@
 
 class AITutorPanel {
     constructor(options = {}) {
-        this.apiBaseUrl = options.apiUrl || 'http://127.0.0.1:8000';
+        // Default to a same-origin relative base in the browser (Hugging Face
+        // Space: page served via https + the FastAPI backend mounted at /);
+        // fall back to the desktop's loopback FastAPI when running inside the
+        // PyWebView shell (file:// pages can't make relative HTTP calls). An
+        // explicit options.apiUrl wins over either.
+        const isDesktopShell = typeof window.pywebview !== 'undefined'
+            || window.location.protocol === 'file:';
+        this.apiBaseUrl = options.apiUrl
+            || (isDesktopShell ? 'http://127.0.0.1:8000' : '');
         this.solverState = null;
         this.history = [];
         this.isOpen = false;
