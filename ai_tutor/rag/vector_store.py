@@ -3,7 +3,15 @@
 Adapted from yoga-companion local-first RAG pattern.
 """
 
+# `from __future__ import annotations` defers annotation evaluation to runtime
+# strings (PEP 563). This lets the optional ``chromadb`` and
+# ``sentence_transformers`` symbols appear in type hints without forcing the
+# class body to evaluate them at import time when the packages are not
+# installed.
+from __future__ import annotations
+
 import hashlib
+import logging
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
@@ -22,6 +30,8 @@ except ImportError:
 
 from ai_tutor.config import get_settings
 
+logger = logging.getLogger(__name__)
+
 
 class VectorStore:
     """
@@ -30,14 +40,19 @@ class VectorStore:
     Stores concept embeddings for semantic retrieval.
     """
     
+    # ``chromadb.PersistentClient`` is a factory function (not a class), so it
+    # cannot be used as a type annotation directly. ``SentenceTransformer``
+    # has a complex stubbed signature that drifts between versions. Both are
+    # opaque from the consumer side here, so we type the cached handles as
+    # ``Any`` and let the runtime calls flow through.
     def __init__(self, persist_directory: Optional[Path] = None):
         self.settings = get_settings()
         self.persist_directory = persist_directory or self.settings.absolute_vector_path
-        self._client: Optional[chromadb.PersistentClient] = None
-        self._embedding_model: Optional[SentenceTransformer] = None
+        self._client: Any = None
+        self._embedding_model: Any = None
         self._model_name = self.settings.embed_model
     
-    def _get_client(self) -> chromadb.PersistentClient:
+    def _get_client(self) -> Any:
         """Get or create ChromaDB client."""
         if not CHROMA_AVAILABLE:
             raise RuntimeError("ChromaDB not installed. Run: pip install chromadb")
@@ -50,7 +65,7 @@ class VectorStore:
             )
         return self._client
     
-    def _get_embedding_model(self) -> SentenceTransformer:
+    def _get_embedding_model(self) -> Any:
         """Get or load sentence transformer model."""
         if not SENTENCE_TRANSFORMERS_AVAILABLE:
             raise RuntimeError("sentence-transformers not installed")
@@ -70,7 +85,7 @@ class VectorStore:
         embeddings = model.encode(texts, normalize_embeddings=True)
         return embeddings.tolist()
     
-    def get_or_create_collection(self, name: str) -> chromadb.Collection:
+    def get_or_create_collection(self, name: str) -> Any:
         """Get or create a ChromaDB collection."""
         client = self._get_client()
         return client.get_or_create_collection(
@@ -173,12 +188,12 @@ class VectorStore:
         return semantic_results[:n_results]
     
     def delete_collection(self, name: str) -> None:
-        """Delete a collection."""
+        """Delete a collection (no-op when the collection does not exist)."""
         client = self._get_client()
         try:
             client.delete_collection(name)
-        except Exception:
-            pass
+        except (ValueError, KeyError, RuntimeError) as exc:
+            logger.debug("Failed to delete collection %r: %s", name, exc)
     
     def list_collections(self) -> List[str]:
         """List all collections."""

@@ -2,21 +2,24 @@
 
 import copy
 import io
+import logging
 import math
 import os
 from collections.abc import Callable
 
 import pygame
-import pygame.gfxdraw
 
 from ._drawing import _draw_gradient_rect, _draw_rounded_rect, _draw_shadow, _parse_color
 from ._elements import (
     BulletList, CodeBlock, Divider, DynamicGraphic, ImageBox,
-    ProgressBar, Shape, Slide, SlideElement, TextBox,
+    ProgressBar, Shape, Slide, TextBox,
 )
 from ._enums import EntryAnim, Transition
 from ._font import _font_cache, _render_text_surface
 from ._themes import THEMES
+
+
+logger = logging.getLogger(__name__)
 
 
 class SlideEngine:
@@ -440,8 +443,8 @@ class SlideEngine:
                     img = pygame.image.load(slide.bg_image).convert_alpha()
                 img = pygame.transform.smoothscale(img, (w, h))
                 bg_surf.blit(img, (0, 0))
-            except Exception:
-                pass
+            except (OSError, ValueError, RuntimeError, TypeError) as exc:
+                logger.debug("bg_image load/scale failed: %s", exc)
         self._bg_cache = (bg_key, bg_surf.copy())
         surface.blit(bg_surf, (0, 0))
 
@@ -692,8 +695,8 @@ class SlideEngine:
                              self.theme, **dg.user_data)
                 final_surf, fx, fy = dg._apply_anim(elem_surf, dx, dy, w, h, progress)
                 surface.blit(final_surf, (int(fx), int(fy)))
-            except Exception:
-                pass
+            except Exception as exc:  # noqa: BLE001 — render_fn is user-supplied; failure must not break the slide.
+                logger.debug("dynamic render_fn raised: %s", exc)
 
     def _render_bulletlist(self, bl: BulletList, surface, w, h, progress):
         font = self._get_font_for_style(bl.style, h, bl.font_size, bl.bold)
