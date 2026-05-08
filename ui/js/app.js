@@ -147,8 +147,11 @@ const app = {
             const inp = document.getElementById("mathInput") || state.mathField;
             inp.classList.add("shake-input");
             setTimeout(() => inp.classList.remove("shake-input"), 500);
+            this.showInputEmptyError();
+            inp.focus();
             return;
         }
+        this.hideInputEmptyError();
         this.pauseAnim();
 
         const calcType = document.getElementById("calcTypeSelect").value || null;
@@ -399,6 +402,32 @@ const app = {
         el.dataset.copyText = "";
         el.classList.remove("copyable");
         this.clearRelatedLearning();
+    },
+
+    showInputEmptyError() {
+        const container = document.querySelector(".math-input-container");
+        if (!container) return;
+        let el = document.getElementById("inputEmptyError");
+        if (!el) {
+            el = document.createElement("div");
+            el.id = "inputEmptyError";
+            el.style.color = "var(--accent)";
+            el.style.fontSize = "12px";
+            el.style.marginTop = "6px";
+            el.setAttribute("role", "alert");
+            const tools = container.querySelector(".input-copy-tools");
+            if (tools) container.insertBefore(el, tools);
+            else container.appendChild(el);
+        }
+        el.textContent = "Enter an expression first.";
+        // Auto-clear on next keystroke. once:true keeps re-registrations safe.
+        const inp = document.getElementById("mathInput");
+        if (inp) inp.addEventListener("input", () => this.hideInputEmptyError(), { once: true });
+    },
+
+    hideInputEmptyError() {
+        const el = document.getElementById("inputEmptyError");
+        if (el) el.remove();
     },
 
     renderRelatedLearningLinks(result) {
