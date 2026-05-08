@@ -540,24 +540,33 @@ class AITutorPanel {
     async sendMessage(message = null) {
         const text = message || this.inputField.value.trim();
         if (!text || this.isStreaming) return;
-        
+
         // Clear input if using field
         if (!message) {
             this.inputField.value = '';
         }
-        
+
+        // Backend rejects requests without a real solver_state.expression
+        // with a 422, surfacing as a generic "network error" in the chat.
+        // If the user opened the tutor before loading or solving a problem,
+        // give them inline feedback instead of firing a doomed request.
+        const hasSolverContext = !!(this.solverState && this.solverState.expression);
+        if (!hasSolverContext) {
+            this.addMessage(text, 'user');
+            this.history.push({ role: 'user', content: text });
+            const hint = 'Load or solve a problem first — then I can help with the steps.';
+            this.addMessage(hint, 'assistant');
+            this.history.push({ role: 'assistant', content: hint });
+            return;
+        }
+
         // Check if we have a pending screenshot
         const hasScreenshot = this.pendingScreenshot !== null;
-        
+
         // Build request
         const requestBody = {
             message: text,
-            solver_state: this.solverState || {
-                expression: '',
-                operation: 'derivative',
-                step_index: 0,
-                step_count: 0
-            },
+            solver_state: this.solverState,
             history: this.history.slice(-6) // Keep last 6 messages
         };
         
