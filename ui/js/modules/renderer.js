@@ -794,9 +794,13 @@ export const renderer = {
             if (notesBody) notesBody.innerHTML = "";
             return;
         }
-        state.selectedSlideIndex = Math.max(0, Math.min(slides.length, state.selectedSlideIndex));
-        const introMode = state.selectedSlideIndex === 0;
-        const contentIndex = Math.max(0, state.selectedSlideIndex - 1);
+        // Slide indexing: 0-indexed content slot, 1-indexed display.
+        // The previous "introMode" (slideIndex===0 rendering chapter
+        // description as a fake slide-0) created a duplicate-content
+        // arrival state — chapter description rendered three times — and
+        // an N+1 indexer for N slides. Land directly on slides[0].
+        state.selectedSlideIndex = Math.max(0, Math.min(slides.length - 1, state.selectedSlideIndex));
+        const contentIndex = state.selectedSlideIndex;
         const slide = slides[contentIndex];
         const slideTitle = (slide?.title || slide?.id || "Slide");
         const titleLower = String(slideTitle).toLowerCase();
@@ -809,49 +813,30 @@ export const renderer = {
             </div>
         `).join("");
         const graphics = (slide?.graphics || []).map(g => `<span class="glossary-chip">${utils.prettyText(g.kind || "graphic")}: ${utils.prettyText(g.name || "")}</span>`).join("");
-        if (introMode) {
-            stage.innerHTML = `
-                <div class="learning-stage-top">
-                    <button class="btn btn-small" id="prevSlideBtn" data-stage-action="prev">← Previous Slide</button>
-                    <button class="btn btn-small" id="nextSlideBtn" data-stage-action="next">Next Slide →</button>
-                    <button class="btn btn-small btn-secondary" data-stage-action="toggle-notes">${state.slideNotesOpen ? "Hide Notes" : "Show Notes"}</button>
-                </div>
-                <div class="learning-slide-sub">${utils.prettyText(pathway.title || "Pathway")} · Slide 0 / ${slides.length}</div>
-                <div class="learning-slide-title">${utils.prettyText(chapter.title || "Chapter")}</div>
-                <div class="learning-empty-inline">${utils.prettyText(chapter.description || "Chapter overview")}</div>
-            `;
-        } else {
-            stage.innerHTML = `
-                <div class="learning-stage-top">
-                    <button class="btn btn-small" id="prevSlideBtn" data-stage-action="prev">← Previous Slide</button>
-                    <button class="btn btn-small" id="nextSlideBtn" data-stage-action="next">Next Slide →</button>
-                    <button class="btn btn-small btn-secondary" data-stage-action="toggle-notes">${state.slideNotesOpen ? "Hide Notes" : "Show Notes"}</button>
-                    <button class="btn btn-small btn-secondary" id="toggleSlideTextBtn" data-stage-action="toggle-text">${state.showSlideTextDetails ? "Hide Slide Text" : "Show Slide Text"}</button>
-                </div>
-                <div class="learning-slide-sub">${utils.prettyText(chapter.title)} · Slide ${state.selectedSlideIndex} / ${slides.length}</div>
-                <div class="${titleClass}">${utils.prettyText(slideTitle)}</div>
-                <div id="learningSlideVisualHost" class="learning-slide-visual loading">Rendering slide visual…</div>
-                <div id="learningSlideTextWrap" class="learning-slide-text${state.showSlideTextDetails ? " show" : ""}">
-                    ${graphics ? `<div class="learning-related-row" style="margin-bottom:10px">${graphics}</div>` : ""}
-                    ${blocks || '<div class="learning-empty-inline">No blocks in this slide yet.</div>'}
-                </div>
-            `;
-            this.renderLearningSlideVisual(pathway.id, chapter.id, contentIndex);
-        }
+        stage.innerHTML = `
+            <div class="learning-stage-top">
+                <button class="btn btn-small" id="prevSlideBtn" data-stage-action="prev">← Previous Slide</button>
+                <button class="btn btn-small" id="nextSlideBtn" data-stage-action="next">Next Slide →</button>
+                <button class="btn btn-small btn-secondary" data-stage-action="toggle-notes">${state.slideNotesOpen ? "Hide Notes" : "Show Notes"}</button>
+                <button class="btn btn-small btn-secondary" id="toggleSlideTextBtn" data-stage-action="toggle-text">${state.showSlideTextDetails ? "Hide Slide Text" : "Show Slide Text"}</button>
+            </div>
+            <div class="learning-slide-sub">${utils.prettyText(chapter.title)} · Slide ${state.selectedSlideIndex + 1} / ${slides.length}</div>
+            <div class="${titleClass}">${utils.prettyText(slideTitle)}</div>
+            <div id="learningSlideVisualHost" class="learning-slide-visual loading">Rendering slide visual…</div>
+            <div id="learningSlideTextWrap" class="learning-slide-text${state.showSlideTextDetails ? " show" : ""}">
+                ${graphics ? `<div class="learning-related-row" style="margin-bottom:10px">${graphics}</div>` : ""}
+                ${blocks || '<div class="learning-empty-inline">No blocks in this slide yet.</div>'}
+            </div>
+        `;
+        this.renderLearningSlideVisual(pathway.id, chapter.id, contentIndex);
         if (notesBody) {
-            if (introMode) {
-                notesBody.innerHTML = `
-                    <div class="slide-notes-item"><span class="k">chapter</span><div>${utils.prettyText(chapter.description || "No chapter notes yet.")}</div></div>
-                `;
-            } else {
-                const fullBlocks = slide?.content_blocks || [];
-                notesBody.innerHTML = fullBlocks.map(b => `
-                    <div class="slide-notes-item">
-                        <span class="k">${utils.prettyText((b.kind || "text").toUpperCase())}</span>
-                        <div>${utils.prettyText(b.text || "")}</div>
-                    </div>
-                `).join("") || '<div class="slide-notes-item">No notes for this slide.</div>';
-            }
+            const fullBlocks = slide?.content_blocks || [];
+            notesBody.innerHTML = fullBlocks.map(b => `
+                <div class="slide-notes-item">
+                    <span class="k">${utils.prettyText((b.kind || "text").toUpperCase())}</span>
+                    <div>${utils.prettyText(b.text || "")}</div>
+                </div>
+            `).join("") || '<div class="slide-notes-item">No notes for this slide.</div>';
         }
 
         quizGate.innerHTML = [this.renderMicroQuiz(pathway.id, chapter), this.renderQuizGate(pathway.id, chapter)].filter(Boolean).join("");
@@ -905,8 +890,9 @@ export const renderer = {
         const interval = Number(chapter?.micro_quiz_interval || 0);
         if (!interval || interval < 2) return "";
         const slides = chapter.slides || [];
-        if (state.selectedSlideIndex <= 0) return "";
-        const contentNumber = state.selectedSlideIndex;
+        // contentNumber is the 1-indexed slide number (slideIndex is now
+        // 0-indexed since the intro state was removed).
+        const contentNumber = state.selectedSlideIndex + 1;
         if (slides.length < interval + 2 || contentNumber >= slides.length) return "";
         if (contentNumber % interval !== 0) return "";
         const pathwayProgress = _ensureChild(state.learningProgress, pathwayId);
@@ -926,8 +912,10 @@ export const renderer = {
         const midpoint = Math.floor(slides.length / 2);
         const pathwayProgress = _ensureChild(state.learningProgress, pathwayId);
         const progress = _ensureChild(pathwayProgress, chapter.id);
-        if (state.selectedSlideIndex <= 0) return "";
-        const shouldShow = state.selectedSlideIndex >= midpoint + 1 || progress.midpointTaken;
+        // slideIndex is now 0-indexed; the prior "intro skip" is no
+        // longer needed. Trigger the quiz gate once the user reaches
+        // the midpoint slide (was midpoint+1 in 1-indexed semantics).
+        const shouldShow = state.selectedSlideIndex >= midpoint || progress.midpointTaken;
         if (!shouldShow) return "";
         const quiz = chapter.midpoint_quiz;
         const qList = (quiz.questions || []);
@@ -955,7 +943,11 @@ export const renderer = {
     renderChapterTest(chapter, pathwayId) {
         if (!chapter?.final_test) return "";
         const slides = chapter.slides || [];
-        if (!slides.length || state.selectedSlideIndex < slides.length) return "";
+        // Render the test alongside the LAST slide. Previously slideIndex
+        // had an extra "after-last-slide" position (slides.length) where
+        // the test rendered; with the intro removed and slideIndex now
+        // 0-indexed, the last slide IS the natural end-of-chapter spot.
+        if (!slides.length || state.selectedSlideIndex < slides.length - 1) return "";
         const pathwayProgress = _ensureChild(state.learningProgress, pathwayId);
         const progress = _ensureChild(pathwayProgress, chapter.id);
         const t = chapter.final_test;
@@ -991,8 +983,10 @@ export const renderer = {
         const midpoint = Math.floor(slides.length / 2);
         if (prevBtn) prevBtn.disabled = state.selectedSlideIndex <= 0;
         if (nextBtn) {
-            const blockedByQuiz = chapter.midpoint_quiz && !progress.midpointTaken && state.selectedSlideIndex >= midpoint + 1;
-            nextBtn.disabled = state.selectedSlideIndex >= slides.length || blockedByQuiz;
+            // slideIndex is now 0-indexed; midpoint quiz and end-of-chapter
+            // bounds shift by 1 vs the old N+1 indexing.
+            const blockedByQuiz = chapter.midpoint_quiz && !progress.midpointTaken && state.selectedSlideIndex >= midpoint;
+            nextBtn.disabled = state.selectedSlideIndex >= slides.length - 1 || blockedByQuiz;
         }
     },
 
