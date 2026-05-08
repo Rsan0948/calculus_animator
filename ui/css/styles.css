@@ -215,7 +215,7 @@ sub{font-size:.72em;line-height:0;vertical-align:sub}
 .pathways-shell.collapsed .learning-sidebar-head{padding:10px;min-height:56px;justify-content:center;align-items:center}
 .pathways-shell.collapsed .learning-sidebar-head-row{justify-content:center}
 .pathways-shell.collapsed .pathway-collapse-btn{padding:8px 9px;font-size:0}
-.pathways-shell.collapsed .pathway-collapse-btn::after{content:"▶";font-size:12px}
+.pathways-shell.collapsed .pathway-collapse-btn::after{content:"Show";font-size:11px;font-weight:600;letter-spacing:.3px}
 .learning-sidebar{background:var(--bg3);border:1px solid var(--border);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;max-height:72vh}
 .learning-sidebar-head{padding:14px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:9px}
 .learning-sidebar-head-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
@@ -297,8 +297,8 @@ sub{font-size:.72em;line-height:0;vertical-align:sub}
 #solverAppContainer.solver-collapsed .logo{padding:12px 10px;justify-content:center;flex-direction:column;gap:8px}
 #solverAppContainer.solver-collapsed .logo-text,
 #solverAppContainer.solver-collapsed .formula-library{display:none}
-#solverAppContainer.solver-collapsed .sidebar-toggle-btn{margin-left:0;width:42px;padding:6px 0;font-size:0}
-#solverAppContainer.solver-collapsed .sidebar-toggle-btn::after{content:"▶";font-size:12px}
+#solverAppContainer.solver-collapsed .sidebar-toggle-btn{margin-left:0;width:54px;padding:6px 0;font-size:0}
+#solverAppContainer.solver-collapsed .sidebar-toggle-btn::after{content:"Show";font-size:11px;font-weight:600;letter-spacing:.3px}
 
 /* Use a single primary scroll container in Pathways mode (outer wrap). */
 .pathways-shell .learning-detail{max-height:none;overflow:visible}
