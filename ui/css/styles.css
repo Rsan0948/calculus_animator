@@ -293,13 +293,69 @@ sub{font-size:.72em;line-height:0;vertical-align:sub}
 .glossary-chip{padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:var(--bg2);color:var(--text1);font-size:12px}
 .is-hidden{display:none!important}
 
-/* solver sidebar collapse */
-#solverAppContainer.solver-collapsed .sidebar{width:64px}
-#solverAppContainer.solver-collapsed .logo{padding:12px 10px;justify-content:center;flex-direction:column;gap:8px}
-#solverAppContainer.solver-collapsed .logo-text,
-#solverAppContainer.solver-collapsed .formula-library{display:none}
-#solverAppContainer.solver-collapsed .sidebar-toggle-btn{margin-left:0;width:54px;padding:6px 0;font-size:0}
-#solverAppContainer.solver-collapsed .sidebar-toggle-btn::after{content:"Show";font-size:11px;font-weight:600;letter-spacing:.3px}
+/* solver sidebar collapse — desktop/tablet only.
+   When collapsed: hide the formula library and symbol palette but
+   keep a thin 48px gutter strip on the left of the workspace, with
+   a small round arrow button anchored inside it that re-opens the
+   sidebar on click. The button reuses #toggleSolverSidebarBtn so
+   the existing JS click handler still works. The 48px gutter
+   prevents the floating-toggle approach's content overlap (the
+   toggle would otherwise sit on top of the "Expression Input"
+   header). Mobile (<=768px) is intentionally excluded — the mobile
+   block at the bottom of this file hides the toggle entirely (the
+   sidebar stacks above the workspace on phones, so collapsing has
+   no useful effect). */
+@media (min-width: 769px){
+  #solverAppContainer.solver-collapsed .sidebar{
+    width:48px;
+    overflow:visible;
+  }
+  #solverAppContainer.solver-collapsed .formula-library,
+  #solverAppContainer.solver-collapsed .symbol-palette,
+  #solverAppContainer.solver-collapsed .logo > .logo-icon,
+  #solverAppContainer.solver-collapsed .logo > .logo-text{
+    display:none;
+  }
+  #solverAppContainer.solver-collapsed .logo{
+    padding:14px 0 0 0;
+    height:auto;
+    border-bottom:none;
+    flex-direction:column;
+    align-items:center;
+    overflow:visible;
+    gap:0;
+  }
+  #solverAppContainer.solver-collapsed .sidebar-toggle-btn{
+    margin:0 auto;
+    width:32px;
+    height:32px;
+    padding:0;
+    font-size:0;
+    border-radius:50%;
+    border:1px solid var(--border);
+    background:var(--bg3);
+    color:var(--text1);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 1px 3px rgba(0,0,0,.25);
+    transition:background-color .15s ease,border-color .15s ease,transform .15s ease;
+  }
+  #solverAppContainer.solver-collapsed .sidebar-toggle-btn:hover{
+    background:var(--bg2);
+    border-color:var(--accent);
+    transform:scale(1.08);
+  }
+  #solverAppContainer.solver-collapsed .sidebar-toggle-btn::after{
+    content:"›";
+    font-size:16px;
+    font-weight:700;
+    color:var(--text1);
+    line-height:1;
+    letter-spacing:0;
+  }
+}
 
 /* Use a single primary scroll container in Pathways mode (outer wrap). */
 .pathways-shell .learning-detail{max-height:none;overflow:visible}
