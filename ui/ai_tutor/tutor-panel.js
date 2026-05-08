@@ -18,14 +18,18 @@ class AITutorPanel {
         this.isOpen = false;
         this.isStreaming = false;
         this.pendingScreenshot = null;  // Stores captured screenshot until sent
-        
+        this.apiHealthy = null;          // null = unknown, true = up, false = down
+        this.healthCheckInterval = null;
+        this.healthAbortController = null;
+
         this.init();
     }
-    
+
     init() {
         this.createPanel();
         this.attachStyles();
         this.bindEvents();
+        this.startHealthCheck();
     }
     
     createPanel() {
@@ -330,7 +334,30 @@ class AITutorPanel {
                 transform: scale(1.1);
                 box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
             }
-            
+
+            /* Health-check status dot. Pseudo-element so the existing
+               toggle DOM stays untouched. Default gray = unknown /
+               first ping in flight; green when /health responds; red
+               when the heartbeat fails or aborts on 5s timeout. */
+            .tutor-toggle::after {
+                content: '';
+                position: absolute;
+                top: 4px;
+                right: 4px;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.35);
+                border: 2px solid rgba(0, 0, 0, 0.25);
+                transition: background 0.3s;
+            }
+            .tutor-toggle.api-healthy::after {
+                background: #4ade80;
+            }
+            .tutor-toggle.api-unhealthy::after {
+                background: #f87171;
+            }
+
             .tutor-toggle.hidden {
                 display: none;
             }
@@ -483,7 +510,46 @@ class AITutorPanel {
         this.panel.classList.remove('open');
         this.toggleBtn.classList.remove('hidden');
     }
-    
+
+    /**
+     * 30-second heartbeat against /health (~20 bytes, <300ms typical).
+     * Surfaces a small status dot on the floating toggle so a stale or
+     * slept HF Space is visible at a glance — green = reachable, red =
+     * unreachable, default gray = unknown / first check in flight.
+     */
+    startHealthCheck() {
+        this.checkHealth();
+        this.healthCheckInterval = setInterval(() => this.checkHealth(), 30000);
+    }
+
+    async checkHealth() {
+        if (this.healthAbortController) this.healthAbortController.abort();
+        this.healthAbortController = new AbortController();
+        const timeout = setTimeout(() => this.healthAbortController.abort(), 5000);
+        try {
+            const resp = await fetch(`${this.apiBaseUrl}/health`, {
+                signal: this.healthAbortController.signal,
+                cache: 'no-store',
+            });
+            this.setApiHealthy(resp.ok);
+        } catch (_) {
+            this.setApiHealthy(false);
+        } finally {
+            clearTimeout(timeout);
+        }
+    }
+
+    setApiHealthy(healthy) {
+        if (healthy === this.apiHealthy) return;
+        this.apiHealthy = healthy;
+        if (!this.toggleBtn) return;
+        this.toggleBtn.classList.toggle('api-healthy', healthy === true);
+        this.toggleBtn.classList.toggle('api-unhealthy', healthy === false);
+        this.toggleBtn.title = healthy
+            ? 'AI Tutor (press ?)'
+            : 'AI Tutor offline — backend unreachable (press ?)';
+    }
+
     updateSolverState(state) {
         this.solverState = state;
         this.updateContextDisplay();
