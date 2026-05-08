@@ -303,6 +303,17 @@ sub{font-size:.72em;line-height:0;vertical-align:sub}
 .glossary-chip{padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:var(--bg2);color:var(--text1);font-size:12px}
 .is-hidden{display:none!important}
 
+/* The 🎓 floating tutor opener is contextually about solver state.
+   On the Learning screen its bottom-right anchor (bottom:120px on
+   mobile after round-2) overlaps pathway chapter cards, and tapping
+   it just lands the user on the round-2 "Load or solve a problem
+   first" guard message. Hide the toggle entirely while the user is
+   on Learning. The opener (and the panel + backdrop, if previously
+   opened) re-appear automatically when the user switches back to
+   the solver screen. !important defeats the tutor-panel.js's
+   later-injected stylesheet. */
+#learningScreen.active ~ .tutor-toggle{display:none!important}
+
 /* solver sidebar collapse — desktop/tablet only.
    When collapsed: hide the formula library and symbol palette but
    keep a thin 48px gutter strip on the left of the workspace, with
