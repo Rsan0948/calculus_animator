@@ -270,7 +270,8 @@ sub{font-size:.72em;line-height:0;vertical-align:sub}
 .learning-related-btn{padding:7px 10px;border:1px solid var(--border);border-radius:999px;background:var(--bg2);color:var(--text1);font-size:12px;cursor:pointer}
 .learning-related-btn:hover{border-color:var(--accent)}
 .learning-slide-stage{border:1px solid var(--border);border-radius:12px;background:linear-gradient(180deg,#0f1530,#0d1228);padding:26px;display:flex;flex-direction:column}
-.learning-stage-top{display:flex;gap:8px;justify-content:flex-end;align-items:center;margin:0 0 12px}
+.learning-stage-top{display:flex;gap:8px;justify-content:flex-end;align-items:center;margin:0 0 12px;flex-wrap:wrap}
+.learning-stage-bottom{display:flex;gap:8px;justify-content:space-between;align-items:center;margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.08)}
 .learning-slide-title{font-size:22px;font-weight:700;line-height:1.2;margin-bottom:8px}
 .learning-slide-title.compact{font-size:19px;line-height:1.25}
 .learning-slide-title.worked{font-size:18px;line-height:1.25}

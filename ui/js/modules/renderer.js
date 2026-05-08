@@ -827,6 +827,10 @@ export const renderer = {
                 ${graphics ? `<div class="learning-related-row" style="margin-bottom:10px">${graphics}</div>` : ""}
                 ${blocks || '<div class="learning-empty-inline">No blocks in this slide yet.</div>'}
             </div>
+            <div class="learning-stage-bottom">
+                <button class="btn btn-small" data-stage-action="prev">← Previous Slide</button>
+                <button class="btn btn-small" data-stage-action="next">Next Slide →</button>
+            </div>
         `;
         this.renderLearningSlideVisual(pathway.id, chapter.id, contentIndex);
         if (notesBody) {
@@ -975,19 +979,20 @@ export const renderer = {
     },
 
     updateSlideControlState(pathwayId, chapter) {
-        const prevBtn = document.getElementById("prevSlideBtn");
-        const nextBtn = document.getElementById("nextSlideBtn");
         const slides = chapter.slides || [];
         const pathwayProgress = _ensureChild(state.learningProgress, pathwayId);
         const progress = _ensureChild(pathwayProgress, chapter.id);
         const midpoint = Math.floor(slides.length / 2);
-        if (prevBtn) prevBtn.disabled = state.selectedSlideIndex <= 0;
-        if (nextBtn) {
-            // slideIndex is now 0-indexed; midpoint quiz and end-of-chapter
-            // bounds shift by 1 vs the old N+1 indexing.
-            const blockedByQuiz = chapter.midpoint_quiz && !progress.midpointTaken && state.selectedSlideIndex >= midpoint;
-            nextBtn.disabled = state.selectedSlideIndex >= slides.length - 1 || blockedByQuiz;
-        }
+        const prevDisabled = state.selectedSlideIndex <= 0;
+        // slideIndex is now 0-indexed; midpoint quiz and end-of-chapter
+        // bounds shift by 1 vs the old N+1 indexing.
+        const blockedByQuiz = chapter.midpoint_quiz && !progress.midpointTaken && state.selectedSlideIndex >= midpoint;
+        const nextDisabled = state.selectedSlideIndex >= slides.length - 1 || blockedByQuiz;
+        // Update every prev/next stage-action button (top action bar +
+        // duplicate bottom bar) so the new bottom advance controls
+        // stay in sync with the top.
+        document.querySelectorAll('[data-stage-action="prev"]').forEach(b => { b.disabled = prevDisabled; });
+        document.querySelectorAll('[data-stage-action="next"]').forEach(b => { b.disabled = nextDisabled; });
     },
 
     renderCapacityPage(res = null) {
