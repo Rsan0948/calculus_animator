@@ -327,6 +327,20 @@ const app = {
             mode === "capacity" ? "learningCapacityMode" : "learningLibraryMode"
         );
         if (modeEl) modeEl.classList.add("active");
+        // Page header copy was hardcoded for the Library mode and stayed
+        // stale when the user switched tabs. Make it match the active mode.
+        const headings = {
+            home:     { h: "Learning Library", p: "Browse concepts, formulas, and symbols separately. Pick any item to see narrative guidance, examples, and related topics." },
+            library:  { h: "Concept Library", p: "Browse concepts, formulas, and symbols at your own pace. Pick any item to see narrative guidance, examples, and related topics." },
+            pathways: { h: "Guided Pathways", p: "Structured course flow with chapters, slides, notes, mid-chapter quizzes, and chapter tests." },
+            glossary: { h: "Glossary", p: "Look up term definitions and jump to related concepts." },
+            capacity: { h: "Capacity", p: "" },
+        };
+        const heading = headings[mode] || headings.home;
+        const hEl = document.getElementById("learningScreenHeading");
+        const pEl = document.getElementById("learningScreenSubheading");
+        if (hEl) hEl.textContent = heading.h;
+        if (pEl) pEl.textContent = heading.p;
         if (mode === "home") renderer.renderLearningHome();
         else if (mode === "pathways") { state.showPathwayPicker = false; renderer.renderPathwayList(); renderer.renderChapterList(); renderer.renderCurrentSlide(); }
         else if (mode === "glossary") renderer.renderGlossaryList();
