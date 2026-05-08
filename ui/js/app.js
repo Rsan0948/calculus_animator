@@ -562,7 +562,7 @@ const app = {
         const btn = document.getElementById("slideNotesToggleBtn");
         if (layout) layout.classList.toggle("notes-collapsed", !state.slideNotesOpen);
         if (panel) panel.style.width = state.slideNotesOpen ? `${state.slideNotesWidth}px` : "0px";
-        if (btn) btn.textContent = state.slideNotesOpen ? "Hide" : "Show";
+        if (btn) btn.textContent = state.slideNotesOpen ? "Hide Notes" : "Show Notes";
         renderer.renderCurrentSlide();
     },
 
