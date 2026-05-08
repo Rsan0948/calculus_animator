@@ -379,6 +379,14 @@ sub{font-size:.72em;line-height:0;vertical-align:sub}
   #toggleSolverSidebarBtn{display:none}
   #solverAppContainer.solver-collapsed .sidebar{display:block}
 
+  /* Same pattern for the pathways sidebar toggle: in single-column mobile
+     the sidebar already stacks above the detail, so "Hide Sidebar" has
+     no useful effect and tapping it leaves the layout in a broken
+     56px-wide first column. Hide the button and undo any collapsed
+     grid that was carried in from a wider viewport. */
+  #togglePathwaySidebarBtn{display:none}
+  .pathways-shell.collapsed{grid-template-columns:1fr}
+
   /* Tab strip horizontal scroll */
   .tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;padding:0 12px}
 
