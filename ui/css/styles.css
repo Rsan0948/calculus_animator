@@ -236,7 +236,7 @@ sub{font-size:.72em;line-height:0;vertical-align:sub}
 .learning-topic-summary{font-size:12px;color:var(--text2);line-height:1.4}
 .learning-topic-empty{padding:14px;color:var(--text2);font-size:13px}
 .learning-detail{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:18px;overflow-y:auto;max-height:72vh;display:flex;flex-direction:column;gap:14px}
-.pathways-shell .learning-detail{max-height:90vh;min-height:900px}
+.pathways-shell .learning-detail{max-height:90vh}
 .learning-detail-head h2{font-size:22px;margin-bottom:8px}
 .learning-detail-head p{color:var(--text2);font-size:14px;line-height:1.5}
 .learning-block{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:10px;padding:14px}
@@ -266,7 +266,7 @@ sub{font-size:.72em;line-height:0;vertical-align:sub}
 .learning-related-row{display:flex;flex-wrap:wrap;gap:8px}
 .learning-related-btn{padding:7px 10px;border:1px solid var(--border);border-radius:999px;background:var(--bg2);color:var(--text1);font-size:12px;cursor:pointer}
 .learning-related-btn:hover{border-color:var(--accent)}
-.learning-slide-stage{border:1px solid var(--border);border-radius:12px;background:linear-gradient(180deg,#0f1530,#0d1228);padding:26px;min-height:760px;display:flex;flex-direction:column}
+.learning-slide-stage{border:1px solid var(--border);border-radius:12px;background:linear-gradient(180deg,#0f1530,#0d1228);padding:26px;display:flex;flex-direction:column}
 .learning-stage-top{display:flex;gap:8px;justify-content:flex-end;align-items:center;margin:0 0 12px}
 .learning-slide-title{font-size:22px;font-weight:700;line-height:1.2;margin-bottom:8px}
 .learning-slide-title.compact{font-size:19px;line-height:1.25}
@@ -370,7 +370,7 @@ sub{font-size:.72em;line-height:0;vertical-align:sub}
 }
 
 /* pathways notes layout */
-.learning-stage-layout{display:flex;gap:0;align-items:stretch;min-height:760px}
+.learning-stage-layout{display:flex;gap:0;align-items:flex-start}
 .learning-stage-main{flex:1;min-width:0;padding-right:12px}
 .slide-notes-resizer{width:8px;cursor:col-resize;background:transparent;position:relative}
 .slide-notes-resizer::before{content:"";position:absolute;left:3px;top:0;bottom:0;width:2px;background:rgba(255,255,255,.10);border-radius:2px}
