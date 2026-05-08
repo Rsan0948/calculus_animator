@@ -211,6 +211,9 @@ sub{font-size:.72em;line-height:0;vertical-align:sub}
 .pathways-shell.collapsed .learning-topic-list,
 .pathways-shell.collapsed .learning-sidebar-head input,
 .pathways-shell.collapsed .learning-sidebar-head h3,
+.pathways-shell.collapsed #pathwayPickerToggleBtn,
+.pathways-shell.collapsed #selectedPathwayLabel,
+.pathways-shell.collapsed #pathwayPickerWrap,
 .pathways-shell.collapsed .learning-sidebar .learning-sidebar-head + .learning-topic-list,
 .pathways-shell.collapsed .learning-sidebar .learning-sidebar-head:nth-of-type(2){display:none}
 .pathways-shell.collapsed .learning-sidebar-head{padding:10px;min-height:56px;justify-content:center;align-items:center}
