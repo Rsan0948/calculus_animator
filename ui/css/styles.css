@@ -277,6 +277,12 @@ sub{font-size:.72em;line-height:0;vertical-align:sub}
 .learning-slide-title.worked{font-size:18px;line-height:1.25}
 .learning-slide-sub{font-size:12px;color:var(--text2);margin-bottom:12px;text-transform:uppercase;letter-spacing:.8px}
 .learning-slide-visual{border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(6,10,24,.30);padding:10px 12px;margin:0 auto 14px;min-height:0;display:flex;align-items:center;justify-content:center;color:var(--text2);font-size:14px;width:fit-content;max-width:92%}
+/* Loading state with no rendered content yet: collapse to invisible
+   so the user doesn't see a brief empty box flash before the image
+   pops in. Once renderLearningSlideVisual populates the host (or
+   _showSlideVisualUnavailable fills it with a fallback message),
+   :empty stops matching and the styled box returns. */
+.learning-slide-visual.loading:empty{border:none;background:transparent;padding:0;margin:0}
 .learning-slide-visual.loading{opacity:.88}
 .learning-slide-visual-img{display:block;width:auto;max-width:100%;height:auto;border-radius:10px;border:1px solid rgba(255,255,255,.06);image-rendering:auto}
 .learning-slide-text{display:none}

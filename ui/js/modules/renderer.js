@@ -822,7 +822,7 @@ export const renderer = {
             </div>
             <div class="learning-slide-sub">${utils.prettyText(chapter.title)} · Slide ${state.selectedSlideIndex + 1} / ${slides.length}</div>
             <div class="${titleClass}">${utils.prettyText(slideTitle)}</div>
-            <div id="learningSlideVisualHost" class="learning-slide-visual loading">Rendering slide visual…</div>
+            <div id="learningSlideVisualHost" class="learning-slide-visual loading"></div>
             <div id="learningSlideTextWrap" class="learning-slide-text${state.showSlideTextDetails ? " show" : ""}">
                 ${graphics ? `<div class="learning-related-row" style="margin-bottom:10px">${graphics}</div>` : ""}
                 ${blocks || '<div class="learning-empty-inline">No blocks in this slide yet.</div>'}
