@@ -409,8 +409,12 @@ sub{font-size:.72em;line-height:0;vertical-align:sub}
   .anim-compare{flex-wrap:wrap;gap:14px}
 
   /* Floating AI tutor button sits above the bottom action buttons on
-     mobile so it does not overlap the Solve & Animate / Clear pair. */
-  .tutor-toggle{bottom:88px;right:16px}
+     mobile so it does not overlap the Solve & Animate / Clear pair.
+     Round-2 audit raised the offset from 88px to 120px because at 88px
+     the button still overlapped Related Topics expand chevrons in
+     learning detail views and the Delete button row in the solver
+     input section. */
+  .tutor-toggle{bottom:120px;right:16px}
 }
 
 /* scrollbar */
