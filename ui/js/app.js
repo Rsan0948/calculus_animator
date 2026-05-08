@@ -351,6 +351,16 @@ const app = {
         document.getElementById("calcTypeSelect").value = demo.tag || "";
         this.applyParams(demo.params || {});
         this.updateParams();
+        // On phones the sidebar is stacked above the input, so loading a
+        // demo leaves the user staring at the formula list with the loaded
+        // expression below the fold. Solve & Animate's post-solve render
+        // already scrolls naturally; mirror that for the demo path.
+        if (typeof window.matchMedia === "function" && window.matchMedia("(max-width: 768px)").matches) {
+            const inp = document.getElementById("mathInput") || state.mathField;
+            if (inp && typeof inp.scrollIntoView === "function") {
+                inp.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        }
     },
 
     applyParams(p) {
