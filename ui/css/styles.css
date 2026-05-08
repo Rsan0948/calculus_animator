@@ -399,6 +399,26 @@ sub{font-size:.72em;line-height:0;vertical-align:sub}
   .demo-picker .btn{min-height:44px}
   .formula-item{min-height:44px;padding:12px 14px}
 
+  /* Sticky category chips inside the scroll-bound 280px sidebar strip.
+     Without this the chips (All / Derivatives / Integrals / Limits /
+     Series) scroll out of view as the user browses formulas, forcing a
+     scroll-up to switch category. background:var(--bg2) matches the
+     sidebar so the formula-list doesn't bleed through; the small
+     vertical padding gives the chips visual breathing room when stuck.
+     z-index:5 sits well below the floating tutor toggle (z-index:9999)
+     and the screen-switcher (z-index:30); chips and tutor are in
+     different stacking contexts and at different y-positions, no
+     overlap. (Round-3 audit fix.) */
+  .formula-library .category-list{
+    position:sticky;
+    top:0;
+    background:var(--bg2);
+    padding:8px 0 6px;
+    margin-top:-6px;
+    margin-bottom:8px;
+    z-index:5;
+  }
+
   /* Type scaling (~30% reduction for headings / formula display) */
   .input-header h2{font-size:12px}
   .result-display{font-size:14px}
