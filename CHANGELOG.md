@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **PyInstaller pinned** in `[build]` extras; install via `pip install -e .[build]`
 - **CI gates**: pip-audit on every PR (not cron-only), Bandit static security analysis, broadened mypy to `api core ai_tutor`, ruff F-class scanning the whole repo
 - **SBOM** (CycloneDX) generated and attached to GitHub releases
+- **Mobile CSS retrofit**: single `@media (max-width: 768px)` block in `ui/css/styles.css` (lines 364–392) collapses the solver layout to a stacked column on narrow viewports (375px floor). The formula sidebar becomes a scrollable top strip, tabs scroll horizontally, tap targets are raised to ≥44px, and heading/formula type scales down ~30% so the solver remains usable on phones without horizontal page scroll. The existing `#toggleSolverSidebarBtn` hides the sidebar entirely on mobile via a CSS-only override.
 
 ### Changed
 - Replaced deprecated `actions/create-release@v1` with `softprops/action-gh-release@v2` in the release workflow
