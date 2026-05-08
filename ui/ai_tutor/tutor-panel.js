@@ -79,7 +79,14 @@ class AITutorPanel {
         `;
         
         document.body.appendChild(panel);
-        
+
+        // Backdrop: dim layer that captures taps to close. Sits between
+        // the page and the panel (z-index 9998 < panel's 10000).
+        const backdrop = document.createElement('div');
+        backdrop.id = 'ai-tutor-backdrop';
+        backdrop.className = 'ai-tutor-backdrop';
+        document.body.appendChild(backdrop);
+
         // Create toggle button
         const toggleBtn = document.createElement('button');
         toggleBtn.id = 'tutor-toggle';
@@ -87,8 +94,9 @@ class AITutorPanel {
         toggleBtn.innerHTML = '🎓';
         toggleBtn.title = 'AI Tutor (press ?)';
         document.body.appendChild(toggleBtn);
-        
+
         this.panel = panel;
+        this.backdrop = backdrop;
         this.toggleBtn = toggleBtn;
         this.messagesContainer = document.getElementById('tutor-messages');
         this.inputField = document.getElementById('tutor-input');
@@ -406,8 +414,50 @@ class AITutorPanel {
                 0%, 60%, 100% { transform: translateY(0); }
                 30% { transform: translateY(-10px); }
             }
+
+            /* Backdrop: dim the page when the panel is open and let the
+               user dismiss by tapping outside. opacity transitions in
+               sync with the panel's slide. */
+            .ai-tutor-backdrop {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.45);
+                z-index: 9998;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease;
+            }
+            .ai-tutor-backdrop.open {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+            /* On phones the side-drawer pattern (380px wide, 100vh tall,
+               sliding in from the right) takes the entire viewport and
+               feels like a takeover. Convert to a bottom-sheet at
+               <=768px: 75vh tall, slides up from the bottom, leaves the
+               top of the page visible so the user keeps spatial context
+               and has a clear way back (tap the visible page or the
+               backdrop). */
+            @media (max-width: 768px) {
+                .ai-tutor-panel {
+                    width: 100%;
+                    height: 75vh;
+                    top: auto;
+                    right: 0;
+                    left: 0;
+                    bottom: -80vh;
+                    border-top-left-radius: 16px;
+                    border-top-right-radius: 16px;
+                    transition: bottom 0.3s ease;
+                }
+                .ai-tutor-panel.open {
+                    bottom: 0;
+                    right: 0;
+                }
+            }
         `;
-        
+
         document.head.appendChild(styles);
     }
     
@@ -415,10 +465,18 @@ class AITutorPanel {
         // Toggle panel
         this.toggleBtn.addEventListener('click', () => this.toggle());
         document.getElementById('tutor-close').addEventListener('click', () => this.close());
-        
-        // Keyboard shortcut (press ? to toggle)
+        // Tapping the backdrop dismisses the panel — clear escape path.
+        this.backdrop.addEventListener('click', () => this.close());
+
+        // Keyboard shortcuts: ? / / toggles, Escape closes when open.
         document.addEventListener('keydown', (e) => {
-            // Don't trigger if typing in an input
+            // Escape always closes, even while typing in the tutor input.
+            if (e.key === 'Escape' && this.isOpen) {
+                e.preventDefault();
+                this.close();
+                return;
+            }
+            // Don't trigger ?/ shortcut if typing in an input
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
                 return;
             }
@@ -486,29 +544,50 @@ class AITutorPanel {
         }
     }
     
+    isMobileViewport() {
+        return typeof window !== 'undefined'
+            && typeof window.matchMedia === 'function'
+            && window.matchMedia('(max-width: 768px)').matches;
+    }
+
     toggle() {
         this.isOpen = !this.isOpen;
         this.panel.classList.toggle('open', this.isOpen);
+        this.backdrop.classList.toggle('open', this.isOpen);
         this.toggleBtn.classList.toggle('hidden', this.isOpen);
-        
+
         if (this.isOpen) {
-            this.inputField.focus();
             this.updateContextDisplay();
+            // On phones, don't auto-focus the input — that pops the
+            // virtual keyboard and turns the slide-in into an immediate
+            // takeover. Let the user tap the input themselves.
+            if (!this.isMobileViewport()) {
+                this.inputField.focus();
+            }
         }
     }
-    
+
     open() {
         this.isOpen = true;
         this.panel.classList.add('open');
+        this.backdrop.classList.add('open');
         this.toggleBtn.classList.add('hidden');
-        this.inputField.focus();
         this.updateContextDisplay();
+        if (!this.isMobileViewport()) {
+            this.inputField.focus();
+        }
     }
-    
+
     close() {
         this.isOpen = false;
         this.panel.classList.remove('open');
+        this.backdrop.classList.remove('open');
         this.toggleBtn.classList.remove('hidden');
+        // If the input had focus on mobile, blur to dismiss the keyboard
+        // so the close transition isn't visually fighting an open one.
+        if (typeof document !== 'undefined' && document.activeElement === this.inputField) {
+            this.inputField.blur();
+        }
     }
 
     /**
