@@ -97,6 +97,16 @@ class AITutorPanel {
         
         document.body.appendChild(panel);
 
+        // Drag-resize handle on the panel's left edge — Sangha-style.
+        // Inserted as the panel's first child so it sits above siblings
+        // for hit-testing without z-index gymnastics.
+        const resizeHandle = document.createElement('div');
+        resizeHandle.className = 'tutor-resize-handle';
+        resizeHandle.setAttribute('role', 'separator');
+        resizeHandle.setAttribute('aria-orientation', 'vertical');
+        resizeHandle.setAttribute('aria-label', 'Resize tutor panel');
+        panel.insertBefore(resizeHandle, panel.firstChild);
+
         // Backdrop: dim layer that captures taps to close. Sits between
         // the page and the panel (z-index 9998 < panel's 10000).
         const backdrop = document.createElement('div');
@@ -113,6 +123,7 @@ class AITutorPanel {
         document.body.appendChild(toggleBtn);
 
         this.panel = panel;
+        this.resizeHandle = resizeHandle;
         this.backdrop = backdrop;
         this.toggleBtn = toggleBtn;
         this.messagesContainer = document.getElementById('tutor-messages');
@@ -449,28 +460,71 @@ class AITutorPanel {
                 pointer-events: auto;
             }
 
-            /* On phones the side-drawer pattern (380px wide, 100vh tall,
-               sliding in from the right) takes the entire viewport and
-               feels like a takeover. Convert to a bottom-sheet at
-               <=768px: 75vh tall, slides up from the bottom, leaves the
-               top of the page visible so the user keeps spatial context
-               and has a clear way back (tap the visible page or the
-               backdrop). */
+            /* Drag-resize handle on the panel's left edge — same pattern
+               as Sangha's chat-resize-handle: a thin strip with a small
+               grip indicator that the user can drag horizontally to
+               shrink/grow the panel. touch-action:none keeps mobile
+               browsers from interpreting the drag as a page scroll. */
+            .tutor-resize-handle {
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                width: 8px;
+                cursor: col-resize;
+                background: linear-gradient(90deg, rgba(255,255,255,0.04), rgba(0,0,0,0));
+                z-index: 1;
+                touch-action: none;
+            }
+            .tutor-resize-handle::after {
+                content: "";
+                position: absolute;
+                left: 2px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 4px;
+                height: 36px;
+                border-radius: 2px;
+                background: rgba(255,255,255,0.25);
+                pointer-events: none;
+                transition: background 0.15s ease;
+            }
+            .tutor-resize-handle:hover::after,
+            .tutor-resize-handle:active::after {
+                background: rgba(255,255,255,0.5);
+            }
+
+            /* Phones: side-panel like Sangha's chat. Caps at 90vw so a
+               10vw editor/page strip stays visible on the left as the
+               click-off-to-close target (the existing backdrop click
+               handler treats taps on that strip as a dismiss). Wider,
+               more visible resize handle since fingers need a bigger
+               touch target. */
             @media (max-width: 768px) {
                 .ai-tutor-panel {
-                    width: 100%;
-                    height: 75vh;
-                    top: auto;
-                    right: 0;
-                    left: 0;
-                    bottom: -80vh;
+                    width: 90vw;
+                    max-width: 90vw;
+                    /* keep the desktop side-drawer geometry — top:0,
+                       right:-400px (offscreen) → right:0 — but ensure
+                       the bottom-sheet overrides from earlier rounds
+                       are explicitly undone. */
+                    top: 0;
+                    bottom: auto;
+                    left: auto;
                     border-top-left-radius: 16px;
-                    border-top-right-radius: 16px;
-                    transition: bottom 0.3s ease;
+                    border-bottom-left-radius: 16px;
+                    border-top-right-radius: 0;
+                    border-bottom-right-radius: 0;
+                    transition: right 0.3s ease;
                 }
-                .ai-tutor-panel.open {
-                    bottom: 0;
-                    right: 0;
+                .tutor-resize-handle {
+                    width: 18px;
+                    left: -8px;
+                }
+                .tutor-resize-handle::after {
+                    width: 5px;
+                    height: 56px;
+                    background: rgba(255,255,255,0.45);
                 }
             }
         `;
@@ -484,6 +538,9 @@ class AITutorPanel {
         document.getElementById('tutor-close').addEventListener('click', () => this.close());
         // Tapping the backdrop dismisses the panel — clear escape path.
         this.backdrop.addEventListener('click', () => this.close());
+        // Drag the left edge to resize. Mouse + touch.
+        this.resizeHandle.addEventListener('mousedown', (e) => this.startResize(e));
+        this.resizeHandle.addEventListener('touchstart', (e) => this.startResize(e), { passive: false });
 
         // Keyboard shortcuts: ? / / toggles, Escape closes when open.
         document.addEventListener('keydown', (e) => {
@@ -565,6 +622,55 @@ class AITutorPanel {
         return typeof window !== 'undefined'
             && typeof window.matchMedia === 'function'
             && window.matchMedia('(max-width: 768px)').matches;
+    }
+
+    /**
+     * Drag the left edge of the panel to resize. Mirrors Sangha's
+     * FlowEditor.svelte startChatResize: handles both MouseEvent and
+     * TouchEvent, computes mobile-aware bounds (lower min and a
+     * viewport-relative max so the panel can shrink past the desktop
+     * floor on phones), and calls preventDefault on touchmove so the
+     * drag doesn't double as a page scroll.
+     */
+    startResize(event) {
+        event.preventDefault();
+        const isTouch = event.type === 'touchstart';
+        const startX = isTouch ? event.touches[0].clientX : event.clientX;
+        const startWidth = this.panel.getBoundingClientRect().width;
+        const isMobile = this.isMobileViewport();
+        const minWidth = isMobile ? 200 : 320;
+        const maxWidth = isMobile
+            ? Math.floor(window.innerWidth * 0.9)
+            : Math.max(420, Math.floor(window.innerWidth * 0.5));
+
+        const onMove = (e) => {
+            const clientX = e.touches?.[0]?.clientX ?? e.clientX;
+            if (clientX === undefined) return;
+            // Panel is anchored right:0; dragging left increases width,
+            // dragging right shrinks it. delta = startX - currentX.
+            const delta = startX - clientX;
+            const next = Math.max(minWidth, Math.min(maxWidth, startWidth + delta));
+            this.panel.style.width = `${next}px`;
+            // Override the CSS max-width:90vw rule for mobile so the
+            // user can drag larger than the default cap if they want.
+            this.panel.style.maxWidth = `${maxWidth}px`;
+            if (e.cancelable && e.touches) e.preventDefault();
+        };
+
+        const onUp = () => {
+            window.removeEventListener('mousemove', onMove);
+            window.removeEventListener('mouseup', onUp);
+            window.removeEventListener('touchmove', onMove);
+            window.removeEventListener('touchend', onUp);
+            window.removeEventListener('touchcancel', onUp);
+        };
+
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseup', onUp);
+        // Non-passive so onMove can preventDefault page scrolling.
+        window.addEventListener('touchmove', onMove, { passive: false });
+        window.addEventListener('touchend', onUp);
+        window.addEventListener('touchcancel', onUp);
     }
 
     toggle() {
