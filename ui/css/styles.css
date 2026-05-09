@@ -237,6 +237,7 @@ sub{font-size:.72em;line-height:0;vertical-align:sub}
 .learning-topic-btn:hover,.learning-topic-btn.active{border-color:var(--accent)}
 .learning-topic-title{font-size:13px;font-weight:600}
 .learning-topic-summary{font-size:12px;color:var(--text2);line-height:1.4}
+.learning-topic-progress{display:inline-block;margin-top:6px;padding:3px 8px;font-size:11px;font-weight:600;color:var(--accent);background:rgba(233,69,96,.12);border:1px solid rgba(233,69,96,.3);border-radius:999px;letter-spacing:.2px;align-self:flex-start}
 .learning-topic-empty{padding:14px;color:var(--text2);font-size:13px}
 .learning-detail{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:18px;overflow-y:auto;max-height:72vh;display:flex;flex-direction:column;gap:14px}
 .pathways-shell .learning-detail{max-height:90vh}

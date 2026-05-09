@@ -30,6 +30,11 @@ export const state = {
     selectedChapterId: "",
     selectedSlideIndex: 0,
     learningProgress: {},
+    // Furthest-slide-reached marker per chapter. Persisted in localStorage
+    // and rendered as "Slide N of M" on chapter cards. Updated whenever
+    // renderCurrentSlide runs, so any path that lands on a slide
+    // (next-click, restore, direct chapter click) contributes.
+    chapterProgress: {},
     relatedTopicPicks: [],
     stepRenderToken: 0,
     baseLatex: "",

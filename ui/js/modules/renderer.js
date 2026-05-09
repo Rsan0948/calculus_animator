@@ -763,12 +763,25 @@ export const renderer = {
             state.selectedChapterId = chapters[0].id;
             state.selectedSlideIndex = 0;
         }
-        list.innerHTML = chapters.map(c => `
+        const progressMap = state.chapterProgress || {};
+        list.innerHTML = chapters.map(c => {
+            const total = (c.slides || []).length;
+            const furthest = progressMap[c.id];
+            // Show furthest-slide marker only when the user has actually
+            // reached at least slide 2 (slideIndex >= 1) — slide 1 is the
+            // arrival state for an unread chapter and saying "Slide 1 of N"
+            // would just add chrome to every card.
+            const progressLine = total && furthest >= 1
+                ? `<span class="learning-topic-progress">Slide ${furthest + 1} of ${total}</span>`
+                : "";
+            return `
             <button class="learning-topic-btn${c.id === state.selectedChapterId ? " active" : ""}" data-chapter-id="${utils.escAttr(c.id)}">
                 <span class="learning-topic-title">${utils.prettyText(c.title || c.id)}</span>
                 <span class="learning-topic-summary">${utils.prettyText(c.description || "")}</span>
+                ${progressLine}
             </button>
-        `).join("") || '<div class="learning-topic-empty">No chapters yet.</div>';
+        `;
+        }).join("") || '<div class="learning-topic-empty">No chapters yet.</div>';
     },
 
     renderCurrentSlide() {
@@ -801,6 +814,14 @@ export const renderer = {
         // an N+1 indexer for N slides. Land directly on slides[0].
         state.selectedSlideIndex = Math.max(0, Math.min(slides.length - 1, state.selectedSlideIndex));
         const contentIndex = state.selectedSlideIndex;
+        // Track furthest slide reached for the chapter-card progress
+        // marker. Any path that renders a slide contributes (next-click,
+        // direct chapter switch, saved-state restore).
+        state.chapterProgress = state.chapterProgress || {};
+        const prevFurthest = state.chapterProgress[chapter.id] || 0;
+        if (state.selectedSlideIndex > prevFurthest) {
+            state.chapterProgress[chapter.id] = state.selectedSlideIndex;
+        }
         const slide = slides[contentIndex];
         const slideTitle = (slide?.title || slide?.id || "Slide");
         const titleLower = String(slideTitle).toLowerCase();

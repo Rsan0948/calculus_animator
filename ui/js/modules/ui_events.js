@@ -235,8 +235,10 @@ export const ui_events = {
                     if (!chapter) return;
                     const progress = state.learningProgress[state.selectedPathwayId]?.[chapter.id] || {};
                     const midpoint = Math.floor((chapter.slides || []).length / 2);
-                    if (chapter.midpoint_quiz && !progress.midpointTaken && state.selectedSlideIndex >= midpoint + 1) return;
-                    state.selectedSlideIndex = Math.min((chapter.slides || []).length, state.selectedSlideIndex + 1);
+                    // slideIndex is now 0-indexed (round-3 fix); midpoint
+                    // gating and end-of-chapter bounds shift by 1.
+                    if (chapter.midpoint_quiz && !progress.midpointTaken && state.selectedSlideIndex >= midpoint) return;
+                    state.selectedSlideIndex = Math.min((chapter.slides || []).length - 1, state.selectedSlideIndex + 1);
                     renderer.renderCurrentSlide();
                     app.saveState();
                     return;

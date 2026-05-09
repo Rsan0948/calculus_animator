@@ -88,6 +88,9 @@ const app = {
                     }
                 }
                 if (saved.learningMode) state.learningMode = saved.learningMode;
+                if (saved.chapterProgress && typeof saved.chapterProgress === "object") {
+                    state.chapterProgress = saved.chapterProgress;
+                }
             } catch (err) {
                 bridge.log(`Failed to restore saved session: ${err && err.message ? err.message : err}`, "warn");
             }
@@ -133,6 +136,7 @@ const app = {
                 selectedChapterId: state.selectedChapterId,
                 selectedSlideIndex: state.selectedSlideIndex,
                 learningMode: state.learningMode,
+                chapterProgress: state.chapterProgress || {},
             }));
         } catch (err) {
             bridge.log(`Failed to persist session state: ${err && err.message ? err.message : err}`, "warn");
