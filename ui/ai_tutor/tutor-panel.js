@@ -12,7 +12,24 @@
 
 class AITutorPanel {
     constructor(options = {}) {
-        this.apiBaseUrl = options.apiUrl || 'http://127.0.0.1:8000';
+        // The tutor backend runs at localhost:8000 on the PyWebView desktop
+        // (a local FastAPI process spawned by run.py). On the Hugging Face
+        // Space deploy the same routes are mounted at the page's origin
+        // (e.g. https://rsan0948-calculus-animator.hf.space/tutor/chat/stream)
+        // so the browser must use the page's origin, not localhost — otherwise
+        // every tutor request goes to the user's OWN computer, not the Space,
+        // and surfaces as a red "Error: Failed to fetch" / "network error"
+        // banner. Detect by protocol: http(s) → same-origin; file: / null
+        // (PyWebView) → localhost:8000.
+        const sameOriginCandidate =
+            (typeof window !== 'undefined'
+             && window.location
+             && typeof window.location.protocol === 'string'
+             && window.location.protocol.startsWith('http')
+             && window.location.origin)
+            ? window.location.origin
+            : 'http://127.0.0.1:8000';
+        this.apiBaseUrl = options.apiUrl || sameOriginCandidate;
         this.solverState = null;
         this.history = [];
         this.isOpen = false;
