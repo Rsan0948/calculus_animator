@@ -228,6 +228,20 @@
         </div>
 
         <div class="learning-mode" id="learningPathwaysMode">
+            <!-- Course picker: a modal overlay that opens when the user
+                 taps "Change Course". Sidebar always shows just the
+                 active course label + chapter list; this dialog is the
+                 only place where pathway selection happens. -->
+            <div id="pathwayPickerWrap" class="pathway-picker-modal is-hidden" role="dialog" aria-label="Choose a course" aria-modal="true">
+                <div class="pathway-picker-backdrop" data-action="close-picker"></div>
+                <div class="pathway-picker-dialog">
+                    <div class="pathway-picker-head">
+                        <h3>Choose a course</h3>
+                        <button class="pathway-picker-close" data-action="close-picker" aria-label="Close course picker" type="button">×</button>
+                    </div>
+                    <div id="pathwayList" class="learning-topic-list"></div>
+                </div>
+            </div>
             <div class="learning-shell pathways-shell">
                 <aside class="learning-sidebar" aria-label="Pathway navigation">
                     <div class="learning-sidebar-head">
@@ -237,10 +251,7 @@
                             <button class="btn btn-small btn-secondary pathway-collapse-btn" id="togglePathwaySidebarBtn">Hide Sidebar</button>
                         </div>
                         <div id="selectedPathwayLabel" class="learning-chip-note"></div>
-                        <input id="pathwaySearch" type="text" placeholder="Search pathways or chapters" aria-label="Search pathways or chapters">
-                    </div>
-                    <div id="pathwayPickerWrap" class="is-hidden">
-                        <div id="pathwayList" class="learning-topic-list"></div>
+                        <input id="pathwaySearch" type="text" placeholder="Search chapters" aria-label="Search chapters">
                     </div>
                     <div class="learning-sidebar-head">
                         <h3>Chapters</h3>

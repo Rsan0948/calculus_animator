@@ -304,6 +304,22 @@ sub{font-size:.72em;line-height:0;vertical-align:sub}
 .glossary-chip{padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:var(--bg2);color:var(--text1);font-size:12px}
 .is-hidden{display:none!important}
 
+/* Course picker modal: opens when user taps "Change Course" in the
+   pathways sidebar. Sidebar always shows just the active course
+   label + chapter list; pathway selection happens here. */
+.pathway-picker-modal{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px}
+.pathway-picker-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55);cursor:pointer}
+.pathway-picker-dialog{position:relative;background:var(--bg2);border:1px solid var(--border);border-radius:14px;max-width:560px;width:100%;max-height:80vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.pathway-picker-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);background:var(--bg3)}
+.pathway-picker-head h3{font-size:15px;font-weight:600;letter-spacing:.3px;text-transform:uppercase;color:var(--text2);margin:0}
+.pathway-picker-close{background:none;border:none;color:var(--text1);font-size:24px;line-height:1;cursor:pointer;padding:0 6px}
+.pathway-picker-close:hover{color:var(--accent)}
+.pathway-picker-modal .learning-topic-list{padding:14px 18px 18px;overflow-y:auto;gap:8px}
+@media (max-width:768px){
+  .pathway-picker-modal{padding:0}
+  .pathway-picker-dialog{max-width:100%;max-height:100vh;height:100vh;border-radius:0;border:none}
+}
+
 /* The 🎓 floating tutor opener is contextually about solver state.
    On the Learning screen its bottom-right anchor (bottom:120px on
    mobile after round-2) overlaps pathway chapter cards, and tapping

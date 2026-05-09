@@ -748,14 +748,12 @@ export const renderer = {
         const selectedLabel = document.getElementById("selectedPathwayLabel");
         const pickerToggle = document.getElementById("pathwayPickerToggleBtn");
         if (!list) return;
-        const q = (document.getElementById("pathwaySearch")?.value || "").toLowerCase().trim();
-        const items = (state.curriculum.pathways || []).filter(p => {
-            if (!q) return true;
-            const hay = [p.title || "", p.level || "", p.description || ""].join(" ").toLowerCase();
-            return hay.includes(q);
-        });
+        // Picker is now a modal; the sidebar search input is dedicated to
+        // chapter filtering (renderChapterList still consumes it). Pathway
+        // list is short enough that a separate filter isn't needed.
+        const items = state.curriculum.pathways || [];
         if (!items.length) {
-            list.innerHTML = '<div class="learning-topic-empty">No pathways match this search.</div>';
+            list.innerHTML = '<div class="learning-topic-empty">No pathways available.</div>';
             return;
         }
         if (!state.selectedPathwayId || !items.some(p => p.id === state.selectedPathwayId)) state.selectedPathwayId = items[0].id;
@@ -768,7 +766,10 @@ export const renderer = {
         const selected = items.find(p => p.id === state.selectedPathwayId) || null;
         if (selectedLabel) selectedLabel.innerHTML = selected ? utils.prettyText(selected.title || selected.id) : "No course selected";
         if (pickerWrap) pickerWrap.classList.toggle("is-hidden", !state.showPathwayPicker);
-        if (pickerToggle) pickerToggle.textContent = state.showPathwayPicker ? "Hide Courses" : "Change Course";
+        // Picker is now a modal — the trigger button always says
+        // "Change Course"; the modal's own close X / backdrop / Escape
+        // are how the user dismisses it.
+        if (pickerToggle) pickerToggle.textContent = "Change Course";
     },
 
     renderChapterList() {

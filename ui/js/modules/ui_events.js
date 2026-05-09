@@ -188,6 +188,24 @@ export const ui_events = {
                 renderer.renderPathwayList();
             });
         }
+        // Course picker modal close: backdrop tap + X button (both carry
+        // data-action="close-picker"). Escape also closes when open.
+        const pickerWrap = document.getElementById("pathwayPickerWrap");
+        if (pickerWrap) {
+            pickerWrap.addEventListener("click", e => {
+                const closeEl = e.target.closest('[data-action="close-picker"]');
+                if (!closeEl) return;
+                state.showPathwayPicker = false;
+                renderer.renderPathwayList();
+            });
+        }
+        document.addEventListener("keydown", e => {
+            if (e.key === "Escape" && state.showPathwayPicker) {
+                e.preventDefault();
+                state.showPathwayPicker = false;
+                renderer.renderPathwayList();
+            }
+        });
         const chapterList = document.getElementById("chapterList");
         if (chapterList) {
             chapterList.addEventListener("click", e => {
