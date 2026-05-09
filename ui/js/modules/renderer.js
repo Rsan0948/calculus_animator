@@ -710,6 +710,36 @@ export const renderer = {
             `<span class="learning-home-pill">${symbols} symbols</span>`,
             `<span class="learning-home-pill">${terms} glossary terms</span>`,
         ].join("");
+
+        // Repurpose the Guided Pathways card as a Resume entry when the
+        // user has saved progress in a chapter (chapterProgress >= 1
+        // means they've reached at least slide 2 in that chapter).
+        // First-time users / users still on slide 1 see the original
+        // "Recommended / Guided Pathways" copy.
+        const kickerEl = document.getElementById("learningHomePathwaysKicker");
+        const titleEl = document.getElementById("learningHomePathwaysTitle");
+        const bodyEl = document.getElementById("learningHomePathwaysBody");
+        const ctaEl = document.getElementById("learningHomePathwaysCta");
+        const progressMap = state.chapterProgress || {};
+        const savedChapterId = state.selectedChapterId;
+        const savedFurthest = savedChapterId ? (progressMap[savedChapterId] || 0) : 0;
+        if (kickerEl && titleEl && bodyEl && ctaEl && savedChapterId && savedFurthest >= 1) {
+            const pathway = pathways.find(p => p.id === state.selectedPathwayId) || null;
+            const chapter = pathway ? (pathway.chapters || []).find(c => c.id === savedChapterId) : null;
+            if (pathway && chapter) {
+                const total = (chapter.slides || []).length;
+                kickerEl.textContent = "Resume";
+                titleEl.textContent = `${chapter.title || "Chapter"}`;
+                bodyEl.textContent = `Slide ${savedFurthest + 1} of ${total} · ${pathway.title || "Pathway"}`;
+                ctaEl.textContent = "Continue →";
+                return;
+            }
+        }
+        // Fall back to default copy if no resume context exists.
+        if (kickerEl) kickerEl.textContent = "Recommended";
+        if (titleEl) titleEl.textContent = "Guided Pathways";
+        if (bodyEl) bodyEl.textContent = "Structured course flow with chapters, slides, notes, quizzes, and chapter tests.";
+        if (ctaEl) ctaEl.textContent = "Open Pathways →";
     },
 
     renderPathwayList() {
