@@ -44,7 +44,15 @@ export const state = {
     learningSlideRenderToken: 0,
     pathwaySidebarCollapsed: false,
     solverSidebarCollapsed: false,
-    showSlideTextDetails: false,
+    // On mobile the rendered slide visual is small and the bullet text
+    // is the primary content surface, so default the "Show Slide Text"
+    // toggle to expanded on phones. Desktop stays false (the rendered
+    // slide image is larger and the text is supplementary). Toggle is
+    // still reachable via the existing Show/Hide Slide Text button on
+    // any viewport.
+    showSlideTextDetails: (typeof window !== "undefined"
+        && typeof window.matchMedia === "function"
+        && window.matchMedia("(max-width: 768px)").matches),
     slideNotesOpen: false,
     slideNotesWidth: 420,
     showPathwayPicker: false,

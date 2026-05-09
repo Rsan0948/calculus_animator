@@ -209,13 +209,60 @@ export const ui_events = {
         const chapterList = document.getElementById("chapterList");
         if (chapterList) {
             chapterList.addEventListener("click", e => {
+                // Clicks inside the confirm popup are handled by the
+                // popup's own button listeners; bail out so we don't
+                // re-trigger the chapter-card flow.
+                if (e.target.closest(".chapter-confirm-popup")) return;
+
                 const btn = e.target.closest("[data-chapter-id]");
                 if (!btn) return;
-                state.selectedChapterId = btn.dataset.chapterId || "";
-                state.selectedSlideIndex = 0;
-                renderer.renderChapterList();
-                renderer.renderCurrentSlide();
-                app.saveState();
+
+                const chapterId = btn.dataset.chapterId || "";
+                if (!chapterId) return;
+
+                // Clear any existing popup so only one is ever active.
+                chapterList.querySelectorAll(".chapter-confirm-popup")
+                    .forEach(p => p.remove());
+
+                // Build the popup as a sibling of the chapter card.
+                const popup = document.createElement("div");
+                popup.className = "chapter-confirm-popup";
+                popup.innerHTML = `
+                    <div class="chapter-confirm-msg">Open this chapter?</div>
+                    <div class="chapter-confirm-actions">
+                        <button type="button" class="chapter-confirm-yes" aria-label="Open chapter">✓</button>
+                        <button type="button" class="chapter-confirm-no">Cancel</button>
+                    </div>
+                `;
+                btn.after(popup);
+                requestAnimationFrame(() => popup.classList.add("open"));
+
+                popup.querySelector(".chapter-confirm-yes").addEventListener("click", ev => {
+                    ev.stopPropagation();
+                    state.selectedChapterId = chapterId;
+                    state.selectedSlideIndex = 0;
+                    // On phones, default the slide text to expanded so
+                    // the user lands on readable content (the rendered
+                    // visual is small on mobile). They can collapse via
+                    // the existing Show/Hide Slide Text toggle.
+                    if (typeof window.matchMedia === "function"
+                        && window.matchMedia("(max-width: 768px)").matches) {
+                        state.showSlideTextDetails = true;
+                    }
+                    popup.remove();
+                    renderer.renderChapterList();
+                    renderer.renderCurrentSlide();
+                    app.saveState();
+                    const stage = document.getElementById("slideStage");
+                    if (stage && typeof stage.scrollIntoView === "function") {
+                        stage.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
+                });
+
+                popup.querySelector(".chapter-confirm-no").addEventListener("click", ev => {
+                    ev.stopPropagation();
+                    popup.remove();
+                });
             });
         }
         const toggleSidebarBtn = document.getElementById("togglePathwaySidebarBtn");
