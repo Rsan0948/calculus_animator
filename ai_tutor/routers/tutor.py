@@ -26,6 +26,34 @@ from ai_tutor.rag.concept_engine import ConceptCard, get_concept_engine
 router = APIRouter()
 
 
+def _validate_provider_or_raise() -> None:
+    """Pre-flight check for the configured LLM provider.
+
+    Raises HTTPException 503 if `settings.llm_provider` points at a
+    cloud provider with no API key configured. MUST be called BEFORE
+    returning a StreamingResponse — once the SSE 200 headers have been
+    sent, any exception raised inside the generator is mid-stream and
+    just closes the HTTP/2 connection silently (Chrome surfaces that
+    as ERR_HTTP2_PROTOCOL_ERROR / TypeError: network error). Calling
+    this synchronously in the route handler converts the failure into
+    a normal HTTP 503 the client can handle.
+    """
+    settings = get_settings()
+    provider = settings.llm_provider
+    if provider in ("local", "gemini_cli"):
+        return  # those don't need an API key
+    api_key = getattr(settings, f"{provider}_api_key", "")
+    if not api_key:
+        raise HTTPException(
+            status_code=503,
+            detail=(
+                f"Tutor not configured: no API key for provider '{provider}'. "
+                f"Set {provider.upper()}_API_KEY in the deploy environment "
+                f"(or change LLM_PROVIDER to a configured provider)."
+            ),
+        )
+
+
 class SolverState(BaseModel):
     """Current state of the calculus solver."""
     expression: str = Field(..., description="LaTeX expression being solved")
@@ -225,14 +253,19 @@ Connect your guidance to what's visible on screen.
 async def chat(request: ChatRequest):
     """
     Main tutoring endpoint.
-    
+
     1. Retrieves relevant concepts from RAG
     2. Builds context with solver state
     3. Generates Socratic response
     """
     settings = get_settings()
     engine = get_concept_engine()
-    
+
+    # Surface missing-API-key as a proper 503 BEFORE entering the
+    # try-block (which catches Exception and re-raises as 500) and
+    # BEFORE any StreamingResponse path is taken.
+    _validate_provider_or_raise()
+
     try:
         # Step 1: Retrieve relevant concepts (run in thread — avoids blocking event loop)
         query = f"{request.solver_state.operation} {request.solver_state.rule_used or ''} {request.message}"
@@ -339,7 +372,12 @@ async def chat_stream(request: ChatRequest):
     """Streaming version of chat endpoint."""
     settings = get_settings()
     engine = get_concept_engine()
-    
+
+    # Same pre-flight as /chat — must run BEFORE the try-block that
+    # re-raises as 500 and BEFORE we return a StreamingResponse, so
+    # that a missing API key surfaces as a 503 the client can read.
+    _validate_provider_or_raise()
+
     try:
         # Retrieve concepts (run in thread — avoids blocking event loop)
         query = f"{request.solver_state.operation} {request.solver_state.rule_used or ''} {request.message}"

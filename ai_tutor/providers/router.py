@@ -648,6 +648,13 @@ def _get_cloud_provider_call(provider: str, stream: bool = False):
             "openai": _call_openai_stream,
             "anthropic": _call_anthropic_stream,
             "google": _call_google_stream,
+            # DeepSeek streaming was missing from this dict, so any caller
+            # that hit `generate(stream=True)` with provider=deepseek got
+            # `None` back and raised "Provider 'deepseek' not supported".
+            # _call_deepseek_stream has existed (used directly by the
+            # async path) — register it here too so the sync streaming
+            # path works.
+            "deepseek": _call_deepseek_stream,
         }.get(provider)
     return {
         "openai": _call_openai,
@@ -958,14 +965,63 @@ async def _call_deepseek_stream(messages, model, api_key):
 
 
 async def generate_stream_async(prompt: str, mode: str = "fast", system: Optional[str] = None):
-    """Async generator — streams DeepSeek response chunk by chunk."""
+    """Async generator — streams from the configured LLM provider.
+
+    Previously hardcoded to DeepSeek. That meant any deploy with a
+    different `LLM_PROVIDER` (openai / anthropic / google / local /
+    gemini_cli) couldn't stream — and worse, the ValueError raised
+    from inside this generator fired AFTER the FastAPI handler had
+    already returned a 200 + text/event-stream header, silently
+    closing the SSE stream and surfacing in the browser as
+    `ERR_HTTP2_PROTOCOL_ERROR` / `TypeError: network error`.
+
+    Now respects `settings.llm_provider`, validates the configured
+    provider has an API key BEFORE yielding (so call sites that
+    `await` the first chunk see the ValueError synchronously and
+    can return a proper 503), and supports the same provider set as
+    `generate(stream=True)` — including local Ollama and Gemini CLI
+    via thread-based draining (their sync iterators block per chunk;
+    we trade real streaming for correctness on those paths since
+    cloud is the common case).
+    """
     settings = get_settings()
-    api_key = settings.deepseek_api_key
-    if not api_key:
-        raise ValueError("DEEPSEEK_API_KEY not set")
+    provider = settings.llm_provider
     model = settings.get_model(mode)
+
+    # Local Ollama and Gemini CLI: sync generators, drain in a thread.
+    if provider == "gemini_cli":
+        chunks = await asyncio.to_thread(
+            lambda: list(_call_gemini_cli_stream(prompt, model, system))
+        )
+        for chunk in chunks:
+            yield chunk
+        return
+
     messages = _prepare_messages(prompt, system)
-    async for chunk in _call_deepseek_stream(messages, model, api_key):
+
+    if provider == "local":
+        if not OLLAMA_AVAILABLE:
+            raise RuntimeError("Ollama not installed (LLM_PROVIDER=local)")
+        chunks = await asyncio.to_thread(
+            lambda: list(_call_local_stream(messages, model))
+        )
+        for chunk in chunks:
+            yield chunk
+        return
+
+    # Cloud providers — async streaming.
+    api_key = getattr(settings, f"{provider}_api_key", "")
+    if not api_key:
+        raise ValueError(
+            f"No API key for provider '{provider}'. Set {provider.upper()}_API_KEY "
+            f"in the deploy environment, or change LLM_PROVIDER."
+        )
+
+    call_fn = _get_cloud_provider_call(provider, stream=True)
+    if not call_fn:
+        raise ValueError(f"Provider '{provider}' not supported for streaming")
+
+    async for chunk in call_fn(messages, model, api_key):
         yield chunk
 
 

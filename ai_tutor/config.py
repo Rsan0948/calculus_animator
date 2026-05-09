@@ -9,21 +9,36 @@ from pathlib import Path
 from typing import Optional
 
 
+def _env(name: str, default: str = "") -> str:
+    """Read an env var and strip surrounding whitespace.
+
+    HF Space secrets in particular sometimes get pasted with trailing
+    newlines (Cmd+V on a copied line). Without stripping, a value like
+    "deepseek\\n\\n" gets fed straight into `getattr(settings,
+    f"{provider}_api_key")` and silently fails to match `deepseek_api_key`,
+    which manifests as an empty SSE stream from /tutor/chat/stream
+    (see ai_tutor/routers/tutor.py for the route-side guard).
+    """
+    return os.getenv(name, default).strip()
+
+
 @dataclass
 class TutorSettings:
     """AI Tutor configuration with secure API key handling."""
-    
+
     # LLM Provider Configuration
-    llm_provider: str = field(default_factory=lambda: os.getenv("LLM_PROVIDER", "local"))
-    fast_model: str = field(default_factory=lambda: os.getenv("FAST_MODEL", ""))
-    power_model: str = field(default_factory=lambda: os.getenv("POWER_MODEL", ""))
-    vision_model: str = field(default_factory=lambda: os.getenv("VISION_MODEL", ""))
-    
-    # API Keys (loaded from env, never hardcoded)
-    openai_api_key: str = field(default_factory=lambda: os.getenv("OPENAI_API_KEY", ""))
-    anthropic_api_key: str = field(default_factory=lambda: os.getenv("ANTHROPIC_API_KEY", ""))
-    google_api_key: str = field(default_factory=lambda: os.getenv("GOOGLE_API_KEY", ""))
-    deepseek_api_key: str = field(default_factory=lambda: os.getenv("DEEPSEEK_API_KEY", ""))
+    llm_provider: str = field(default_factory=lambda: _env("LLM_PROVIDER", "local"))
+    fast_model: str = field(default_factory=lambda: _env("FAST_MODEL", ""))
+    power_model: str = field(default_factory=lambda: _env("POWER_MODEL", ""))
+    vision_model: str = field(default_factory=lambda: _env("VISION_MODEL", ""))
+
+    # API Keys (loaded from env, never hardcoded). Stripped of surrounding
+    # whitespace so a copy-pasted Bearer token with a trailing newline
+    # doesn't fail auth at the upstream provider.
+    openai_api_key: str = field(default_factory=lambda: _env("OPENAI_API_KEY", ""))
+    anthropic_api_key: str = field(default_factory=lambda: _env("ANTHROPIC_API_KEY", ""))
+    google_api_key: str = field(default_factory=lambda: _env("GOOGLE_API_KEY", ""))
+    deepseek_api_key: str = field(default_factory=lambda: _env("DEEPSEEK_API_KEY", ""))
     
     # RAG Configuration
     vector_db_path: Path = field(default_factory=lambda: Path("data/vectors"))
