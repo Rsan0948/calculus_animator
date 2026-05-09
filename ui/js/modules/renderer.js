@@ -847,11 +847,16 @@ export const renderer = {
         const contentIndex = state.selectedSlideIndex;
         // Track furthest slide reached for the chapter-card progress
         // marker. Any path that renders a slide contributes (next-click,
-        // direct chapter switch, saved-state restore).
+        // direct chapter switch, saved-state restore). When the marker
+        // advances, re-render the chapter list so the pill updates in
+        // the DOM (the list is otherwise only re-rendered on chapter
+        // switch / boot — without this the pill stays stale).
         state.chapterProgress = state.chapterProgress || {};
         const prevFurthest = state.chapterProgress[chapter.id] || 0;
+        let progressAdvanced = false;
         if (state.selectedSlideIndex > prevFurthest) {
             state.chapterProgress[chapter.id] = state.selectedSlideIndex;
+            progressAdvanced = true;
         }
         const slide = slides[contentIndex];
         const slideTitle = (slide?.title || slide?.id || "Slide");
@@ -898,6 +903,10 @@ export const renderer = {
         quizGate.innerHTML = [this.renderMicroQuiz(pathway.id, chapter), this.renderQuizGate(pathway.id, chapter)].filter(Boolean).join("");
         testPanel.innerHTML = this.renderChapterTest(chapter, pathway.id);
         this.updateSlideControlState(pathway.id, chapter);
+        // Re-render chapter cards if the furthest-slide marker moved so
+        // the "Slide N of M" pill on the active card reflects the new
+        // furthest position immediately.
+        if (progressAdvanced) this.renderChapterList();
     },
 
     async renderLearningSlideVisual(pathwayId, chapterId, slideIndex) {
