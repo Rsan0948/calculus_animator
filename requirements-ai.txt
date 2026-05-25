@@ -9,4 +9,4 @@
 #   pip install -r requirements-ai.txt
 
 chromadb==1.5.7
-sentence-transformers==5.4.1
+sentence-transformers==5.5.1

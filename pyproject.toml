@@ -31,7 +31,7 @@ dependencies = [
 [project.optional-dependencies]
 ai_tutor = [
     "chromadb==1.5.7",
-    "sentence-transformers==5.4.1",
+    "sentence-transformers==5.5.1",
 ]
 dev = [
     "pytest==9.0.3",
