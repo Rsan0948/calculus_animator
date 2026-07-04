@@ -1,6 +1,5 @@
 """Python ↔ JS bridge exposed via pywebview js_api."""
 import base64
-import hashlib
 import json
 import os
 import queue
@@ -639,53 +638,18 @@ class CalculusAPI:
         return _json(self._glossary)
 
     def _auto_generate_capacity_report(self):
-        """Generate a launch-time readable report of visible/overflow slide text fit."""
-        try:
-            root = Path(__file__).parent.parent
-            report_json = root / "data" / "slide_capacity_report.json"
-            root / "data" / "slide_capacity_report.txt"
-            curr_blob = json.dumps(self._curriculum, sort_keys=True).encode("utf-8")
-            curr_hash = hashlib.sha256(curr_blob).hexdigest()
+        """Generate a launch-time readable report of visible/overflow slide text fit.
 
-            if report_json.exists():
-                try:
-                    old = json.loads(report_json.read_text(encoding="utf-8"))
-                    if old.get("curriculum_hash") == curr_hash:
-                        return
-                except Exception:
-                    logger.debug("Failed to read old capacity report hash.")
-                    pass
-
-            pathways = self._curriculum.get("pathways") or []
-            rows = []
-            for p in pathways:
-                pid = p.get("id") or ""
-                for ch in (p.get("chapters") or []):
-                    cid = ch.get("id") or ""
-                    for i, s in enumerate(ch.get("slides") or [], start=1):
-                        blocks = s.get("content_blocks") or []
-                        text = "\n\n".join(
-                            (b.get("text") or "").strip()
-                            for b in blocks if (b.get("text") or "").strip()
-                        )
-                        if not text:
-                            continue
-                        base = self._capacity_metrics_only(text, with_image=False)
-                        with_img = self._capacity_metrics_only(text, with_image=True)
-                        rows.append({
-                            "pathway_id": pid,
-                            "chapter_id": cid,
-                            "slide_id": s.get("id") or f"slide_{i}",
-                            "slide_index": i,
-                            "chars_total_input": len(text),
-                            "no_image": base,
-                            "with_image": with_img,
-                        })
-
-            # ... rest of the report generation ... (keeping it simple for now)
-            # This would normally write to the report files.
-        except Exception as e:
-            logger.error(f"Capacity report generation failed: {e}")
+        Slide capacity metrics are stubbed out in this build (see the
+        capacity-check stubs below), so there is nothing meaningful to
+        compute or write. Skip immediately rather than walking the whole
+        curriculum at every launch collecting ``capability_unavailable``
+        placeholders that would be discarded anyway.
+        """
+        logger.debug(
+            "Skipping capacity report: slide capacity metrics are not "
+            "computed in this build."
+        )
 
     # ── Capacity-check stubs ─────────────────────────────────────
     # These return an honest ``capability_unavailable`` rather than a
@@ -777,9 +741,13 @@ class CalculusAPI:
             )
 
             if cache_key in self._slide_render_cache:
+                # Refresh recency so eviction is LRU rather than FIFO —
+                # dict insertion order is the eviction order below.
+                data_url = self._slide_render_cache.pop(cache_key)
+                self._slide_render_cache[cache_key] = data_url
                 result = {
                     "success": True,
-                    "data_url": self._slide_render_cache[cache_key],
+                    "data_url": data_url,
                     "slide_index": idx
                 }
                 return _json(result)

@@ -58,6 +58,13 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg1);color:var
 #mathInput{width:100%;min-height:84px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:18px;padding:12px 14px;background:var(--bg3);border:2px solid var(--border);border-radius:8px;color:var(--text1);resize:vertical;line-height:1.35}
 #mathInput:focus{border-color:var(--accent);outline:none}
 .input-copy-tools{display:flex;gap:8px;margin-top:8px}
+/* Recently solved expressions: one-click reload chips under the input.
+   Populated by app.renderRecentExpressions from localStorage. */
+.recent-expressions{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:8px}
+.recent-expressions.hidden{display:none}
+.recent-label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text2)}
+.recent-chip{padding:5px 11px;border:1px solid var(--border);border-radius:999px;background:var(--bg3);color:var(--text1);font-size:12px;cursor:pointer;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;transition:.2s}
+.recent-chip:hover{border-color:var(--accent);color:#fff;background:rgba(233,69,96,.15)}
 
 .params-section{display:flex;gap:20px;margin-bottom:14px;flex-wrap:wrap}
 .param-group{display:flex;align-items:center;gap:6px}
@@ -343,6 +350,13 @@ sub{font-size:.72em;line-height:0;vertical-align:sub}
    the solver screen. !important defeats the tutor-panel.js's
    later-injected stylesheet. */
 #learningScreen.active ~ .tutor-toggle{display:none!important}
+/* Same for the panel and its full-viewport backdrop: without these,
+   a tutor left open on the solver screen stays slid in on Learning,
+   and the backdrop (pointer-events:auto) dims and swallows every
+   click there with the opener hidden — no visible way out. Both
+   re-appear automatically when the user switches back to solver. */
+#learningScreen.active ~ .ai-tutor-panel{display:none!important}
+#learningScreen.active ~ .ai-tutor-backdrop{display:none!important}
 
 /* solver sidebar collapse — desktop/tablet only.
    When collapsed: hide the formula library and symbol palette but

@@ -34,6 +34,19 @@ const app = {
             if (state.mathField) {
                 state.mathField.value = utils.normalizeDisplayMath(state.mathField.value || "");
             }
+
+            // Restore recently solved expressions (chips under the input).
+            try {
+                const rec = JSON.parse(localStorage.getItem('calcAnimRecents') || '[]');
+                if (Array.isArray(rec)) {
+                    state.recentExpressions = rec
+                        .filter(r => r && typeof r.expr === "string" && r.expr.trim())
+                        .slice(0, state.MAX_RECENT_EXPRESSIONS);
+                }
+            } catch (err) {
+                bridge.log(`Failed to restore recent expressions: ${err && err.message ? err.message : err}`, "warn");
+            }
+            this.renderRecentExpressions();
             
             // Un-nest glossary if not already done in state.js
             if (state.glossary && !state.glossaryLexicon) {
@@ -168,28 +181,47 @@ const app = {
             order: parseInt(document.getElementById("seriesOrder").value, 10) || 6,
         };
 
+        // Token-guard the round trip so an older in-flight solve that
+        // resolves late cannot clobber the result of a newer one.
+        const token = ++state.solveToken;
+        const solveBtn = document.getElementById("solveBtn");
+        if (solveBtn) solveBtn.disabled = true;
         this.showLoading();
-        const result = await bridge.solve(latex, calcType, params);
-        state.solveResult = result;
-        if (result.success) {
-            this.showResult(result);
-            this.renderRelatedLearningLinks(result);
-            state.currentSteps = result.animation_steps || [];
-            this.showSteps(state.currentSteps);
-            this.renderAnimationStepList(state.currentSteps);
-            state.baseLatex = state.currentSteps[0]?.before || state.mathField.value || "";
-            state.stepIdx = -1;
-            this.clearAnimStage();
-            renderer.renderStationaryStage(state.baseLatex, "");
+        try {
+            const result = await bridge.solve(latex, calcType, params);
+            if (token !== state.solveToken) return;
+            state.solveResult = result;
+            if (result.success) {
+                this.addRecentExpression(displayExpr, calcType);
+                this.showResult(result);
+                this.renderRelatedLearningLinks(result);
+                state.currentSteps = result.animation_steps || [];
+                this.showSteps(state.currentSteps);
+                this.renderAnimationStepList(state.currentSteps);
+                state.baseLatex = state.currentSteps[0]?.before || state.mathField.value || "";
+                state.stepIdx = -1;
+                this.clearAnimStage();
+                renderer.renderStationaryStage(state.baseLatex, "");
 
-            if (focusAnimation) {
-                this.setActiveTab("animation");
-                this.playAnim();
+                if (focusAnimation) {
+                    this.setActiveTab("animation");
+                    this.playAnim();
+                }
+                this.updateIndicator();
+                await this.refreshGraph();
+            } else {
+                this.showError(result.error || "Unknown error");
+                // A failed solve must not leave the previous run's animation
+                // replayable: the steps panel is already cleared, so stale
+                // state here would make "Animate All" replay the old result.
+                state.currentSteps = [];
+                state.stepIdx = -1;
+                state.baseLatex = "";
+                this.clearAnimStage();
+                this.updateIndicator();
             }
-            this.updateIndicator();
-            await this.refreshGraph();
-        } else {
-            this.showError(result.error || "Unknown error");
+        } finally {
+            if (token === state.solveToken && solveBtn) solveBtn.disabled = false;
         }
     },
 
@@ -227,18 +259,30 @@ const app = {
 
     pauseAnim() {
         state.animPlaying = false;
+        state.queuedRestart = false;
         clearTimeout(state.animTimer);
     },
 
     playAnim() {
-        if (state.animPlaying || !state.currentSteps.length || state.transitionBusy) return;
+        if (state.animPlaying || !state.currentSteps.length) return;
+        // Don't bail while a step transition is mid-flight — that made the
+        // Animate All button feel dead for ~2s. Start the loop; runAnimLoop
+        // already polls until the transition finishes.
         state.animPlaying = true;
-        if (state.stepIdx >= state.currentSteps.length - 1) {
-            state.stepIdx = -1;
-            renderer.renderStationaryStage(state.baseLatex, "");
-            this.updateIndicator();
+        if (state.transitionBusy) {
+            // The transition may be carrying stepIdx onto the final step;
+            // defer the replay-from-start decision until it completes.
+            state.queuedRestart = true;
+        } else if (state.stepIdx >= state.currentSteps.length - 1) {
+            this.restartAnimFromStart();
         }
         this.runAnimLoop();
+    },
+
+    restartAnimFromStart() {
+        state.stepIdx = -1;
+        renderer.renderStationaryStage(state.baseLatex, "");
+        this.updateIndicator();
     },
 
     runAnimLoop() {
@@ -246,6 +290,12 @@ const app = {
         if (state.transitionBusy) {
             state.animTimer = setTimeout(() => this.runAnimLoop(), 100);
             return;
+        }
+        if (state.queuedRestart) {
+            state.queuedRestart = false;
+            if (state.stepIdx >= state.currentSteps.length - 1) {
+                this.restartAnimFromStart();
+            }
         }
         if (state.stepIdx >= state.currentSteps.length - 1) {
             state.animPlaying = false;
@@ -301,7 +351,11 @@ const app = {
             direction: document.getElementById("limitDir").value,
             order: parseInt(document.getElementById("seriesOrder").value, 10) || 6,
         };
+        // Token-guard so rapid zoom clicks can't render an older x-range
+        // over a newer one when responses arrive out of order.
+        const token = ++state.graphToken;
         const data = await bridge.getGraphData(latex, calcType, params, -10/state.zoom, 10/state.zoom);
+        if (token !== state.graphToken) return;
         state.graphData = data;
         renderer.drawGraph();
     },
@@ -448,9 +502,16 @@ const app = {
             else container.appendChild(el);
         }
         el.textContent = "Enter an expression first.";
-        // Auto-clear on next keystroke. once:true keeps re-registrations safe.
+        // Auto-clear on next keystroke. The armed flag prevents stacking a
+        // new one-shot listener on every repeated empty-solve click.
         const inp = document.getElementById("mathInput");
-        if (inp) inp.addEventListener("input", () => this.hideInputEmptyError(), { once: true });
+        if (inp && !this._emptyErrorListenerArmed) {
+            this._emptyErrorListenerArmed = true;
+            inp.addEventListener("input", () => {
+                this._emptyErrorListenerArmed = false;
+                this.hideInputEmptyError();
+            }, { once: true });
+        }
     },
 
     hideInputEmptyError() {
@@ -518,7 +579,7 @@ const app = {
         const c = document.getElementById("stepsContainer");
         if (!steps.length) { c.innerHTML = '<p style="color:var(--text2)">No intermediate steps.</p>'; return; }
         c.innerHTML = steps.map((s, i) => `<div class="step-card" data-step="${i}">
-            <div class="step-header"><span class="step-number">${s.step}</span><span class="step-rule">${(s.rule || "").replace(/_/g, " ")}</span></div>
+            <div class="step-header"><span class="step-number">${utils.esc(s.step)}</span><span class="step-rule">${utils.esc((s.rule || "").replace(/_/g, " "))}</span></div>
             <div class="step-description">${utils.prettyText(s.description)}</div>
             <div class="step-math"><span class="before"></span>${s.before && s.after ? '<span class="arrow">→</span>' : ''}<span class="after"></span></div>
         </div>`).join("");
@@ -568,7 +629,8 @@ const app = {
         badge.className = "anim-rule-badge"; desc.className = "anim-description";
         badge.textContent = ""; desc.textContent = "";
         state.aCanvas.style.display = "none";
-        state.transitionBusy = false; state.queuedDirection = 0; state.currentAnimCopyText = "";
+        state.transitionBusy = false; state.queuedDirection = 0; state.queuedRestart = false;
+        state.currentAnimCopyText = "";
     },
 
     updateIndicator() { renderer.updateIndicator(); },
@@ -629,7 +691,11 @@ const app = {
         state.capacityState.withImage = !!imgEl.checked;
         state.capacityState.pageIndex = Math.max(0, pageIndex);
         preview.classList.add("loading");
+        // Token-guard rapid Prev/Next clicks: only the newest request may
+        // update capacity state and re-render.
+        const token = ++state.capacityRenderToken;
         const res = await bridge.capacityTestSlide(state.capacityState.text, state.capacityState.withImage, state.capacityState.pageIndex, 1300, 812);
+        if (token !== state.capacityRenderToken) return;
         if (!res.success) {
             preview.classList.remove("loading");
             // The bridge returns {success: false, error: "capability_unavailable", reason: "..."}
@@ -661,6 +727,48 @@ const app = {
         return "Alpha Beta Gamma Delta Epsilon ".repeat(20);
     },
 
+    addRecentExpression(expr, calcType) {
+        const text = String(expr || "").trim();
+        if (!text) return;
+        const next = [{ expr: text, type: calcType || "" }]
+            .concat((state.recentExpressions || []).filter(r => r.expr !== text))
+            .slice(0, state.MAX_RECENT_EXPRESSIONS);
+        state.recentExpressions = next;
+        try {
+            localStorage.setItem('calcAnimRecents', JSON.stringify(next));
+        } catch (err) {
+            bridge.log(`Failed to persist recent expressions: ${err && err.message ? err.message : err}`, "warn");
+        }
+        this.renderRecentExpressions();
+    },
+
+    renderRecentExpressions() {
+        const wrap = document.getElementById("recentExpressions");
+        if (!wrap) return;
+        const items = state.recentExpressions || [];
+        if (!items.length) {
+            wrap.classList.add("hidden");
+            wrap.innerHTML = "";
+            return;
+        }
+        wrap.classList.remove("hidden");
+        // Overflow is handled by the .recent-chip CSS ellipsis; the full
+        // expression stays available via the title tooltip.
+        wrap.innerHTML = '<span class="recent-label">Recent</span>' + items.map((r, i) =>
+            `<button type="button" class="recent-chip" data-recent-idx="${i}" title="${utils.escAttr(r.expr)}">${utils.esc(r.expr)}</button>`
+        ).join("");
+    },
+
+    loadRecentExpression(idx) {
+        const item = (state.recentExpressions || [])[idx];
+        if (!item) return;
+        state.mathField.value = utils.normalizeDisplayMath(item.expr);
+        const typeSel = document.getElementById("calcTypeSelect");
+        if (typeSel) typeSel.value = item.type || "";
+        this.updateParams();
+        state.mathField.focus();
+    },
+
     copyCurrentAnimationText() {
         if (state.currentAnimCopyText) utils.copyText(state.currentAnimCopyText);
         else { const fb = (document.getElementById("animMathDisplay")?.innerText || "").trim(); if (fb) utils.copyText(fb); }
@@ -673,9 +781,12 @@ else window.addEventListener("pywebviewready", () => app.boot());
 
 // Bind screen navigation at DOM-ready so the static shell is navigable
 // even when pywebview / boot() has not run yet (e.g. static file tests).
+// Once bindUI has attached the full handlers, this fallback must no-op —
+// otherwise every screen-button click runs two competing handlers.
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".screen-btn").forEach(btn => {
         btn.addEventListener("click", () => {
+            if (state.uiEventsBound) return;
             document.querySelectorAll(".screen-btn").forEach(b =>
                 b.classList.toggle("active", b === btn));
             const solver = document.getElementById("solverScreen");

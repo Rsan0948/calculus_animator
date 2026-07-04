@@ -54,10 +54,13 @@ class AITutorPanel {
         const panel = document.createElement('div');
         panel.id = 'ai-tutor-panel';
         panel.className = 'ai-tutor-panel';
+        panel.setAttribute('role', 'dialog');
+        panel.setAttribute('aria-modal', 'true');
+        panel.setAttribute('aria-label', 'AI Tutor');
         panel.innerHTML = `
             <div class="tutor-header">
                 <span class="tutor-title">🎓 Calculus Tutor</span>
-                <select id="tutor-provider-select" class="tutor-provider-select" title="AI Provider">
+                <select id="tutor-provider-select" class="tutor-provider-select" title="AI Provider" aria-label="AI provider">
                     <option value="deepseek">DeepSeek</option>
                     <option value="google">Gemini API</option>
                     <option value="gemini_cli">Gemini CLI</option>
@@ -65,7 +68,7 @@ class AITutorPanel {
                     <option value="anthropic">Anthropic</option>
                     <option value="local">Local (Ollama)</option>
                 </select>
-                <button class="tutor-close" id="tutor-close">×</button>
+                <button class="tutor-close" id="tutor-close" aria-label="Close tutor panel">×</button>
             </div>
             <div class="tutor-messages" id="tutor-messages"></div>
             <div class="tutor-input-area">
@@ -120,6 +123,7 @@ class AITutorPanel {
         toggleBtn.className = 'tutor-toggle';
         toggleBtn.innerHTML = '🎓';
         toggleBtn.title = 'AI Tutor (press ?)';
+        toggleBtn.setAttribute('aria-label', 'Open AI Tutor');
         document.body.appendChild(toggleBtn);
 
         this.panel = panel;
@@ -131,6 +135,7 @@ class AITutorPanel {
         this.contextDisplay = document.getElementById('tutor-context');
         this.screenshotIndicator = document.getElementById('tutor-screenshot-indicator');
         this.providerSelect = document.getElementById('tutor-provider-select');
+        this.sendBtn = document.getElementById('tutor-send');
     }
     
     attachStyles() {
@@ -554,10 +559,32 @@ class AITutorPanel {
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
                 return;
             }
+            // The tutor is contextually about solver state; on the Learning
+            // screen the opener is CSS-hidden, so the shortcut must not
+            // summon the panel (and its click-blocking backdrop) there.
+            if (this.isLearningScreenActive()) return;
             if (e.key === '?' || e.key === '/') {
                 e.preventDefault();
                 this.toggle();
             }
+        });
+
+        // Crossing the mobile/desktop breakpoint invalidates any inline
+        // width left behind by drag-resize; clear it so the responsive
+        // CSS (90vw mobile / 380px desktop) takes over again.
+        this._lastViewportMobile = this.isMobileViewport();
+        window.addEventListener('resize', () => {
+            const mobile = this.isMobileViewport();
+            if (mobile !== this._lastViewportMobile) {
+                this._lastViewportMobile = mobile;
+                this.panel.style.width = '';
+                this.panel.style.maxWidth = '';
+            }
+        });
+        // Double-click (or double-tap) the handle to restore default width.
+        this.resizeHandle.addEventListener('dblclick', () => {
+            this.panel.style.width = '';
+            this.panel.style.maxWidth = '';
         });
         
         // Send message
@@ -592,6 +619,12 @@ class AITutorPanel {
             if (resp.ok) {
                 const data = await resp.json();
                 this.providerSelect.value = data.provider;
+                // Assigning an unknown value to a <select> silently no-ops,
+                // leaving the dropdown showing a provider the backend isn't
+                // using. Surface that instead of lying.
+                if (data.provider && this.providerSelect.value !== data.provider) {
+                    console.warn(`Tutor backend uses unknown provider "${data.provider}"; dropdown may not reflect it.`);
+                }
             }
         } catch (e) {
             // Backend not ready yet, silently ignore
@@ -622,6 +655,11 @@ class AITutorPanel {
         return typeof window !== 'undefined'
             && typeof window.matchMedia === 'function'
             && window.matchMedia('(max-width: 768px)').matches;
+    }
+
+    isLearningScreenActive() {
+        const learning = document.getElementById('learningScreen');
+        return !!(learning && learning.classList.contains('active'));
     }
 
     /**
@@ -720,6 +758,7 @@ class AITutorPanel {
      * unreachable, default gray = unknown / first check in flight.
      */
     startHealthCheck() {
+        if (this.healthCheckInterval) clearInterval(this.healthCheckInterval);
         this.checkHealth();
         this.healthCheckInterval = setInterval(() => this.checkHealth(), 30000);
     }
@@ -857,7 +896,8 @@ class AITutorPanel {
         // Show typing
         this.showTyping();
         this.isStreaming = true;
-        
+        if (this.sendBtn) this.sendBtn.disabled = true;
+
         try {
             // Choose endpoint based on whether we have screenshot
             const endpoint = hasScreenshot 
@@ -892,29 +932,55 @@ class AITutorPanel {
             this.addMessage(`Error: ${error.message}`, 'error');
         } finally {
             this.isStreaming = false;
+            if (this.sendBtn) this.sendBtn.disabled = false;
         }
     }
-    
+
     async handleStreamingResponse(response) {
         const msg = document.createElement('div');
         msg.className = 'tutor-message assistant streaming';
         this.messagesContainer.appendChild(msg);
-        
+
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
         let fullText = '';
-        
-        while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-            
-            const chunk = decoder.decode(value, { stream: true });
-            fullText += chunk;
-            msg.textContent = fullText;
-            this.scrollToBottom();
+
+        try {
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+
+                const chunk = decoder.decode(value, { stream: true });
+                fullText += chunk;
+                msg.textContent = fullText;
+                this.scrollToBottom();
+            }
+            // Flush the decoder so a trailing multi-byte character split
+            // across the final chunk boundary isn't silently dropped.
+            fullText += decoder.decode();
+        } catch (error) {
+            // Mid-stream failure (dropped connection, backend died): keep
+            // the partial answer visible and in history so the next turn's
+            // context matches what's on screen. If nothing arrived at all,
+            // remove the empty bubble and let sendMessage render the error.
+            console.error('Tutor stream interrupted:', error);
+            if (!fullText) {
+                msg.remove();
+                throw error;
+            }
+            fullText += '\n[response interrupted — connection lost]';
+        } finally {
+            msg.classList.remove('streaming');
         }
-        
-        msg.classList.remove('streaming');
+
+        if (!fullText) {
+            // Empty 200 body — don't leave a blank assistant bubble behind.
+            msg.remove();
+            this.addMessage('The tutor returned an empty response. Please try again.', 'error');
+            return;
+        }
+        msg.textContent = fullText;
+        this.scrollToBottom();
         this.history.push({ role: 'assistant', content: fullText });
     }
     

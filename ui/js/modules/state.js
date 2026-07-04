@@ -37,9 +37,21 @@ export const state = {
     chapterProgress: {},
     relatedTopicPicks: [],
     stepRenderToken: 0,
+    // Monotonic tokens guarding async round trips against out-of-order
+    // responses (each consumer bumps its token per request and discards
+    // any response whose token is no longer current).
+    solveToken: 0,
+    graphToken: 0,
+    capacityRenderToken: 0,
+    // Set by ui_events.bindUI so the DOM-ready fallback nav in app.js
+    // stops handling screen-button clicks once the real handlers exist.
+    uiEventsBound: false,
     baseLatex: "",
     transitionBusy: false,
     queuedDirection: 0,
+    // Set when Animate All is clicked mid-transition: once the transition
+    // completes, restart from the beginning if it landed on the last step.
+    queuedRestart: false,
     currentAnimCopyText: "",
     learningSlideRenderToken: 0,
     pathwaySidebarCollapsed: false,
@@ -58,6 +70,11 @@ export const state = {
     showPathwayPicker: false,
     quickSymbolGroups: {},
     activeQuickSymbolTab: "Calculus",
+    // Recently solved expressions, newest first. Persisted in localStorage
+    // ('calcAnimRecents') and rendered as one-click reload chips under the
+    // math input.
+    recentExpressions: [],
+    MAX_RECENT_EXPRESSIONS: 8,
     capacityState: {
         pageIndex: 0,
         totalPages: 0,

@@ -147,7 +147,10 @@ class VectorStore:
                 "document": results["documents"][0][i],
                 "metadata": results["metadatas"][0][i],
                 "distance": distance,
-                "score": 1.0 - distance  # Convert to similarity score
+                # Cosine distance ranges [0, 2]; clamp so a dissimilar hit
+                # can't feed a negative base score into the additive boosts
+                # applied downstream in ConceptEngine.search.
+                "score": max(0.0, 1.0 - distance)
             })
         
         return formatted
@@ -171,7 +174,6 @@ class VectorStore:
             return semantic_results[:n_results]
         
         # Boost scores for keyword matches
-        query.lower()
         keyword_set = set(k.lower() for k in keywords)
         
         for result in semantic_results:

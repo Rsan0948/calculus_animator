@@ -3,11 +3,11 @@
  */
 import { state } from './state.js';
 import * as utils from './utils.js';
-import { bridge } from './bridge.js';
 import { renderer } from './renderer.js';
 
 export const ui_events = {
     bindUI(app) {
+        state.uiEventsBound = true;
         document.getElementById("solveBtn").addEventListener("click", () => app.solve({ focusAnimation: true }));
         document.getElementById("clearBtn").addEventListener("click", () => app.clear());
         document.getElementById("calcTypeSelect").addEventListener("change", () => app.updateParams());
@@ -15,6 +15,22 @@ export const ui_events = {
         document.getElementById("demoSelect").addEventListener("change", () => app.runSelectedDemo());
         document.getElementById("copyAnimStepBtn").addEventListener("click", () => app.copyCurrentAnimationText());
         state.mathField.addEventListener("input", () => app.normalizeInputField());
+        // Enter solves (matching the Solve & Animate button); Shift+Enter
+        // keeps the textarea's native newline for multi-line expressions.
+        state.mathField.addEventListener("keydown", e => {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                app.solve({ focusAnimation: true });
+            }
+        });
+        const recentWrap = document.getElementById("recentExpressions");
+        if (recentWrap) {
+            recentWrap.addEventListener("click", e => {
+                const chip = e.target.closest("[data-recent-idx]");
+                if (!chip) return;
+                app.loadRecentExpression(Number(chip.dataset.recentIdx));
+            });
+        }
         document.getElementById("selectInputBtn").addEventListener("click", () => {
             state.mathField.focus();
             state.mathField.select();

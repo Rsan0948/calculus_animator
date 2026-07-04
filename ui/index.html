@@ -60,12 +60,14 @@
                 </div>
 
                 <div class="math-input-container">
-                    <textarea id="mathInput" spellcheck="false" aria-label="Math expression input">x^2</textarea>
+                    <textarea id="mathInput" spellcheck="false" aria-label="Math expression input"
+                        title="Press Enter to solve (Shift+Enter for a new line)">x^2</textarea>
                     <div class="input-copy-tools">
                         <button class="btn btn-small btn-secondary" id="selectInputBtn">Select All</button>
                         <button class="btn btn-small btn-secondary" id="copyInputBtn">Copy</button>
                         <button class="btn btn-small btn-secondary" id="deleteInputBtn">Delete</button>
                     </div>
+                    <div id="recentExpressions" class="recent-expressions hidden" aria-label="Recently solved expressions"></div>
                 </div>
 
                 <div class="params-section" id="paramsSection">
@@ -350,23 +352,26 @@
     
     function integrateTutor() {
         console.log('🔗 Integrating AI Tutor with solver...');
-        
-        // Hook into solve button to capture expression
-        const solveBtn = document.getElementById('solveBtn');
-        const originalSolve = solveBtn.onclick;
-        
-        solveBtn.addEventListener('click', () => {
-            const input = document.getElementById('mathInput').value;
-            const type = document.getElementById('calcTypeSelect').value || 'derivative';
-            
-            // Update tutor context
-            window.aiTutor.updateSolverState({
-                expression: input,
-                operation: type,
-                step_index: 0,
-                step_count: 0
-            });
-        });
+
+        // Wrap the solve call itself (not the button) so EVERY solve path —
+        // button click, Enter key, future callers — syncs the tutor context.
+        const app = window.appAPI;
+        const originalSolve = app.solve.bind(app);
+        app.solve = function (options) {
+            try {
+                const input = document.getElementById('mathInput').value;
+                const type = document.getElementById('calcTypeSelect').value || 'derivative';
+                window.aiTutor.updateSolverState({
+                    expression: input,
+                    operation: type,
+                    step_index: 0,
+                    step_count: 0
+                });
+            } catch (e) {
+                console.warn('Tutor context sync failed:', e);
+            }
+            return originalSolve(options);
+        };
         
         // Listen for step progression from the existing app
         // This assumes the app has a way to track steps - adjust as needed
@@ -377,7 +382,9 @@
                     const stepMatch = mutation.target.textContent.match(/Step\s+(\d+)/i);
                     if (stepMatch) {
                         const currentState = window.aiTutor.solverState || {};
-                        currentState.step_index = parseInt(stepMatch[1]) - 1;
+                        // The indicator reads "Step 0 / N" before any step is
+                        // taken; clamp so we never report a -1 index.
+                        currentState.step_index = Math.max(0, parseInt(stepMatch[1], 10) - 1);
                         window.aiTutor.updateSolverState(currentState);
                     }
                 }

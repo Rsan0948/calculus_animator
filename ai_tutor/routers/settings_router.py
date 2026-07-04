@@ -75,11 +75,23 @@ async def get_current_settings():
     )
 
 
+_KNOWN_PROVIDERS = {"local", "gemini_cli", "openai", "anthropic", "google", "deepseek"}
+
+
 @router.post("/provider")
 async def update_provider(config: ProviderConfig):
     """Update provider configuration."""
     settings = get_settings()
-    
+
+    # Reject unknown providers BEFORE mutating the shared settings
+    # singleton — an arbitrary string here would otherwise flow into
+    # get_model()/provider dispatch and leave the process half-configured.
+    if config.provider not in _KNOWN_PROVIDERS:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unknown provider '{config.provider}'. Valid: {sorted(_KNOWN_PROVIDERS)}",
+        )
+
     # Update provider
     settings.llm_provider = config.provider
     
@@ -137,10 +149,14 @@ async def get_local_models():
 @router.post("/rag/rebuild")
 async def rebuild_rag_index():
     """Trigger RAG index rebuild from curriculum."""
+    import asyncio
+
     from ai_tutor.services.ingest import ingest_curriculum
-    
+
     try:
-        result = ingest_curriculum()
+        # Off the event loop: re-embeds every card and rebuilds Chroma +
+        # SQLite FTS — running it inline froze all other requests.
+        result = await asyncio.to_thread(ingest_curriculum)
         return {"status": "success", "details": result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

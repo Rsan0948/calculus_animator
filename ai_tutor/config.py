@@ -64,8 +64,14 @@ class TutorSettings:
         base = Path(__file__).parent.parent
         return (base / self.vector_db_path).resolve()
     
-    def get_default_models(self) -> dict:
-        """Get default models based on provider."""
+    def get_default_models(self, provider: Optional[str] = None) -> dict:
+        """Get default models for ``provider`` (the configured one if omitted).
+
+        The explicit ``provider`` arg exists for cloud failover, which
+        targets a provider other than ``llm_provider`` — using the
+        configured provider's model names there (e.g. sending an Ollama
+        model name to OpenAI) guarantees an API error.
+        """
         defaults = {
             "openai": {
                 "fast": "gpt-4o-mini",
@@ -98,7 +104,7 @@ class TutorSettings:
                 "vision": "gemini-2.0-flash"
             }
         }
-        return defaults.get(self.llm_provider, defaults["local"])
+        return defaults.get(provider or self.llm_provider, defaults["local"])
     
     def get_model(self, mode: str = "fast") -> str:
         """Get configured model for mode, with fallback to defaults."""
