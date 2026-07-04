@@ -122,6 +122,10 @@ async def _call_openai_stream(  # async generator: see AsyncGenerator return
         async with client.stream(
             "POST", url, headers=headers, json=payload, timeout=120.0
         ) as resp:
+            # Without this, an auth/quota error (401/429 JSON body, no
+            # "data: " lines) yields nothing and closes — a silent empty
+            # stream instead of a raised error the caller can surface.
+            resp.raise_for_status()
             async for line in resp.aiter_lines():
                 if line.startswith("data: "):
                     data = line[6:]
@@ -211,6 +215,9 @@ async def _call_anthropic_stream(
         async with client.stream(
             "POST", url, headers=headers, json=payload, timeout=120.0
         ) as resp:
+            # See _call_openai_stream: surface auth/quota errors instead of
+            # silently yielding an empty stream.
+            resp.raise_for_status()
             async for line in resp.aiter_lines():
                 if line.startswith("data: "):
                     data = line[6:]
@@ -325,6 +332,13 @@ async def _call_google_stream(
             json=payload,
             timeout=120.0
         ) as resp:
+            # Explicit status check (not raise_for_status) because the
+            # request URL carries the API key — HTTPStatusError echoes the
+            # URL into logs. Mirrors the non-streaming _call_google.
+            if resp.status_code >= 400:
+                raise RuntimeError(
+                    f"Gemini API error (model={model}, status={resp.status_code})"
+                )
             async for line in resp.aiter_lines():
                 if line.startswith("data: "):
                     data = line[6:]
@@ -664,14 +678,8 @@ def _get_cloud_provider_call(provider: str, stream: bool = False):
     }.get(provider)
 
 
-def _attempt_cloud_failover(
-    messages: List[Dict[str, Any]],
-    mode: str,
-    stream: bool = False
-) -> Union[str, Generator[str, None, None]]:
-    """Try cloud providers in priority order when local fails."""
-    settings = get_settings()
-    
+def _cloud_provider_candidates(settings) -> List[tuple]:
+    """(provider, api_key) pairs for every cloud provider with a key set."""
     providers = []
     if settings.openai_api_key:
         providers.append(("openai", settings.openai_api_key))
@@ -681,45 +689,90 @@ def _attempt_cloud_failover(
         providers.append(("google", settings.google_api_key))
     if settings.deepseek_api_key:
         providers.append(("deepseek", settings.deepseek_api_key))
-    
+    return providers
+
+
+def _failover_model(settings, provider_name: str, mode: str) -> str:
+    """Model to use when failing over to ``provider_name``.
+
+    ``settings.get_model`` resolves against the *configured* provider, so
+    during failover it would hand e.g. an Ollama model name to OpenAI.
+    Use the failover target's own defaults instead.
+    """
+    return settings.get_default_models(provider_name).get(mode) or \
+        settings.get_default_models(provider_name).get("fast", "")
+
+
+def _iter_cloud_failover_stream(
+    messages: List[Dict[str, Any]],
+    mode: str
+) -> Generator[str, None, None]:
+    """Sync generator: stream from the first working cloud provider."""
+    settings = get_settings()
     errors = []
-    for provider_name, api_key in providers:
+    for provider_name, api_key in _cloud_provider_candidates(settings):
+        call_fn = _get_cloud_provider_call(provider_name, stream=True)
+        if not call_fn:
+            continue
+        model = _failover_model(settings, provider_name, mode)
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        agen = call_fn(messages, model, api_key)
+        yielded = False
         try:
-            call_fn = _get_cloud_provider_call(provider_name, stream)
-            if not call_fn:
-                continue
-                
-            model = settings.get_model(mode)
-            
-            if stream:
-                # For streaming, we need to yield from the async generator
-                async def stream_wrapper(fn=call_fn, m=model, key=api_key):
-                    async for chunk in fn(messages, m, key):
-                        yield chunk
-                
-                # Convert async generator to sync generator
-                loop = asyncio.new_event_loop()
-                asyncio.set_event_loop(loop)
-                agen = stream_wrapper()
-                
-                while True:
-                    try:
-                        yield loop.run_until_complete(agen.__anext__())
-                    except StopAsyncIteration:
-                        break
-                # Bare ``return`` inside a generator branch; the function's
-                # Union return type makes mypy expect a value here.
-                return  # type: ignore[return-value]
-            else:
-                result = _run_async(call_fn(messages, model, api_key))
-                return result
-                
+            while True:
+                try:
+                    chunk = loop.run_until_complete(agen.__anext__())
+                except StopAsyncIteration:
+                    return
+                except Exception as e:
+                    if yielded:
+                        # Output already reached the caller; switching
+                        # providers mid-answer would splice two responses.
+                        raise
+                    errors.append(f"{provider_name}: {e}")
+                    break
+                yielded = True
+                yield chunk
+        finally:
+            try:
+                loop.run_until_complete(agen.aclose())
+            except Exception:
+                logger.debug("Failed to close failover stream generator", exc_info=True)
+            loop.close()
+
+    raise RuntimeError(f"All providers failed. Errors: {'; '.join(errors)}")
+
+
+def _attempt_cloud_failover(
+    messages: List[Dict[str, Any]],
+    mode: str,
+    stream: bool = False
+) -> Union[str, Generator[str, None, None]]:
+    """Try cloud providers in priority order when local fails.
+
+    NOTE: this must stay a plain function (no ``yield`` in its body). The
+    previous version contained a ``yield`` in the stream branch, which made
+    the *whole function* a generator — so the non-streaming call returned an
+    empty generator object instead of the response string.
+    """
+    if stream:
+        return _iter_cloud_failover_stream(messages, mode)
+
+    settings = get_settings()
+    errors = []
+    for provider_name, api_key in _cloud_provider_candidates(settings):
+        call_fn = _get_cloud_provider_call(provider_name, stream=False)
+        if not call_fn:
+            continue
+        try:
+            model = _failover_model(settings, provider_name, mode)
+            return _run_async(call_fn(messages, model, api_key))
         except Exception as e:
             errors.append(f"{provider_name}: {str(e)}")
             continue
-    
-    error_msg = "; ".join(errors)
-    raise RuntimeError(f"All providers failed. Errors: {error_msg}")
+
+    raise RuntimeError(f"All providers failed. Errors: {'; '.join(errors)}")
 
 
 def generate(
@@ -779,18 +832,27 @@ def generate(
         async def async_gen():
             async for chunk in call_fn(messages, model, api_key):
                 yield chunk
-        
+
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         agen = async_gen()
-        
+
         def sync_gen():
-            while True:
+            try:
+                while True:
+                    try:
+                        yield loop.run_until_complete(agen.__anext__())
+                    except StopAsyncIteration:
+                        break
+            finally:
+                # Always close the private loop — repeated streaming calls
+                # otherwise leak an event loop (and its selector fd) each.
                 try:
-                    yield loop.run_until_complete(agen.__anext__())
-                except StopAsyncIteration:
-                    break
-        
+                    loop.run_until_complete(agen.aclose())
+                except Exception:
+                    logger.debug("Failed to close stream generator", exc_info=True)
+                loop.close()
+
         return sync_gen()
     return _run_async(call_fn(messages, model, api_key))
 
@@ -930,14 +992,40 @@ def generate_vision(
 # ═════════════════════════════════════════════════════════════════════════════
 
 async def generate_async(prompt: str, mode: str = "fast", system: Optional[str] = None) -> str:
-    """Async-safe generate using DeepSeek directly. Bypasses sync event-loop wrappers."""
+    """Async-safe non-streaming generate for the configured provider.
+
+    Previously hardcoded to DeepSeek, which broke every non-streaming
+    deploy configured for another provider: `_validate_provider_or_raise`
+    checked the configured provider's key, then this function demanded a
+    DeepSeek key — and even with one present it shipped the *configured*
+    provider's model name to the DeepSeek API. Mirrors the provider
+    dispatch in `generate_stream_async`.
+    """
     settings = get_settings()
-    api_key = settings.deepseek_api_key
-    if not api_key:
-        raise ValueError("DEEPSEEK_API_KEY not set")
+    provider = settings.llm_provider
     model = settings.get_model(mode)
+
+    if provider == "gemini_cli":
+        return await asyncio.to_thread(_call_gemini_cli, prompt, model, system)
+
     messages = _prepare_messages(prompt, system)
-    return await _call_deepseek(messages, model, api_key)
+
+    if provider == "local":
+        if not OLLAMA_AVAILABLE:
+            raise RuntimeError("Ollama not installed (LLM_PROVIDER=local)")
+        return await asyncio.to_thread(_call_local, messages, model)
+
+    api_key = getattr(settings, f"{provider}_api_key", "")
+    if not api_key:
+        raise ValueError(
+            f"No API key for provider '{provider}'. Set {provider.upper()}_API_KEY "
+            f"in the deploy environment, or change LLM_PROVIDER."
+        )
+
+    call_fn = _get_cloud_provider_call(provider, stream=False)
+    if not call_fn:
+        raise ValueError(f"Provider '{provider}' not supported")
+    return await call_fn(messages, model, api_key)
 
 
 async def _call_deepseek_stream(messages, model, api_key):
@@ -1029,7 +1117,13 @@ _GEMINI_VISION_MODELS = ["gemini-2.0-flash", "gemini-2.0-flash-001", "gemini-1.5
 
 
 async def generate_vision_async(prompt: str, image_b64: str, mode: str = "power", system: Optional[str] = None) -> str:
-    """Vision via Google Gemini API or Gemini CLI. DeepSeek has no vision support."""
+    """Vision via Gemini CLI, Google Gemini API, or OpenAI (DeepSeek has no vision).
+
+    Previously this hard-required GOOGLE_API_KEY even when a vision-capable
+    OpenAI key was configured (and the /chat/vision docs promised OpenAI /
+    Anthropic support). Now falls through Google → OpenAI like the sync
+    ``generate_vision`` path.
+    """
     settings = get_settings()
 
     # Use CLI if configured (bypasses API quota entirely)
@@ -1039,21 +1133,31 @@ async def generate_vision_async(prompt: str, image_b64: str, mode: str = "power"
             None, _call_gemini_cli_vision, prompt, image_b64, model, system
         )
 
-    if not settings.google_api_key:
-        raise RuntimeError("GOOGLE_API_KEY not set — vision not available")
     messages = _prepare_messages(prompt, system, image_b64)
-
-    # Use VISION_MODEL env var if set, otherwise try models in priority order
-    models_to_try = [settings.vision_model] if getattr(settings, "vision_model", None) \
-        else _GEMINI_VISION_MODELS
-
     errors = []
-    for model in models_to_try:
+
+    if settings.google_api_key:
+        # Use VISION_MODEL env var if set, otherwise try models in priority order
+        models_to_try = [settings.vision_model] if getattr(settings, "vision_model", None) \
+            else _GEMINI_VISION_MODELS
+        for model in models_to_try:
+            try:
+                return await _call_google(messages, model, settings.google_api_key)
+            except Exception as e:
+                errors.append(f"google/{model}: {e}")
+
+    if settings.openai_api_key:
         try:
-            return await _call_google(messages, model, settings.google_api_key)
+            return await _call_openai(messages, "gpt-4o", settings.openai_api_key, vision=True)
         except Exception as e:
-            errors.append(f"{model}: {e}")
-    raise RuntimeError(f"All Gemini vision models failed: {'; '.join(errors)}")
+            errors.append(f"openai: {e}")
+
+    if not errors:
+        raise RuntimeError(
+            "No vision provider configured — set GOOGLE_API_KEY or "
+            "OPENAI_API_KEY, or use the Gemini CLI."
+        )
+    raise RuntimeError(f"All vision providers failed: {'; '.join(errors)}")
 
 
 # ═════════════════════════════════════════════════════════════════════════════

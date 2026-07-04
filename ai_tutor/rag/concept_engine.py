@@ -59,6 +59,17 @@ TOPIC_KEYWORDS: Dict[str, List[str]] = {
     ],
 }
 
+# SolverState.operation values → TOPIC_KEYWORDS taxonomy keys, used to
+# normalise the `topic` argument to ConceptEngine.search. "series" and
+# "simplify" have no distinct entry ("series" matches its topic key
+# directly; "simplify" has no topic to boost).
+_OPERATION_TOPIC_ALIASES: Dict[str, str] = {
+    "derivative": "derivatives",
+    "integral": "integrals",
+    "limit": "limits",
+    "ode": "differential_equations",
+}
+
 
 def _utc_now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
@@ -313,6 +324,7 @@ class ConceptEngine:
         self.index_path = index_path or (base_dir / "data" / "concepts.db")
         
         self._cards_cache: Optional[List[ConceptCard]] = None
+        self._cards_cache_mtime: Optional[int] = None
         self._rerank_model: Optional[Any] = None
     
     def _get_rerank_model(self):
@@ -484,13 +496,20 @@ class ConceptEngine:
                 f.write(json.dumps(asdict(card), ensure_ascii=True) + "\n")
     
     def load_cards(self) -> List[ConceptCard]:
-        """Load cards from JSONL."""
+        """Load cards from JSONL (cached; invalidated on file mtime change).
+
+        Called on every search/get_card, so without the cache each request
+        re-read and re-parsed the whole card file from disk.
+        """
         if not self.cards_path.exists():
             return []
-        
+
         target = self.cards_path.resolve()
         # Path traversal guard: must stay within the resolved project root.
         target.relative_to(self._project_root)
+        mtime = target.stat().st_mtime_ns
+        if self._cards_cache is not None and self._cards_cache_mtime == mtime:
+            return self._cards_cache
         cards = []
         with open(target, "r", encoding="utf-8") as f:
             for line in f:
@@ -498,7 +517,9 @@ class ConceptEngine:
                 if line:
                     data = json.loads(line)
                     cards.append(ConceptCard(**data))
-        
+
+        self._cards_cache = cards
+        self._cards_cache_mtime = mtime
         return cards
     
     def index_cards(self, cards: Optional[List[ConceptCard]] = None) -> Dict[str, Any]:
@@ -641,29 +662,40 @@ class ConceptEngine:
             query,
             n_results=max_cards * 3
         )
-        
+
         # Load card details
         all_cards = {c.card_id: c for c in self.load_cards()}
-        
+
+        # Callers pass SolverState.operation values ("derivative"), while
+        # card topics use the TOPIC_KEYWORDS taxonomy ("derivatives") —
+        # without this mapping the topic boost never fired for 5 of 6
+        # operations.
+        topic = _OPERATION_TOPIC_ALIASES.get(topic, topic) if topic else topic
+
+        query_words = [w for w in query.lower().split() if len(w) > 2]
         scored_cards = []
         for result in vector_results:
             card_id = result["id"]
             if card_id in all_cards:
                 card = all_cards[card_id]
-                
+
                 # Base score from vector similarity
                 score = result["score"]
-                
+
                 # Boost for topic match
                 if topic and card.topic == topic:
                     score += 0.2
-                
-                # Boost for trigger keyword matches
-                query_lower = query.lower()
-                for trigger in card.question_triggers:
-                    if any(word in trigger.lower() for word in query_lower.split()):
-                        score += 0.15
-                
+
+                # Bounded boost for trigger keyword matches. One boost per
+                # card — the old per-trigger accumulation let a card with
+                # many overlapping triggers (+0.15 each, on substrings of
+                # short words) drown out the vector similarity term.
+                if any(
+                    any(word in trigger.lower() for word in query_words)
+                    for trigger in card.question_triggers
+                ):
+                    score += 0.15
+
                 scored_cards.append((card, score))
         
         # Sort by score

@@ -40,8 +40,31 @@ def _validate_provider_or_raise() -> None:
     """
     settings = get_settings()
     provider = settings.llm_provider
-    if provider in ("local", "gemini_cli"):
-        return  # those don't need an API key
+    if provider == "local":
+        # No API key needed, but Ollama must actually be importable —
+        # otherwise the RuntimeError fires inside the SSE generator,
+        # after the 200 headers, and the client sees a silent dead stream.
+        from ai_tutor.providers.router import OLLAMA_AVAILABLE
+        if not OLLAMA_AVAILABLE:
+            raise HTTPException(
+                status_code=503,
+                detail=(
+                    "Tutor not configured: LLM_PROVIDER=local but Ollama is "
+                    "not installed (pip install ollama), or change LLM_PROVIDER."
+                ),
+            )
+        return
+    if provider == "gemini_cli":
+        from ai_tutor.providers.router import GEMINI_CLI_PATH
+        if not GEMINI_CLI_PATH:
+            raise HTTPException(
+                status_code=503,
+                detail=(
+                    "Tutor not configured: LLM_PROVIDER=gemini_cli but the "
+                    "gemini CLI was not found on PATH."
+                ),
+            )
+        return
     api_key = getattr(settings, f"{provider}_api_key", "")
     if not api_key:
         raise HTTPException(
@@ -319,8 +342,8 @@ async def chat(request: ChatRequest):
 async def chat_with_vision(request: ChatRequest):
     """
     Tutoring with screenshot analysis.
-    
-    Requires OpenAI (GPT-4V) or Anthropic (Claude 3) API key.
+
+    Requires a Google or OpenAI API key, or the Gemini CLI.
     """
     if not request.screenshot_b64:
         raise HTTPException(status_code=400, detail="screenshot_b64 required for vision endpoint")
@@ -420,8 +443,10 @@ async def search_concepts(
 ):
     """Search concept cards (for debugging/verification)."""
     engine = get_concept_engine()
-    concepts = engine.search(q, topic=topic, max_cards=limit)
-    
+    # Off the event loop: search does disk reads, embedding encode and
+    # (optionally) a CrossEncoder predict — all CPU-bound and synchronous.
+    concepts = await asyncio.to_thread(engine.search, q, topic=topic, max_cards=limit)
+
     return {
         "query": q,
         "results": [
@@ -442,8 +467,8 @@ async def search_concepts(
 async def get_concept(concept_id: str):
     """Get specific concept card by ID."""
     engine = get_concept_engine()
-    card = engine.get_card(concept_id)
-    
+    card = await asyncio.to_thread(engine.get_card, concept_id)
+
     if not card:
         raise HTTPException(status_code=404, detail="Concept not found")
     
