@@ -343,6 +343,13 @@ sub{font-size:.72em;line-height:0;vertical-align:sub}
    the solver screen. !important defeats the tutor-panel.js's
    later-injected stylesheet. */
 #learningScreen.active ~ .tutor-toggle{display:none!important}
+/* Same for the panel and its full-viewport backdrop: without these,
+   a tutor left open on the solver screen stays slid in on Learning,
+   and the backdrop (pointer-events:auto) dims and swallows every
+   click there with the opener hidden — no visible way out. Both
+   re-appear automatically when the user switches back to solver. */
+#learningScreen.active ~ .ai-tutor-panel{display:none!important}
+#learningScreen.active ~ .ai-tutor-backdrop{display:none!important}
 
 /* solver sidebar collapse — desktop/tablet only.
    When collapsed: hide the formula library and symbol palette but

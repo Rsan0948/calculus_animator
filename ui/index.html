@@ -353,8 +353,7 @@
         
         // Hook into solve button to capture expression
         const solveBtn = document.getElementById('solveBtn');
-        const originalSolve = solveBtn.onclick;
-        
+
         solveBtn.addEventListener('click', () => {
             const input = document.getElementById('mathInput').value;
             const type = document.getElementById('calcTypeSelect').value || 'derivative';
@@ -377,7 +376,9 @@
                     const stepMatch = mutation.target.textContent.match(/Step\s+(\d+)/i);
                     if (stepMatch) {
                         const currentState = window.aiTutor.solverState || {};
-                        currentState.step_index = parseInt(stepMatch[1]) - 1;
+                        // The indicator reads "Step 0 / N" before any step is
+                        // taken; clamp so we never report a -1 index.
+                        currentState.step_index = Math.max(0, parseInt(stepMatch[1], 10) - 1);
                         window.aiTutor.updateSolverState(currentState);
                     }
                 }

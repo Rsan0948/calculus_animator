@@ -84,19 +84,37 @@ export function applyGlossaryLinks(html) {
         node = walker.nextNode();
     }
     textNodes.forEach(textNode => {
-        let text = textNode.nodeValue;
-        let replaced = false;
+        // Collect non-overlapping match ranges against the ORIGINAL text
+        // first, then build replacement nodes in one pass. Replacing on an
+        // accumulating string would let a later term match inside markup a
+        // previous term already injected (e.g. inside its
+        // data-glossary-id="..." attribute), corrupting the HTML.
+        const original = textNode.nodeValue;
+        const matches = [];
         state.glossaryLexicon.slice(0, 30).forEach(entry => {
             const escaped = entry.token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-            const re = new RegExp(`\\b${escaped}\\b`, "i");
-            if (!re.test(text)) return;
-            text = text.replace(re, `<a class="glossary-link" data-glossary-id="${escAttr(entry.id)}">$&</a>`);
-            replaced = true;
+            const m = new RegExp(`\\b${escaped}\\b`, "i").exec(original);
+            if (!m) return;
+            const start = m.index;
+            const end = start + m[0].length;
+            if (matches.some(x => start < x.end && end > x.start)) return;
+            matches.push({ start, end, id: entry.id });
         });
-        if (!replaced) return;
-        const span = document.createElement("span");
-        span.innerHTML = text;
-        textNode.parentNode.replaceChild(span, textNode);
+        if (!matches.length) return;
+        matches.sort((a, b) => a.start - b.start);
+        const frag = document.createDocumentFragment();
+        let pos = 0;
+        matches.forEach(m => {
+            if (m.start > pos) frag.appendChild(document.createTextNode(original.slice(pos, m.start)));
+            const a = document.createElement("a");
+            a.className = "glossary-link";
+            a.dataset.glossaryId = m.id;
+            a.textContent = original.slice(m.start, m.end);
+            frag.appendChild(a);
+            pos = m.end;
+        });
+        if (pos < original.length) frag.appendChild(document.createTextNode(original.slice(pos)));
+        textNode.parentNode.replaceChild(frag, textNode);
     });
     return root.innerHTML;
 }

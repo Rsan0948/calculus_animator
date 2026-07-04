@@ -37,6 +37,15 @@ export const state = {
     chapterProgress: {},
     relatedTopicPicks: [],
     stepRenderToken: 0,
+    // Monotonic tokens guarding async round trips against out-of-order
+    // responses (each consumer bumps its token per request and discards
+    // any response whose token is no longer current).
+    solveToken: 0,
+    graphToken: 0,
+    capacityRenderToken: 0,
+    // Set by ui_events.bindUI so the DOM-ready fallback nav in app.js
+    // stops handling screen-button clicks once the real handlers exist.
+    uiEventsBound: false,
     baseLatex: "",
     transitionBusy: false,
     queuedDirection: 0,

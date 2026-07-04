@@ -3,11 +3,11 @@
  */
 import { state } from './state.js';
 import * as utils from './utils.js';
-import { bridge } from './bridge.js';
 import { renderer } from './renderer.js';
 
 export const ui_events = {
     bindUI(app) {
+        state.uiEventsBound = true;
         document.getElementById("solveBtn").addEventListener("click", () => app.solve({ focusAnimation: true }));
         document.getElementById("clearBtn").addEventListener("click", () => app.clear());
         document.getElementById("calcTypeSelect").addEventListener("change", () => app.updateParams());
