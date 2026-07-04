@@ -35,9 +35,12 @@ _PATTERNS = [
     (CalculusType.DIFFERENTIAL_EQ, [
         r"\\frac\{dy\}\{dx\}\s*=", r"y''\s*[+\-=]", r"y'\s*[+\-=]",
     ]),
+    # An optional "name(args) =" prefix keeps assigned forms like
+    # "f(x) = \frac{d}{dx} \int ..." classified as derivatives too.
     (CalculusType.DERIVATIVE, [
-        r"^\s*\\frac\{d", r"^\s*\\frac\{\\partial",
-        r"^\s*d(?:\^\d+)?\s*/\s*d[a-z](?:\^\d+)?\b",
+        r"^\s*(?:[A-Za-z]\w*(?:\([^)]*\))?\s*=\s*)?\\frac\{d",
+        r"^\s*(?:[A-Za-z]\w*(?:\([^)]*\))?\s*=\s*)?\\frac\{\\partial",
+        r"^\s*(?:[A-Za-z]\w*(?:\([^)]*\))?\s*=\s*)?d(?:\^\d+)?\s*/\s*d[a-z](?:\^\d+)?\b",
     ]),
     (CalculusType.INTEGRAL_DEFINITE, [
         r"\\int_", r"\bint_", r"∫_",
@@ -51,8 +54,10 @@ _PATTERNS = [
     (CalculusType.SERIES, [
         r"\\sum", r"\\prod",
     ]),
+    # The prime marker accepts identifiers, digits, and closing brackets
+    # before the quote so f'(x), x^{2}', and f_2'(x) all count.
     (CalculusType.DERIVATIVE, [
-        r"\\frac\{d", r"\\frac\{\\partial", r"[A-Za-z\)]'",
+        r"\\frac\{d", r"\\frac\{\\partial", r"[A-Za-z0-9\)\}]'",
         r"\bd(?:\^\d+)?\s*/\s*d[a-z](?:\^\d+)?\b",
     ]),
     (CalculusType.TAYLOR_SERIES, [

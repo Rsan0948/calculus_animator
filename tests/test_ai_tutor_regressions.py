@@ -192,7 +192,11 @@ def test_anthropic_stream_raises_on_auth_error(monkeypatch):
     _mock_async_client(monkeypatch, 401, {"error": "bad key"})
     with pytest.raises(httpx.HTTPStatusError):
         asyncio.run(
-            _drain(provider_router._call_anthropic_stream(MESSAGES, "claude-3-haiku-20240307", "sk-bad"))
+            _drain(
+                provider_router._call_anthropic_stream(
+                    MESSAGES, "claude-3-haiku-20240307", "sk-bad"
+                )
+            )
         )
 
 
@@ -201,7 +205,11 @@ def test_google_stream_error_is_sanitized(monkeypatch):
     _mock_async_client(monkeypatch, 403, {"error": "quota"})
     with pytest.raises(RuntimeError) as excinfo:
         asyncio.run(
-            _drain(provider_router._call_google_stream(MESSAGES, "gemini-1.5-flash", "SECRET-KEY-123"))
+            _drain(
+                provider_router._call_google_stream(
+                    MESSAGES, "gemini-1.5-flash", "SECRET-KEY-123"
+                )
+            )
         )
     assert "SECRET-KEY-123" not in str(excinfo.value)
     assert "status=403" in str(excinfo.value)

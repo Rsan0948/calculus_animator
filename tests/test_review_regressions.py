@@ -120,6 +120,20 @@ def test_detector_plain_prime_still_derivative():
     assert detector.detect(r"(x^2)'") == CalculusType.DERIVATIVE
 
 
+def test_detector_prime_after_digit_or_brace_is_derivative():
+    detector = TypeDetector()
+    assert detector.detect(r"x^{2}'") == CalculusType.DERIVATIVE
+    assert detector.detect(r"f_2'(x)") == CalculusType.DERIVATIVE
+
+
+def test_detector_assigned_ftc_form_is_derivative():
+    # A leading "f(x) =" must not hide the derivative operator from the
+    # anchored pattern (which exists to outrank the inner \int_).
+    detector = TypeDetector()
+    assert detector.detect(r"f(x) = \frac{d}{dx}\int_0^x g(t)\,dt") == CalculusType.DERIVATIVE
+    assert detector.detect(r"y = \frac{d}{dx} x^3") == CalculusType.DERIVATIVE
+
+
 def test_detector_ode_still_wins_over_everything():
     detector = TypeDetector()
     assert detector.detect(r"y' + y = 0") == CalculusType.DIFFERENTIAL_EQ

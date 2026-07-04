@@ -352,22 +352,26 @@
     
     function integrateTutor() {
         console.log('🔗 Integrating AI Tutor with solver...');
-        
-        // Hook into solve button to capture expression
-        const solveBtn = document.getElementById('solveBtn');
 
-        solveBtn.addEventListener('click', () => {
-            const input = document.getElementById('mathInput').value;
-            const type = document.getElementById('calcTypeSelect').value || 'derivative';
-            
-            // Update tutor context
-            window.aiTutor.updateSolverState({
-                expression: input,
-                operation: type,
-                step_index: 0,
-                step_count: 0
-            });
-        });
+        // Wrap the solve call itself (not the button) so EVERY solve path —
+        // button click, Enter key, future callers — syncs the tutor context.
+        const app = window.appAPI;
+        const originalSolve = app.solve.bind(app);
+        app.solve = function (options) {
+            try {
+                const input = document.getElementById('mathInput').value;
+                const type = document.getElementById('calcTypeSelect').value || 'derivative';
+                window.aiTutor.updateSolverState({
+                    expression: input,
+                    operation: type,
+                    step_index: 0,
+                    step_count: 0
+                });
+            } catch (e) {
+                console.warn('Tutor context sync failed:', e);
+            }
+            return originalSolve(options);
+        };
         
         // Listen for step progression from the existing app
         // This assumes the app has a way to track steps - adjust as needed

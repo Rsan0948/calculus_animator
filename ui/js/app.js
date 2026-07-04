@@ -259,6 +259,7 @@ const app = {
 
     pauseAnim() {
         state.animPlaying = false;
+        state.queuedRestart = false;
         clearTimeout(state.animTimer);
     },
 
@@ -268,12 +269,20 @@ const app = {
         // Animate All button feel dead for ~2s. Start the loop; runAnimLoop
         // already polls until the transition finishes.
         state.animPlaying = true;
-        if (!state.transitionBusy && state.stepIdx >= state.currentSteps.length - 1) {
-            state.stepIdx = -1;
-            renderer.renderStationaryStage(state.baseLatex, "");
-            this.updateIndicator();
+        if (state.transitionBusy) {
+            // The transition may be carrying stepIdx onto the final step;
+            // defer the replay-from-start decision until it completes.
+            state.queuedRestart = true;
+        } else if (state.stepIdx >= state.currentSteps.length - 1) {
+            this.restartAnimFromStart();
         }
         this.runAnimLoop();
+    },
+
+    restartAnimFromStart() {
+        state.stepIdx = -1;
+        renderer.renderStationaryStage(state.baseLatex, "");
+        this.updateIndicator();
     },
 
     runAnimLoop() {
@@ -281,6 +290,12 @@ const app = {
         if (state.transitionBusy) {
             state.animTimer = setTimeout(() => this.runAnimLoop(), 100);
             return;
+        }
+        if (state.queuedRestart) {
+            state.queuedRestart = false;
+            if (state.stepIdx >= state.currentSteps.length - 1) {
+                this.restartAnimFromStart();
+            }
         }
         if (state.stepIdx >= state.currentSteps.length - 1) {
             state.animPlaying = false;
@@ -614,7 +629,8 @@ const app = {
         badge.className = "anim-rule-badge"; desc.className = "anim-description";
         badge.textContent = ""; desc.textContent = "";
         state.aCanvas.style.display = "none";
-        state.transitionBusy = false; state.queuedDirection = 0; state.currentAnimCopyText = "";
+        state.transitionBusy = false; state.queuedDirection = 0; state.queuedRestart = false;
+        state.currentAnimCopyText = "";
     },
 
     updateIndicator() { renderer.updateIndicator(); },
@@ -736,10 +752,11 @@ const app = {
             return;
         }
         wrap.classList.remove("hidden");
-        wrap.innerHTML = '<span class="recent-label">Recent</span>' + items.map((r, i) => {
-            const label = r.expr.length > 28 ? r.expr.slice(0, 28) + "…" : r.expr;
-            return `<button type="button" class="recent-chip" data-recent-idx="${i}" title="${utils.escAttr(r.expr)}">${utils.esc(label)}</button>`;
-        }).join("");
+        // Overflow is handled by the .recent-chip CSS ellipsis; the full
+        // expression stays available via the title tooltip.
+        wrap.innerHTML = '<span class="recent-label">Recent</span>' + items.map((r, i) =>
+            `<button type="button" class="recent-chip" data-recent-idx="${i}" title="${utils.escAttr(r.expr)}">${utils.esc(r.expr)}</button>`
+        ).join("");
     },
 
     loadRecentExpression(idx) {

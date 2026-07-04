@@ -703,8 +703,43 @@ def _failover_model(settings, provider_name: str, mode: str) -> str:
     during failover it would hand e.g. an Ollama model name to OpenAI.
     Use the failover target's own defaults instead.
     """
-    return settings.get_default_models(provider_name).get(mode) or \
-        settings.get_default_models(provider_name).get("fast", "")
+    models = settings.get_default_models(provider_name)
+    return models.get(mode) or models.get("fast", "")
+
+
+def _teardown_pump_loop(loop, agen) -> None:
+    """Tear down a private event loop used to pump an async generator.
+
+    Closes the generator (so httpx stream contexts exit), closes the loop,
+    and clears the thread's current-loop slot — leaving a CLOSED loop
+    installed poisons every later ``asyncio.get_event_loop()`` call in the
+    thread with "Event loop is closed".
+    """
+    try:
+        loop.run_until_complete(agen.aclose())
+    except Exception:
+        logger.debug("Failed to close pumped async generator", exc_info=True)
+    loop.close()
+    asyncio.set_event_loop(None)
+
+
+def _cloud_call_or_raise(settings, provider: str, stream: bool):
+    """Resolve ``(call_fn, api_key)`` for a cloud provider.
+
+    Shared by the async entry points so key validation and the
+    unsupported-provider error stay identical between them.
+    """
+    api_key = getattr(settings, f"{provider}_api_key", "")
+    if not api_key:
+        raise ValueError(
+            f"No API key for provider '{provider}'. Set {provider.upper()}_API_KEY "
+            f"in the deploy environment, or change LLM_PROVIDER."
+        )
+    call_fn = _get_cloud_provider_call(provider, stream=stream)
+    if not call_fn:
+        kind = "streaming" if stream else "non-streaming"
+        raise ValueError(f"Provider '{provider}' not supported for {kind}")
+    return call_fn, api_key
 
 
 def _iter_cloud_failover_stream(
@@ -739,15 +774,7 @@ def _iter_cloud_failover_stream(
                 yielded = True
                 yield chunk
         finally:
-            try:
-                loop.run_until_complete(agen.aclose())
-            except Exception:
-                logger.debug("Failed to close failover stream generator", exc_info=True)
-            loop.close()
-            # Leaving a CLOSED loop installed as the thread's current loop
-            # poisons every later asyncio.get_event_loop() call in this
-            # thread (e.g. _run_async) with "Event loop is closed".
-            asyncio.set_event_loop(None)
+            _teardown_pump_loop(loop, agen)
 
     raise RuntimeError(f"All providers failed. Errors: {'; '.join(errors)}")
 
@@ -853,16 +880,9 @@ def generate(
                     except StopAsyncIteration:
                         break
             finally:
-                # Always close the private loop — repeated streaming calls
-                # otherwise leak an event loop (and its selector fd) each.
-                try:
-                    loop.run_until_complete(agen.aclose())
-                except Exception:
-                    logger.debug("Failed to close stream generator", exc_info=True)
-                loop.close()
-                # Don't leave the closed loop installed as the thread's
-                # current loop — see _iter_cloud_failover_stream.
-                asyncio.set_event_loop(None)
+                # Always tear down the private loop — repeated streaming
+                # calls otherwise leak an event loop (and selector fd) each.
+                _teardown_pump_loop(loop, agen)
 
         return sync_gen()
     return _run_async(call_fn(messages, model, api_key))
@@ -1026,16 +1046,7 @@ async def generate_async(prompt: str, mode: str = "fast", system: Optional[str] 
             raise RuntimeError("Ollama not installed (LLM_PROVIDER=local)")
         return await asyncio.to_thread(_call_local, messages, model)
 
-    api_key = getattr(settings, f"{provider}_api_key", "")
-    if not api_key:
-        raise ValueError(
-            f"No API key for provider '{provider}'. Set {provider.upper()}_API_KEY "
-            f"in the deploy environment, or change LLM_PROVIDER."
-        )
-
-    call_fn = _get_cloud_provider_call(provider, stream=False)
-    if not call_fn:
-        raise ValueError(f"Provider '{provider}' not supported")
+    call_fn, api_key = _cloud_call_or_raise(settings, provider, stream=False)
     return await call_fn(messages, model, api_key)
 
 
@@ -1109,16 +1120,7 @@ async def generate_stream_async(prompt: str, mode: str = "fast", system: Optiona
         return
 
     # Cloud providers — async streaming.
-    api_key = getattr(settings, f"{provider}_api_key", "")
-    if not api_key:
-        raise ValueError(
-            f"No API key for provider '{provider}'. Set {provider.upper()}_API_KEY "
-            f"in the deploy environment, or change LLM_PROVIDER."
-        )
-
-    call_fn = _get_cloud_provider_call(provider, stream=True)
-    if not call_fn:
-        raise ValueError(f"Provider '{provider}' not supported for streaming")
+    call_fn, api_key = _cloud_call_or_raise(settings, provider, stream=True)
 
     async for chunk in call_fn(messages, model, api_key):
         yield chunk

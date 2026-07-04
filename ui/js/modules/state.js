@@ -49,6 +49,9 @@ export const state = {
     baseLatex: "",
     transitionBusy: false,
     queuedDirection: 0,
+    // Set when Animate All is clicked mid-transition: once the transition
+    // completes, restart from the beginning if it landed on the last step.
+    queuedRestart: false,
     currentAnimCopyText: "",
     learningSlideRenderToken: 0,
     pathwaySidebarCollapsed: false,

@@ -101,7 +101,8 @@ window.pywebview = { api: {
     get_formulas: async () => JSON.stringify({categories: [], formulas: []}),
     get_demo_problems: async () => JSON.stringify({collections: []}),
     get_symbols: async () => JSON.stringify({groups: []}),
-    get_learning_library: async () => JSON.stringify({categories: [], symbols: [], formulas: [], topics: []}),
+    get_learning_library: async () =>
+        JSON.stringify({categories: [], symbols: [], formulas: [], topics: []}),
     get_curriculum: async () => JSON.stringify({pathways: []}),
     get_glossary: async () => JSON.stringify({terms: []}),
     solve: async () => JSON.stringify({
@@ -135,6 +136,14 @@ def test_enter_key_solves_and_records_recent_expression():
             page.wait_for_timeout(400)
             assert "\n" not in page.locator("#mathInput").input_value()
             assert "2 x" in (page.locator("#resultDisplay").inner_text() or "")
+
+            # The tutor context must sync on the Enter path too (the
+            # integration wraps appAPI.solve, not just the button click).
+            tutor_expr = page.evaluate(
+                "window.aiTutor && window.aiTutor.solverState"
+                " && window.aiTutor.solverState.expression"
+            )
+            assert tutor_expr and "x" in tutor_expr
 
             # The solve is recorded as a recent chip and persisted.
             chips = page.locator("#recentExpressions .recent-chip")
