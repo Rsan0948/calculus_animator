@@ -60,12 +60,14 @@
                 </div>
 
                 <div class="math-input-container">
-                    <textarea id="mathInput" spellcheck="false" aria-label="Math expression input">x^2</textarea>
+                    <textarea id="mathInput" spellcheck="false" aria-label="Math expression input"
+                        title="Press Enter to solve (Shift+Enter for a new line)">x^2</textarea>
                     <div class="input-copy-tools">
                         <button class="btn btn-small btn-secondary" id="selectInputBtn">Select All</button>
                         <button class="btn btn-small btn-secondary" id="copyInputBtn">Copy</button>
                         <button class="btn btn-small btn-secondary" id="deleteInputBtn">Delete</button>
                     </div>
+                    <div id="recentExpressions" class="recent-expressions hidden" aria-label="Recently solved expressions"></div>
                 </div>
 
                 <div class="params-section" id="paramsSection">

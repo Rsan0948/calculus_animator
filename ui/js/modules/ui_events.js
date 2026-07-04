@@ -15,6 +15,22 @@ export const ui_events = {
         document.getElementById("demoSelect").addEventListener("change", () => app.runSelectedDemo());
         document.getElementById("copyAnimStepBtn").addEventListener("click", () => app.copyCurrentAnimationText());
         state.mathField.addEventListener("input", () => app.normalizeInputField());
+        // Enter solves (matching the Solve & Animate button); Shift+Enter
+        // keeps the textarea's native newline for multi-line expressions.
+        state.mathField.addEventListener("keydown", e => {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                app.solve({ focusAnimation: true });
+            }
+        });
+        const recentWrap = document.getElementById("recentExpressions");
+        if (recentWrap) {
+            recentWrap.addEventListener("click", e => {
+                const chip = e.target.closest("[data-recent-idx]");
+                if (!chip) return;
+                app.loadRecentExpression(Number(chip.dataset.recentIdx));
+            });
+        }
         document.getElementById("selectInputBtn").addEventListener("click", () => {
             state.mathField.focus();
             state.mathField.select();

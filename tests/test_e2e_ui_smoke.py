@@ -93,6 +93,77 @@ def test_tutor_panel_accessibility_and_backdrop_dismiss():
         assert not errors, errors
 
 
+# Minimal fake pywebview bridge: enough for boot() and one solve round
+# trip, so e2e tests can exercise the full solver UI without Python.
+_FAKE_PYWEBVIEW = """
+window.pywebview = { api: {
+    log_to_python: async () => {},
+    get_formulas: async () => JSON.stringify({categories: [], formulas: []}),
+    get_demo_problems: async () => JSON.stringify({collections: []}),
+    get_symbols: async () => JSON.stringify({groups: []}),
+    get_learning_library: async () => JSON.stringify({categories: [], symbols: [], formulas: [], topics: []}),
+    get_curriculum: async () => JSON.stringify({pathways: []}),
+    get_glossary: async () => JSON.stringify({terms: []}),
+    solve: async () => JSON.stringify({
+        success: true, result: "2*x", result_latex: "2 x",
+        steps: [], animation_steps: [], detected_type: "DERIVATIVE"
+    }),
+    get_graph_data: async () => JSON.stringify({success: false, error: "stub"}),
+}};
+"""
+
+
+@pytest.mark.e2e
+def test_enter_key_solves_and_records_recent_expression():
+    root = Path(__file__).resolve().parent.parent
+    with _serve_dir(root / "ui") as base_url:
+        with playwright.sync_playwright() as p:
+            browser = _launch_browser(p)
+            page = browser.new_page()
+            page.add_init_script(_FAKE_PYWEBVIEW)
+            errors: list[str] = []
+            page.on("pageerror", lambda e: errors.append(f"pageerror: {e}"))
+            page.goto(f"{base_url}/index.html", wait_until="domcontentloaded")
+            page.wait_for_timeout(600)  # let boot() finish
+
+            # No recents on a fresh profile.
+            assert not page.locator("#recentExpressions").is_visible()
+
+            # Type an expression and press Enter — must solve, not newline.
+            page.locator("#mathInput").fill("x^3")
+            page.locator("#mathInput").press("Enter")
+            page.wait_for_timeout(400)
+            assert "\n" not in page.locator("#mathInput").input_value()
+            assert "2 x" in (page.locator("#resultDisplay").inner_text() or "")
+
+            # The solve is recorded as a recent chip and persisted.
+            chips = page.locator("#recentExpressions .recent-chip")
+            assert chips.count() == 1
+            stored = page.evaluate("localStorage.getItem('calcAnimRecents')")
+            assert "x" in stored
+
+            # Solving another expression prepends; clicking a chip reloads it.
+            page.locator("#mathInput").fill("sin(x)")
+            page.locator("#mathInput").press("Enter")
+            page.wait_for_timeout(400)
+            chips = page.locator("#recentExpressions .recent-chip")
+            assert chips.count() == 2
+            chips.nth(1).click()  # older entry: x^3 (displayed as x³)
+            value = page.locator("#mathInput").input_value()
+            assert value and "sin" not in value
+
+            # Shift+Enter still inserts a newline (multi-line editing).
+            # Note: the input normalizer trims edge whitespace, so test a
+            # mid-text newline — the realistic multi-line editing spot.
+            page.locator("#mathInput").fill("x+y")
+            page.evaluate("document.getElementById('mathInput').setSelectionRange(1, 1)")
+            page.locator("#mathInput").press("Shift+Enter")
+            assert "\n" in page.locator("#mathInput").input_value()
+
+            assert not errors, errors
+            browser.close()
+
+
 @pytest.mark.e2e
 def test_tutor_panel_hidden_on_learning_screen():
     with _ui_page() as (page, errors):

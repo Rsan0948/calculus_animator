@@ -34,6 +34,19 @@ const app = {
             if (state.mathField) {
                 state.mathField.value = utils.normalizeDisplayMath(state.mathField.value || "");
             }
+
+            // Restore recently solved expressions (chips under the input).
+            try {
+                const rec = JSON.parse(localStorage.getItem('calcAnimRecents') || '[]');
+                if (Array.isArray(rec)) {
+                    state.recentExpressions = rec
+                        .filter(r => r && typeof r.expr === "string" && r.expr.trim())
+                        .slice(0, state.MAX_RECENT_EXPRESSIONS);
+                }
+            } catch (err) {
+                bridge.log(`Failed to restore recent expressions: ${err && err.message ? err.message : err}`, "warn");
+            }
+            this.renderRecentExpressions();
             
             // Un-nest glossary if not already done in state.js
             if (state.glossary && !state.glossaryLexicon) {
@@ -179,6 +192,7 @@ const app = {
             if (token !== state.solveToken) return;
             state.solveResult = result;
             if (result.success) {
+                this.addRecentExpression(displayExpr, calcType);
                 this.showResult(result);
                 this.renderRelatedLearningLinks(result);
                 state.currentSteps = result.animation_steps || [];
@@ -695,6 +709,47 @@ const app = {
 
     buildDenseSyntheticCapacityText() {
         return "Alpha Beta Gamma Delta Epsilon ".repeat(20);
+    },
+
+    addRecentExpression(expr, calcType) {
+        const text = String(expr || "").trim();
+        if (!text) return;
+        const next = [{ expr: text, type: calcType || "" }]
+            .concat((state.recentExpressions || []).filter(r => r.expr !== text))
+            .slice(0, state.MAX_RECENT_EXPRESSIONS);
+        state.recentExpressions = next;
+        try {
+            localStorage.setItem('calcAnimRecents', JSON.stringify(next));
+        } catch (err) {
+            bridge.log(`Failed to persist recent expressions: ${err && err.message ? err.message : err}`, "warn");
+        }
+        this.renderRecentExpressions();
+    },
+
+    renderRecentExpressions() {
+        const wrap = document.getElementById("recentExpressions");
+        if (!wrap) return;
+        const items = state.recentExpressions || [];
+        if (!items.length) {
+            wrap.classList.add("hidden");
+            wrap.innerHTML = "";
+            return;
+        }
+        wrap.classList.remove("hidden");
+        wrap.innerHTML = '<span class="recent-label">Recent</span>' + items.map((r, i) => {
+            const label = r.expr.length > 28 ? r.expr.slice(0, 28) + "…" : r.expr;
+            return `<button type="button" class="recent-chip" data-recent-idx="${i}" title="${utils.escAttr(r.expr)}">${utils.esc(label)}</button>`;
+        }).join("");
+    },
+
+    loadRecentExpression(idx) {
+        const item = (state.recentExpressions || [])[idx];
+        if (!item) return;
+        state.mathField.value = utils.normalizeDisplayMath(item.expr);
+        const typeSel = document.getElementById("calcTypeSelect");
+        if (typeSel) typeSel.value = item.type || "";
+        this.updateParams();
+        state.mathField.focus();
     },
 
     copyCurrentAnimationText() {

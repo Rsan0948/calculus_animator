@@ -67,6 +67,11 @@ export const state = {
     showPathwayPicker: false,
     quickSymbolGroups: {},
     activeQuickSymbolTab: "Calculus",
+    // Recently solved expressions, newest first. Persisted in localStorage
+    // ('calcAnimRecents') and rendered as one-click reload chips under the
+    // math input.
+    recentExpressions: [],
+    MAX_RECENT_EXPRESSIONS: 8,
     capacityState: {
         pageIndex: 0,
         totalPages: 0,
