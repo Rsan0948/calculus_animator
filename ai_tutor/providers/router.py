@@ -637,6 +637,10 @@ def _run_async(coro):
     """Run async coroutine in sync context."""
     try:
         loop = asyncio.get_event_loop()
+        if loop.is_closed():
+            # A previous sync-streaming call may have installed and closed
+            # a private loop; treat that the same as "no loop".
+            raise RuntimeError("event loop is closed")
     except RuntimeError:
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
@@ -740,6 +744,10 @@ def _iter_cloud_failover_stream(
             except Exception:
                 logger.debug("Failed to close failover stream generator", exc_info=True)
             loop.close()
+            # Leaving a CLOSED loop installed as the thread's current loop
+            # poisons every later asyncio.get_event_loop() call in this
+            # thread (e.g. _run_async) with "Event loop is closed".
+            asyncio.set_event_loop(None)
 
     raise RuntimeError(f"All providers failed. Errors: {'; '.join(errors)}")
 
@@ -852,6 +860,9 @@ def generate(
                 except Exception:
                     logger.debug("Failed to close stream generator", exc_info=True)
                 loop.close()
+                # Don't leave the closed loop installed as the thread's
+                # current loop — see _iter_cloud_failover_stream.
+                asyncio.set_event_loop(None)
 
         return sync_gen()
     return _run_async(call_fn(messages, model, api_key))
