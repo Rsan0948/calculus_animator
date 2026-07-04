@@ -131,4 +131,10 @@ class StepGenerator:
                 duration=_DURATIONS.get(AnimationType.DRAW, 1.0),
                 visual_hints={"final": True},
             ))
-        return out[:MAX_ANIMATION_STEPS]
+        if len(out) > MAX_ANIMATION_STEPS:
+            # Truncate from the middle so the terminal final-result step is
+            # never dropped — a plain slice would cut it exactly when the
+            # solver produced MAX_ANIMATION_STEPS steps of its own.
+            out = out[:MAX_ANIMATION_STEPS - 1] + [out[-1]]
+            out[-1].step_number = MAX_ANIMATION_STEPS
+        return out

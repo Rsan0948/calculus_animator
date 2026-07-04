@@ -264,6 +264,7 @@ class AnimationEngine:
             Returns an empty list on error.
         """
         try:
+            frames = max(1, int(frames))
             out = []
             for i in range(frames + 1):
                 cur = float(lo) + (float(hi) - float(lo)) * (i / frames)

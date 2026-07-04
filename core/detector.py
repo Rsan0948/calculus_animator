@@ -25,14 +25,19 @@ _TAG_MAP = {
     "ode": CalculusType.DIFFERENTIAL_EQ,
 }
 
-# Order matters — check definite integral before indefinite
+# Order matters — check definite integral before indefinite, and check the
+# wrapper operations (integral / limit / sum) before the *loose* derivative
+# markers so a prime or d-fraction inside an integrand or limit body (e.g.
+# "\int f'(x) dx" or "\int \frac{dq}{q}") doesn't hijack the outer operation.
+# A derivative operator at the very start still wins (FTC expressions like
+# "\frac{d}{dx} \int_0^x f(t) dt" are derivatives).
 _PATTERNS = [
     (CalculusType.DIFFERENTIAL_EQ, [
         r"\\frac\{dy\}\{dx\}\s*=", r"y''\s*[+\-=]", r"y'\s*[+\-=]",
     ]),
     (CalculusType.DERIVATIVE, [
-        r"\\frac\{d", r"\\frac\{\\partial", r"'",
-        r"\bd(?:\^\d+)?\s*/\s*d[a-z](?:\^\d+)?\b",
+        r"^\s*\\frac\{d", r"^\s*\\frac\{\\partial",
+        r"^\s*d(?:\^\d+)?\s*/\s*d[a-z](?:\^\d+)?\b",
     ]),
     (CalculusType.INTEGRAL_DEFINITE, [
         r"\\int_", r"\bint_", r"∫_",
@@ -45,6 +50,10 @@ _PATTERNS = [
     ]),
     (CalculusType.SERIES, [
         r"\\sum", r"\\prod",
+    ]),
+    (CalculusType.DERIVATIVE, [
+        r"\\frac\{d", r"\\frac\{\\partial", r"[A-Za-z\)]'",
+        r"\bd(?:\^\d+)?\s*/\s*d[a-z](?:\^\d+)?\b",
     ]),
     (CalculusType.TAYLOR_SERIES, [
         r"(?i)taylor", r"(?i)maclaurin",

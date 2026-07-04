@@ -4,6 +4,7 @@ from typing import Any, Dict, Optional
 from sympy import (
     Eq,
     Function,
+    Integral,
     S,
     Symbol,
     cancel,
@@ -176,10 +177,18 @@ class CalculusSolver:
             if ex.has(var):
                 return "exponential_rule"
         if expr.func in (sin, cos, tan, sec, csc, cot):
+            # Composite argument (e.g. sin(x^2)) needs the chain rule; only a
+            # bare sin(x) is the elementary trig derivative.
+            if expr.args and expr.args[0] != var:
+                return "chain_rule"
             return "trig_rule"
         if expr.func == exp:
+            if expr.args and expr.args[0] != var:
+                return "chain_rule"
             return "exponential_rule"
         if expr.func == log:
+            if expr.args and expr.args[0] != var:
+                return "chain_rule"
             return "logarithm_rule"
         if expr.func == sqrt:
             return "power_rule"
@@ -193,7 +202,10 @@ class CalculusSolver:
         var = _sym(p.get("variable", "x"))
         steps = self._extract_integral_manual_steps(expr, var)
         result = integrate(expr, var)
-        if result.has(integrate):
+        # An unevaluated integral comes back as an Integral node (the
+        # ``integrate`` *function* never appears in the tree, so testing
+        # ``has(integrate)`` was always False and this guard never fired).
+        if result.has(Integral):
             return {"success": False, "error": "SymPy could not find a closed-form antiderivative.", "steps": []}
         steps.append({
             "description": "Antiderivative",
@@ -208,7 +220,25 @@ class CalculusSolver:
         var = _sym(p.get("variable", "x"))
         lo = self._to_sympy_num(p.get("lower", 0))
         hi = self._to_sympy_num(p.get("upper", 1))
+        result = integrate(expr, (var, lo, hi))
+        if result.has(Integral):
+            return {
+                "success": False,
+                "error": "SymPy could not evaluate the definite integral in closed form.",
+                "steps": [],
+            }
         antideriv = integrate(expr, var)
+        if antideriv.has(Integral):
+            # The definite value evaluated (e.g. via special functions or
+            # symmetry) but no closed-form F(x) exists — substituting bounds
+            # into an unevaluated Integral would render garbage steps.
+            steps = [{
+                "description": "Evaluate the definite integral",
+                "before": f"\\int_{{{latex(lo)}}}^{{{latex(hi)}}} {latex(expr)}\\,d{var}",
+                "after": latex(result),
+                "rule": "fundamental_theorem",
+            }]
+            return self._ok(result, steps)
         steps = [{
             "description": "Find the antiderivative F(x)",
             "before": f"\\int {latex(expr)}\\,d{var}",
@@ -223,7 +253,6 @@ class CalculusSolver:
             "after": latex(simplify(upper_val - lower_val)),
             "rule": "fundamental_theorem",
         })
-        result = integrate(expr, (var, lo, hi))
         return self._ok(result, steps)
 
     # ── limit ────────────────────────────────────────────────────
