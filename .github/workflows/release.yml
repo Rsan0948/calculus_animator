@@ -26,11 +26,11 @@ jobs:
           cyclonedx-py environment -o sbom.json
 
       # actions/create-release@v1 is archived (deprecated since 2021).
-      # softprops/action-gh-release@v2 is the maintained replacement and
+      # softprops/action-gh-release@v3 is the maintained replacement and
       # supports attaching files (we use it to upload the SBOM alongside the
       # release).
       - name: Create Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
