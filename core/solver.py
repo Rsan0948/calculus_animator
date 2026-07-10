@@ -210,10 +210,10 @@ class CalculusSolver:
         steps.append({
             "description": "Antiderivative",
             "before": latex(expr),
-            "after": latex(result),
+            "after": latex(result) + " + C",
             "rule": "integration_result",
         })
-        return self._ok(result, steps)
+        return self._ok(result, steps, suffix=" + C")
 
     # ── definite integral ────────────────────────────────────────
     def _integral_def(self, expr, p):
