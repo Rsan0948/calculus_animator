@@ -13,7 +13,7 @@
 #   pip install -r requirements-dev.txt  # optional: tests + linters
 #
 # Desktop shell + math/render stack
-pywebview==6.2
+pywebview==6.2.1
 sympy==1.14.0
 numpy==2.2.6
 pygame==2.6.1
