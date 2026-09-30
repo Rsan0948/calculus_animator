@@ -4,6 +4,7 @@ Handles provider configuration and API key management.
 ZDS-ID: TOOL-903 (Automated Secrets Guardrail)
 """
 
+import threading
 from typing import Optional
 
 from fastapi import APIRouter, HTTPException
@@ -18,6 +19,10 @@ from ai_tutor.providers.router import (
 )
 
 router = APIRouter()
+
+# Guards the shared settings singleton against concurrent POST /provider
+# requests that would otherwise interleave their field-by-field mutations.
+_settings_lock = threading.Lock()
 
 
 class ProviderConfig(BaseModel):
@@ -92,40 +97,43 @@ async def update_provider(config: ProviderConfig):
             detail=f"Unknown provider '{config.provider}'. Valid: {sorted(_KNOWN_PROVIDERS)}",
         )
 
-    # Update provider
-    settings.llm_provider = config.provider
-    
-    # Update models if specified
-    if config.fast_model:
-        settings.fast_model = config.fast_model
-    if config.power_model:
-        settings.power_model = config.power_model
-    if config.vision_model:
-        settings.vision_model = config.vision_model
-    
-    # Update API keys if provided (write to env for session)
-    if config.openai_api_key:
-        # In production, use secure keychain storage
-        import os
-        os.environ["OPENAI_API_KEY"] = config.openai_api_key
-        settings.openai_api_key = config.openai_api_key
-    
-    if config.anthropic_api_key:
-        import os
-        os.environ["ANTHROPIC_API_KEY"] = config.anthropic_api_key
-        settings.anthropic_api_key = config.anthropic_api_key
-    
-    if config.google_api_key:
-        import os
-        os.environ["GOOGLE_API_KEY"] = config.google_api_key
-        settings.google_api_key = config.google_api_key
-    
-    if config.deepseek_api_key:
-        import os
-        os.environ["DEEPSEEK_API_KEY"] = config.deepseek_api_key
-        settings.deepseek_api_key = config.deepseek_api_key
-    
-    # Validate
+    # All mutations below touch the shared settings singleton; the lock
+    # prevents two concurrent POST /provider requests from interleaving
+    # their writes and leaving the process in a mixed state.
+    with _settings_lock:
+        # Update provider
+        settings.llm_provider = config.provider
+
+        # Update models if specified
+        if config.fast_model:
+            settings.fast_model = config.fast_model
+        if config.power_model:
+            settings.power_model = config.power_model
+        if config.vision_model:
+            settings.vision_model = config.vision_model
+
+        # Update API keys if provided.
+        # Keys are stored ONLY on the in-memory settings singleton.
+        # They are NOT written to os.environ: this is a local single-user
+        # app, and provider clients must read the key from the settings
+        # object explicitly (e.g. settings.openai_api_key) rather than
+        # relying on an environment variable.  This avoids leaking keys
+        # into child processes (Ollama CLI, ingest subprocesses) and
+        # /proc/<pid>/environ.
+        if config.openai_api_key:
+            settings.openai_api_key = config.openai_api_key
+
+        if config.anthropic_api_key:
+            settings.anthropic_api_key = config.anthropic_api_key
+
+        if config.google_api_key:
+            settings.google_api_key = config.google_api_key
+
+        if config.deepseek_api_key:
+            settings.deepseek_api_key = config.deepseek_api_key
+
+    # Validate (outside the lock: validate() is read-only and should not
+    # hold the write lock while potentially doing I/O).
     issues = settings.validate()
     if issues:
         raise HTTPException(status_code=400, detail={"issues": issues})
