@@ -151,12 +151,13 @@ def create_app() -> FastAPI:
     # without entering the lifespan context) can set this manually.
     app.state.ready = False
 
-    # ── Middleware stack (registered innermost-first; Starlette wraps last
-    # registered as outermost). Effective order from outer to inner:
+    # ── Middleware stack (registered outermost-first; Starlette wraps last
+    # registered as innermost). Effective order from outer to inner:
     #   RequestId → AccessLog → CORS → MaxBodySize → app
     # RequestId outermost so the ContextVar is set before any other layer
     # logs or builds a 413 envelope.
-    app.add_middleware(MaxBodySizeMiddleware, max_bytes=get_max_request_bytes())
+    app.add_middleware(RequestIdMiddleware)
+    app.add_middleware(AccessLogMiddleware)
     app.add_middleware(
         CORSMiddleware,
         # Local desktop app: only the PyWebView shell + loopback browser are
@@ -166,8 +167,7 @@ def create_app() -> FastAPI:
         allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
         allow_headers=["Content-Type", "Authorization", REQUEST_ID_HEADER],
     )
-    app.add_middleware(AccessLogMiddleware)
-    app.add_middleware(RequestIdMiddleware)
+    app.add_middleware(MaxBodySizeMiddleware, max_bytes=get_max_request_bytes())
 
     # ── Exception handlers: every error path produces the structured
     # envelope with a request_id. Tracebacks go to logs only.
